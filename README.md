@@ -15,7 +15,7 @@ To recreate this project with the same configuration:
 
 ```sh
 # recreate this project
-bun x sv@0.13.2 create --template minimal --types ts --add prettier --install bun ./
+bun x sv@0.13.2 create --template minimal --types jsdoc --add prettier --install bun ./
 ```
 
 ## Developing

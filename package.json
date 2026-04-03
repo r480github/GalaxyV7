@@ -8,8 +8,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "prettier --check .",
 		"format": "prettier --write ."
 	},
@@ -23,5 +23,18 @@
 		"svelte-check": "^4.4.2",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.1"
+	},
+	"dependencies": {
+		"@fastify/static": "^9.0.0",
+		"@mercuryworkshop/bare-mux": "^2.1.8",
+		"@mercuryworkshop/epoxy-tls": "^2.1.19-1",
+		"@mercuryworkshop/epoxy-transport": "^3.0.1",
+		"@mercuryworkshop/libcurl-transport": "^2.0.5",
+		"@mercuryworkshop/wisp-js": "^0.4.1",
+		"dotenv": "^17.4.0",
+		"fastify": "^5.8.4",
+		"favicon-fetch": "^1.0.0",
+		"get-title-at-url": "^2.0.0",
+		"gsap": "^3.14.2"
 	}
 }
