@@ -11,10 +11,10 @@
 	}
 	function next() {
 		gsap.to('.stagger', {
-      y: -50,
-      opacity: 0,
-      duration: 0.3,
-      stagger: 0.04,
+	  y: -50,
+	  opacity: 0,
+	  duration: 0.3,
+	  stagger: 0.04,
 			onComplete: () => {
 				mode = selected;
 			}
@@ -40,9 +40,9 @@
 	{/if}
 </div>
 {:else if mode === 'os'}
-  <p>OS Mode Selected</p>
+ {location.href = '/os'}
 {:else if mode === 'website'}
-  <p>Website Mode Selected</p>
+ {location.href = '/website'}
 {/if}
 
 <style>

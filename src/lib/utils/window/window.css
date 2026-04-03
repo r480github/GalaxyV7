@@ -1,0 +1,72 @@
+.window {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	margin: 0px;
+	padding: 0px;
+	background-color: grey;
+}
+.bar {
+	margin: 0px;
+	padding: 0px;
+	height: 25px;
+	background-color: none;
+	display: flex;
+	flex: row;
+}
+.left {
+	margin-right: auto;
+	height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.window-title {
+
+}
+.middle {
+	margin-right: auto;
+	flex-grow: 10;
+}
+.right {
+	margin-left: auto;
+	height: 100%;
+	z-index: 2;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+iframe {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: none;
+	border: none;
+}
+.navControl {
+	height: 100%;
+	flex-grow: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  transition-duration: 0.08s;
+  border-radius: 5px;
+}
+.navControl img {
+	height: 40%;
+}
+.navControl:hover {
+  background-color: rgba(255, 255, 255, 0.247);
+}
+.close:hover {
+  background-color: rgba(255, 0, 0, 0.705);
+}
+.left, .right, .right img, iframe, .left p, .window {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
