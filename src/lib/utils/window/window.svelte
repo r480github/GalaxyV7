@@ -1,150 +1,154 @@
 <script>
-	// @ts-nocheck
+// @ts-nocheck
 
-	// Styles and icon imports
-	import '$lib/utils/window/window.css';
-	import minimize from '$lib/img/icons/minimize-sign.png';
-	import maximize from '$lib/img/icons/stop.png';
-	import close from '$lib/img/icons/close.png';
-	import layers from '$lib/img/icons/layers.png';
-	import gsap from 'gsap';
-	import { onMount } from 'svelte';
-	import { get } from 'svelte/store';
-	import { scale } from 'svelte/transition';
-	import { linear } from 'svelte/easing';
-	// global vars
-	import { topZ, isDraggingAny, windowList } from '$lib/stores/index.js';
+// Styles and icon imports
+import "$lib/utils/window/window.css";
+import minimize from "$lib/img/icons/minimize-sign.png";
+import maximize from "$lib/img/icons/stop.png";
+import close from "$lib/img/icons/close.png";
+import layers from "$lib/img/icons/layers.png";
+import gsap from "gsap";
+import { onMount } from "svelte";
+import { get } from "svelte/store";
+import { scale } from "svelte/transition";
+import { linear } from "svelte/easing";
+// global vars
+import { topZ, isDraggingAny, windowList } from "$lib/stores/index.js";
 
-	// window zindex
-	let z = $state(1);
+// window zindex
+let z = $state(1);
 
-	// props
-	let {
-		url = 'https://example.com',
-		name = 'Example',
-		height = '50%',
-		width = '50%',
-		top = 50,
-		left = 25,
-		id = Date.now()
-	} = $props();
-	setTop();
-	// position states
-	let x = $state(left);
-	let y = $state(top);
-	let offSetx = 0;
-	let offSety = 0;
-	let draggingState = $state(false);
-	let transition = $state(false);
-	//
-	//----- window drag logic -----
-	//
-	function setTop() {
-		topZ.update((n) => n + 1);
-		z = get(topZ);
-		console.log('Universal Z-index is: ' + z);
-	}
-	function dragStart(e) {
-		draggingState = true;
-		isDraggingAny.set(true);
-		offSetx = e.clientX - x;
-		offSety = e.clientY - y;
-		topZ.update((n) => n + 1);
-		z = get(topZ);
-		console.log('Universal Z-index is: ' + z);
-		window.addEventListener('mousemove', dragging);
-		window.addEventListener('mouseup', dragStop);
-	}
-	function dragging(e) {
+// props
+let {
+	url = "https://example.com",
+	name = "Example",
+	height = "50%",
+	width = "50%",
+	top = 50,
+	left = 25,
+	id = Date.now(),
+} = $props();
+setTop();
+// position states
+
+// svelte-ignore state_referenced_locally
+let x = $state(left);
+// svelte-ignore state_referenced_locally
+let y = $state(top);
+let offSetx = 0;
+let offSety = 0;
+let draggingState = $state(false);
+let transition = $state(false);
+//
+//----- window drag logic -----
+//
+function setTop() {
+	topZ.update((n) => n + 1);
+	z = get(topZ);
+	console.log("Universal Z-index is: " + z);
+}
+function dragStart(e) {
+	draggingState = true;
+	isDraggingAny.set(true);
+	offSetx = e.clientX - x;
+	offSety = e.clientY - y;
+	topZ.update((n) => n + 1);
+	z = get(topZ);
+	console.log("Universal Z-index is: " + z);
+	window.addEventListener("mousemove", dragging);
+	window.addEventListener("mouseup", dragStop);
+}
+function dragging(e) {
+	y = e.clientY - offSety;
+	x = e.clientX - offSetx;
+	if (width === "100%" && height === "100%") {
+		transition = false;
+		height = tempHeight;
+		width = tempWidth;
 		y = e.clientY - offSety;
 		x = e.clientX - offSetx;
-		if (width == '100%' && height == '100%') {
-			transition = false;
-			height = tempHeight;
-			width = tempWidth;
-			y = e.clientY - offSety;
-			x = e.clientX - offSetx;
-			console.log('Dragging in maximized state');
-		}
+		console.log("Dragging in maximized state");
 	}
-	function dragStop() {
-		draggingState = false;
-		isDraggingAny.set(false);
-		window.removeEventListener('mousemove', dragging);
-		window.removeEventListener('mouseup', dragStop);
-	}
-	//
-	//----- window nav control logic -----
-	//
-	let tempX = 0;
-	let tempY = 0;
-	let tempHeight = 0;
-	let tempWidth = 0;
-	function maximizeWindow() {
-		if (height === '100%') {
-			height = '50%';
-			width = '50%';
-			y = tempY;
-			x = tempX;
-			height = tempHeight;
-			width = tempWidth;
-			transition = false;
-		} else {
-			topZ.update((n) => n + 1);
-			z = get(topZ);
-			tempX = x;
-			tempY = y;
-			tempHeight = height;
-			tempWidth = width;
-			height = '100%';
-			width = '100%';
-			x = 0;
-			y = 0;
-			console.log(tempX, tempY);
-			transition = true;
-		}
-	}
-	onMount(() => {
-		gsap.fromTo(
-			`#${id}`,
-			{
-				scale: 0.8,
-				opacity: 0.5
-			},
-			{
-				scale: 1,
-				opacity: 1,
-				duration: 0.3,
-				ease: 'power2.out'
-			}
-		);
-	});
-
-	function closeWindow() {
+}
+function dragStop() {
+	draggingState = false;
+	isDraggingAny.set(false);
+	window.removeEventListener("mousemove", dragging);
+	window.removeEventListener("mouseup", dragStop);
+}
+//
+//----- window nav control logic -----
+//
+let tempX = 0;
+let tempY = 0;
+let tempHeight = 0;
+let tempWidth = 0;
+function maximizeWindow() {
+	if (height === "100%") {
+		height = "50%";
+		width = "50%";
+		y = tempY;
+		x = tempX;
+		height = tempHeight;
+		width = tempWidth;
 		transition = false;
-		gsap.to(`#${id}`, {
-			//but this works?
+	} else {
+		topZ.update((n) => n + 1);
+		z = get(topZ);
+		tempX = x;
+		tempY = y;
+		tempHeight = height;
+		tempWidth = width;
+		height = "100%";
+		width = "100%";
+		x = 0;
+		y = 0;
+		console.log(tempX, tempY);
+		transition = true;
+	}
+}
+onMount(() => {
+	gsap.fromTo(
+		`#${id}`,
+		{
 			scale: 0.8,
-			opacity: 0,
-			duration: 0.2,
-			ease: 'ease',
-			onComplete: function () {
-				let list = get(windowList);
-				let index = list.findIndex((w) => w.id === id);
-				if (index !== -1) {
-					list.splice(index, 1);
-					windowList.set(list);
-				}
-			}
-		});
-	}
+			opacity: 0.5,
+		},
+		{
+			scale: 1,
+			opacity: 1,
+			duration: 0.3,
+			ease: "power2.out",
+		},
+	);
+});
 
-	function minimizeWindow() {
-		//Will work on this after task bar has been implemented
-	}
+function closeWindow() {
+	transition = false;
+	gsap.to(`#${id}`, {
+		//but this works?
+		scale: 0.8,
+		opacity: 0,
+		duration: 0.2,
+		ease: "ease",
+		onComplete: function () {
+			let list = get(windowList);
+			let index = list.findIndex((w) => w.id === id);
+			if (index !== -1) {
+				list.splice(index, 1);
+				windowList.set(list);
+			}
+		},
+	});
+}
+
+function minimizeWindow() {
+	//Will work on this after task bar has been implemented
+}
 </script>
 
 <div
+  role="toolbar"
 	class="window"
 	class:active={z == $topZ}
 	{id}
