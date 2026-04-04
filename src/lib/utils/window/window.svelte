@@ -1,34 +1,48 @@
 <script>
+	// @ts-nocheck
+
+	// Styles and icon imports
 	import '$lib/utils/window/window.css';
 	import minimize from '$lib/img/icons/minimize-sign.png';
 	import maximize from '$lib/img/icons/stop.png';
 	import close from '$lib/img/icons/close.png';
 	import layers from '$lib/img/icons/layers.png';
-  import { topZ, isDraggingAny } from '$lib/stores/zindex.js';
-  import {get} from 'svelte/store';
-  let z = $state(1)
-  let {
+
+	// global vars
+	import { topZ, isDraggingAny, windowList } from '$lib/stores/index.js';
+	import { get } from 'svelte/store';
+
+	// window zindex
+	let z = $state(1);
+
+	// props
+	let {
 		url = 'https://example.com',
 		name = 'Example',
 		height = '50%',
 		width = '50%',
 		top = 50,
-		left = 25
+		left = 25,
+		id = Date.now()
 	} = $props();
 
+	// position states
 	let x = $state(left);
 	let y = $state(top);
 	let offSetx = 0;
 	let offSety = 0;
 	let draggingState = $state(false);
+	//
+	//----- window drag logic -----
+	//
 	function dragStart(e) {
 		draggingState = true;
-    isDraggingAny.set(true)
+		isDraggingAny.set(true);
 		offSetx = e.clientX - x;
 		offSety = e.clientY - y;
-    topZ.update(n => n + 1);
-    z = get(topZ);
-    console.log("Universal Z-index is: "+ z);
+		topZ.update((n) => n + 1);
+		z = get(topZ);
+		console.log('Universal Z-index is: ' + z);
 		window.addEventListener('mousemove', dragging);
 		window.addEventListener('mouseup', dragStop);
 	}
@@ -38,15 +52,51 @@
 	}
 	function dragStop() {
 		draggingState = false;
-    isDraggingAny.set(false)
+		isDraggingAny.set(false);
 		window.removeEventListener('mousemove', dragging);
 		window.removeEventListener('mouseup', dragStop);
+	}
+	//
+	//----- window nav control logic -----
+	//
+	let tempX = 0;
+	let tempY = 0;
+	function maximizeWindow() {
+		if (height === '100%') {
+			height = '50%';
+			width = '50%';
+			y = tempY;
+			x = tempX;
+		} else {
+			topZ.update((n) => n + 1);
+			z = get(topZ);
+			tempX = x;
+			tempY = y;
+			height = '100%';
+			width = '100%';
+			x = 0;
+			y = 0;
+			console.log(tempX, tempY);
+		}
+	}
+
+	export function closeWindow() {
+		let list = get(windowList);
+		let index = list.findIndex((w) => w.id === id);
+		if (index !== -1) {
+			list.splice(index, 1);
+			windowList.set(list);
+		}
+	}
+	function minimizeWindow() {
+		//Will work on this after task bar has been implemented
 	}
 </script>
 
 <div
-  class="window"
-  style="
+	class="window"
+	{id}
+	style="
     height:{height};
     width: {width};
     top:{y}px;
@@ -55,16 +105,23 @@
     pointer-events: {$isDraggingAny && !draggingState ? 'none' : 'auto'};
   "
 >
-  <div class="bar" style="width: 100%;">
-    <div class="left">
-      <p class="window-title">{name}</p>
-    </div>
-    <div class="middle" onmousedown={dragStart}></div>
-    <div class="right">
-      <div class="navControl"><img src={minimize} alt="Minimize" /></div>
-      <div class="navControl"><img src={maximize} alt="Maximize" /></div>
-      <div class="navControl close"><img src={close} alt="Close" /></div>
-    </div>
-  </div>
-  <iframe src={url} title={name} style={draggingState ? 'pointer-events: none;' : 'auto'}></iframe>
+	<div class="bar" style="width: 100%;">
+		<div class="left">
+			<p class="window-title">{name}</p>
+		</div>
+		<div class="middle" onmousedown={dragStart}></div>
+		<div class="right">
+			<button class="navControl" onclick={minimizeWindow} type="button">
+				<img class="minimize" src={minimize} alt="Minimize" />
+			</button>
+			<button class="navControl" onclick={maximizeWindow} type="button">
+				<img class="maximize" src={maximize} alt="Maximize" />
+			</button>
+			<button class="navControl closeDiv" onclick={closeWindow} type="button">
+				<img class="close" src={close} alt="Close" />
+			</button>
+		</div>
+	</div>
+
+	<iframe src={url} title={name} style={draggingState ? 'pointer-events: none;' : 'auto'}></iframe>
 </div>
