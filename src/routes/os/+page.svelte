@@ -6,9 +6,6 @@
 	function openWindow(url, name, height, width, top, left) {
 		windowList.update(list => [...list, { url, name, height, width, top, left, id: `win-${Date.now()}` }]);
 	}
-  function fet() {
-    console.log($windowList)
-  }
 </script> 
 
 <button onclick={() => openWindow('https://example.com', 'Example Window', '50%', '50%', 100, 60)}>
@@ -26,5 +23,3 @@
 		id={window.id}
 	/>
 {/each}
-<button onclick={fet}>
-</button>
