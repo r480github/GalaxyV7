@@ -11,7 +11,7 @@
   }
 </script> 
 
-<button onclick={() => openWindow('https://example.com', 'Example Window', '50%', '50%', 500, 60)}>
+<button onclick={() => openWindow('https://example.com', 'Example Window', '50%', '50%', 100, 60)}>
 	Open Window
 </button>
 

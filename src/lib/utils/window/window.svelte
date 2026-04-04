@@ -174,31 +174,31 @@ function resizing(e) {
 	const mouseYmove = e.clientY - startY;
 
 	if (resizeType === "right") {
-		width = Math.max(200, startWidth + mouseXmove) + "px";
+		width = Math.max(400, startWidth + mouseXmove) + "px";
 	}
 	if (resizeType === "bottom") {
-		height = Math.max(150, startHeight + mouseYmove) + "px";
+		height = Math.max(200, startHeight + mouseYmove) + "px";
 	}
 	if (resizeType === "left") {
-		const newWidth = Math.max(200, startWidth - mouseXmove);
+		const newWidth = Math.max(400, startWidth - mouseXmove);
 		width = newWidth + "px";
 		x = startLeft + (startWidth - newWidth);
 	}
 
 	if (resizeType === "top") {
-		const newHeight = Math.max(150, startHeight - mouseYmove);
+		const newHeight = Math.max(200, startHeight - mouseYmove);
 		height = newHeight + "px";
 		y = startTop + (startHeight - newHeight);
 	}
 if (resizeType === 'bottomRight') {
-  width = Math.max(200, startWidth + mouseXmove) + 'px';
-  height = Math.max(150, startHeight + mouseYmove) + 'px';
+  width = Math.max(400, startWidth + mouseXmove) + 'px';
+  height = Math.max(200, startHeight + mouseYmove) + 'px';
 }
 
 if (resizeType === 'bottomLeft') {
-  const newWidth = Math.max(200, startWidth - mouseXmove);
+  const newWidth = Math.max(400, startWidth - mouseXmove);
   width = newWidth + 'px';
-  height = Math.max(150, startHeight + mouseYmove) + 'px';
+  height = Math.max(200, startHeight + mouseYmove) + 'px';
   x = startLeft + (startWidth - newWidth);  
 }
 
