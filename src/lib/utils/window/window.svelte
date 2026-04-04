@@ -20,12 +20,12 @@ let z = $state(1);
 
 // props
 let {
-	url = "https://example.com",
-	name = "Example",
-	height = "50%",
-	width = "50%",
-	top = 50,
-	left = 25,
+	url,
+	name,
+	height: initialHeight,
+	width: initialWidth,
+	top,
+	left,
 	id = Date.now(),
 } = $props();
 setTop();
@@ -35,6 +35,10 @@ setTop();
 let x = $state(left);
 // svelte-ignore state_referenced_locally
 let y = $state(top);
+// svelte-ignore state_referenced_locally
+let height = $state(initialHeight);
+// svelte-ignore state_referenced_locally
+let width = $state(initialWidth);
 let offSetx = 0;
 let offSety = 0;
 let draggingState = $state(false);
@@ -42,6 +46,7 @@ let transition = $state(false);
 //
 //----- window drag logic -----
 //
+
 function setTop() {
 	topZ.update((n) => n + 1);
 	z = get(topZ);
@@ -126,7 +131,6 @@ onMount(() => {
 function closeWindow() {
 	transition = false;
 	gsap.to(`#${id}`, {
-		//but this works?
 		scale: 0.8,
 		opacity: 0,
 		duration: 0.2,
@@ -145,6 +149,80 @@ function closeWindow() {
 function minimizeWindow() {
 	//Will work on this after task bar has been implemented
 }
+
+//
+//----- window resize logic -----
+//
+
+let startX, startY, resizeType, startWidth, startHeight, startTop, startLeft; 
+function resizeStart(e, type) {
+  draggingState = true;
+	isDraggingAny.set(true);
+	const rect = document.getElementById(id).getBoundingClientRect();
+	startX = e.clientX;
+	startY = e.clientY;
+	resizeType = type;
+	startWidth = rect.width;
+	startHeight = rect.height;
+	startTop = y;
+	startLeft = x;
+	window.addEventListener("mousemove", resizing);
+	window.addEventListener("mouseup", resizeStop);
+}
+function resizing(e) {
+	const mouseXmove = e.clientX - startX;
+	const mouseYmove = e.clientY - startY;
+
+	if (resizeType === "right") {
+		width = Math.max(200, startWidth + mouseXmove) + "px";
+	}
+	if (resizeType === "bottom") {
+		height = Math.max(150, startHeight + mouseYmove) + "px";
+	}
+	if (resizeType === "left") {
+		const newWidth = Math.max(200, startWidth - mouseXmove);
+		width = newWidth + "px";
+		x = startLeft + (startWidth - newWidth);
+	}
+
+	if (resizeType === "top") {
+		const newHeight = Math.max(150, startHeight - mouseYmove);
+		height = newHeight + "px";
+		y = startTop + (startHeight - newHeight);
+	}
+if (resizeType === 'bottomRight') {
+  width = Math.max(200, startWidth + mouseXmove) + 'px';
+  height = Math.max(150, startHeight + mouseYmove) + 'px';
+}
+
+if (resizeType === 'bottomLeft') {
+  const newWidth = Math.max(200, startWidth - mouseXmove);
+  width = newWidth + 'px';
+  height = Math.max(150, startHeight + mouseYmove) + 'px';
+  x = startLeft + (startWidth - newWidth);  
+}
+
+if (resizeType === 'topRight') {
+  width = Math.max(200, startWidth + mouseXmove) + 'px';
+  const newHeight = Math.max(150, startHeight - mouseYmove);
+  height = newHeight + 'px';
+  y = startTop + (startHeight - newHeight);  
+}
+
+if (resizeType === 'topLeft') {
+  const newWidth = Math.max(200, startWidth - mouseXmove);
+  const newHeight = Math.max(150, startHeight - mouseYmove);
+  width = newWidth + 'px';
+  height = newHeight + 'px';
+  x = startLeft + (startWidth - newWidth);  
+  y = startTop + (startHeight - newHeight);  
+}}
+function resizeStop() {
+  draggingState = false;
+	isDraggingAny.set(false);
+	window.removeEventListener("mousemove", resizing);
+	window.removeEventListener("mouseup", resizeStop);
+}
 </script>
 
 <div
@@ -162,13 +240,21 @@ function minimizeWindow() {
     transition-duration: {transition == true ? '0.3s' : '0s'};
   "
 >
+  <div onmousedown={(e) => resizeStart(e, 'top')} class="r-top side resizer"></div>
+  <div onmousedown={(e) => resizeStart(e, 'right')} class="r-right side resizer" ></div>
+  <div onmousedown={(e) => resizeStart(e, 'bottom')} class="r-bottom side resizer"></div>
+  <div onmousedown={(e) => resizeStart(e, 'left')} class="r-left side resizer"></div>
+  <div onmousedown={(e) => resizeStart(e, 'topRight')} class="r-top-right corner resizer"></div>
+  <div onmousedown={(e) => resizeStart(e, 'topLeft')} class="r-top-left corner resizer"></div>
+  <div onmousedown={(e) => resizeStart(e, 'bottomRight')} class="r-bottom-right corner resizer"></div>
+  <div onmousedown={(e) => resizeStart(e, 'bottomLeft')} class="r-bottom-left corner resizer"></div>
+
 	<div
 		class="windowCover"
 		class:active={z == $topZ}
 		{id}
 		onclick={setTop}
 		style="
-    height:100%;
     width: 100%;
     z-index: {z};
   "
@@ -191,6 +277,5 @@ function minimizeWindow() {
 			</button>
 		</div>
 	</div>
-
 	<iframe src={url} title={name} style={draggingState ? 'pointer-events: none;' : 'auto'}></iframe>
 </div>
