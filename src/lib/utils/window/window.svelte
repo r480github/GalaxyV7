@@ -67,6 +67,7 @@ function dragging(e) {
 	y = e.clientY - offSety;
 	x = e.clientX - offSetx;
 	if (width === "100%" && height === "100%") {
+		maximizedStat = false;
 		transition = false;
 		height = tempHeight;
 		width = tempWidth;
@@ -88,6 +89,7 @@ let tempX = 0;
 let tempY = 0;
 let tempHeight = 0;
 let tempWidth = 0;
+let maximizedStat = $state(false);
 function maximizeWindow() {
 	if (height === "100%") {
 		height = "50%";
@@ -97,6 +99,7 @@ function maximizeWindow() {
 		height = tempHeight;
 		width = tempWidth;
 		transition = false;
+		maximizedStat = false;
 	} else {
 		topZ.update((n) => n + 1);
 		z = get(topZ);
@@ -109,6 +112,8 @@ function maximizeWindow() {
 		x = 0;
 		y = 0;
 		console.log(tempX, tempY);
+		maximizedStat = true;
+
 		transition = true;
 	}
 }
@@ -154,9 +159,9 @@ function minimizeWindow() {
 //----- window resize logic -----
 //
 
-let startX, startY, resizeType, startWidth, startHeight, startTop, startLeft; 
+let startX, startY, resizeType, startWidth, startHeight, startTop, startLeft;
 function resizeStart(e, type) {
-  draggingState = true;
+	draggingState = true;
 	isDraggingAny.set(true);
 	const rect = document.getElementById(id).getBoundingClientRect();
 	startX = e.clientX;
@@ -190,35 +195,36 @@ function resizing(e) {
 		height = newHeight + "px";
 		y = startTop + (startHeight - newHeight);
 	}
-if (resizeType === 'bottomRight') {
-  width = Math.max(400, startWidth + mouseXmove) + 'px';
-  height = Math.max(200, startHeight + mouseYmove) + 'px';
-}
+	if (resizeType === "bottomRight") {
+		width = Math.max(400, startWidth + mouseXmove) + "px";
+		height = Math.max(200, startHeight + mouseYmove) + "px";
+	}
 
-if (resizeType === 'bottomLeft') {
-  const newWidth = Math.max(400, startWidth - mouseXmove);
-  width = newWidth + 'px';
-  height = Math.max(200, startHeight + mouseYmove) + 'px';
-  x = startLeft + (startWidth - newWidth);  
-}
+	if (resizeType === "bottomLeft") {
+		const newWidth = Math.max(400, startWidth - mouseXmove);
+		width = newWidth + "px";
+		height = Math.max(200, startHeight + mouseYmove) + "px";
+		x = startLeft + (startWidth - newWidth);
+	}
 
-if (resizeType === 'topRight') {
-  width = Math.max(200, startWidth + mouseXmove) + 'px';
-  const newHeight = Math.max(150, startHeight - mouseYmove);
-  height = newHeight + 'px';
-  y = startTop + (startHeight - newHeight);  
-}
+	if (resizeType === "topRight") {
+		width = Math.max(200, startWidth + mouseXmove) + "px";
+		const newHeight = Math.max(150, startHeight - mouseYmove);
+		height = newHeight + "px";
+		y = startTop + (startHeight - newHeight);
+	}
 
-if (resizeType === 'topLeft') {
-  const newWidth = Math.max(200, startWidth - mouseXmove);
-  const newHeight = Math.max(150, startHeight - mouseYmove);
-  width = newWidth + 'px';
-  height = newHeight + 'px';
-  x = startLeft + (startWidth - newWidth);  
-  y = startTop + (startHeight - newHeight);  
-}}
+	if (resizeType === "topLeft") {
+		const newWidth = Math.max(200, startWidth - mouseXmove);
+		const newHeight = Math.max(150, startHeight - mouseYmove);
+		width = newWidth + "px";
+		height = newHeight + "px";
+		x = startLeft + (startWidth - newWidth);
+		y = startTop + (startHeight - newHeight);
+	}
+}
 function resizeStop() {
-  draggingState = false;
+	draggingState = false;
 	isDraggingAny.set(false);
 	window.removeEventListener("mousemove", resizing);
 	window.removeEventListener("mouseup", resizeStop);
@@ -240,14 +246,14 @@ function resizeStop() {
     transition-duration: {transition == true ? '0.3s' : '0s'};
   "
 >
-  <div onmousedown={(e) => resizeStart(e, 'top')} class="r-top side resizer"></div>
-  <div onmousedown={(e) => resizeStart(e, 'right')} class="r-right side resizer" ></div>
-  <div onmousedown={(e) => resizeStart(e, 'bottom')} class="r-bottom side resizer"></div>
-  <div onmousedown={(e) => resizeStart(e, 'left')} class="r-left side resizer"></div>
-  <div onmousedown={(e) => resizeStart(e, 'topRight')} class="r-top-right corner resizer"></div>
-  <div onmousedown={(e) => resizeStart(e, 'topLeft')} class="r-top-left corner resizer"></div>
-  <div onmousedown={(e) => resizeStart(e, 'bottomRight')} class="r-bottom-right corner resizer"></div>
-  <div onmousedown={(e) => resizeStart(e, 'bottomLeft')} class="r-bottom-left corner resizer"></div>
+  <div onmousedown={(e) => resizeStart(e, 'top')} class="r-top side resizer" class:active={maximizedStat === true}></div>
+  <div onmousedown={(e) => resizeStart(e, 'right')} class="r-right side resizer"  class:active={maximizedStat === true}></div>
+  <div onmousedown={(e) => resizeStart(e, 'bottom')} class="r-bottom side resizer" class:active={maximizedStat === true}></div>
+  <div onmousedown={(e) => resizeStart(e, 'left')} class="r-left side resizer" class:active={maximizedStat === true}></div>
+  <div onmousedown={(e) => resizeStart(e, 'topRight')} class="r-top-right corner resizer" class:active={maximizedStat === true}></div>
+  <div onmousedown={(e) => resizeStart(e, 'topLeft')} class="r-top-left corner resizer" class:active={maximizedStat === true}></div>
+  <div onmousedown={(e) => resizeStart(e, 'bottomRight')} class="r-bottom-right corner resizer" class:active={maximizedStat === true}></div>
+  <div onmousedown={(e) => resizeStart(e, 'bottomLeft')} class="r-bottom-left corner resizer "class:active={maximizedStat === true}></div>
 
 	<div
 		class="windowCover"
