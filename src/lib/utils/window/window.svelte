@@ -8,13 +8,12 @@
 	import close from '$lib/img/icons/close.png';
 	import layers from '$lib/img/icons/layers.png';
 	import gsap from 'gsap';
-  import { onMount } from 'svelte';
-
-	// global vars
-	import { topZ, isDraggingAny, windowList } from '$lib/stores/index.js';
+	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { scale } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
+	// global vars
+	import { topZ, isDraggingAny, windowList } from '$lib/stores/index.js';
 
 	// window zindex
 	let z = $state(1);
@@ -40,6 +39,11 @@
 	//
 	//----- window drag logic -----
 	//
+  function setTop(){
+		topZ.update((n) => n + 1);
+		z = get(topZ);
+		console.log('Universal Z-index is: ' + z);
+  }
 	function dragStart(e) {
 		draggingState = true;
 		isDraggingAny.set(true);
@@ -100,21 +104,26 @@
 			transition = true;
 		}
 	}
-  onMount(() => {
-    gsap.fromTo(`#${id}`, {
-      scale: 0.8,
-      opacity: 0.5,
-    }, {
-      scale: 1,
-      opacity: 1,
-      duration: 0.3,
-      ease: 'power2.out'
-    });
-  });
+	onMount(() => {
+		gsap.fromTo(
+			`#${id}`,
+			{
+				scale: 0.8,
+				opacity: 0.5
+			},
+			{
+				scale: 1,
+				opacity: 1,
+				duration: 0.3,
+				ease: 'power2.out'
+			}
+		);
+	});
 
 	function closeWindow() {
 		transition = false;
-		gsap.to(`#${id}`, { //but this works?
+		gsap.to(`#${id}`, {
+			//but this works?
 			scale: 0.8,
 			opacity: 0,
 			duration: 0.2,
@@ -137,6 +146,7 @@
 
 <div
 	class="window"
+	class:active={z == $topZ}
 	{id}
 	style="
     height:{height};
@@ -148,6 +158,15 @@
     transition-duration: {transition == true ? '0.3s' : '0s'};
   "
 >
+	<div
+		class="windowCover"
+	  class:active={z == $topZ}
+		{id}
+    onclick={setTop}
+		style="
+    z-index: {z};
+  "
+	></div>
 	<div class="bar" style="width: 100%;" ondblclick={maximizeWindow}>
 		<div class="left">
 			<p class="window-title">{name}</p>
