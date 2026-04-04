@@ -49,9 +49,16 @@
 	function dragging(e) {
 		y = e.clientY - offSety;
 		x = e.clientX - offSetx;
+		if (width == '100%' && height == '100%') {
+      height = tempHeight;
+      width = tempWidth;
+      y = e.clientY - offSety;
+      x = e.clientX - offSetx;
+      console.log('Dragging in maximized state');
+		}
 	}
 	function dragStop() {
-		draggingState = false;
+		draggingState = false;  
 		isDraggingAny.set(false);
 		window.removeEventListener('mousemove', dragging);
 		window.removeEventListener('mouseup', dragStop);
@@ -61,17 +68,23 @@
 	//
 	let tempX = 0;
 	let tempY = 0;
+	let tempHeight = 0;
+	let tempWidth = 0;
 	function maximizeWindow() {
 		if (height === '100%') {
 			height = '50%';
 			width = '50%';
 			y = tempY;
 			x = tempX;
+			height = tempHeight;
+			width = tempWidth;
 		} else {
 			topZ.update((n) => n + 1);
 			z = get(topZ);
 			tempX = x;
 			tempY = y;
+			tempHeight = height;
+			tempWidth = width;
 			height = '100%';
 			width = '100%';
 			x = 0;
