@@ -7,10 +7,13 @@
 	import maximize from '$lib/img/icons/stop.png';
 	import close from '$lib/img/icons/close.png';
 	import layers from '$lib/img/icons/layers.png';
+	import gsap from 'gsap';
 
 	// global vars
 	import { topZ, isDraggingAny, windowList } from '$lib/stores/index.js';
 	import { get } from 'svelte/store';
+	import { scale } from 'svelte/transition';
+	import { linear } from 'svelte/easing';
 
 	// window zindex
 	let z = $state(1);
@@ -32,6 +35,7 @@
 	let offSetx = 0;
 	let offSety = 0;
 	let draggingState = $state(false);
+	let transition = $state(false);
 	//
 	//----- window drag logic -----
 	//
@@ -50,15 +54,16 @@
 		y = e.clientY - offSety;
 		x = e.clientX - offSetx;
 		if (width == '100%' && height == '100%') {
-      height = tempHeight;
-      width = tempWidth;
-      y = e.clientY - offSety;
-      x = e.clientX - offSetx;
-      console.log('Dragging in maximized state');
+			transition = false;
+			height = tempHeight;
+			width = tempWidth;
+			y = e.clientY - offSety;
+			x = e.clientX - offSetx;
+			console.log('Dragging in maximized state');
 		}
 	}
 	function dragStop() {
-		draggingState = false;  
+		draggingState = false;
 		isDraggingAny.set(false);
 		window.removeEventListener('mousemove', dragging);
 		window.removeEventListener('mouseup', dragStop);
@@ -78,6 +83,7 @@
 			x = tempX;
 			height = tempHeight;
 			width = tempWidth;
+			transition = false;
 		} else {
 			topZ.update((n) => n + 1);
 			z = get(topZ);
@@ -90,16 +96,26 @@
 			x = 0;
 			y = 0;
 			console.log(tempX, tempY);
+			transition = true;
 		}
 	}
 
 	export function closeWindow() {
-		let list = get(windowList);
-		let index = list.findIndex((w) => w.id === id);
-		if (index !== -1) {
-			list.splice(index, 1);
-			windowList.set(list);
-		}
+		transition = false;
+		gsap.to(`#${id}`, {
+			scale: 0.8,
+			opacity: 0,
+			duration: 0.2,
+			ease: 'ease',
+			onComplete: function () {
+				let list = get(windowList);
+				let index = list.findIndex((w) => w.id === id);
+				if (index !== -1) {
+					list.splice(index, 1);
+					windowList.set(list);
+				}
+			}
+		});
 	}
 	function minimizeWindow() {
 		//Will work on this after task bar has been implemented
@@ -116,6 +132,7 @@
     left:{x}px;
     z-index: {z};
     pointer-events: {$isDraggingAny && !draggingState ? 'none' : 'auto'};
+    transition-duration: {transition == true ? '0.3s' : '0s'};
   "
 >
 	<div class="bar" style="width: 100%;" ondblclick={maximizeWindow}>
@@ -131,7 +148,8 @@
 				<img class="maximize" src={maximize} alt="Maximize" />
 			</button>
 			<button class="navControl closeDiv" onclick={closeWindow} type="button">
-				<img class="close" src={close} alt="Close" /> <!--I'll just live with this ig-->
+				<img class="close" src={close} alt="Close" />
+				<!--I'll just live with this ig-->
 			</button>
 		</div>
 	</div>

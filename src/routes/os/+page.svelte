@@ -4,7 +4,7 @@
 	import {windowList} from '$lib/stores/index.js';
 
 	function openWindow(url, name, height, width, top, left) {
-		windowList.update(list => [...list, { url, name, height, width, top, left, id: Date.now() }]);
+		windowList.update(list => [...list, { url, name, height, width, top, left, id: `win-${Date.now()}` }]);
 	}
 </script> 
 
