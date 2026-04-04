@@ -118,7 +118,7 @@
     pointer-events: {$isDraggingAny && !draggingState ? 'none' : 'auto'};
   "
 >
-	<div class="bar" style="width: 100%;">
+	<div class="bar" style="width: 100%;" ondblclick={maximizeWindow}>
 		<div class="left">
 			<p class="window-title">{name}</p>
 		</div>
@@ -131,7 +131,7 @@
 				<img class="maximize" src={maximize} alt="Maximize" />
 			</button>
 			<button class="navControl closeDiv" onclick={closeWindow} type="button">
-				<img class="close" src={close} alt="Close" />
+				<img class="close" src={close} alt="Close" /> <!--I'll just live with this ig-->
 			</button>
 		</div>
 	</div>
