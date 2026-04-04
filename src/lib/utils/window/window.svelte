@@ -28,7 +28,7 @@
 		left = 25,
 		id = Date.now()
 	} = $props();
-
+	setTop();
 	// position states
 	let x = $state(left);
 	let y = $state(top);
@@ -39,11 +39,11 @@
 	//
 	//----- window drag logic -----
 	//
-  function setTop(){
+	function setTop() {
 		topZ.update((n) => n + 1);
 		z = get(topZ);
 		console.log('Universal Z-index is: ' + z);
-  }
+	}
 	function dragStart(e) {
 		draggingState = true;
 		isDraggingAny.set(true);
@@ -160,10 +160,12 @@
 >
 	<div
 		class="windowCover"
-	  class:active={z == $topZ}
+		class:active={z == $topZ}
 		{id}
-    onclick={setTop}
+		onclick={setTop}
 		style="
+    height:100%;
+    width: 100%;
     z-index: {z};
   "
 	></div>
