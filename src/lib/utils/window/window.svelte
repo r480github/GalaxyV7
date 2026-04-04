@@ -8,6 +8,7 @@
 	import close from '$lib/img/icons/close.png';
 	import layers from '$lib/img/icons/layers.png';
 	import gsap from 'gsap';
+  import { onMount } from 'svelte';
 
 	// global vars
 	import { topZ, isDraggingAny, windowList } from '$lib/stores/index.js';
@@ -99,10 +100,21 @@
 			transition = true;
 		}
 	}
+  onMount(() => {
+    gsap.fromTo(`#${id}`, {
+      scale: 0.8,
+      opacity: 0.5,
+    }, {
+      scale: 1,
+      opacity: 1,
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+  });
 
-	export function closeWindow() {
+	function closeWindow() {
 		transition = false;
-		gsap.to(`#${id}`, {
+		gsap.to(`#${id}`, { //but this works?
 			scale: 0.8,
 			opacity: 0,
 			duration: 0.2,
@@ -117,6 +129,7 @@
 			}
 		});
 	}
+
 	function minimizeWindow() {
 		//Will work on this after task bar has been implemented
 	}

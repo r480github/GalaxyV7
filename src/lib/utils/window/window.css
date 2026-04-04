@@ -5,6 +5,8 @@
 	margin: 0px;
 	padding: 0px;
 	background-color: grey;
+  opacity: 1;
+  transform: scale(1)
   ;
 }
 .bar {
