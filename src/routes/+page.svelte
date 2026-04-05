@@ -1,25 +1,25 @@
 <script>
-	import '$lib/style/main.css';
-	import { browser } from '$app/environment';
-	import gsap from 'gsap';
-	let selected = $state(null);
-	let mode = $state(browser ? localStorage.getItem('mode') : null);
+import "$lib/style/main.css";
+import { browser } from "$app/environment";
+import gsap from "gsap";
+let selected = $state(null);
+let mode = $state(browser ? localStorage.getItem("mode") : null);
 
-	function choose(m) {
-		selected = m;
-		localStorage.setItem('mode', m);
-	}
-	function next() {
-		gsap.to('.stagger', {
-	  y: -50,
-	  opacity: 0,
-	  duration: 0.3,
-	  stagger: 0.04,
-			onComplete: () => {
-				mode = selected;
-			}
-		});
-	}
+function choose(m) {
+	selected = m;
+	localStorage.setItem("mode", m);
+}
+function next() {
+	gsap.to(".stagger", {
+		y: -50,
+		opacity: 0,
+		duration: 0.3,
+		stagger: 0.04,
+		onComplete: () => {
+			mode = selected;
+		},
+	});
+}
 </script>
 {#if mode == null}
 <div class="container">

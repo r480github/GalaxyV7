@@ -1,79 +1,80 @@
-	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		min-height: 100vh;
-		padding: 2rem;
-		box-sizing: border-box;
-	}
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: 2rem;
+	box-sizing: border-box;
+}
 
-	h1 {
-		font-size: 1.8rem;
-		font-weight: 600;
-		margin: 0 0 0.5rem;
-		color: #ffffff;
-    margin-bottom: 50px;
-	}
+h1 {
+	font-size: 1.8rem;
+	font-weight: 600;
+	margin: 0 0 0.5rem;
+	color: #ffffff;
+	margin-bottom: 50px;
+}
 
-	.options {
-		display: flex;
-		gap: 1.5rem;
-	}
+.options {
+	display: flex;
+	gap: 1.5rem;
+}
 
-	.option {
-		all: unset;
-		cursor: pointer;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		width: 240px;
-		padding: 2rem 1.5rem;
-		border: 1px solid #222;
-		border-radius: 12px;
-		background: #111;
-		transition: border-color 0.15s, background 0.15s;
-	}
+.option {
+	all: unset;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	width: 240px;
+	padding: 2rem 1.5rem;
+	border: 1px solid #222;
+	border-radius: 12px;
+	background: #111;
+	transition:
+		border-color 0.15s,
+		background 0.15s;
+}
 
-	.option:hover {
-		border-color: #444;
-		background: #161616;
-	}
+.option:hover {
+	border-color: #444;
+	background: #161616;
+}
 
-	.option.active {
-		border-color: #fff;
-		background: #1a1a1a;
-	}
+.option.active {
+	border-color: #fff;
+	background: #1a1a1a;
+}
 
+.option h2 {
+	font-size: 1.1rem;
+	font-weight: 600;
+	margin: 0 0 0.5rem;
+	color: #fff;
+}
 
-	.option h2 {
-		font-size: 1.1rem;
-		font-weight: 600;
-		margin: 0 0 0.5rem;
-		color: #fff;
-	}
+.option p {
+	font-size: 0.85rem;
+	color: #888;
+	margin: 0;
+	line-height: 1.4;
+}
 
-	.option p {
-		font-size: 0.85rem;
-		color: #888;
-		margin: 0;
-		line-height: 1.4;
-	}
+.continue {
+	all: unset;
+	cursor: pointer;
+	margin-top: 2rem;
+	padding: 0.7rem 2.5rem;
+	background: #fff;
+	color: #000;
+	font-size: 0.95rem;
+	font-weight: 500;
+	border-radius: 8px;
+	transition: opacity 0.15s;
+}
 
-	.continue {
-		all: unset;
-		cursor: pointer;
-		margin-top: 2rem;
-		padding: 0.7rem 2.5rem;
-		background: #fff;
-		color: #000;
-		font-size: 0.95rem;
-		font-weight: 500;
-		border-radius: 8px;
-		transition: opacity 0.15s;
-	}
-
-	.continue:hover {
-		opacity: 0.85;
-	}
+.continue:hover {
+	opacity: 0.85;
+}
