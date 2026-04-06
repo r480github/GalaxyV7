@@ -265,11 +265,11 @@ function resizeStop() {
     z-index: {z};
   "
 	></div>
-	<div class="bar" style="width: 100%;" ondblclick={maximizeWindow}>
+	<div class="bar" style="width: 100%;" >
 		<div class="left">
 			<p class="window-title">{name}</p>
 		</div>
-		<div class="middle" onmousedown={dragStart}></div>
+		<div class="middle" onmousedown={dragStart} ondblclick={maximizeWindow}></div>
 		<div class="right">
 			<button class="navControl" onclick={minimizeWindow} type="button">
 				<img class="minimize" src={minimize} alt="Minimize" />

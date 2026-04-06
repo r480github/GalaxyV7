@@ -5,6 +5,8 @@ import { windowList } from "$lib/stores/index.js";
 import "$lib/style/os.css";
 import { onMount } from "svelte";
 import mainBG from "$lib/img/bg/bg4.jpg";
+import browser from "$lib/img/icons/earth.png";
+let activeButton = $state();
 let bgURL = $state("");
 onMount(() => {
 	if (!localStorage.getItem("background")) {
@@ -12,7 +14,8 @@ onMount(() => {
 	}
 	bgURL = localStorage.getItem("background");
 });
-function openWindow(url, name, height, width, top, left) {
+function openWindow(url, name, height, width, top, left, id) {
+  activeButton = id;
 	windowList.update((list) => [
 		...list,
 		{ url, name, height, width, top, left, id: `win-${Date.now()}` },
@@ -23,8 +26,11 @@ function openWindow(url, name, height, width, top, left) {
 <div class="background" style="background-image: url({bgURL});"></div>
 
 <div class="nav">
-  <button onclick={() => openWindow('https://example.com', 'Example Window', '50%', '50%', 100, 60)}>
-    Open Window
+  <button class:active={activeButton===1} class="navButton" onclick={() => openWindow('https://example.com', 'Example Window', '50%', '50%', 100, 60, 1)}>
+    <img class="navIcon" src={browser}>
+  </button>
+  <button class:active={activeButton===2} class="navButton" onclick={() => openWindow('https://example.com', 'Example Window', '50%', '50%', 100, 480, 2)}>
+    <img class="navIcon" src={browser}>
   </button>
 </div>
 
@@ -40,7 +46,3 @@ function openWindow(url, name, height, width, top, left) {
 		id={window.id}
 	/>
 {/each}
-
-
-<style>
-</style>
