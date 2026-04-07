@@ -13,7 +13,13 @@
 	import { scale } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
 	// global vars
-	import { topZ, isDraggingAny, windowList, minimizedSig } from '$lib/stores/index.js';
+	import {
+		topZ,
+		isDraggingAny,
+		windowList,
+		minimizedSig,
+		activeSignal
+	} from '$lib/stores/index.js';
 
 	// window zindex
 	let z = $state(1);
@@ -260,21 +266,23 @@
 		if ($minimizedSig !== sender) return;
 		if (z !== $topZ && minimizedStat == false) {
 			setTop();
+			activeSignal.set(sender);
 		} else {
 			minimizedStat = !minimizedStat;
 			console.log(minimizedStat);
 			if (minimizedStat) {
+				activeSignal.set(null);
 				console.log('true');
 				gsap.to(`#${id}`, {
 					scale: 0.8,
 					opacity: 0,
 					duration: 0.2,
 					onComplete: function () {
-						
 						document.getElementById(id).style.display = 'none';
 					}
 				});
 			} else {
+				activeSignal.set(sender);
 				console.log('false');
 				gsap.fromTo(
 					`#${id}`,
@@ -355,7 +363,10 @@
 		class="windowCover"
 		class:active={z == $topZ}
 		{id}
-		onclick={setTop}
+		onclick={() => {
+			setTop();
+			activeSignal.set(sender);
+		}}
 		style="
     width: 100%;
     z-index: {z};

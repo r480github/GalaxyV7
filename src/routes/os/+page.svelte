@@ -1,12 +1,12 @@
 <script>
 	// @ts-nocheck
 	import Window from '$lib/utils/window/window.svelte';
-	import { windowList, minimizedSig } from '$lib/stores/index.js';
+	import { windowList, minimizedSig, activeSignal } from '$lib/stores/index.js';
 	import '$lib/style/os.css';
 	import { onMount } from 'svelte';
 	import mainBG from '$lib/img/bg/bg4.jpg';
 	import browser from '$lib/img/icons/earth.png';
-  import {get} from 'svelte/store'
+	import { get } from 'svelte/store';
 	let activeButton = $state();
 	let bgURL = $state('');
 	onMount(() => {
@@ -15,21 +15,22 @@
 		}
 		bgURL = localStorage.getItem('background');
 	});
-	function openWindow(url, name, height, width, top, left, id) {
-		let list = get(windowList);
-		if (list.find((w) => w.sender === id)) {
-      minimizedSig.set(id)
-		} else {
-      
-			activeButton = id;
-			windowList.update((list) => [
-				...list,
-				{ url, name, height, width, top, left, id: `win-${Date.now()}`, sender: id }
-			]);
-			console.log($windowList);
-		}
-	}
-</script>
+$effect(() => {
+  activeButton = $activeSignal;
+});
+
+function openWindow(url, name, height, width, top, left, id) {
+  let list = get(windowList);
+  if (list.find((w) => w.sender === id)) {
+    minimizedSig.set(id);  
+  } else {
+    activeButton = id;
+    windowList.update((list) => [
+      ...list,
+      { url, name, height, width, top, left, id: `win-${Date.now()}`, sender: id }
+    ]);
+  }
+}</script>
 
 <div class="background" style="background-image: url({bgURL});"></div>
 
@@ -59,6 +60,6 @@
 		top={window.top}
 		left={window.left}
 		id={window.id}
-    sender={window.sender}
+		sender={window.sender}
 	/>
 {/each}
