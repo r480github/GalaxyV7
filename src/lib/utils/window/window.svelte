@@ -61,6 +61,8 @@
 		console.log('Universal Z-index is: ' + z);
 	}
 	function dragStart(e) {
+		activeSignal.set(sender);
+
 		draggingState = true;
 		isDraggingAny.set(true);
 		offSetx = e.clientX - x;
@@ -106,11 +108,14 @@
 			x = tempX;
 			height = tempHeight;
 			width = tempWidth;
-			transition = false;
+			transition = true;
 			maximizedStat = false;
+
+			setTimeout(() => {
+				transition = false;
+			}, 300);
 		} else {
-			topZ.update((n) => n + 1);
-			z = get(topZ);
+			setTop();
 			tempX = x;
 			tempY = y;
 			tempHeight = height;
@@ -121,7 +126,6 @@
 			y = 0;
 			console.log(tempX, tempY);
 			maximizedStat = true;
-
 			transition = true;
 		}
 	}
@@ -143,6 +147,7 @@
 
 	function closeWindow() {
 		transition = false;
+		activeSignal.set(null);
 		gsap.to(`#${id}`, {
 			scale: 0.8,
 			opacity: 0,
@@ -161,7 +166,10 @@
 
 	function minimizeWindow() {
 		minimizedStat = !minimizedStat;
+		console.log(minimizedStat);
 		if (minimizedStat) {
+			activeSignal.set(null);
+			console.log('true');
 			gsap.to(`#${id}`, {
 				scale: 0.8,
 				opacity: 0,
@@ -171,6 +179,8 @@
 				}
 			});
 		} else {
+			activeSignal.set(sender);
+			console.log('false');
 			gsap.fromTo(
 				`#${id}`,
 				{ scale: 0.8, opacity: 0 },
@@ -194,6 +204,8 @@
 
 	let startX, startY, resizeType, startWidth, startHeight, startTop, startLeft;
 	function resizeStart(e, type) {
+		activeSignal.set(sender);
+
 		draggingState = true;
 		isDraggingAny.set(true);
 		const rect = document.getElementById(id).getBoundingClientRect();
