@@ -15,7 +15,6 @@
 	// global vars
 	import {
 		topZ,
-		isDraggingAny,
 		windowList,
 		minimizedSig,
 		activeSignal
@@ -62,10 +61,8 @@
 	}
 	function dragStart(e) {
 		activeSignal.set(sender);
-
 		draggingState = true;
-		isDraggingAny.set(true);
-		offSetx = e.clientX - x;
+    offSetx = e.clientX - x;
 		offSety = e.clientY - y;
 		topZ.update((n) => n + 1);
 		z = get(topZ);
@@ -88,7 +85,6 @@
 	}
 	function dragStop() {
 		draggingState = false;
-		isDraggingAny.set(false);
 		window.removeEventListener('mousemove', dragging);
 		window.removeEventListener('mouseup', dragStop);
 	}
@@ -101,6 +97,7 @@
 	let tempWidth = 0;
 	let maximizedStat = $state(false);
 	function maximizeWindow() {
+		activeSignal.set(sender);
 		if (height === '100%') {
 			height = '50%';
 			width = '50%';
@@ -207,7 +204,6 @@
 		activeSignal.set(sender);
 
 		draggingState = true;
-		isDraggingAny.set(true);
 		const rect = document.getElementById(id).getBoundingClientRect();
 		startX = e.clientX;
 		startY = e.clientY;
@@ -270,7 +266,6 @@
 	}
 	function resizeStop() {
 		draggingState = false;
-		isDraggingAny.set(false);
 		window.removeEventListener('mousemove', resizing);
 		window.removeEventListener('mouseup', resizeStop);
 	}
@@ -326,7 +321,6 @@
     top:{y}px;
     left:{x}px;
     z-index: {z};
-    pointer-events: {$isDraggingAny && !draggingState ? 'none' : 'auto'};
     transition-duration: {transition == true ? '0.3s' : '0s'};
   "
 >
