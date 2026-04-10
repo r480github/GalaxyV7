@@ -202,7 +202,7 @@
 	let startX, startY, resizeType, startWidth, startHeight, startTop, startLeft;
 	function resizeStart(e, type) {
 		activeSignal.set(sender);
-
+    setTop();
 		draggingState = true;
 		const rect = document.getElementById(id).getBoundingClientRect();
 		startX = e.clientX;
