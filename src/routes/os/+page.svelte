@@ -138,10 +138,14 @@
 		}, 500);
 	}
 
+	let closeTimeout = null;
+
 	function hoverEnd() {
 		clearTimeout(hoverTimeout);
-		previewOpen = false; 
-		previewApp = null;
+		closeTimeout = setTimeout(() => {
+			previewOpen = false;
+			previewApp = null;
+		}, 200);
 	}
 </script>
 
@@ -164,18 +168,21 @@
 	</div>
 {/if}
 {#if previewOpen}
-  <div
-    class="previewPanel"
-    onclick={(e) => e.stopPropagation()}
-    onmouseenter={() => clearTimeout(hoverTimeout)}
-    onmouseleave={() => { previewOpen = false; previewApp = null; }}
-  >
-    {#each $windowList.filter((w) => w.sender === previewApp || w.parentApp === previewApp) as win}
-      <button class="previewCard" onclick={() => focusWindow(win.sender)}>
-        <p>{win.name}</p>
-      </button>
-    {/each}
-  </div>
+	<div
+		class="previewPanel"
+		onclick={(e) => e.stopPropagation()}
+		onmouseenter={() => clearTimeout(closeTimeout)}
+		onmouseleave={() => {
+			previewOpen = false;
+			previewApp = null;
+		}}
+	>
+		{#each $windowList.filter((w) => w.sender === previewApp || w.parentApp === previewApp) as win}
+			<button class="previewCard" onclick={() => focusWindow(win.sender)}>
+				<p>{win.name}</p>
+			</button>
+		{/each}
+	</div>
 {/if}
 <div class="nav">
 	{#each apps as app}
