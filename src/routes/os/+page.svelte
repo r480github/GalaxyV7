@@ -89,7 +89,7 @@
 		]);
 	}
 
-	function openNewWindow(url, name, appId) {
+	function openNewWindow(url, name, height, width, top, left, appId) {
 		let uniqueSender = `${appId}-${Date.now()}`;
 		activeSignal.set(uniqueSender);
 		windowList.update((list) => [
@@ -97,10 +97,10 @@
 			{
 				url,
 				name,
-				height: '50%',
-				width: '50%',
-				top: 120,
-				left: 120,
+				height,
+				width,
+				top,
+				left,
 				id: `win-${Date.now()}`,
 				sender: uniqueSender,
 				parentApp: appId
@@ -114,12 +114,12 @@
 		previewOpen = false;
 	}
 
-	function openMenu(e, appId, url, name) {
+	function openMenu(e, appId, url, name, height, width, top, left) {
 		e.preventDefault();
 		e.stopPropagation();
 		menuX = e.clientX;
 		menuY = e.clientY;
-		menuSender = { appId, url, name };
+		menuSender = { appId, url, name, height, width, top, left };
 		menuOpen = true;
 	}
 
@@ -128,16 +128,19 @@
 		menuSender = null;
 	}
 
-	function hoverStart(appId) {
-		hoverTimeout = setTimeout(() => {
-			let appWindows = getAppWindows(appId);
-			if (appWindows.length > 0) {
-				previewApp = appId;
-				previewOpen = true;
-			}
-		}, 500);
-	}
-
+function hoverStart(appId) {
+  setTimeout(() => {
+    if (menuOpen == false) {
+      hoverTimeout = setTimeout(() => {
+        let appWindows = getAppWindows(appId);
+        if (appWindows.length > 0) {
+          previewApp = appId;
+          previewOpen = true;
+        }
+      }, 200);
+    }
+  }, 500);  
+}
 	let closeTimeout = null;
 
 	function hoverEnd() {
@@ -161,7 +164,16 @@
 	<div class="contextMenu" style="left: {menuX}px;" onclick={(e) => e.stopPropagation()}>
 		<button
 			class="menuOption"
-			onclick={() => openNewWindow(menuSender.url, menuSender.name, menuSender.appId)}
+			onclick={() =>
+				openNewWindow(
+					menuSender.url,
+					menuSender.name,
+					menuSender.height,
+					menuSender.width,
+					menuSender.top,
+					menuSender.left,
+					menuSender.appId
+				)}
 		>
 			Open New Window
 		</button>
@@ -191,7 +203,8 @@
 			class:active={isAppActive(app.id)}
 			onclick={() =>
 				openWindow(app.url, app.name, app.height, app.width, app.top, app.left, app.id)}
-			oncontextmenu={(e) => openMenu(e, app.id, app.url, app.name)}
+			oncontextmenu={(e) =>
+				openMenu(e, app.id, app.url, app.name, app.height, app.width, app.top, app.left)}
 			onmouseenter={() => hoverStart(app.id)}
 			onmouseleave={hoverEnd}
 		>
