@@ -147,7 +147,6 @@
 
 <svelte:window
 	onclick={() => {
-		previewOpen = false;
 		closeMenu();
 	}}
 />
@@ -165,15 +164,19 @@
 	</div>
 {/if}
 {#if previewOpen}
-	<div class="previewPanel" onclick={(e) => e.stopPropagation()}>
-		{#each $windowList.filter((w) => w.sender === previewApp || w.parentApp === previewApp) as win}
-			<button class="previewCard" onclick={() => focusWindow(win.sender)}>
-				<p>{win.name}</p>
-			</button>
-		{/each}
-	</div>
+  <div
+    class="previewPanel"
+    onclick={(e) => e.stopPropagation()}
+    onmouseenter={() => clearTimeout(hoverTimeout)}
+    onmouseleave={() => { previewOpen = false; previewApp = null; }}
+  >
+    {#each $windowList.filter((w) => w.sender === previewApp || w.parentApp === previewApp) as win}
+      <button class="previewCard" onclick={() => focusWindow(win.sender)}>
+        <p>{win.name}</p>
+      </button>
+    {/each}
+  </div>
 {/if}
-
 <div class="nav">
 	{#each apps as app}
 		<button
