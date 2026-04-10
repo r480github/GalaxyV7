@@ -91,6 +91,9 @@
 
 	function openNewWindow(url, name, height, width, top, left, appId) {
 		let uniqueSender = `${appId}-${Date.now()}`;
+    let newName = String(name) + " (" + getAppWindows(appId).length + ")";
+    name = newName
+    console.log(newName)
 		activeSignal.set(uniqueSender);
 		windowList.update((list) => [
 			...list,
@@ -121,6 +124,7 @@
 		menuY = e.clientY;
 		menuSender = { appId, url, name, height, width, top, left };
 		menuOpen = true;
+		hoverEnd();
 	}
 
 	function closeMenu() {
@@ -128,19 +132,15 @@
 		menuSender = null;
 	}
 
-function hoverStart(appId) {
-  setTimeout(() => {
-    if (menuOpen == false) {
-      hoverTimeout = setTimeout(() => {
-        let appWindows = getAppWindows(appId);
-        if (appWindows.length > 0) {
-          previewApp = appId;
-          previewOpen = true;
-        }
-      }, 200);
-    }
-  }, 500);  
-}
+	function hoverStart(appId) {
+		hoverTimeout = setTimeout(() => {
+			let appWindows = getAppWindows(appId);
+			if (appWindows.length > 0) {
+				previewApp = appId;
+				previewOpen = true;
+			}
+		}, 200);
+	}
 	let closeTimeout = null;
 
 	function hoverEnd() {
