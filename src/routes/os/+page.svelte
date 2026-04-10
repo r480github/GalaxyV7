@@ -140,6 +140,8 @@
 
 	function hoverEnd() {
 		clearTimeout(hoverTimeout);
+		previewOpen = false; 
+		previewApp = null;
 	}
 </script>
 
@@ -153,11 +155,7 @@
 <div class="background" style="background-image: url({bgURL});"></div>
 
 {#if menuOpen}
-	<div
-		class="contextMenu"
-		style="left: {menuX}px; top: {menuY}px;"
-		onclick={(e) => e.stopPropagation()}
-	>
+	<div class="contextMenu" style="left: {menuX}px;" onclick={(e) => e.stopPropagation()}>
 		<button
 			class="menuOption"
 			onclick={() => openNewWindow(menuSender.url, menuSender.name, menuSender.appId)}
