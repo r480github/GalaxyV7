@@ -13,12 +13,7 @@
 	import { scale } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
 	// global vars
-	import {
-		topZ,
-		windowList,
-		minimizedSig,
-		activeSignal
-	} from '$lib/stores/index.js';
+	import { topZ, windowList, minimizedSig, activeSignal, focusWindowTop } from '$lib/stores/index.js';
 
 	// window zindex
 	let z = $state(1);
@@ -62,7 +57,7 @@
 	function dragStart(e) {
 		activeSignal.set(sender);
 		draggingState = true;
-    offSetx = e.clientX - x;
+		offSetx = e.clientX - x;
 		offSety = e.clientY - y;
 		topZ.update((n) => n + 1);
 		z = get(topZ);
@@ -202,7 +197,7 @@
 	let startX, startY, resizeType, startWidth, startHeight, startTop, startLeft;
 	function resizeStart(e, type) {
 		activeSignal.set(sender);
-    setTop();
+		setTop();
 		draggingState = true;
 		const rect = document.getElementById(id).getBoundingClientRect();
 		startX = e.clientX;
@@ -269,6 +264,13 @@
 		window.removeEventListener('mousemove', resizing);
 		window.removeEventListener('mouseup', resizeStop);
 	}
+  $effect(() => {
+  if ($focusWindowTop !== sender) return;
+  setTop();
+  activeSignal.set(sender);
+  focusWindowTop.set(null);
+});
+
 	$effect(() => {
 		if ($minimizedSig !== sender) return;
 		if (z !== $topZ && minimizedStat == false) {

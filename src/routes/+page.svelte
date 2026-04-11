@@ -1,48 +1,53 @@
 <script>
-import "$lib/style/main.css";
-import { browser } from "$app/environment";
-import gsap from "gsap";
-let selected = $state(null);
-let mode = $state(browser ? localStorage.getItem("mode") : null);
+	import '$lib/style/main.css';
+	import { browser } from '$app/environment';
+	import gsap from 'gsap';
+	let selected = $state(null);
+	let mode = $state(browser ? localStorage.getItem('mode') : null);
 
-function choose(m) {
-	selected = m;
-	localStorage.setItem("mode", m);
-}
-function next() {
-	gsap.to(".stagger", {
-		y: -50,
-		opacity: 0,
-		duration: 0.3,
-		stagger: 0.04,
-		onComplete: () => {
-			mode = selected;
-		},
-	});
-}
+	function choose(m) {
+		selected = m;
+		localStorage.setItem('mode', m);
+	}
+	function next() {
+		gsap.to('.stagger', {
+			y: -50,
+			opacity: 0,
+			duration: 0.3,
+			stagger: 0.04,
+			onComplete: () => {
+				mode = selected;
+			}
+		});
+	}
 </script>
+
 {#if mode == null}
-<div class="container">
-	<h1 class="stagger">How would you like to use Galaxy?</h1>
+	<div class="container">
+		<h1 class="stagger">How would you like to use Galaxy?</h1>
 
-	<div class="options">
-		<button class="option stagger" class:active={selected === 'os'} onclick={() => choose('os')}>
-			<h2>OS Mode</h2>
-		</button>
+		<div class="options">
+			<button class="option stagger" class:active={selected === 'os'} onclick={() => choose('os')}>
+				<h2>OS Mode</h2>
+			</button>
 
-		<button class="option stagger" class:active={selected === 'website'} onclick={() => choose('website')}>
-			<h2>Website Mode</h2>
-		</button>
+			<button
+				class="option stagger"
+				class:active={selected === 'website'}
+				onclick={() => choose('website')}
+			>
+				<h2>Website Mode</h2>
+			</button>
+		</div>
+
+		{#if selected}
+			<button class="continue stagger" onclick={() => next()}> Continue </button>
+		{/if}
 	</div>
-
-	{#if selected}
-		<button class="continue stagger" onclick={() => next()}> Continue </button>
-	{/if}
-</div>
 {:else if mode === 'os'}
- {location.href = '/os'}
+	{(location.href = '/os')}
 {:else if mode === 'website'}
- {location.href = '/website'}
+	{(location.href = '/website')}
 {/if}
 
 <style>

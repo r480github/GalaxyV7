@@ -1,13 +1,13 @@
 <script>
 	// @ts-nocheck
 	import Window from '$lib/utils/window/window.svelte';
-	import { windowList, minimizedSig, activeSignal } from '$lib/stores/index.js';
+	import { windowList, minimizedSig, activeSignal, focusWindowTop } from '$lib/stores/index.js';
 	import '$lib/style/os.css';
 	import { onMount } from 'svelte';
 	import mainBG from '$lib/img/bg/bg4.jpg';
 	import browser from '$lib/img/icons/earth.png';
 	import { get } from 'svelte/store';
-
+  
 	let activeButton = $state(null);
 	let bgURL = $state('');
 	let menuOpen = $state(false);
@@ -17,7 +17,7 @@
 	let previewOpen = $state(false);
 	let previewApp = $state(null);
 	let hoverTimeout = null;
-
+  
 	const apps = [
 		{
 			id: 1,
@@ -91,9 +91,9 @@
 
 	function openNewWindow(url, name, height, width, top, left, appId) {
 		let uniqueSender = `${appId}-${Date.now()}`;
-    let newName = String(name) + " (" + getAppWindows(appId).length + ")";
-    name = newName
-    console.log(newName)
+		let newName = String(name) + ' (' + getAppWindows(appId).length + ')';
+		name = newName;
+		console.log(newName);
 		activeSignal.set(uniqueSender);
 		windowList.update((list) => [
 			...list,
@@ -113,7 +113,7 @@
 	}
 
 	function focusWindow(sender) {
-		minimizedSig.set(sender);
+		focusWindowTop.set(sender);
 		previewOpen = false;
 	}
 
