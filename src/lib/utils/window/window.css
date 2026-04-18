@@ -12,6 +12,7 @@
 	transform: scale(1);
 	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0);
 	border-radius: 8px;
+  border: 0.5px solid rgba(72, 72, 72, 0.056);
 }
 .window.active {
 	box-shadow: 0px 0px 10px 2px rgba(33, 33, 33, 0.16);
@@ -38,7 +39,7 @@
 	background-color: rgba(20, 20, 20, 0.9);
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
-  color: rgba(255, 255, 255, 0.821);
+	color: rgba(255, 255, 255, 0.821);
 }
 .left {
 	margin-right: auto;
@@ -166,4 +167,21 @@ iframe,
 }
 .resizer.active {
 	display: none;
+}
+.snapPreview {
+	position: fixed;
+	top: 0;
+	width: 50%;
+	height: calc(100% - 40px);
+	background: rgba(169, 169, 169, 0.378);
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	border-radius: 8px;
+	pointer-events: none;
+}
+
+.snapPreview.right {
+	left: 50%;
+}
+.snapPreview.left {
+	left: 0;
 }

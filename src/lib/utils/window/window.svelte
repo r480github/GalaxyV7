@@ -24,6 +24,7 @@
 	// window zindex
 	let z = $state(1);
 	let minimizedStat = $state(false);
+	let rightSplit = $state(false);
 
 	// props
 	let {
@@ -70,18 +71,36 @@
 		console.log('Universal Z-index is: ' + z);
 		window.addEventListener('mousemove', dragging);
 		window.addEventListener('mouseup', dragStop);
-	}
-	function dragging(e) {
-		y = e.clientY - offSety;
-		x = e.clientX - offSetx;
-		if (width === '100%' && height === '100%') {
+		if (
+			width === '100%' &&
+			height === ((window.innerHeight - 40.001) / window.innerHeight) * 100 + '%'
+		) {
 			maximizedStat = false;
 			transition = false;
 			height = tempHeight;
 			width = tempWidth;
-			y = e.clientY - offSety;
 			x = e.clientX - offSetx;
 			console.log('Dragging in maximized state');
+		}
+	}
+	function dragging(e) {
+		y = e.clientY - offSety;
+		x = e.clientX - offSetx;
+
+		if (rightSplit == null) {
+			transition = false;
+			height = tempHeight;
+			width = tempWidth;
+			rightSplit = false;
+		} else {
+			if (e.clientX > window.innerWidth - 200) {
+				rightSplit = true;
+			} else if (e.clientX < 200) {
+				// ← add this
+				rightSplit = 'left';
+			} else {
+				rightSplit = false; // ← reset if neither edge
+			}
 		}
 	}
 	function checkBoundaries() {
@@ -94,12 +113,31 @@
 		if (y > window.innerHeight - document.getElementById(id).offsetHeight - 40) {
 			y = window.innerHeight - document.getElementById(id).offsetHeight - 40;
 		}
-		if (x > window.innerWidth - document.getElementById(id).offsetWidth) {
-			x = window.innerWidth - document.getElementById(id).offsetWidth;
-		}
 	}
 	function dragStop() {
-		checkBoundaries();
+		if (rightSplit === true) {
+			transition = true;
+			tempHeight = height;
+			tempWidth = width;
+			width = '50%';
+			x = window.innerWidth - window.innerWidth / 2;
+			y = 0;
+			height = ((window.innerHeight - 40) / window.innerHeight) * 100 + '%';
+			rightSplit = null;
+			console.log('Snapped to right edge');
+		} else if (rightSplit === 'left') {
+			transition = true;
+			tempHeight = height;
+			tempWidth = width;
+			width = '50%';
+			x = 0;
+			y = 0;
+			height = ((window.innerHeight - 40) / window.innerHeight) * 100 + '%';
+			rightSplit = null;
+			console.log('Snapped to left edge');
+		} else {
+			checkBoundaries();
+		}
 		draggingState = false;
 		window.removeEventListener('mousemove', dragging);
 		window.removeEventListener('mouseup', dragStop);
@@ -131,7 +169,7 @@
 			tempY = y;
 			tempHeight = height;
 			tempWidth = width;
-			height = '100%';
+			height = ((window.innerHeight - 40.001) / window.innerHeight) * 100 + '%';
 			width = '100%';
 			x = 0;
 			y = 0;
@@ -432,3 +470,8 @@
 	</div>
 	<iframe src={url} title={name} style={draggingState ? 'pointer-events: none;' : 'auto'}></iframe>
 </div>
+{#if rightSplit === true}
+	<div class="snapPreview right"></div>
+{:else if rightSplit === 'left'}
+	<div class="snapPreview left"></div>
+{/if}
