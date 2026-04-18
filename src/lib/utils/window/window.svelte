@@ -13,7 +13,13 @@
 	import { scale } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
 	// global vars
-	import { topZ, windowList, minimizedSig, activeSignal, focusWindowTop } from '$lib/stores/index.js';
+	import {
+		topZ,
+		windowList,
+		minimizedSig,
+		activeSignal,
+		focusWindowTop
+	} from '$lib/stores/index.js';
 
 	// window zindex
 	let z = $state(1);
@@ -78,7 +84,22 @@
 			console.log('Dragging in maximized state');
 		}
 	}
+	function checkBoundaries() {
+		if (y < 0) {
+			y = 0;
+		}
+		if (x < 0) {
+			x = 0;
+		}
+		if (y > window.innerHeight - document.getElementById(id).offsetHeight - 40) {
+			y = window.innerHeight - document.getElementById(id).offsetHeight - 40;
+		}
+		if (x > window.innerWidth - document.getElementById(id).offsetWidth) {
+			x = window.innerWidth - document.getElementById(id).offsetWidth;
+		}
+	}
 	function dragStop() {
+		checkBoundaries();
 		draggingState = false;
 		window.removeEventListener('mousemove', dragging);
 		window.removeEventListener('mouseup', dragStop);
@@ -94,8 +115,6 @@
 	function maximizeWindow() {
 		activeSignal.set(sender);
 		if (height === '100%') {
-			height = '50%';
-			width = '50%';
 			y = tempY;
 			x = tempX;
 			height = tempHeight;
@@ -213,65 +232,77 @@
 	function resizing(e) {
 		const mouseXmove = e.clientX - startX;
 		const mouseYmove = e.clientY - startY;
-
+		const maxWidth = window.innerWidth - x;
+		const maxHeight = window.innerHeight - y;
+		const maxHeightBottom = window.innerHeight - y - 40;
 		if (resizeType === 'right') {
-			width = Math.max(400, startWidth + mouseXmove) + 'px';
+			width = Math.min(maxWidth, Math.max(400, startWidth + mouseXmove)) + 'px';
 		}
+
 		if (resizeType === 'bottom') {
-			height = Math.max(200, startHeight + mouseYmove) + 'px';
+			height = Math.min(maxHeightBottom, Math.max(200, startHeight + mouseYmove)) + 'px';
 		}
+
 		if (resizeType === 'left') {
 			const newWidth = Math.max(400, startWidth - mouseXmove);
-			width = newWidth + 'px';
-			x = startLeft + (startWidth - newWidth);
+			const newX = startLeft + (startWidth - newWidth);
+			x = Math.max(0, newX);
+			width = startLeft + startWidth - x + 'px';
 		}
 
 		if (resizeType === 'top') {
 			const newHeight = Math.max(200, startHeight - mouseYmove);
-			height = newHeight + 'px';
-			y = startTop + (startHeight - newHeight);
+			const newY = startTop + (startHeight - newHeight);
+			y = Math.max(0, newY);
+			height = startTop + startHeight - y + 'px';
 		}
+
 		if (resizeType === 'bottomRight') {
-			width = Math.max(400, startWidth + mouseXmove) + 'px';
-			height = Math.max(200, startHeight + mouseYmove) + 'px';
+			width = Math.min(maxWidth, Math.max(400, startWidth + mouseXmove)) + 'px';
+			height = Math.min(maxHeightBottom, Math.max(200, startHeight + mouseYmove)) + 'px';
 		}
 
 		if (resizeType === 'bottomLeft') {
 			const newWidth = Math.max(400, startWidth - mouseXmove);
-			width = newWidth + 'px';
-			height = Math.max(200, startHeight + mouseYmove) + 'px';
-			x = startLeft + (startWidth - newWidth);
+			const newX = startLeft + (startWidth - newWidth);
+			x = Math.max(0, newX);
+			width = startLeft + startWidth - x + 'px';
+			height = Math.min(maxHeightBottom, Math.max(200, startHeight + mouseYmove)) + 'px';
 		}
 
 		if (resizeType === 'topRight') {
-			width = Math.max(200, startWidth + mouseXmove) + 'px';
+			width = Math.min(maxWidth, Math.max(200, startWidth + mouseXmove)) + 'px';
 			const newHeight = Math.max(150, startHeight - mouseYmove);
-			height = newHeight + 'px';
-			y = startTop + (startHeight - newHeight);
+			const newY = startTop + (startHeight - newHeight);
+			y = Math.max(0, newY);
+			height = startTop + startHeight - y + 'px';
 		}
 
 		if (resizeType === 'topLeft') {
 			const newWidth = Math.max(200, startWidth - mouseXmove);
 			const newHeight = Math.max(150, startHeight - mouseYmove);
-			width = newWidth + 'px';
-			height = newHeight + 'px';
-			x = startLeft + (startWidth - newWidth);
-			y = startTop + (startHeight - newHeight);
+			const newX = startLeft + (startWidth - newWidth);
+			const newY = startTop + (startHeight - newHeight);
+			x = Math.max(0, newX);
+			y = Math.max(0, newY);
+			width = startLeft + startWidth - x + 'px';
+			height = startTop + startHeight - y + 'px';
 		}
 	}
 	function resizeStop() {
+		checkBoundaries();
 		draggingState = false;
 		window.removeEventListener('mousemove', resizing);
 		window.removeEventListener('mouseup', resizeStop);
 	}
-  $effect(() => {
-  if ($focusWindowTop !== sender) return;
-  setTop();
-  activeSignal.set(sender);
-  focusWindowTop.set(null);
-});
-
 	$effect(() => {
+		if ($focusWindowTop !== sender) return;
+		setTop();
+		activeSignal.set(sender);
+		focusWindowTop.set(null);
+	});
+	$effect(() => {
+		transition = false;
 		if ($minimizedSig !== sender) return;
 		if (z !== $topZ && minimizedStat == false) {
 			setTop();
@@ -291,6 +322,7 @@
 					}
 				});
 			} else {
+				transition = false;
 				activeSignal.set(sender);
 				console.log('false');
 				gsap.fromTo(
@@ -390,7 +422,7 @@
 				<img class="minimize" src={minimize} alt="Minimize" />
 			</button>
 			<button class="navControl" onclick={maximizeWindow} type="button">
-				<img class="maximize" src={maximize} alt="Maximize" />
+				<img class="maximize" src={maximizedStat ? layers : maximize} alt="Maximize" />
 			</button>
 			<button class="navControl closeDiv" onclick={closeWindow} type="button">
 				<img class="close" src={close} alt="Close" />
