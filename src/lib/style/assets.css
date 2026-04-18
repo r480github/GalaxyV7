@@ -1,0 +1,60 @@
+:root {
+  /* --backgroundURL: url("../img/black.jpg"); */
+  --glassmorphismBG: rgba(14, 13, 13, 0.432);
+  --glassmorphismBlocks: rgba(92, 92, 92, 0.089);
+}
+
+@font-face {
+  font-family: fabrica;
+  src: url(../assets/fonts/fabrica-font/Fabrica-ZOjx.otf) format("woff2");
+}
+@font-face {
+  font-family: gravity;
+  src: url(../assets/fonts/gravity-font/GravityLight-66Ro.otf) format("woff2");
+}
+@font-face {
+  font-family: nunito;
+  src: url(../assets/fonts/nunito-font/NunitoExtralight-YzEeq.ttf);
+}
+@font-face {
+  font-family: royal;
+  src: url(../assets/fonts/royal-crescent-font/RoyalCrescent-G8BP.ttf);
+}
+@font-face {
+  font-family: segoe;
+  src: url(../assets/fonts/Segoe-fonts/segoeuisl.ttf);
+}
+@font-face {
+  font-family: aovel;
+  src: url(../assets/fonts/aovel-sans/AovelSansRounded-rdDL.ttf);
+}
+* {
+  -webkit-font-smoothing: antialiased;
+}
+/* Scrollbar width */
+::-webkit-scrollbar {
+  width: 7px; /* width of vertical scrollbar */
+  height: 12px; /* height of horizontal scrollbar */
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: #363636; /* light gray */
+  border-radius: 10px; /* rounded corners */
+}
+
+/* Thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: #a5a5a5; /* dark gray */
+  border-radius: 10px;
+}
+
+/* Thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #696969; /* darker gray */
+}
+.filler {
+  position: absolute;
+  opacity: 0;
+  font-size: 0.1px;
+}
