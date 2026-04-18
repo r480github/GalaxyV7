@@ -7,7 +7,7 @@
 	import mainBG from '$lib/img/bg/bg4.jpg';
 	import browser from '$lib/img/icons/earth.png';
 	import { get } from 'svelte/store';
-  
+
 	let activeButton = $state(null);
 	let bgURL = $state('');
 	let menuOpen = $state(false);
@@ -17,7 +17,7 @@
 	let previewOpen = $state(false);
 	let previewApp = $state(null);
 	let hoverTimeout = null;
-  
+
 	const apps = [
 		{
 			id: 1,
@@ -62,6 +62,7 @@
 	}
 
 	function openWindow(url, name, height, width, top, left, appId) {
+		hoverEnd();
 		let appWindows = getAppWindows(appId);
 		if (appWindows.length > 1) {
 			previewApp = appId;
@@ -113,6 +114,7 @@
 	}
 
 	function focusWindow(sender) {
+    minimizedSig.set(sender);
 		focusWindowTop.set(sender);
 		previewOpen = false;
 	}
@@ -139,7 +141,7 @@
 				previewApp = appId;
 				previewOpen = true;
 			}
-		}, 200);
+		}, 600);
 	}
 	let closeTimeout = null;
 
