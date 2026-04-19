@@ -268,6 +268,7 @@
 		window.addEventListener('mouseup', resizeStop);
 	}
 	function resizing(e) {
+		transition = false;
 		const mouseXmove = e.clientX - startX;
 		const mouseYmove = e.clientY - startY;
 		const maxWidth = window.innerWidth - x;

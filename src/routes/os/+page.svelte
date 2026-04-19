@@ -62,7 +62,6 @@
 	}
 
 	function openWindow(url, name, height, width, top, left, appId) {
-		hoverEnd();
 		let appWindows = getAppWindows(appId);
 		if (appWindows.length > 1) {
 			previewApp = appId;
@@ -114,7 +113,6 @@
 	}
 
 	function focusWindow(sender) {
-    minimizedSig.set(sender);
 		focusWindowTop.set(sender);
 		previewOpen = false;
 	}
