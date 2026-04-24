@@ -4,9 +4,10 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "concurrently -k -n vite,proxy -c cyan,magenta \"vite dev\" \"node server.js\"",
 		"build": "vite build",
-		"preview": "vite preview",
+		"preview": "node server.js",
+		"start": "node server.js",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
@@ -14,9 +15,10 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^7.0.0",
+		"@sveltejs/adapter-node": "^5.5.4",
 		"@sveltejs/kit": "^2.50.2",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"concurrently": "^9.2.1",
 		"prettier-plugin-svelte": "^3.4.1",
 		"svelte": "^5.54.0",
 		"svelte-check": "^4.4.2",
@@ -24,16 +26,19 @@
 		"vite": "^7.3.1"
 	},
 	"dependencies": {
-		"@fastify/static": "^9.0.0",
-		"@mercuryworkshop/bare-mux": "^2.1.8",
-		"@mercuryworkshop/epoxy-tls": "^2.1.19-1",
-		"@mercuryworkshop/epoxy-transport": "^3.0.1",
-		"@mercuryworkshop/libcurl-transport": "^2.0.5",
-		"@mercuryworkshop/wisp-js": "^0.4.1",
 		"dotenv": "^17.4.0",
-		"fastify": "^5.8.4",
 		"favicon-fetch": "^1.0.0",
 		"get-title-at-url": "^2.0.0",
-		"gsap": "^3.14.2"
+		"gsap": "^3.14.2",
+		"@mercuryworkshop/bare-as-module3": "^2.2.5",
+		"@mercuryworkshop/bare-mux": "^2.1.7",
+		"@mercuryworkshop/epoxy-transport": "^2.1.28",
+		"@mercuryworkshop/libcurl-transport": "^1.5.0",
+		"@mercuryworkshop/wisp-js": "^0.4.1",
+		"@titaniumnetwork-dev/ultraviolet": "^3.2.10",
+		"@tomphttp/bare-server-node": "^2.0.5",
+		"fastify": "^5.8.5",
+		"@fastify/rate-limit": "^10.3.0",
+		"@fastify/static": "9.0.0"
 	}
 }
