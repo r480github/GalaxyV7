@@ -26,6 +26,7 @@
 	let minimizedStat = $state(false);
 	let rightSplit = $state(false);
 
+	// props
 	let {
 		url,
 		name,
@@ -37,6 +38,7 @@
 		sender
 	} = $props();
 	setTop();
+	// position states
 
 	// svelte-ignore state_referenced_locally
 	let x = $state(left);
@@ -97,7 +99,7 @@
 				// ← add this
 				rightSplit = 'left';
 			} else {
-				rightSplit = false; 
+				rightSplit = false; // ← reset if neither edge
 			}
 		}
 	}

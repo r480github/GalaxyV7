@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(bun add *)",
-      "Bash(bun remove *)"
-    ]
-  }
-}
