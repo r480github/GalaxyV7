@@ -1,7 +1,6 @@
 <script>
 	// @ts-nocheck
 
-	// Styles and icon imports
 	import '$lib/utils/window/window.css';
 	import minimize from '$lib/img/icons/minimize-sign.png';
 	import maximize from '$lib/img/icons/stop.png';
@@ -12,7 +11,6 @@
 	import { get } from 'svelte/store';
 	import { scale } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
-	// global vars
 	import {
 		topZ,
 		windowList,
@@ -26,7 +24,6 @@
 	let minimizedStat = $state(false);
 	let rightSplit = $state(false);
 
-	// props
 	let {
 		url,
 		name,
@@ -38,7 +35,6 @@
 		sender
 	} = $props();
 	setTop();
-	// position states
 
 	// svelte-ignore state_referenced_locally
 	let x = $state(left);
@@ -96,10 +92,9 @@
 			if (e.clientX > window.innerWidth - 200) {
 				rightSplit = true;
 			} else if (e.clientX < 200) {
-				// ← add this
 				rightSplit = 'left';
 			} else {
-				rightSplit = false; // ← reset if neither edge
+				rightSplit = false; 
 			}
 		}
 	}
