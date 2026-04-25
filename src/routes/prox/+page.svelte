@@ -1,15 +1,27 @@
 <script>
 	import Frame from '$lib/utils/iframe/Iframe.svelte';
+
+	let query = $state('');
+	let frameUrl = $state('');
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		const trimmed = query.trim();
+		if (!trimmed) return;
+		frameUrl = trimmed;
+	}
 </script>
 
 <div class="nav">
 	<div class="left"></div>
 	<div class="middle">
-		<input id="search" placeholder="Search" />
+		<form onsubmit={handleSubmit}>
+			<input id="searchbar" placeholder="Search" bind:value={query} autocomplete="off" />
+		</form>
 	</div>
 	<div class="right"></div>
 </div>
-<Frame url="example.net" type="default" id="1" />
+<Frame url={frameUrl} type="default" id="1" />
 
 <style>
 	:global(body) {

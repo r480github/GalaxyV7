@@ -7,70 +7,25 @@ const scramjet = new ScramjetController({
   },
 });
 
-try {
-  if (navigator.serviceWorker) {
-    scramjet.init();
-    navigator.serviceWorker.register("./sw.js");
-  } else {
-    console.warn("Service workers not supported");
-  }
-} catch (e) {
-  console.error("Failed to initialize Scramjet:", e);
-}
-
-const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
-const wispUrl =
-  (location.protocol === "https:" ? "wss" : "ws") +
-  "://" +
-  location.host +
-  "/wisp/";
-
-async function setTransport(transportsel) {
-  switch (transportsel) {
-    case "epoxy":
-      await connection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
-      break;
-    case "libcurl":
-      await connection.setTransport("/libcurl/index.mjs", [
-        { websocket: wispUrl },
-      ]);
-      break;
-    default:
-      await connection.setTransport("/bareasmodule/index.mjs", [bareUrl]);
-      break;
-  }
-}
-function search(input) {
-  let template = "https://www.google.com/search?q=%s";
+window.__proxyReady = (async () => {
   try {
-    return new URL(input).toString();
-  } catch (err) {}
+    if (navigator.serviceWorker) {
+      scramjet.init();
+      await navigator.serviceWorker.register("./sw.js");
+    } else {
+      console.warn("Service workers not supported");
+    }
+  } catch (e) {
+    console.error("Failed to initialize Scramjet:", e);
+  }
 
-  try {
-    let url = new URL(`http://${input}`);
-    if (url.hostname.includes(".")) return url.toString();
-  } catch (err) {}
+  const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+  const wispUrl =
+    (location.protocol === "https:" ? "wss" : "ws") +
+    "://" +
+    location.host +
+    "/wisp/";
+  await connection.setTransport("/libcurl/index.mjs", [{ wisp: wispUrl }]);
 
-  return template.replace("%s", encodeURIComponent(input));
-}
-
-setTransport("epoxy");
-
-let fixedurl = search(document.getElementById("url").value);
-let url;
-if (document.getElementById("prxType").value === "uv") {
-  url = __uv$config.prefix + __uv$config.encodeUrl(fixedurl);
-  document.getElementById("iframe").src = url;
-
-}
-if (document.getElementById("prxType").value === "uv") {
-  url = scramjet.encodeUrl(fixedurl);
-  document.getElementById("iframe").src = url;
-
-}
-if (document.getElementById("prxType").value === "default") {
-  url = scramjet.encodeUrl(fixedurl);
-  document.getElementById("iframe").src = url;
-
-}
-
+  window.__scramjet = scramjet;
+})();
