@@ -7,6 +7,7 @@
 	import mainBG from '$lib/img/bg/bg4.jpg';
 	import browser from '$lib/img/icons/earth.png';
 	import { get } from 'svelte/store';
+	import gsap from 'gsap';
 
 	let activeButton = $state(null);
 	let bgURL = $state('');
@@ -135,7 +136,7 @@
 	function hoverStart(appId) {
 		hoverTimeout = setTimeout(() => {
 			let appWindows = getAppWindows(appId);
-			if (appWindows.length > 0) {
+			if (appWindows.length > 1) {
 				previewApp = appId;
 				previewOpen = true;
 			}
@@ -181,8 +182,21 @@
 {/if}
 {#if previewOpen}
 	<div
+		id="previewPanel"
 		class="previewPanel"
 		onclick={(e) => e.stopPropagation()}
+		{@attach (node) => {
+			gsap.fromTo(
+				node,
+				{ y: 20, opacity: 0 },
+				{
+					y: 0,
+					opacity: 1,
+					duration: 0.3,
+					ease: 'power2.out'
+				}
+			);
+		}}
 		onmouseenter={() => clearTimeout(closeTimeout)}
 		onmouseleave={() => {
 			previewOpen = false;

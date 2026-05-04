@@ -94,7 +94,7 @@
 			} else if (e.clientX < 200) {
 				rightSplit = 'left';
 			} else {
-				rightSplit = false; 
+				rightSplit = false;
 			}
 		}
 	}
@@ -210,7 +210,6 @@
 
 	function minimizeWindow() {
 		minimizedStat = !minimizedStat;
-		console.log(minimizedStat);
 		if (minimizedStat) {
 			activeSignal.set(null);
 			console.log('true');
@@ -343,10 +342,8 @@
 			activeSignal.set(sender);
 		} else {
 			minimizedStat = !minimizedStat;
-			console.log(minimizedStat);
 			if (minimizedStat) {
 				activeSignal.set(null);
-				console.log('true');
 				gsap.to(`#${id}`, {
 					scale: 0.8,
 					opacity: 0,
@@ -358,7 +355,6 @@
 			} else {
 				transition = false;
 				activeSignal.set(sender);
-				console.log('false');
 				gsap.fromTo(
 					`#${id}`,
 					{ scale: 0.8, opacity: 0 },
