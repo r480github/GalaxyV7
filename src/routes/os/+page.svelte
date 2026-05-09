@@ -53,13 +53,45 @@
 	});
 
 	function getAppWindows(appId) {
-		return get(windowList).filter((w) => w.sender === appId || w.parentApp === appId);
+		const list = get(windowList);
+		const matching = [];
+		for (const win of list) {
+			if (win.sender === appId || win.parentApp === appId) {
+				matching.push(win);
+			}
+		}
+		return matching;
 	}
 
 	function isAppActive(appId) {
 		if (activeButton === appId) return true;
-		let list = get(windowList);
-		return list.some((w) => w.parentApp === appId && w.sender === activeButton);
+		const list = get(windowList);
+		for (const win of list) {
+			if (win.parentApp === appId && win.sender === activeButton) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function getPreviewWindows() {
+		const matching = [];
+		for (const win of $windowList) {
+			if (win.sender === previewApp || win.parentApp === previewApp) {
+				matching.push(win);
+			}
+		}
+		return matching;
+	}
+
+	function hasMinimizedWindow(appId) {
+		for (const win of $windowList) {
+			const belongsToApp = win.sender === appId || win.parentApp === appId;
+			if (belongsToApp && win.minimized) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	function openWindow(url, name, height, width, top, left, appId) {
@@ -71,6 +103,7 @@
 		}
 		if (appWindows.length === 1) {
 			minimizedSig.set(appWindows[0].sender);
+			previewOpen = false;
 			return;
 		}
 		activeSignal.set(appId);
@@ -136,11 +169,11 @@
 	function hoverStart(appId) {
 		hoverTimeout = setTimeout(() => {
 			let appWindows = getAppWindows(appId);
-			if (appWindows.length > 1) {
+			if (appWindows.length > 0) {
 				previewApp = appId;
 				previewOpen = true;
 			}
-		}, 600);
+		}, 300);
 	}
 	let closeTimeout = null;
 
@@ -203,7 +236,7 @@
 			previewApp = null;
 		}}
 	>
-		{#each $windowList.filter((w) => w.sender === previewApp || w.parentApp === previewApp) as win}
+		{#each getPreviewWindows() as win}
 			<button class="previewCard" onclick={() => focusWindow(win.sender)}>
 				<p>{win.name}</p>
 			</button>
@@ -215,6 +248,7 @@
 		<button
 			class="navButton"
 			class:active={isAppActive(app.id)}
+			class:hasMinimized={hasMinimizedWindow(app.id)}
 			onclick={() =>
 				openWindow(app.url, app.name, app.height, app.width, app.top, app.left, app.id)}
 			oncontextmenu={(e) =>

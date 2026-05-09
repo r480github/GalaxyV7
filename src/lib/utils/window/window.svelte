@@ -76,7 +76,6 @@
 			height = tempHeight;
 			width = tempWidth;
 			x = e.clientX - offSetx;
-			console.log('Dragging in maximized state');
 		}
 	}
 	function dragging(e) {
@@ -119,7 +118,6 @@
 			y = 0;
 			height = ((window.innerHeight - 40) / window.innerHeight) * 100 + '%';
 			rightSplit = null;
-			console.log('Snapped to right edge');
 		} else if (rightSplit === 'left') {
 			transition = true;
 			tempHeight = height;
@@ -129,7 +127,6 @@
 			y = 0;
 			height = ((window.innerHeight - 40) / window.innerHeight) * 100 + '%';
 			rightSplit = null;
-			console.log('Snapped to left edge');
 		} else {
 			checkBoundaries();
 		}
@@ -168,7 +165,6 @@
 			width = '100%';
 			x = 0;
 			y = 0;
-			console.log(tempX, tempY);
 			maximizedStat = true;
 			transition = true;
 		}
@@ -189,6 +185,40 @@
 		);
 	});
 
+	function setMinimizedFlag(value) {
+		windowList.update((list) => {
+			const updatedList = [];
+			for (const win of list) {
+				if (win.id === id) {
+					const updatedWin = { ...win, minimized: value };
+					updatedList.push(updatedWin);
+				} else {
+					updatedList.push(win);
+				}
+			}
+			return updatedList;
+		});
+	}
+
+	function restoreFromMinimized() {
+		minimizedStat = false;
+		setMinimizedFlag(false);
+		gsap.fromTo(
+			`#${id}`,
+			{ scale: 0.8, opacity: 0 },
+			{
+				scale: 1,
+				opacity: 1,
+				duration: 0.3,
+				onStart: function () {
+					document.getElementById(id).style.display = 'flex';
+					setTop();
+					activeSignal.set(sender);
+				}
+			}
+		);
+	}
+
 	function closeWindow() {
 		transition = false;
 		activeSignal.set(null);
@@ -198,21 +228,23 @@
 			duration: 0.2,
 			ease: 'ease',
 			onComplete: function () {
-				let list = get(windowList);
-				let index = list.findIndex((w) => w.id === id);
-				if (index !== -1) {
-					list.splice(index, 1);
-					windowList.set(list);
+				const list = get(windowList);
+				const remaining = [];
+				for (const win of list) {
+					if (win.id !== id) {
+						remaining.push(win);
+					}
 				}
+				windowList.set(remaining);
 			}
 		});
 	}
 
 	function minimizeWindow() {
 		minimizedStat = !minimizedStat;
+		setMinimizedFlag(minimizedStat);
 		if (minimizedStat) {
 			activeSignal.set(null);
-			console.log('true');
 			gsap.to(`#${id}`, {
 				scale: 0.8,
 				opacity: 0,
@@ -223,7 +255,6 @@
 			});
 		} else {
 			activeSignal.set(sender);
-			console.log('false');
 			gsap.fromTo(
 				`#${id}`,
 				{ scale: 0.8, opacity: 0 },
@@ -330,8 +361,12 @@
 	}
 	$effect(() => {
 		if ($focusWindowTop !== sender) return;
-		setTop();
-		activeSignal.set(sender);
+		if (minimizedStat) {
+			restoreFromMinimized();
+		} else {
+			setTop();
+			activeSignal.set(sender);
+		}
 		focusWindowTop.set(null);
 	});
 	$effect(() => {
@@ -342,6 +377,7 @@
 			activeSignal.set(sender);
 		} else {
 			minimizedStat = !minimizedStat;
+			setMinimizedFlag(minimizedStat);
 			if (minimizedStat) {
 				activeSignal.set(null);
 				gsap.to(`#${id}`, {

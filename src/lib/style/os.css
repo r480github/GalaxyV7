@@ -30,6 +30,7 @@ body {
 }
 
 .navButton {
+	position: relative;
 	height: 80%;
 	aspect-ratio: 1 / 1;
 	border-radius: 8px;
@@ -43,6 +44,17 @@ body {
 }
 .navButton.active {
 	background-color: rgba(255, 255, 255, 0.43);
+}
+.navButton.hasMinimized::after {
+	content: '';
+	position: absolute;
+	bottom: 2px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 10px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: rgba(255, 255, 255, 0.381);
 }
 .navIcon {
 	height: 75%;
