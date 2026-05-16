@@ -39,6 +39,26 @@
 			width: '60%',
 			top: 200,
 			left: 680
+		},
+		{
+			id: 3,
+			url: 'https://example.com',
+			name: 'Example Window 2',
+			icon: browser,
+			height: '70%',
+			width: '60%',
+			top: 200,
+			left: 680
+		},
+		{
+			id: 4,
+			url: 'https://example.com',
+			name: 'Example Window 2',
+			icon: browser,
+			height: '70%',
+			width: '60%',
+			top: 200,
+			left: 680
 		}
 	];
 
@@ -106,6 +126,7 @@
 			previewOpen = false;
 			return;
 		}
+
 		activeSignal.set(appId);
 		windowList.update((list) => [
 			...list,
@@ -166,14 +187,19 @@
 		menuSender = null;
 	}
 
-	function hoverStart(appId) {
+	function hoverStart(e, appId) {
+		previewOpen = false;
+		previewApp = null;
+		e.preventDefault();
+		e.stopPropagation();
+		menuX = e.clientX;
 		hoverTimeout = setTimeout(() => {
 			let appWindows = getAppWindows(appId);
 			if (appWindows.length > 0) {
 				previewApp = appId;
 				previewOpen = true;
 			}
-		}, 300);
+		}, 400);
 	}
 	let closeTimeout = null;
 
@@ -215,6 +241,7 @@
 {/if}
 {#if previewOpen}
 	<div
+		style="left:{menuX}px"
 		id="previewPanel"
 		class="previewPanel"
 		onclick={(e) => e.stopPropagation()}
@@ -253,7 +280,7 @@
 				openWindow(app.url, app.name, app.height, app.width, app.top, app.left, app.id)}
 			oncontextmenu={(e) =>
 				openMenu(e, app.id, app.url, app.name, app.height, app.width, app.top, app.left)}
-			onmouseenter={() => hoverStart(app.id)}
+			onmouseenter={(e) => hoverStart(e, app.id)}
 			onmouseleave={hoverEnd}
 		>
 			<img class="navIcon" src={app.icon} alt={app.name} />
