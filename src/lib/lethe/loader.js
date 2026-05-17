@@ -1,8 +1,3 @@
-/**
- * Inject a <script> tag and resolve when it finishes loading.
- * Used for the proxy runtime bundles (baremux, glass, polygon) which expose
- * their APIs as window globals rather than ES module exports.
- */
 export function loadScript(src) {
 	return new Promise((resolve, reject) => {
 		// Avoid re-injecting on HMR / navigation
@@ -21,10 +16,6 @@ export function loadScript(src) {
 	});
 }
 
-/**
- * Load several scripts strictly in order (each waits for the previous).
- * Order matters here: glass.bundle.js must run before glass.config.js, etc.
- */
 export async function loadScriptsSequential(srcs) {
 	for (const src of srcs) {
 		await loadScript(src);

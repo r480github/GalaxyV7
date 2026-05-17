@@ -22,7 +22,7 @@
 	const apps = [
 		{
 			id: 1,
-			url: 'https://example.com',
+			url: '/lethe',
 			name: 'Example Window',
 			icon: browser,
 			height: '50%',

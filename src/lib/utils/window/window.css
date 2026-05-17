@@ -71,7 +71,7 @@ iframe {
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
-	background-color: none;
+	background-color: white;
 	border: none;
 	border-bottom-right-radius: 8px;
 	border-bottom-left-radius: 8px;
