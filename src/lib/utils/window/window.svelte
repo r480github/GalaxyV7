@@ -144,7 +144,7 @@
 	let maximizedStat = $state(false);
 	function maximizeWindow() {
 		activeSignal.set(sender);
-		if (height === '100%') {
+		if (maximizedStat === true) {
 			y = tempY;
 			x = tempX;
 			height = tempHeight;
