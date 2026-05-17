@@ -1,18 +1,20 @@
 <script>
 	import { onMount } from 'svelte';
-	import { loadScriptsSequential } from '$lib/proxy/loader';
-	import { search } from '$lib/proxy/search';
-	import { createConnection, setTransport } from '$lib/proxy/transport';
-	import { createScramjetController } from '$lib/proxy/scramjet';
-	import { getOriginalUrl } from '$lib/proxy/decode';
+	import { loadScriptsSequential } from '$lib/lethe/loader';
+	import { search } from '$lib/lethe/search';
+	import { createConnection, setCar } from '$lib/lethe/car';
+	import { createScramjetController } from '$lib/lethe/poly';
+	import { getOriginalUrl } from '$lib/lethe/decode';
 
 	let query = $state('');
-	let proxyEngine = $state('scramjet');
+	let letheEngine = $state('scramjet');
 	let ready = $state(false);
 	let iframeEl;
-	let scramjet;
+	let polygon;
 	let decodedURL = $state('');
 	let url = $state('');
+	let car = $state('libcurl');
+	let connection;
 
 	onMount(async () => {
 		await loadScriptsSequential([
@@ -21,20 +23,19 @@
 			'/glass/glass.config.js',
 			'/poly/polygon.all.js'
 		]);
-		scramjet = createScramjetController();
+		polygon = createScramjetController();
 		try {
 			if (navigator.serviceWorker) {
-				scramjet.init();
+				polygon.init();
 				await navigator.serviceWorker.register('/sw.js');
 			} else {
 				console.warn('Service workers not supported');
 			}
 		} catch (e) {
-			console.error('Failed to initialize Scramjet:', e);
+			console.error('Failed to initialize SJ:', e);
 		}
-
-		const connection = createConnection();
-		await setTransport(connection, 'libcurl');
+		connection = createConnection();
+		await setCar(connection, car);
 
 		ready = true;
 	});
@@ -43,16 +44,20 @@
 		event.preventDefault();
 		if (!ready) return;
 		const fixedUrl = search(query);
-
-		if (proxyEngine === 'uv') {
+		if (letheEngine === 'uv') {
 			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
 		} else {
-			url = scramjet.encodeUrl(fixedUrl);
+			url = polygon.encodeUrl(fixedUrl);
 		}
 		decodedURL = getOriginalUrl(url);
 		console.log('decoded is:' + decodedURL);
 		iframeEl.src = url;
 	}
+	$effect(() => {
+		if (ready && connection) {
+			setCar(connection, car);
+		}
+	});
 </script>
 
 <form onsubmit={handleSubmit}>
@@ -64,9 +69,13 @@
 		disabled={!ready}
 	/>
 	<p>{decodedURL}</p>
-	<select bind:value={proxyEngine} disabled={!ready}>
+	<select bind:value={letheEngine} disabled={!ready}>
 		<option value="scramjet">scramjet</option>
 		<option value="uv">ultraviolet</option>
+	</select>
+	<select bind:value={car} disabled={!ready}>
+		<option value="libcurl">libcurl</option>
+		<option value="epoxy">epoxy</option>
 	</select>
 </form>
 <iframe bind:this={iframeEl} title="proxy"></iframe>

@@ -7,7 +7,6 @@ import { dirname, join } from 'node:path';
 import { createBareServer } from '@tomphttp/bare-server-node';
 import { epoxyPath } from '@mercuryworkshop/epoxy-transport';
 import { libcurlPath } from '@mercuryworkshop/libcurl-transport';
-import { bareModulePath } from '@mercuryworkshop/bare-as-module3';
 import { baremuxPath } from '@mercuryworkshop/bare-mux/node';
 import { server as wisp, logging } from '@mercuryworkshop/wisp-js/server';
 import { handler as svelteHandler } from './build/handler.js';
@@ -53,11 +52,6 @@ await fastify.register(fastifyStatic, {
 await fastify.register(fastifyStatic, {
 	root: libcurlPath,
 	prefix: '/libcurl/',
-	decorateReply: false
-});
-await fastify.register(fastifyStatic, {
-	root: bareModulePath,
-	prefix: '/bareasmodule/',
 	decorateReply: false
 });
 await fastify.register(fastifyStatic, {
