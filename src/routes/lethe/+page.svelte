@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { loadScriptsSequential } from '$lib/lethe/loader';
+	import { loadScript } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
@@ -16,26 +16,62 @@
 	let car = $state('libcurl');
 	let connection;
 
+	// Runtime bundles loaded as <script> tags, with friendly names for alerts.
+	const scripts = [
+		{ src: '/baremux/index.js', name: 'baremux' },
+		{ src: '/glass/glass.bundle.js', name: 'ultraviolet (glass bundle)' },
+		{ src: '/glass/glass.config.js', name: 'ultraviolet (glass config)' },
+		{ src: '/poly/polygon.all.js', name: 'scramjet (polygon)' }
+	];
+
+	// Worker/SW files aren't <script> tags, so we just check they're reachable.
+	async function ensureReachable(url, name) {
+		try {
+			const res = await fetch(url, { method: 'HEAD' });
+			if (!res.ok) throw new Error(`status ${res.status}`);
+		} catch {
+			alert(`${name} didn't connect (${url})`);
+			return false;
+		}
+		return true;
+	}
+
 	onMount(async () => {
-		await loadScriptsSequential([
-			'/baremux/index.js',
-			'/glass/glass.bundle.js',
-			'/glass/glass.config.js',
-			'/poly/polygon.all.js'
-		]);
+		// Load each runtime script in order; alert + bail if any fails.
+		for (const { src, name } of scripts) {
+			try {
+				await loadScript(src);
+			} catch {
+				alert(`${name} didn't load (${src})`);
+				return;
+			}
+		}
+
+		// baremux spawns /baremux/worker.js as a Web Worker (not a <script>),
+		// so check it's reachable separately before we rely on it.
+		if (!(await ensureReachable('/baremux/worker.js', 'baremux worker'))) return;
+
 		polygon = createScramjetController();
 		try {
 			if (navigator.serviceWorker) {
 				polygon.init();
 				await navigator.serviceWorker.register('/sw.js');
 			} else {
-				console.warn('Service workers not supported');
+				alert('Service workers are not supported in this browser');
 			}
 		} catch (e) {
 			console.error('Failed to initialize SJ:', e);
+			alert("service worker (sw.js) didn't register");
 		}
+
 		connection = createConnection();
-		await setCar(connection, car);
+		try {
+			await setCar(connection, car);
+		} catch (e) {
+			console.error('Failed to set transport:', e);
+			alert("transport (car) didn't connect");
+			return;
+		}
 
 		ready = true;
 	});
@@ -55,7 +91,10 @@
 	}
 	$effect(() => {
 		if (ready && connection) {
-			setCar(connection, car);
+			setCar(connection, car).catch((e) => {
+				console.error('Failed to switch transport:', e);
+				alert("transport (car) didn't switch");
+			});
 		}
 	});
 </script>
