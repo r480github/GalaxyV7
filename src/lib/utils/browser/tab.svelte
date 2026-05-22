@@ -1,28 +1,38 @@
 <script>
 	import { deleteTab, activeTab } from '$lib/stores/index.js';
 	import faviconFetch from 'favicon-fetch';
+	import defaultIcon from '$lib/img/icons/folder.png';
 
 	let { id, displayUrl = '', title = 'New Tab' } = $props();
 
-	const defaultIcon = 'https://galxy.it.com/assets/img/icons/browser.png';
+	let hovered = $state(false);
+
 	let faviconUrl = $derived(
-		displayUrl ? faviconFetch({ hostname: new URL(displayUrl).hostname }) : defaultIcon
+		displayUrl
+			? faviconFetch({ size: 'medium', hostname: new URL(displayUrl).hostname })
+			: defaultIcon
 	);
-	console.log(faviconUrl);
+
 	function closeTab(event) {
-		event.stopPropagation(); 
+		event.stopPropagation();
 		$deleteTab = id;
 	}
 	function setActive() {
 		$activeTab = id;
 	}
+
+	let bgColor = $derived(
+		id == $activeTab ? 'rgb(40, 40, 40)' : hovered ? 'rgb(77, 77, 77, 0.3)' : 'black'
+	);
 </script>
 
 <div
 	class="tab"
 	{id}
 	onclick={setActive}
-	style="background-color: {id == $activeTab ? 'rgb(40, 40, 40)' : 'black'};"
+	onmouseover={() => (hovered = true)}
+	onmouseout={() => (hovered = false)}
+	style="background-color: {bgColor};"
 >
 	<div class="stuff">
 		<div class="icon">
@@ -31,10 +41,10 @@
 		<p>{title}</p>
 		<div class="close" onclick={closeTab}><p>&times;</p></div>
 	</div>
-	{#if id == $activeTab}
+	{#if id == $activeTab }
 		<div class="bottom-right"></div>
 	{/if}
-	{#if id == $activeTab}
+	{#if id == $activeTab }
 		<div class="bottom-left"></div>
 	{/if}
 </div>
@@ -59,6 +69,7 @@
 		padding: 0px 10px;
 		box-sizing: border-box;
 	}
+
 	.stuff {
 		display: flex;
 		align-items: center;
@@ -93,7 +104,7 @@
 		white-space: nowrap;
 	}
 	.tab-icon {
-		height: 20px;
+		height: 15px;
 		margin-top: 3px;
 		margin-right: 5px;
 	}
@@ -116,7 +127,7 @@
 	}
 	@keyframes expand {
 		from {
-			width: 130px;
+			width: 50px;
 		}
 		to {
 			width: 178px;
