@@ -150,6 +150,15 @@
 	function reloadTab() {
 		$reloadSignal = $activeTab;
 	}
+
+	let settingsOpen = $state(true);
+
+	function toggleSettings() {
+		settingsOpen = !settingsOpen;
+	}
+	function closeSettings() {
+		settingsOpen = false;
+	}
 </script>
 
 <div class="tab-bar">
@@ -157,7 +166,7 @@
 		{@const frame = frames.find((frame) => frame.id === tab.id)}
 		<Tab id={tab.id} title={frame?.title ?? 'New Tab'} displayUrl={frame?.displayUrl ?? ''} />
 	{/each}
-	<button onclick={addTab}>+</button>
+	<button class="newTab" onclick={addTab}>+</button>
 </div>
 <div class="nav-bar">
 	<div class="nav-left">
@@ -198,9 +207,40 @@
 		</form>
 	</div>
 	<div class="nav-right">
-		<div class="button">
-			<img src={setting} alt="back" class="nav-icon" />
+		<div class="button" onclick={toggleSettings}>
+			<img src={setting} alt="settings" class="nav-icon" />
 		</div>
+		{#if settingsOpen}
+			<div class="settings-overlay" onclick={closeSettings}></div>
+			<div class="settings-dropdown">
+				<button class="menuBtn">New Tab</button>
+				<button class="menuBtn">Bookmarks</button>
+				<div class="break"></div>
+				<p>Proxy</p>
+				<select bind:value={letheEngine} disabled={!ready}>
+					<option value="scramjet">scramjet</option>
+					<option value="uv">ultraviolet</option>
+				</select>
+				<p>Transport</p>
+				<select bind:value={car} disabled={!ready}>
+					<option value="libcurl">libcurl</option>
+					<option value="epoxy">epoxy</option>
+				</select>
+				<p>Wisp</p>
+				<input placeholder="wss://..." type="text" />
+				<p>Search Engine</p>
+				<select>
+					<option value="ddg">DuckDuckGo</option>
+					<option value="brave">Brave</option>
+					<option value="google">Google</option>
+				</select>
+				<div class="break"></div>
+				<button>Open in new window</button>
+				<div class="break"></div>
+				<button>Full Screen</button>
+				<button>Inspect Element</button>
+			</div>
+		{/if}
 	</div>
 </div>
 <div class="frameContainer">

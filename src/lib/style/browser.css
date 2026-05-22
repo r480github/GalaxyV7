@@ -27,6 +27,7 @@ body {
 	flex: 3;
 }
 .nav-right {
+	position: relative;
 }
 .nav-left,
 .nav-middle,
@@ -39,7 +40,7 @@ body {
 form {
 	width: 100%;
 }
-input {
+.search {
 	width: 100%;
 	border-radius: 10px;
 	height: 25px;
@@ -50,7 +51,7 @@ input {
 	outline-style: none;
 	box-sizing: border-box;
 }
-input::placeholder {
+.search::placeholder {
 	font-size: 13px;
 	color: #a7a7a7;
 }
@@ -72,12 +73,49 @@ input::placeholder {
 .button:hover {
 	background-color: #a7a7a733;
 }
+.settings-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1;
+}
+.settings-dropdown {
+	position: absolute;
+	top: calc(100% + 6px);
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	min-width: 210px;
+	padding: 6px;
+	background-color: rgba(32, 32, 36, 0.72);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 12px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+	z-index: 100;
+	height: auto;
+	transform-origin: top right;
+	animation: settings-pop 0.13s ease-out;
+}
+@keyframes settings-pop {
+	from {
+		opacity: 0;
+		transform: scale(0.96) translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
 .frameContainer {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 }
-button {
+.newTab {
 	margin-left: 10px;
 	padding: 5px 10px;
 	border-radius: 5px;
@@ -87,4 +125,53 @@ button {
 	cursor: pointer;
 	font-size: 20px;
 	font-family: segoe;
+}
+.break {
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	margin: 6px 4px;
+}
+.menuBtn {
+	background-color: transparent;
+}
+.settings-dropdown button {
+	margin: 0;
+	padding: 8px 10px;
+	border: none;
+	border-radius: 5px;
+	background-color: transparent;
+	color: rgb(193, 193, 193);
+	font-size: 13px;
+	font-family: fabrica;
+	text-align: left;
+	cursor: pointer;
+	transition-duration: 0.15s;
+}
+.settings-dropdown button:hover {
+	background-color: rgba(255, 255, 255, 0.07);
+	color: white;
+}
+.settings-dropdown p {
+	margin: 8px 6px 4px;
+	font-size: 11px;
+	font-family: fabrica;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	color: #8a8a8a;
+}
+.settings-dropdown select,
+.settings-dropdown input {
+	margin: 0 6px 4px;
+	height: 28px;
+	padding: 0 8px;
+	border: 1px solid rgb(60, 60, 60);
+	border-radius: 6px;
+	background-color: #101010;
+	color: white;
+	font-size: 13px;
+	font-family: fabrica;
+	outline: none;
+	box-sizing: border-box;
+}
+.settings-dropdown select {
+	cursor: pointer;
 }
