@@ -37,7 +37,7 @@
 		if ($deleteTab) {
 			tabs = tabs.filter((tab) => tab.id !== $deleteTab);
 			frames = frames.filter((frame) => frame.id !== $deleteTab);
-			if ($deleteTab == $activeTab) {
+			if ($deleteTab == $activeTab && tabs.length > 0) {
 				const lastTab = tabs[tabs.length - 1];
 				$activeTab = lastTab.id;
 				$deleteTab = null;
@@ -141,10 +141,10 @@
 	});
 
 	function goBack() {
-		$goBackSignal = $activeTab; 
+		$goBackSignal = $activeTab;
 	}
 	function goForward() {
-		$goForwardSignal = $activeTab; 
+		$goForwardSignal = $activeTab;
 	}
 	function reloadTab() {
 		$reloadSignal = $activeTab;
