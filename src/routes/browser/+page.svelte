@@ -3,30 +3,143 @@
 	import reload from '$lib/img/icons/reload.png';
 	import forward from '$lib/img/icons/right-arrow.png';
 	import setting from '$lib/img/icons/more.png';
-	import Tab from '$lib/utils/tabs/tab.svelte';
+	import Tab from '$lib/utils/browser/tab.svelte';
+	import Iframe from '$lib/utils/browser/iframe.svelte';
+	import { tabID, deleteTab, activeTab } from '$lib/stores/index.js';
+	import { onMount } from 'svelte';
+	import { loadScriptsSequential } from '$lib/lethe/loader';
+	import { search } from '$lib/lethe/search';
+	import { createConnection, setCar } from '$lib/lethe/car';
+	import { createScramjetController } from '$lib/lethe/poly';
+
 	let tabs = $state([]);
+	let frames = $state([]);
 	let tabCounter = 0;
+	let query = $state('');
+	let inputEl;
+	let inputFocused = $state(false);
+	let letheEngine = $state('scramjet');
+	let ready = $state(false);
+	let polygon;
+	let car = $state('libcurl');
+	let connection;
+
+	let activeFrame = $derived(frames.find((frame) => frame.id === $activeTab));
+
+	$effect(() => {
+		if ($deleteTab) {
+			tabs = tabs.filter((tab) => tab.id !== $deleteTab);
+			frames = frames.filter((frame) => frame.id !== $deleteTab);
+			$deleteTab = null;
+			if (tabs.length > 0) {
+				const lastTab = tabs[tabs.length - 1];
+				$activeTab = lastTab.id;
+			} else {
+				$activeTab = null;
+			}
+		}
+		if ($activeTab) {
+			$tabID = $activeTab;
+		}
+	});
 	function addTab() {
+		// @ts-ignore
+		$tabID = Date.now();
+		$activeTab = $tabID;
 		const newTab = {
-			id: Date.now()
+			id: $tabID
+		};
+		const newFrame = {
+			id: $tabID,
+			url: null,
+			displayUrl: '',
+			title: 'New Tab'
 		};
 		let updatedTabs = [];
+		let updatedFrames = [];
 		for (let i = 0; i < tabs.length; i++) {
 			let existingTab = tabs[i];
+			let existingFrame = frames[i];
+			updatedFrames.push(existingFrame);
 			updatedTabs.push(existingTab);
 		}
 		updatedTabs.push(newTab);
+		updatedFrames.push(newFrame);
 		tabs = updatedTabs;
+		frames = updatedFrames;
 		tabCounter++;
 	}
+	addTab();
+	// lethe
+	onMount(async () => {
+		await loadScriptsSequential([
+			'/baremux/index.js',
+			'/glass/glass.bundle.js',
+			'/glass/glass.config.js',
+			'/poly/polygon.all.js'
+		]);
+		polygon = createScramjetController();
+		try {
+			if (navigator.serviceWorker) {
+				polygon.init();
+				await navigator.serviceWorker.register('/sw.js');
+			} else {
+				console.warn('Service workers not supported');
+			}
+		} catch (error) {
+			console.error('Failed to initialize SJ:', error);
+		}
+		connection = createConnection();
+		await setCar(connection, car);
 
+		ready = true;
+	});
+
+	async function handleSubmit(event) {
+		event.preventDefault();
+		if (!ready || !activeFrame) {
+			return;
+		}
+		const fixedUrl = search(query);
+		let encoded;
+		if (letheEngine === 'uv') {
+			// @ts-ignore
+			encoded = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
+		} else {
+			encoded = polygon.encodeUrl(fixedUrl);
+		}
+		activeFrame.url = encoded;
+		inputEl?.blur();
+	}
+
+	function handleNavigate(id, { url, title }) {
+		const frame = frames.find((frame) => frame.id === id);
+		if (!frame) {
+			return;
+		}
+		frame.displayUrl = url;
+		frame.title = title;
+	}
+
+	$effect(() => {
+		const current = activeFrame?.displayUrl ?? '';
+		if (!inputFocused) {
+			query = current;
+		}
+	});
+	$effect(() => {
+		if (ready && connection) {
+			setCar(connection, car);
+		}
+	});
 </script>
 
 <div class="tab-bar">
 	{#each tabs as tab (tab.id)}
-		<Tab id={tab.id} />
+		{@const frame = frames.find((frame) => frame.id === tab.id)}
+		<Tab id={tab.id} title={frame?.title ?? 'New Tab'} displayUrl={frame?.displayUrl ?? ''} />
 	{/each}
-	<button onclick={addTab}> Add Tab </button>
+	<button onclick={addTab}>+</button>
 </div>
 <div class="nav-bar">
 	<div class="nav-left">
@@ -40,12 +153,42 @@
 			<img src={reload} alt="back" class="nav-icon" />
 		</div>
 	</div>
-	<div class="nav-middle"><input /></div>
+	<div class="nav-middle">
+		<form onsubmit={handleSubmit}>
+			<input
+				type="text"
+				class="search-input search"
+				placeholder="Search or enter address"
+				bind:value={query}
+				bind:this={inputEl}
+				onfocus={() => {
+					inputFocused = true;
+				}}
+				onblur={() => {
+					inputFocused = false;
+				}}
+				disabled={!ready}
+			/>
+			<!-- <select bind:value={letheEngine} disabled={!ready}>
+				<option value="scramjet">scramjet</option>
+				<option value="uv">ultraviolet</option>
+			</select>
+			<select bind:value={car} disabled={!ready}>
+				<option value="libcurl">libcurl</option>
+				<option value="epoxy">epoxy</option>
+			</select> -->
+		</form>
+	</div>
 	<div class="nav-right">
 		<div class="button">
 			<img src={setting} alt="back" class="nav-icon" />
 		</div>
 	</div>
+</div>
+<div class="frameContainer">
+	{#each frames as frame (frame.id)}
+		<Iframe id={frame.id} src={frame.url} onnavigate={(info) => handleNavigate(frame.id, info)} />
+	{/each}
 </div>
 
 <style>
@@ -55,21 +198,21 @@
 		height: 100vh;
 		width: 100vw;
 		margin: 0px;
+		background-color: black;
 	}
 	.tab-bar {
 		height: 40px;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: 3px;
 		padding-left: 3px;
 		padding-right: 3px;
 	}
 	.nav-bar {
-		height: 30px;
+		height: 35px;
 		display: flex;
 		flex-direction: row;
-		background-color: black;
+		background-color: rgb(40, 40, 40);
 	}
 	.nav-left {
 		gap: 3px;
@@ -87,11 +230,23 @@
 		padding-left: 3px;
 		padding-right: 3px;
 	}
+	form {
+		width: 100%;
+	}
 	input {
 		width: 100%;
 		border-radius: 10px;
-		height: 20px;
+		height: 25px;
 		border: none;
+		background-color: #101010;
+		padding-left: 8px;
+		color: white;
+		outline-style: none;
+		box-sizing: border-box;
+	}
+	input::placeholder {
+		font-size: 13px;
+		color: #a7a7a7;
 	}
 	.nav-icon {
 		height: 20px;
@@ -110,5 +265,21 @@
 	}
 	.button:hover {
 		background-color: #a7a7a733;
+	}
+	.frameContainer {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+	button {
+		margin-left: 10px;
+		padding: 5px 10px;
+		border-radius: 5px;
+		border: none;
+		background-color: transparent;
+		color: white;
+		cursor: pointer;
+		font-size: 20px;
+		font-family: segoe;
 	}
 </style>
