@@ -1,5 +1,5 @@
 <script>
-	import { activeTab } from '$lib/stores/index.js';
+	import { activeTab, reloadSignal, goBackSignal, goForwardSignal } from '$lib/stores/index.js';
 	import { getOriginalUrl } from '$lib/lethe/decode';
 	let { id, src = null, onnavigate } = $props();
 	let frame;
@@ -11,8 +11,7 @@
 			const url = getOriginalUrl(stripped);
 			const title = frame.contentWindow.document.title || url;
 			onnavigate?.({ url, title });
-		} catch (e) {
-		}
+		} catch (e) {}
 	}
 
 	function handleLoad() {
@@ -26,9 +25,30 @@
 				const titleObserver = new MutationObserver(reportUrl);
 				titleObserver.observe(titleEl, { childList: true });
 			}
-		} catch (e) {
-		}
+		} catch (e) {}
 	}
+
+	$effect(() => {
+		if ($goBackSignal === id) {
+			try {
+				frame.contentWindow.history.back();
+			} catch (e) {}
+			$goBackSignal = null;
+		}
+		if ($goForwardSignal === id) {
+			try {
+				frame.contentWindow.history.forward();
+			} catch (e) {
+			}
+			$goForwardSignal = null;
+		}
+		if ($reloadSignal === id) {
+			try {
+				frame.contentWindow.location.reload();
+			} catch (e) {}
+			$reloadSignal = null;
+		}
+	});
 </script>
 
 <iframe

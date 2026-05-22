@@ -5,7 +5,14 @@
 	import setting from '$lib/img/icons/more.png';
 	import Tab from '$lib/utils/browser/tab.svelte';
 	import Iframe from '$lib/utils/browser/iframe.svelte';
-	import { tabID, deleteTab, activeTab } from '$lib/stores/index.js';
+	import {
+		tabID,
+		deleteTab,
+		activeTab,
+		reloadSignal,
+		goBackSignal,
+		goForwardSignal
+	} from '$lib/stores/index.js';
 	import { onMount } from 'svelte';
 	import { loadScriptsSequential } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
@@ -30,12 +37,12 @@
 		if ($deleteTab) {
 			tabs = tabs.filter((tab) => tab.id !== $deleteTab);
 			frames = frames.filter((frame) => frame.id !== $deleteTab);
-			$deleteTab = null;
-			if (tabs.length > 0) {
+			if ($deleteTab == $activeTab) {
 				const lastTab = tabs[tabs.length - 1];
 				$activeTab = lastTab.id;
+				$deleteTab = null;
 			} else {
-				$activeTab = null;
+				$deleteTab = null;
 			}
 		}
 		if ($activeTab) {
@@ -132,6 +139,16 @@
 			setCar(connection, car);
 		}
 	});
+
+	function goBack() {
+		$goBackSignal = $activeTab; 
+	}
+	function goForward() {
+		$goForwardSignal = $activeTab; 
+	}
+	function reloadTab() {
+		$reloadSignal = $activeTab;
+	}
 </script>
 
 <div class="tab-bar">
@@ -143,14 +160,14 @@
 </div>
 <div class="nav-bar">
 	<div class="nav-left">
-		<div class="button">
+		<div class="button" onclick={goBack}>
 			<img src={back} alt="back" class="nav-icon" />
 		</div>
-		<div class="button">
-			<img src={forward} alt="back" class="nav-icon" />
+		<div class="button" onclick={goForward}>
+			<img src={forward} alt="forward" class="nav-icon" />
 		</div>
-		<div class="button">
-			<img src={reload} alt="back" class="nav-icon" />
+		<div class="button" onclick={reloadTab}>
+			<img src={reload} alt="reload" class="nav-icon" />
 		</div>
 	</div>
 	<div class="nav-middle">
