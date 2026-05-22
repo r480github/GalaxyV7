@@ -4,7 +4,7 @@ export function search(input, template = 'https://www.duckduckgo.com/search?q=%s
 	} catch {}
 
 	try {
-		const url = new URL(`http://${input}`);
+		const url = new URL(`https://${input}`);
 		if (url.hostname.includes('.')) return url.toString();
 	} catch {}
 

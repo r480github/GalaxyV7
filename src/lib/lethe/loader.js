@@ -1,6 +1,5 @@
 export function loadScript(src) {
 	return new Promise((resolve, reject) => {
-		// Avoid re-injecting on HMR / navigation
 		const existing = document.querySelector(`script[data-proxy-src="${src}"]`);
 		if (existing) {
 			resolve();
