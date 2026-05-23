@@ -79,8 +79,11 @@
 		tabCounter++;
 	}
 	addTab();
-	// lethe
 	onMount(async () => {
+		const script = document.createElement('script');
+		script.src = 'https://cdn.jsdelivr.net/npm/eruda';
+		document.head.appendChild(script);
+
 		await loadScriptsSequential([
 			'/baremux/index.js',
 			'/glass/glass.bundle.js',
@@ -152,7 +155,7 @@
 		$reloadSignal = $activeTab;
 	}
 
-	let settingsOpen = $state(true);
+	let settingsOpen = $state(false);
 
 	function toggleSettings() {
 		settingsOpen = !settingsOpen;
@@ -263,7 +266,7 @@
 				<button onclick={openInNewWindow}>Open in new window</button>
 				<div class="break"></div>
 				<button onclick={toggleFullscreen}>Full Screen</button>
-				<button>Inspect Element</button>
+				<button onclick={window.eruda.init()}>Inspect Element</button>
 			</div>
 		{/if}
 	</div>
