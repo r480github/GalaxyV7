@@ -161,6 +161,23 @@
 		settingsOpen = false;
 	}
 
+	function openInNewWindow() {
+		if (!activeFrame || !activeFrame.url) {
+			return;
+		}
+		window.open(activeFrame.url, '_blank', 'noopener');
+		closeSettings();
+	}
+
+	function toggleFullscreen() {
+		if (document.fullscreenElement) {
+			document.exitFullscreen();
+		} else {
+			document.documentElement.requestFullscreen();
+		}
+		closeSettings();
+	}
+
 	$effect(() => {
 		localStorage.setItem('lethe', letheEngine);
 		localStorage.setItem('car', car);
@@ -243,9 +260,9 @@
 					<option value="google">Google</option>
 				</select>
 				<div class="break"></div>
-				<button>Open in new window</button>
+				<button onclick={openInNewWindow}>Open in new window</button>
 				<div class="break"></div>
-				<button>Full Screen</button>
+				<button onclick={toggleFullscreen}>Full Screen</button>
 				<button>Inspect Element</button>
 			</div>
 		{/if}
