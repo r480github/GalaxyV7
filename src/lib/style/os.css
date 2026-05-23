@@ -11,7 +11,7 @@ body {
 	bottom: 0px;
 	width: 100%;
 	backdrop-filter: blur(10px);
-	background-color: rgba(0, 0, 0, 0.074);
+	background-color: var(--color-scrim);
 	height: 40px;
 	display: flex;
 	align-items: center;
@@ -40,10 +40,10 @@ body {
 	padding: 0;
 }
 .navButton:hover {
-	background-color: rgba(255, 255, 255, 0.16);
+	background-color: var(--overlay-hover-strong);
 }
 .navButton.active {
-	background-color: rgba(255, 255, 255, 0.43);
+	background-color: var(--overlay-active);
 }
 .navButton.hasMinimized::after {
 	content: '';
@@ -54,7 +54,7 @@ body {
 	width: 10px;
 	height: 2px;
 	border-radius: 1px;
-	background-color: rgba(255, 255, 255, 0.381);
+	background-color: var(--overlay-indicator);
 }
 .navIcon {
 	height: 75%;
@@ -68,8 +68,8 @@ body {
 .contextMenu {
 	position: fixed;
 	width: 150px;
-	background: rgba(30, 30, 30, 0.95);
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: var(--color-surface-3);
+	border: 1px solid var(--color-border);
 	border-radius: 6px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 	z-index: 99999;
@@ -83,7 +83,7 @@ body {
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-	color: white;
+	color: var(--color-white);
 	font-size: 13px;
 	white-space: nowrap;
 	background: none;
@@ -92,7 +92,7 @@ body {
 }
 
 .menuOption:hover {
-	background: rgba(255, 255, 255, 0.1);
+	background: var(--overlay-hover);
 }
 
 .previewPanel {
@@ -103,8 +103,8 @@ body {
 	display: flex;
 	flex-direction: row;
 	gap: 8px;
-	background: rgba(30, 30, 30, 0.95);
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: var(--color-surface-3);
+	border: 1px solid var(--color-border);
 	border-radius: 8px;
 	padding: 8px;
 	z-index: 99999;
@@ -113,18 +113,18 @@ body {
 .previewCard {
 	width: 120px;
 	height: 80px;
-	background: rgba(255, 255, 255, 0.05);
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: var(--overlay-hover);
+	border: 1px solid var(--color-border);
 	border-radius: 6px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
-	color: white;
+	color: var(--color-white);
 	font-size: 12px;
 	transition: background 0.1s;
 }
 
 .previewCard:hover {
-	background: rgba(255, 255, 255, 0.15);
+	background: var(--overlay-hover-strong);
 }

@@ -1,0 +1,49 @@
+/*
+ * Global design tokens: color palette + font families.
+ * Single source of truth, imported once in +layout.svelte.
+ * Use these instead of hardcoding colors / font-family names.
+ */
+:root {
+	/* ===================== Color: surfaces ===================== */
+	--color-bg: #0a0a0a; /* app canvas / body background */
+	--color-surface: #121212; /* recessed inputs, base cards */
+	--color-surface-2: #1a1a1a; /* hovered cards, raised panels */
+	--color-surface-3: #222222; /* menus, popovers */
+	--color-chrome: #2a2a2a; /* toolbars, active tab, card borders */
+	--color-window: #808080; /* window frame placeholder */
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.074); /* translucent tint behind blurred glass */
+
+	/* ===================== Color: text ===================== */
+	--color-text: #e0e0e0; /* primary text */
+	--color-text-muted: #c1c1c1; /* secondary text */
+	--color-text-subtle: #8a8a8a; /* labels, placeholders, captions */
+
+	/* ===================== Color: borders ===================== */
+	--color-border: rgba(255, 255, 255, 0.1); /* default hairline */
+	--color-border-strong: rgba(255, 255, 255, 0.3);
+	--color-border-hover: #444444; /* card border on hover */
+
+	/* ===================== Color: interactive overlays ===================== */
+	--overlay-hover: rgba(255, 255, 255, 0.08);
+	--overlay-hover-strong: rgba(255, 255, 255, 0.16);
+	--overlay-active: rgba(255, 255, 255, 0.43);
+	--overlay-indicator: rgba(255, 255, 255, 0.38);
+
+	/* ===================== Color: status ===================== */
+	--color-danger: #ff0000;
+	--color-danger-hover: rgba(255, 0, 0, 0.7);
+
+	/* ===================== Color: scrollbar ===================== */
+	--color-scrollbar-track: #363636;
+	--color-scrollbar-thumb: #a5a5a5;
+	--color-scrollbar-thumb-hover: #696969;
+
+	/* ===================== Font families ===================== */
+	--font-family-body: fabrica, sans-serif; /* primary UI / body text */
+	--font-family-heading: nunito, sans-serif; /* headings */
+	--font-family-display: gravity, sans-serif; /* option labels / display */
+	--font-family-title: aovel, sans-serif; /* window titles */
+	--font-family-ui: segoe, sans-serif; /* misc accent (new-tab +) */
+}

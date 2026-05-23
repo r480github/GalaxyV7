@@ -89,7 +89,7 @@
 <style>
 	:global(body) {
 		margin: 0;
-		background: #0a0a0a;
-		color: #e0e0e0;
+		background: var(--color-bg);
+		color: var(--color-text);
 	}
 </style>

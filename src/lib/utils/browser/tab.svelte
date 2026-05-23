@@ -22,7 +22,11 @@
 	}
 
 	let bgColor = $derived(
-		id == $activeTab ? 'rgb(40, 40, 40)' : hovered ? 'rgb(77, 77, 77, 0.3)' : 'black'
+		id == $activeTab
+			? 'var(--color-chrome)'
+			: hovered
+				? 'var(--overlay-hover-strong)'
+				: 'transparent'
 	);
 </script>
 
@@ -41,10 +45,10 @@
 		<p>{title}</p>
 		<div class="close" onclick={closeTab}><p>&times;</p></div>
 	</div>
-	{#if id == $activeTab }
+	{#if id == $activeTab}
 		<div class="bottom-right"></div>
 	{/if}
-	{#if id == $activeTab }
+	{#if id == $activeTab}
 		<div class="bottom-left"></div>
 	{/if}
 </div>
@@ -56,7 +60,7 @@
 		width: 178px;
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
-		border-right: 1px solid rgb(40, 40, 40);
+		border-right: 1px solid var(--color-chrome);
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -68,6 +72,7 @@
 		margin-top: auto;
 		padding: 0px 10px;
 		box-sizing: border-box;
+		min-width: 0;
 	}
 
 	.stuff {
@@ -82,7 +87,7 @@
 		margin-top: 19px;
 		width: 200px;
 		height: 200px;
-		background-color: rgb(40, 40, 40);
+		background-color: var(--color-chrome);
 		clip-path: path('M 20 20 L 20 180 L 180 180 Q 25 175 20 20 Z');
 		z-index: 50;
 	}
@@ -96,9 +101,9 @@
 		transform: scale(0.06) scaleX(-1);
 	}
 	.tab p {
-		color: rgb(193, 193, 193);
+		color: var(--color-text-muted);
 		font-size: 13px;
-		font-family: fabrica;
+		font-family: var(--font-family-body);
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -123,7 +128,7 @@
 		margin-bottom: 2px;
 	}
 	.close:hover p {
-		color: red;
+		color: var(--color-danger);
 	}
 	@keyframes expand {
 		from {

@@ -7,12 +7,12 @@
 	flex-direction: column;
 	margin: 0px;
 	padding: 0px;
-	background-color: grey;
+	background-color: var(--color-window);
 	opacity: 1;
 	transform: scale(1);
 	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0);
 	border-radius: 8px;
-  border: 0.5px solid rgba(72, 72, 72, 0.056);
+  border: 0.5px solid var(--color-border);
 }
 .window.active {
 	box-shadow: 0px 0px 10px 2px rgba(33, 33, 33, 0.16);
@@ -22,7 +22,7 @@
 	height: calc(100% - 25px);
 	width: 100%;
 	position: absolute;
-	background-color: rgba(62, 62, 62, 0.164);
+	background-color: var(--overlay-hover-strong);
 	display: flex;
 	border-bottom-right-radius: 8px;
 	border-bottom-left-radius: 8px;
@@ -36,10 +36,10 @@
 	height: 25px;
 	display: flex;
 	flex: row;
-	background-color: rgba(20, 20, 20, 0.9);
+	background-color: var(--color-surface);
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
-	color: rgba(255, 255, 255, 0.821);
+	color: var(--color-text);
 }
 .left {
 	margin-right: auto;
@@ -51,7 +51,7 @@
 	padding-right: 3px;
 }
 .window-title {
-	font-family: aovel;
+	font-family: var(--font-family-title);
 }
 .middle {
 	margin-right: auto;
@@ -71,7 +71,7 @@ iframe {
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
-	background-color: white;
+	background-color: var(--color-white);
 	border: none;
 	border-bottom-right-radius: 8px;
 	border-bottom-left-radius: 8px;
@@ -93,10 +93,10 @@ iframe {
 	height: 40%;
 }
 .navControl:hover {
-	background-color: rgba(255, 255, 255, 0.247);
+	background-color: var(--overlay-hover-strong);
 }
 .closeDiv:hover {
-	background-color: rgba(255, 0, 0, 0.705);
+	background-color: var(--color-danger-hover);
 }
 body,
 .left,
@@ -173,8 +173,8 @@ iframe,
 	top: 0;
 	width: 50%;
 	height: calc(100% - 40px);
-	background: rgba(169, 169, 169, 0.378);
-	border: 2px solid rgba(255, 255, 255, 0.3);
+	background: var(--overlay-active);
+	border: 2px solid var(--color-border-strong);
 	border-radius: 8px;
 	pointer-events: none;
 }

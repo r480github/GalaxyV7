@@ -4,7 +4,7 @@ body {
 	height: 100vh;
 	width: 100vw;
 	margin: 0px;
-	background-color: black;
+	background-color: var(--color-bg);
 }
 .tab-bar {
 	height: 40px;
@@ -18,7 +18,7 @@ body {
 	height: 35px;
 	display: flex;
 	flex-direction: row;
-	background-color: rgb(40, 40, 40);
+	background-color: var(--color-chrome);
 }
 .nav-left {
 	gap: 3px;
@@ -45,15 +45,15 @@ form {
 	border-radius: 10px;
 	height: 25px;
 	border: none;
-	background-color: #101010;
+	background-color: var(--color-surface);
 	padding-left: 8px;
-	color: white;
+	color: var(--color-white);
 	outline-style: none;
 	box-sizing: border-box;
 }
 .search::placeholder {
 	font-size: 13px;
-	color: #a7a7a7;
+	color: var(--color-text-subtle);
 }
 .nav-icon {
 	height: 20px;
@@ -71,7 +71,7 @@ form {
 	transition-duration: 0.2s;
 }
 .button:hover {
-	background-color: #a7a7a733;
+	background-color: var(--overlay-hover-strong);
 }
 .settings-overlay {
 	position: fixed;
@@ -89,8 +89,8 @@ form {
 	flex-direction: column;
 	min-width: 210px;
 	padding: 6px;
-	background-color: rgb(32, 32, 36);
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	background-color: var(--color-surface-3);
+	border: 1px solid var(--color-border);
 	border-radius: 12px;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
 	z-index: 100;
@@ -119,13 +119,13 @@ form {
 	border-radius: 5px;
 	border: none;
 	background-color: transparent;
-	color: white;
+	color: var(--color-white);
 	cursor: pointer;
 	font-size: 20px;
-	font-family: segoe;
+	font-family: var(--font-family-ui);
 }
 .break {
-	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	border-top: 1px solid var(--color-border);
 	margin: 6px 4px;
 }
 .menuBtn {
@@ -137,36 +137,36 @@ form {
 	border: none;
 	border-radius: 5px;
 	background-color: transparent;
-	color: rgb(193, 193, 193);
+	color: var(--color-text-muted);
 	font-size: 13px;
-	font-family: fabrica;
+	font-family: var(--font-family-body);
 	text-align: left;
 	cursor: pointer;
 	transition-duration: 0.15s;
 }
 .settings-dropdown button:hover {
-	background-color: rgba(255, 255, 255, 0.07);
-	color: white;
+	background-color: var(--overlay-hover);
+	color: var(--color-white);
 }
 .settings-dropdown p {
 	margin: 8px 6px 4px;
 	font-size: 11px;
-	font-family: fabrica;
+	font-family: var(--font-family-body);
 	letter-spacing: 0.03em;
 	text-transform: uppercase;
-	color: #8a8a8a;
+	color: var(--color-text-subtle);
 }
 .settings-dropdown select,
 .settings-dropdown input {
 	margin: 0 6px 4px;
 	height: 28px;
 	padding: 0 8px;
-	border: 1px solid rgb(60, 60, 60);
+	border: 1px solid var(--color-border-hover);
 	border-radius: 6px;
-	background-color: #101010;
-	color: white;
+	background-color: var(--color-surface);
+	color: var(--color-white);
 	font-size: 13px;
-	font-family: fabrica;
+	font-family: var(--font-family-body);
 	outline: none;
 	box-sizing: border-box;
 }
