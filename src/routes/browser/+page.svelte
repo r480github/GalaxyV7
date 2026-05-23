@@ -7,6 +7,7 @@
 	import Tab from '$lib/utils/browser/tab.svelte';
 	import Iframe from '$lib/utils/browser/iframe.svelte';
 	import { loadSetting } from '$lib/utils/localstorage.js';
+	import star from '$lib/img/icons/star.png';
 	import {
 		tabID,
 		deleteTab,
@@ -33,6 +34,7 @@
 	let customWisp = $state(loadSetting('customWisp', ''));
 	let searchEngine = $state(loadSetting('searchEngine', 'ddg'));
 	let car = $state(loadSetting('car', 'libcurl'));
+	let bookmarks = $state(JSON.parse(loadSetting('bookmarks', '[]')));
 	let connection;
 	let activeFrame = $derived(frames.find((frame) => frame.id === $activeTab));
 	$effect(() => {
@@ -107,8 +109,8 @@
 		ready = true;
 	});
 
-	async function handleSubmit(event) {
-		event.preventDefault();
+	async function handleSubmit(e) {
+		e.preventDefault();
 		if (!ready || !activeFrame) {
 			return;
 		}
@@ -123,7 +125,24 @@
 		activeFrame.url = encoded;
 		inputEl?.blur();
 	}
-
+	async function bookmarkSearch(url, lethe) {
+		let encoded;
+		if (lethe === 'uv') {
+			// @ts-ignore
+			encoded = window.__uv$config.prefix + window.__uv$config.encodeUrl(url);
+		} else {
+			encoded = polygon.encodeUrl(url);
+		}
+		activeFrame.url = encoded;
+		inputEl?.blur();
+	}
+	function addBookmark() {
+		if (!activeFrame?.displayUrl) return;
+		bookmarks.push({ url: activeFrame.displayUrl, title: activeFrame.title, lethe: letheEngine });
+	}
+	function removeBookmark(index) {
+		bookmarks.splice(index, 1);
+	}
 	function handleNavigate(id, { url, title }) {
 		const frame = frames.find((frame) => frame.id === id);
 		if (!frame) {
@@ -186,6 +205,7 @@
 		localStorage.setItem('car', car);
 		localStorage.setItem('customWisp', customWisp);
 		localStorage.setItem('searchEngine', searchEngine);
+		localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
 	});
 </script>
 
@@ -194,7 +214,7 @@
 		{@const frame = frames.find((frame) => frame.id === tab.id)}
 		<Tab id={tab.id} title={frame?.title ?? 'New Tab'} displayUrl={frame?.displayUrl ?? ''} />
 	{/each}
-	<button class="newTab" onclick={addTab}>+</button>
+	<div class="newTab" onclick={addTab}><p class="plus">+</p></div>
 </div>
 <div class="nav-bar">
 	<div class="nav-left">
@@ -224,6 +244,8 @@
 				}}
 				disabled={!ready}
 			/>
+			<div class="star"><img class="starIcon" src={star} alt="" onclick={addBookmark} /></div>
+
 			<!-- <select bind:value={letheEngine} disabled={!ready}>
 				<option value="scramjet">scramjet</option>
 				<option value="uv">ultraviolet</option>
@@ -242,7 +264,7 @@
 			<div class="settings-overlay" onclick={closeSettings}></div>
 			<div class="settings-dropdown">
 				<button class="menuBtn" onclick={addTab}>New Tab</button>
-				<!-- <button class="menuBtn">Bookmarks</button> -->
+				<button class="menuBtn" onclick={addBookmark}>Bookmark Site</button>
 				<div class="break"></div>
 				<p>Proxy</p>
 				<select bind:value={letheEngine} disabled={!ready}>
@@ -271,6 +293,27 @@
 		{/if}
 	</div>
 </div>
+{#snippet mark(bm, i)}
+	<div
+		class="mark"
+		onclick={() => bookmarkSearch(bm.url, bm.lethe)}
+		oncontextmenu={(e) => {
+			e.preventDefault();
+			removeBookmark(i);
+		}}
+	>
+		<p class="markName">{bm.title}</p>
+	</div>
+{/snippet}
+
+{#if bookmarks.length > 0}
+	<div class="bookmarks">
+		{#each bookmarks as bm, i}
+			{@render mark(bm, i)}
+		{/each}
+	</div>
+{/if}
+
 <div class="frameContainer">
 	{#each frames as frame (frame.id)}
 		<Iframe id={frame.id} src={frame.url} onnavigate={(info) => handleNavigate(frame.id, info)} />

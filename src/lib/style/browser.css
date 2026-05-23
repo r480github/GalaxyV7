@@ -40,7 +40,11 @@ body {
 	padding-right: 3px;
 }
 form {
+	position: relative;
 	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 .search {
 	width: 100%;
@@ -57,11 +61,20 @@ form {
 	font-size: 13px;
 	color: var(--color-text-subtle);
 }
+.star {
+	z-index: 2;
+	position: absolute;
+	height: 15px;
+	margin-left: calc(100% - 25px);
+}
+.starIcon {
+	filter: brightness(0.8);
+	height: 100%;
+}
 .nav-icon {
 	height: 20px;
 	width: auto;
 	margin-top: 2px;
-  
 }
 .button {
 	cursor: pointer;
@@ -73,7 +86,7 @@ form {
 	border-radius: 2px;
 	transition-duration: 0.2s;
 	flex-grow: 1;
-  padding: 2px;
+	padding: 2px;
 }
 .button:hover {
 	background-color: var(--overlay-hover-strong);
@@ -188,7 +201,35 @@ form {
 	cursor: pointer;
 }
 .bookmarks {
-  height: 20px;
-  background-color: var(--color-chrome);
-  width: 100%;
+	height: 25px;
+	background-color: var(--color-chrome);
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding: 4px 10px;
+	box-sizing: border-box;
+  gap: 8px;
+}
+.mark {
+	height: 100%;
+	max-width: 100px;
+	padding: 0px 3px;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	cursor: default;
+
+}
+.mark:hover {
+	background-color: var(--overlay-hover);
+}
+.markName {
+	font-family: var(--font-family-body);
+	color: var(--color-text);
+	font-size: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }

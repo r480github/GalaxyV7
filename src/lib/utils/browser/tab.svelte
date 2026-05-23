@@ -8,9 +8,7 @@
 	let hovered = $state(false);
 
 	let faviconUrl = $derived(
-		displayUrl
-			? faviconFetch({ size: 'medium', hostname: new URL(displayUrl).hostname })
-			: defaultIcon
+		displayUrl ? faviconFetch({ hostname: new URL(displayUrl).hostname }) : defaultIcon
 	);
 	let opacity = $state(0.7);
 	// svelte-ignore state_referenced_locally
