@@ -1,0 +1,17 @@
+# Don't count build output and generated files
+.svelte-kit/** linguist-generated
+build/** linguist-generated
+dist/** linguist-generated
+
+# Don't count config files toward language stats
+*.config.js linguist-vendored
+*.config.ts linguist-vendored
+svelte.config.js linguist-vendored
+vite.config.js linguist-vendored
+vite.config.ts linguist-vendored
+
+# Don't count lockfiles (probably already ignored, but just in case)
+pnpm-lock.yaml linguist-generated
+
+poly/
+glass/
