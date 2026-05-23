@@ -15,18 +15,20 @@ body {
 	padding-right: 3px;
 }
 .nav-bar {
-	height: 35px;
+	height: 40px;
 	display: flex;
 	flex-direction: row;
 	background-color: var(--color-chrome);
 }
 .nav-left {
-	gap: 3px;
+	margin: 0px 5px;
+	gap: 2px;
 }
 .nav-middle {
-	flex: 3;
+	flex-grow: 1;
 }
 .nav-right {
+	margin: 0px 10px;
 	position: relative;
 }
 .nav-left,
@@ -59,16 +61,19 @@ form {
 	height: 20px;
 	width: auto;
 	margin-top: 2px;
+  
 }
 .button {
 	cursor: pointer;
-	height: 20px;
-	width: 20px;
+	height: 25px;
+	width: 25px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: 2px;
 	transition-duration: 0.2s;
+	flex-grow: 1;
+  padding: 2px;
 }
 .button:hover {
 	background-color: var(--overlay-hover-strong);
@@ -114,15 +119,25 @@ form {
 	height: 100%;
 }
 .newTab {
+	height: 30px;
+	width: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 5px;
+	font-family: var(--font-family-body);
+	transition-duration: 0.2s;
+	cursor: default;
 	margin-left: 10px;
-	padding: 5px 10px;
-	border-radius: 5px;
-	border: none;
-	background-color: transparent;
-	color: var(--color-white);
-	cursor: pointer;
-	font-size: 20px;
-	font-family: var(--font-family-ui);
+}
+.plus {
+	color: var(--color-text);
+	cursor: default;
+	font-size: 25px;
+	line-height: 20px;
+}
+.newTab:hover {
+	transform: rotate(90deg);
 }
 .break {
 	border-top: 1px solid var(--color-border);
@@ -153,7 +168,6 @@ form {
 	font-size: 11px;
 	font-family: var(--font-family-body);
 	letter-spacing: 0.03em;
-	text-transform: uppercase;
 	color: var(--color-text-subtle);
 }
 .settings-dropdown select,
@@ -172,4 +186,9 @@ form {
 }
 .settings-dropdown select {
 	cursor: pointer;
+}
+.bookmarks {
+  height: 20px;
+  background-color: var(--color-chrome);
+  width: 100%;
 }

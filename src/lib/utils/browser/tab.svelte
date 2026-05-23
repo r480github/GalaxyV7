@@ -1,7 +1,7 @@
 <script>
 	import { deleteTab, activeTab } from '$lib/stores/index.js';
 	import faviconFetch from 'favicon-fetch';
-	import defaultIcon from '$lib/img/icons/folder.png';
+	import defaultIcon from '$lib/img/icons/earthWhite.png';
 
 	let { id, displayUrl = '', title = 'New Tab' } = $props();
 
@@ -12,7 +12,15 @@
 			? faviconFetch({ size: 'medium', hostname: new URL(displayUrl).hostname })
 			: defaultIcon
 	);
-
+	let opacity = $state(0.7);
+	// svelte-ignore state_referenced_locally
+	$effect(() => {
+		if (faviconUrl == defaultIcon) {
+			opacity = 0.7;
+		} else {
+			opacity = 1;
+		}
+	});
 	function closeTab(event) {
 		event.stopPropagation();
 		$deleteTab = id;
@@ -40,10 +48,10 @@
 >
 	<div class="stuff">
 		<div class="icon">
-			<img src={faviconUrl} class="tab-icon" alt="" />
+			<img src={faviconUrl} class="tab-icon" alt="" style="opacity:{opacity}" />
 		</div>
-		<p>{title}</p>
-		<div class="close" onclick={closeTab}><p>&times;</p></div>
+		<p class="title">{title}</p>
+		<div class="close" onclick={closeTab}><p class="closeText">&times;</p></div>
 	</div>
 	{#if id == $activeTab}
 		<div class="bottom-right"></div>
@@ -56,10 +64,10 @@
 <style>
 	.tab {
 		position: relative;
-		height: 28px;
+		height: 30px;
 		width: 178px;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
+		border-top-left-radius: 7px;
+		border-top-right-radius: 7px;
 		border-right: 1px solid var(--color-chrome);
 		display: flex;
 		flex-direction: column;
@@ -84,7 +92,7 @@
 	.bottom-right,
 	.bottom-left {
 		position: absolute;
-		margin-top: 19px;
+		margin-top: 21px;
 		width: 200px;
 		height: 200px;
 		background-color: var(--color-chrome);
@@ -100,9 +108,9 @@
 		margin-left: calc(-100% - 10px);
 		transform: scale(0.06) scaleX(-1);
 	}
-	.tab p {
+	.title {
 		color: var(--color-text-muted);
-		font-size: 13px;
+		font-size: 12px;
 		font-family: var(--font-family-body);
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -110,24 +118,29 @@
 	}
 	.tab-icon {
 		height: 15px;
-		margin-top: 3px;
+		margin-top: 5px;
 		margin-right: 5px;
 	}
 	.close {
-		cursor: default;
 		margin-left: auto;
-		height: 10px;
-		width: 10px;
 		border-radius: 50%;
+		height: 20px;
+		width: 20px;
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		margin-bottom: 4px;
 	}
-	.close p {
+	.closeText {
 		margin: 0px;
-		line-height: 10px;
 		margin-bottom: 2px;
+		font-family: var(--font-family-ui);
+		font-size: 25px;
+		cursor: pointer;
+		color: var(--color-text);
+		line-height: 20px;
 	}
-	.close:hover p {
+	.close p:hover {
 		color: var(--color-danger);
 	}
 	@keyframes expand {
