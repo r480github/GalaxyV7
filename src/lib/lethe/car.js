@@ -1,6 +1,11 @@
-export function getWispUrl() {
-	const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-	return `${protocol}://${location.host}/wisp/`;
+export function getWispUrl(custom) {
+	let protocol;
+	if (custom) {
+		return custom;
+	} else {
+		protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+		return `${protocol}://${location.host}/wisp/`;
+	}
 }
 
 export function getBareUrl() {
@@ -11,8 +16,8 @@ export function createConnection() {
 	return new window.BareMux.BareMuxConnection('/baremux/worker.js');
 }
 
-export async function setCar(connection, car) {
-	const wispUrl = getWispUrl();
+export async function setCar(connection, car, custom) {
+	const wispUrl = getWispUrl(custom);
 	const bareUrl = getBareUrl();
 
 	switch (car) {

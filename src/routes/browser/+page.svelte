@@ -6,6 +6,7 @@
 	import setting from '$lib/img/icons/more.png';
 	import Tab from '$lib/utils/browser/tab.svelte';
 	import Iframe from '$lib/utils/browser/iframe.svelte';
+	import { loadSetting } from '$lib/utils/localstorage.js';
 	import {
 		tabID,
 		deleteTab,
@@ -22,18 +23,18 @@
 
 	let tabs = $state([]);
 	let frames = $state([]);
-	let tabCounter = 0;
 	let query = $state('');
 	let inputEl;
+	let tabCounter = 0;
 	let inputFocused = $state(false);
-	let letheEngine = $state('scramjet');
+	let letheEngine = $state(loadSetting('lethe', 'sj'));
 	let ready = $state(false);
 	let polygon;
-	let car = $state('libcurl');
+	let customWisp = $state(loadSetting('customWisp', ''));
+	let searchEngine = $state(loadSetting('searchEngine', 'ddg'));
+	let car = $state(loadSetting('car', 'libcurl'));
 	let connection;
-
 	let activeFrame = $derived(frames.find((frame) => frame.id === $activeTab));
-
 	$effect(() => {
 		if ($deleteTab) {
 			tabs = tabs.filter((tab) => tab.id !== $deleteTab);
@@ -98,7 +99,7 @@
 			console.error('Failed to initialize SJ:', error);
 		}
 		connection = createConnection();
-		await setCar(connection, car);
+		await setCar(connection, car, customWisp);
 
 		ready = true;
 	});
@@ -108,7 +109,7 @@
 		if (!ready || !activeFrame) {
 			return;
 		}
-		const fixedUrl = search(query);
+		const fixedUrl = search(query, searchEngine);
 		let encoded;
 		if (letheEngine === 'uv') {
 			// @ts-ignore
@@ -137,7 +138,7 @@
 	});
 	$effect(() => {
 		if (ready && connection) {
-			setCar(connection, car);
+			setCar(connection, car, customWisp);
 		}
 	});
 
@@ -159,6 +160,13 @@
 	function closeSettings() {
 		settingsOpen = false;
 	}
+
+	$effect(() => {
+		localStorage.setItem('lethe', letheEngine);
+		localStorage.setItem('car', car);
+		localStorage.setItem('customWisp', customWisp);
+		localStorage.setItem('searchEngine', searchEngine);
+	});
 </script>
 
 <div class="tab-bar">
@@ -213,12 +221,12 @@
 		{#if settingsOpen}
 			<div class="settings-overlay" onclick={closeSettings}></div>
 			<div class="settings-dropdown">
-				<button class="menuBtn">New Tab</button>
-				<button class="menuBtn">Bookmarks</button>
+				<button class="menuBtn" onclick={addTab}>New Tab</button>
+				<!-- <button class="menuBtn">Bookmarks</button> -->
 				<div class="break"></div>
 				<p>Proxy</p>
 				<select bind:value={letheEngine} disabled={!ready}>
-					<option value="scramjet">scramjet</option>
+					<option value="sj">scramjet</option>
 					<option value="uv">ultraviolet</option>
 				</select>
 				<p>Transport</p>
@@ -227,9 +235,9 @@
 					<option value="epoxy">epoxy</option>
 				</select>
 				<p>Wisp</p>
-				<input placeholder="wss://..." type="text" />
+				<input bind:value={customWisp} placeholder="wss://..." type="text" />
 				<p>Search Engine</p>
-				<select>
+				<select bind:value={searchEngine}>
 					<option value="ddg">DuckDuckGo</option>
 					<option value="brave">Brave</option>
 					<option value="google">Google</option>

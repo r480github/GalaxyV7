@@ -1,4 +1,14 @@
-export function search(input, template = 'https://www.duckduckgo.com/search?q=%s') {
+export function search(input, template) {
+	let searchEngine;
+	if (template == 'ddg') {
+		searchEngine = 'https://www.duckduckgo.com/search?q=%s';
+	} else if (template == 'google') {
+		searchEngine = 'https://google.com/search?q=%s';
+	} else if (template == 'brave') {
+		searchEngine = 'https://search.brave.com/search?q=%s';
+	} else {
+		searchEngine = 'https://www.duckduckgo.com/search?q=%s';
+	}
 	try {
 		return new URL(input).toString();
 	} catch {}
@@ -8,5 +18,5 @@ export function search(input, template = 'https://www.duckduckgo.com/search?q=%s
 		if (url.hostname.includes('.')) return url.toString();
 	} catch {}
 
-	return template.replace('%s', encodeURIComponent(input));
+	return searchEngine.replace('%s', encodeURIComponent(input));
 }
