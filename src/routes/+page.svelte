@@ -16,6 +16,7 @@
 			opacity: 0,
 			duration: 0.2,
 			stagger: 0.04,
+      
 			onComplete: () => {
 				mode = selected;
 			}
@@ -32,7 +33,7 @@
 				y: 0,
 				opacity: 1,
 				duration: 0.4,
-				onComplete: () => {   
+				onComplete: () => {
 					gsap.fromTo(
 						'.option',
 						{
@@ -41,6 +42,7 @@
 						},
 						{
 							y: 0,
+              ease: "power1.out",
 							opacity: 1,
 							duration: 0.3,
 							stagger: 0.08
@@ -61,7 +63,7 @@
 				class="option stagger"
 				class:active={selected === 'os'}
 				onclick={() => choose('os')}
-        style="opacity:0;"
+				style="opacity:0;"
 			>
 				<h2>OS Mode</h2>
 			</button>
@@ -70,7 +72,7 @@
 				class="option stagger"
 				class:active={selected === 'website'}
 				onclick={() => choose('website')}
-        style="opacity:0;"
+				style="opacity:0;"
 			>
 				<h2>Website Mode</h2>
 			</button>

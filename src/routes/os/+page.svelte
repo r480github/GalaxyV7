@@ -5,7 +5,10 @@
 	import '$lib/style/os.css';
 	import { onMount } from 'svelte';
 	import mainBG from '$lib/img/bg/bg4.jpg';
-	import browser from '$lib/img/icons/earth.png';
+	import browser from '$lib/img/icons/earthWhite.png';
+	import g from '$lib/img/icons/controller.png';
+	import a from '$lib/img/icons/apps.png';
+	import s from '$lib/img/icons/settings.png';
 	import { get } from 'svelte/store';
 	import gsap from 'gsap';
 
@@ -32,33 +35,33 @@
 		},
 		{
 			id: 2,
-			url: 'https://example.com',
-			name: 'Example Window 2',
-			icon: browser,
-			height: '70%',
-			width: '60%',
-			top: 200,
-			left: 680
+			url: '',
+			name: 'Games',
+			icon: g,
+			height: '50%',
+			width: '50%',
+			top: 120,
+			left: 110
 		},
 		{
 			id: 3,
-			url: 'https://example.com',
-			name: 'Example Window 2',
-			icon: browser,
-			height: '70%',
-			width: '60%',
-			top: 200,
-			left: 680
+			url: '',
+			name: 'Apps',
+			icon: a,
+			height: '50%',
+			width: '50%',
+			top: 90,
+			left: 160
 		},
 		{
 			id: 4,
-			url: 'https://example.com',
-			name: 'Example Window 2',
-			icon: browser,
-			height: '70%',
-			width: '60%',
-			top: 200,
-			left: 680
+			url: '',
+			name: 'Settings',
+			icon: s,
+			height: '50%',
+			width: '50%',
+			top: 50,
+			left: 210
 		}
 	];
 
