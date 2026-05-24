@@ -52,14 +52,16 @@ form {
 	height: 25px;
 	border: none;
 	background-color: var(--color-surface);
-	padding-left: 8px;
+	padding-left: 29px;
 	color: var(--color-white);
 	outline-style: none;
 	box-sizing: border-box;
 }
-.search::placeholder {
-	font-size: 13px;
-	color: var(--color-text-subtle);
+.searchIcon {
+  height: 13px;
+  position: absolute;
+  margin-left: 10px;
+  filter: brightness(0.7);
 }
 .star {
 	z-index: 2;
@@ -74,7 +76,8 @@ form {
 .nav-icon {
 	height: 20px;
 	width: auto;
-	margin-top: 2px;
+	margin-top: 0px;
+	filter: brightness(0.8);
 }
 .button {
 	cursor: pointer;
@@ -83,7 +86,7 @@ form {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 2px;
+	border-radius: 7px;
 	transition-duration: 0.2s;
 	flex-grow: 1;
 	padding: 2px;
@@ -137,7 +140,7 @@ form {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-top: 5px;
+	margin-top: 3px;
 	font-family: var(--font-family-body);
 	transition-duration: 0.2s;
 	cursor: default;
@@ -148,6 +151,7 @@ form {
 	cursor: default;
 	font-size: 25px;
 	line-height: 20px;
+	filter: brightness(0.8);
 }
 .newTab:hover {
 	transform: rotate(90deg);
@@ -208,7 +212,7 @@ form {
 	align-items: center;
 	padding: 4px 10px;
 	box-sizing: border-box;
-  gap: 8px;
+	gap: 8px;
 }
 .mark {
 	height: 100%;
@@ -220,7 +224,6 @@ form {
 	justify-content: center;
 	text-align: center;
 	cursor: default;
-
 }
 .mark:hover {
 	background-color: var(--overlay-hover);

@@ -90,7 +90,7 @@
 	.bottom-right,
 	.bottom-left {
 		position: absolute;
-		margin-top: 21px;
+		margin-top: 14px;
 		width: 200px;
 		height: 200px;
 		background-color: var(--color-chrome);
@@ -99,12 +99,11 @@
 	}
 	.bottom-right {
 		margin-left: calc(100% + 10px);
-
-		transform: scale(0.06);
+		transform: scale(0.1);
 	}
 	.bottom-left {
 		margin-left: calc(-100% - 10px);
-		transform: scale(0.06) scaleX(-1);
+		transform: scale(0.1) scaleX(-1);
 	}
 	.title {
 		color: var(--color-text-muted);
@@ -113,6 +112,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		font-weight: 900;
 	}
 	.tab-icon {
 		height: 15px;

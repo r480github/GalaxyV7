@@ -8,6 +8,7 @@
 	import Iframe from '$lib/utils/browser/iframe.svelte';
 	import { loadSetting } from '$lib/utils/localstorage.js';
 	import star from '$lib/img/icons/star.png';
+	import searchIcon from '$lib/img/icons/search.png';
 	import {
 		tabID,
 		deleteTab,
@@ -230,7 +231,8 @@
 	</div>
 	<div class="nav-middle">
 		<form onsubmit={handleSubmit}>
-			<input
+      <img src="{searchIcon}" class="searchIcon">
+      <input
 				type="text"
 				class="search-input search"
 				placeholder="Search or enter address"
