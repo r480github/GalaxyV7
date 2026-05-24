@@ -23,6 +23,12 @@
 		event.stopPropagation();
 		$deleteTab = id;
 	}
+	function handleAuxClick(event) {
+		if (event.button === 1) {
+			event.preventDefault();
+			$deleteTab = id;
+		}
+	}
 	function setActive() {
 		$activeTab = id;
 	}
@@ -40,6 +46,7 @@
 	class="tab"
 	{id}
 	onclick={setActive}
+	onauxclick={handleAuxClick}
 	onmouseover={() => (hovered = true)}
 	onmouseout={() => (hovered = false)}
 	style="background-color: {bgColor};"
