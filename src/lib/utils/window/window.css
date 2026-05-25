@@ -22,7 +22,7 @@
 	height: calc(100% - 25px);
 	width: 100%;
 	position: absolute;
-	background-color: var(--overlay-hover);
+	background-color: #74747415;
 	display: flex;
 	border-bottom-right-radius: 8px;
 	border-bottom-left-radius: 8px;
