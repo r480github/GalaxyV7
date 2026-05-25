@@ -2,6 +2,7 @@
 <script lang="ts">
 	import type { Game } from './types';
 	import { favorites } from './favorites.svelte';
+	import FillerName from './fillerName.svelte';
 
 	let { game, onopen }: { game: Game; onopen: (game: Game) => void } = $props();
 
@@ -26,18 +27,18 @@
 	}}
 >
 	{#if failed}
-		<div class="fallback">{game.name}</div>
+		<div class="fallback"><FillerName text={game.name} /></div>
 	{:else}
 		<img
 			src={game.thumb}
-			alt={game.name}
+			alt=""
 			loading="lazy"
 			decoding="async"
 			onerror={() => (failed = true)}
 		/>
 	{/if}
 
-	<div class="zone-name">{game.name}</div>
+	<div class="zone-name"><FillerName text={game.name} /></div>
 
 	<button
 		class="favorite-btn"

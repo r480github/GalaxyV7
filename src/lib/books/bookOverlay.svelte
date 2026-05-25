@@ -1,6 +1,7 @@
 
 <script lang="ts">
 	import type { Game } from './types';
+	import FillerName from './fillerName.svelte';
 
 	let { game, onclose }: { game: Game | null; onclose: () => void } = $props();
 
@@ -43,7 +44,7 @@
 				Back
 			</button>
 
-			<span class="title">{game.name}</span>
+			<span class="title"><FillerName text={game.name} /></span>
 
 			<button class="tbtn" onclick={requestFullscreen} aria-label="Fullscreen">
 				<svg
@@ -64,7 +65,7 @@
 		<iframe
 			bind:this={frame}
 			src={game.url}
-			title={game.name}
+			title="game"
 			sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-pointer-lock"
 			allow="autoplay; fullscreen; gamepad"
 		></iframe>

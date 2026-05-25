@@ -1,5 +1,6 @@
 import type { Game } from './types';
 import { GAMES_BASE } from './config';
+import { decodeName } from './obfuscate';
 
 const BASE = GAMES_BASE.replace(/\/+$/, '');
 
@@ -23,7 +24,7 @@ interface RawGame {
 }
 
 export function normalize(raw: RawGame[]): Game[] {
-	let list = raw;
+	let list = raw.map((z) => (z?.name ? { ...z, name: decodeName(z.name) } : z));
 	if (list.length > 0 && list[0]?.name?.includes('SUGGEST')) {
 		list = list.slice(1);
 	}

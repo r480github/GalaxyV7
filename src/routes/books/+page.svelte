@@ -1,3 +1,5 @@
+<!--This game page is from Endis-->
+
 <script lang="ts">
 	import type { Game } from '$lib/books/types';
 	import { collectTags } from '$lib/books/catalog';
@@ -102,9 +104,9 @@
 	}
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-		gap: 16px;
-		padding: 16px;
+		grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+		gap: 12px;
+		padding: 12px;
 		content-visibility: auto;
 		contain-intrinsic-size: 500px;
 	}
