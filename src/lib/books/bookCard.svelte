@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import type { Game } from './types';
 	import { favorites } from './favorites.svelte';
@@ -29,13 +28,7 @@
 	{#if failed}
 		<div class="fallback"><FillerName text={game.name} /></div>
 	{:else}
-		<img
-			src={game.thumb}
-			alt=""
-			loading="lazy"
-			decoding="async"
-			onerror={() => (failed = true)}
-		/>
+		<img src={game.thumb} alt="" loading="lazy" decoding="async" onerror={() => (failed = true)} />
 	{/if}
 
 	<div class="zone-name"><FillerName text={game.name} /></div>
@@ -84,17 +77,14 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+		transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+		filter: brightness(0.9);
 	}
 
-	.zone:hover,
-	.zone:focus-visible {
-		transform: translateY(-4px) scale(1.03);
-		box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
-	}
 	.zone:hover img,
 	.zone:focus-visible img {
-		transform: scale(1.08);
+		transform: scale(1.1);
+		filter: brightness(0.6);
 	}
 
 	.fallback {
