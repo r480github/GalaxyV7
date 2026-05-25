@@ -45,7 +45,7 @@
 		},
 		{
 			id: 3,
-			url: '',
+			url: '/apps',
 			name: 'Apps',
 			icon: a,
 			height: '50%',
