@@ -45,6 +45,7 @@
 		if (!ready) return;
 		const fixedUrl = search(query);
 		if (letheEngine === 'uv') {
+			// @ts-ignore
 			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
 		} else {
 			url = polygon.encodeUrl(fixedUrl);
@@ -70,15 +71,15 @@
 	/>
 	<p>{decodedURL}</p>
 	<select bind:value={letheEngine} disabled={!ready}>
-		<option value="scramjet">scramjet</option>
-		<option value="uv">ultraviolet</option>
+		<option value="scramjet">Scra<span class="filler">ha67</span>mjet</option>
+		<option value="uv">Ultravi<span class="filler">ha67</span>olet</option>
 	</select>
 	<select bind:value={car} disabled={!ready}>
-		<option value="libcurl">libcurl</option>
-		<option value="epoxy">epoxy</option>
+		<option value="libcurl">Li<span class="filler">ha67</span>bcurl</option>
+		<option value="epoxy">Ep<span class="filler">ha67</span>oxy</option>
 	</select>
 </form>
-<iframe bind:this={iframeEl} title="proxy"></iframe>
+<iframe bind:this={iframeEl} title=""></iframe>
 
 <style>
 	:global(body) {

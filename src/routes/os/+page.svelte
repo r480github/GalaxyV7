@@ -36,7 +36,7 @@
 		{
 			id: 2,
 			url: '/books',
-			name: 'Games',
+			name: 'Books',
 			icon: g,
 			height: '50%',
 			width: '50%',

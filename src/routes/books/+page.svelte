@@ -1,4 +1,4 @@
-<!--This game page is from Endis-->
+<!--This g a m e page is from Endis-->
 
 <script lang="ts">
 	import type { Game } from '$lib/books/types';

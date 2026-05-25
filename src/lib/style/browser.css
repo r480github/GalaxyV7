@@ -73,7 +73,7 @@ form {
 	align-items: center;
 	margin-left: calc(100% - 28px);
 	border-radius: 100%;
-  transition-duration: 0.2s;
+	transition-duration: 0.2s;
 }
 .star:hover {
 	background-color: var(--overlay-hover);
@@ -191,8 +191,8 @@ form {
 }
 .settings-dropdown p {
 	margin: 8px 6px 4px;
-	font-size: 11px;
-	font-family: var(--font-family-body);
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
 	letter-spacing: 0.03em;
 	color: var(--color-text-subtle);
 }

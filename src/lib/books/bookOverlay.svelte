@@ -65,7 +65,7 @@
 		<iframe
 			bind:this={frame}
 			src={game.url}
-			title="game"
+			title=""
 			sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-pointer-lock"
 			allow="autoplay; fullscreen; gamepad"
 		></iframe>

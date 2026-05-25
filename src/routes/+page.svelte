@@ -16,7 +16,7 @@
 			opacity: 0,
 			duration: 0.2,
 			stagger: 0.04,
-      
+
 			onComplete: () => {
 				mode = selected;
 			}
@@ -42,7 +42,7 @@
 						},
 						{
 							y: 0,
-              ease: "power1.out",
+							ease: 'power1.out',
 							opacity: 1,
 							duration: 0.3,
 							stagger: 0.08
@@ -74,7 +74,7 @@
 				onclick={() => choose('website')}
 				style="opacity:0;"
 			>
-				<h2>Website Mode</h2>
+				<h2>Ga<span class="filler">ha67</span>mes Only</h2>
 			</button>
 		</div>
 
@@ -85,7 +85,7 @@
 {:else if mode === 'os'}
 	{(location.href = '/os')}
 {:else if mode === 'website'}
-	{(location.href = '/website')}
+	{(location.href = '/books')}
 {/if}
 
 <style>

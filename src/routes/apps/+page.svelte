@@ -175,7 +175,7 @@
 >
 	⬅
 </div>
-<iframe bind:this={iframeEl} title="proxy" style="display: {frameDisplay};"></iframe>
+<iframe bind:this={iframeEl} title="" style="display: {frameDisplay};"></iframe>
 
 {#snippet appCard(app)}
 	<div class="appDiv">

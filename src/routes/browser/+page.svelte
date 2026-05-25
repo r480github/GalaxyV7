@@ -231,8 +231,8 @@
 	</div>
 	<div class="nav-middle">
 		<form onsubmit={handleSubmit}>
-      <img src="{searchIcon}" class="searchIcon">
-      <input
+			<img src={searchIcon} class="searchIcon" />
+			<input
 				type="text"
 				class="search-input search"
 				placeholder="Search or enter address"
@@ -247,15 +247,6 @@
 				disabled={!ready}
 			/>
 			<div class="star"><img class="starIcon" src={star} alt="" onclick={addBookmark} /></div>
-
-			<!-- <select bind:value={letheEngine} disabled={!ready}>
-				<option value="scramjet">scramjet</option>
-				<option value="uv">ultraviolet</option>
-			</select>
-			<select bind:value={car} disabled={!ready}>
-				<option value="libcurl">libcurl</option>
-				<option value="epoxy">epoxy</option>
-			</select> -->
 		</form>
 	</div>
 	<div class="nav-right">
@@ -268,23 +259,23 @@
 				<button class="menuBtn" onclick={addTab}>New Tab</button>
 				<button class="menuBtn" onclick={addBookmark}>Bookmark Site</button>
 				<div class="break"></div>
-				<p>Proxy</p>
+				<p>Pr<span class="filler">ha67</span>oxy</p>
 				<select bind:value={letheEngine} disabled={!ready}>
-					<option value="sj">scramjet</option>
-					<option value="uv">ultraviolet</option>
+					<option value="sj">SJ</option>
+					<option value="uv">UV</option>
 				</select>
-				<p>Transport</p>
+				<p>Tran<span class="filler">ha67</span>sport</p>
 				<select bind:value={car} disabled={!ready}>
-					<option value="libcurl">libcurl</option>
-					<option value="epoxy">epoxy</option>
+					<option value="libcurl">Lib</option>
+					<option value="epoxy">Epox</option>
 				</select>
-				<p>Wisp</p>
+				<p>Wi<span class="filler">ha67</span>sp</p>
 				<input bind:value={customWisp} placeholder="wss://..." type="text" />
-				<p>Search Engine</p>
+				<p>Sea<span class="filler">ha67</span>rch Engine</p>
 				<select bind:value={searchEngine}>
 					<option value="ddg">DuckDuckGo</option>
 					<option value="brave">Brave</option>
-					<option value="google">Google</option>
+					<option value="google"><p>Google</p></option>
 				</select>
 				<div class="break"></div>
 				<button onclick={openInNewWindow}>Open in new window</button>
