@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { loadScriptsSequential } from '$lib/lethe/loader';
+	import { loadScript } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
@@ -16,18 +16,48 @@
 	let car = $state('libcurl');
 	let connection;
 
+	// Each item is one thing the page must finish loading before the search box turns on.
+	// "loaded" starts false and flips to true once that piece is ready, which swaps the
+	// pending dot for a checkmark in the loading list shown below.
+	let dependencies = $state([
+		{ key: 'baremux', label: 'BareMux transport', loaded: false },
+		{ key: 'glassBundle', label: 'Glass bundle', loaded: false },
+		{ key: 'glassConfig', label: 'Glass config', loaded: false },
+		{ key: 'polygon', label: 'Polygon engine', loaded: false },
+		{ key: 'scramjet', label: 'Scramjet controller', loaded: false },
+		{ key: 'serviceWorker', label: 'Service worker', loaded: false },
+		{ key: 'transport', label: 'Transport connection', loaded: false }
+	]);
+
+	// Find the dependency with this key and mark it as finished loading.
+	function markLoaded(key) {
+		for (const dependency of dependencies) {
+			if (dependency.key === key) {
+				dependency.loaded = true;
+			}
+		}
+	}
+
 	onMount(async () => {
-		await loadScriptsSequential([
-			'/baremux/index.js',
-			'/glass/glass.bundle.js',
-			'/glass/glass.config.js',
-			'/poly/polygon.all.js'
-		]);
+		await loadScript('/baremux/index.js');
+		markLoaded('baremux');
+
+		await loadScript('/glass/glass.bundle.js');
+		markLoaded('glassBundle');
+
+		await loadScript('/glass/glass.config.js');
+		markLoaded('glassConfig');
+
+		await loadScript('/poly/polygon.all.js');
+		markLoaded('polygon');
+
 		polygon = createScramjetController();
 		try {
 			if (navigator.serviceWorker) {
 				polygon.init();
+				markLoaded('scramjet');
 				await navigator.serviceWorker.register('/sw.js');
+				markLoaded('serviceWorker');
 			} else {
 				console.warn('Service workers not supported');
 			}
@@ -36,6 +66,7 @@
 		}
 		connection = createConnection();
 		await setCar(connection, car);
+		markLoaded('transport');
 
 		ready = true;
 	});
@@ -60,6 +91,22 @@
 		}
 	});
 </script>
+
+{#if !ready}
+	<div class="loading-status">
+		<p class="loading-title">Still loading…</p>
+		{#each dependencies as dependency}
+			<p class="loading-item">
+				{#if dependency.loaded}
+					<span class="loading-check">✔</span>
+				{:else}
+					<span class="loading-pending">•</span>
+				{/if}
+				{dependency.label}
+			</p>
+		{/each}
+	</div>
+{/if}
 
 <form onsubmit={handleSubmit}>
 	<input
@@ -95,5 +142,24 @@
 		flex-grow: 1;
 		border: none;
 		margin: 0;
+	}
+	.loading-status {
+		padding: 16px;
+		font-family: var(--font-family-body);
+		color: var(--color-text);
+	}
+	.loading-title {
+		margin: 0 0 8px;
+		font-weight: bold;
+	}
+	.loading-item {
+		margin: 4px 0;
+		color: var(--color-text-subtle);
+	}
+	.loading-check {
+		color: var(--color-success);
+	}
+	.loading-pending {
+		color: var(--color-text-subtle);
 	}
 </style>
