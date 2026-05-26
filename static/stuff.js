@@ -19,7 +19,7 @@ try {
   console.error("Failed to initialize Scramjet:", e);
 }
 
-const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+const connection = new BareMux.BareMuxConnection("/charon/worker.js");
 const wispUrl =
   (location.protocol === "https:" ? "wss" : "ws") +
   "://" +

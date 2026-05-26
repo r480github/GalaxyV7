@@ -62,7 +62,7 @@ await fastify.register(fastifyStatic, {
 });
 await fastify.register(fastifyStatic, {
 	root: baremuxPath,
-	prefix: '/baremux/',
+	prefix: '/charon/',
 	decorateReply: false
 });
 await fastify.register(fastifyStatic, {

@@ -13,7 +13,7 @@ export function getBareUrl() {
 }
 
 export function createConnection() {
-	return new window.BareMux.BareMuxConnection('/baremux/worker.js');
+	return new window.BareMux.BareMuxConnection('/charon/worker.js');
 }
 
 export async function setCar(connection, car, custom) {

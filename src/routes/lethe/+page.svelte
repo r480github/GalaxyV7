@@ -39,8 +39,8 @@
 	}
 
 	onMount(async () => {
-		await loadScript('/baremux/index.js');
-		markLoaded('baremux');
+		await loadScript('/charon/index.js');
+		markLoaded('charon');
 
 		await loadScript('/glass/glass.bundle.js');
 		markLoaded('glassBundle');

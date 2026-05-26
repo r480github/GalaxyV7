@@ -88,7 +88,7 @@
 		document.head.appendChild(script);
 
 		await loadScriptsSequential([
-			'/baremux/index.js',
+			'/charon/index.js',
 			'/glass/glass.bundle.js',
 			'/glass/glass.config.js',
 			'/poly/polygon.all.js'
