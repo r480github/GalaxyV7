@@ -51,8 +51,7 @@
 	--font-family-title: aovel, sans-serif; /* window titles */
 	--font-family-ui: segoe, sans-serif; /* misc accent (new-tab +) */
 
-
-  /* ===================== Default ===================== */
-  font-family: var(--font-family-body);
-  color: var(--color-text);
+	/* ===================== Default ===================== */
+	font-family: var(--font-family-body);
+	color: var(--color-text);
 }

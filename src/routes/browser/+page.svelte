@@ -6,6 +6,7 @@
 	import setting from '$lib/img/icons/more.png';
 	import Tab from '$lib/utils/browser/tab.svelte';
 	import Iframe from '$lib/utils/browser/iframe.svelte';
+	import Home from '$lib/utils/browser/home.svelte';
 	import { loadSetting } from '$lib/utils/localstorage.js';
 	import star from '$lib/img/icons/star.png';
 	import searchIcon from '$lib/img/icons/search.png';
@@ -110,12 +111,11 @@
 		ready = true;
 	});
 
-	async function handleSubmit(e) {
-		e.preventDefault();
+	function navigateTo(rawQuery) {
 		if (!ready || !activeFrame) {
 			return;
 		}
-		const fixedUrl = search(query, searchEngine);
+		const fixedUrl = search(rawQuery, searchEngine);
 		let encoded;
 		if (letheEngine === 'uv') {
 			// @ts-ignore
@@ -124,6 +124,11 @@
 			encoded = polygon.encodeUrl(fixedUrl);
 		}
 		activeFrame.url = encoded;
+	}
+
+	async function handleSubmit(e) {
+		e.preventDefault();
+		navigateTo(query);
 		inputEl?.blur();
 	}
 	async function bookmarkSearch(url, lethe) {
@@ -310,5 +315,11 @@
 <div class="frameContainer">
 	{#each frames as frame (frame.id)}
 		<Iframe id={frame.id} src={frame.url} onnavigate={(info) => handleNavigate(frame.id, info)} />
+		{#if frame.id === $activeTab && !frame.url}
+			<Home
+				{ready}
+				onsearch={(rawQuery) => navigateTo(rawQuery)}
+			/>
+		{/if}
 	{/each}
 </div>
