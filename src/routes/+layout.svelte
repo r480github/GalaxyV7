@@ -1,5 +1,5 @@
 <script>
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.png';
 	import '$lib/style/variables.css';
 	import '$lib/style/assets.css';
 
@@ -8,6 +8,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+  <title>Home - Classroom</title>
 </svelte:head>
 
 {@render children()}

@@ -25,7 +25,7 @@
 	const apps = [
 		{
 			id: 1,
-			url: '/browser',
+			url: '/slate',
 			name: 'Browser',
 			icon: browser,
 			height: '50%',
