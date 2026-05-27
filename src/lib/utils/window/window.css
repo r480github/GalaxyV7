@@ -52,6 +52,7 @@
 }
 .window-title {
 	font-family: var(--font-family-title);
+  font-size: 100%;
 }
 .middle {
 	margin-right: auto;

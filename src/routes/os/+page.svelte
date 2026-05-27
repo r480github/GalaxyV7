@@ -215,6 +215,11 @@
 	}
 </script>
 
+<div class="topNav">
+	<div class="left"><p></p></div>
+	<div class="middle"></div>
+	<div class="right"></div>
+</div>
 <svelte:window
 	onclick={() => {
 		closeMenu();

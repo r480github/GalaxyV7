@@ -95,6 +95,7 @@
 			rgba(255, 255, 255, 0.06),
 			transparent 60%
 		);
+    padding-bottom: 20%;
 	}
 	.hero {
 		display: flex;
@@ -148,7 +149,7 @@
 	}
 	.home-search input {
 		width: 100%;
-		height: 48px;
+		height: 40px;
 		border: 1px solid var(--color-border);
 		border-radius: 24px;
 		background-color: var(--color-surface);

@@ -123,7 +123,7 @@
 	}
 	.tab-icon {
 		height: 15px;
-		margin-top: 5px;
+		margin-top: 3px;
 		margin-right: 5px;
 	}
 	.close {

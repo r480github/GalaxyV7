@@ -316,10 +316,7 @@
 	{#each frames as frame (frame.id)}
 		<Iframe id={frame.id} src={frame.url} onnavigate={(info) => handleNavigate(frame.id, info)} />
 		{#if frame.id === $activeTab && !frame.url}
-			<Home
-				{ready}
-				onsearch={(rawQuery) => navigateTo(rawQuery)}
-			/>
+			<Home {ready} onsearch={(rawQuery) => navigateTo(rawQuery)} />
 		{/if}
 	{/each}
 </div>
