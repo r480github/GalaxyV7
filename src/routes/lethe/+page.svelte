@@ -1,3 +1,4 @@
+
 <script>
 	import { onMount } from 'svelte';
 	import { loadScript } from '$lib/lethe/loader';
@@ -15,10 +16,8 @@
 	let url = $state('');
 	let car = $state('libcurl');
 	let connection;
-
-	// Each item is one thing the page must finish loading before the search box turns on.
-	// "loaded" starts false and flips to true once that piece is ready, which swaps the
-	// pending dot for a checkmark in the loading list shown below.
+	
+	//  debugger is vibecoded
 	let dependencies = $state([
 		{ key: 'baremux', label: 'BareMux transport', loaded: false },
 		{ key: 'glassBundle', label: 'Glass bundle', loaded: false },
@@ -76,7 +75,6 @@
 		if (!ready) return;
 		const fixedUrl = search(query);
 		if (letheEngine === 'uv') {
-			// @ts-ignore
 			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
 		} else {
 			url = polygon.encodeUrl(fixedUrl);

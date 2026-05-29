@@ -15,6 +15,7 @@
 	let activeButton = $state(null);
 	let bgURL = $state('');
 	let menuOpen = $state(false);
+	let openMenuX = $state(0)
 	let menuX = $state(0);
 	let menuY = $state(0);
 	let menuSender = $state(null);
@@ -180,9 +181,10 @@
 		e.stopPropagation();
 		menuX = e.clientX;
 		menuY = e.clientY;
+		openMenuX = e.clientX;
 		menuSender = { appId, url, name, height, width, top, left };
-		menuOpen = true;
 		hoverEnd();
+		menuOpen = true;
 	}
 
 	function closeMenu() {
@@ -229,7 +231,7 @@
 <div class="background" style="background-image: url({bgURL});"></div>
 
 {#if menuOpen}
-	<div class="contextMenu" style="left: {menuX}px;" onclick={(e) => e.stopPropagation()}>
+	<div class="contextMenu" style="left: {openMenuX}px;" onclick={(e) => e.stopPropagation()}>
 		<button
 			class="menuOption"
 			onclick={() =>
