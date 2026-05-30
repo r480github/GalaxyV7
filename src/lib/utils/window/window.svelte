@@ -228,6 +228,7 @@
 		transition = false;
 		activeSignal.set(null);
 		gsap.to(`#${id}`, {
+			
 			scale: 0.8,
 			opacity: 0,
 			duration: 0.2,
@@ -250,6 +251,7 @@
 		setMinimizedFlag(minimizedStat);
 		if (minimizedStat) {
 			activeSignal.set(null);
+			gsap.killTweensOf(`#${id}`);
 			gsap.to(`#${id}`, {
 				scale: 0.8,
 				opacity: 0,
@@ -260,6 +262,7 @@
 			});
 		} else {
 			activeSignal.set(sender);
+			gsap.killTweensOf(`#${id}`);
 			gsap.fromTo(
 				`#${id}`,
 				{ scale: 0.8, opacity: 0 },

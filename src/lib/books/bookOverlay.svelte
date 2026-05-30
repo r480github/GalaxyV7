@@ -99,7 +99,7 @@
 		color: var(--color-text);
 		border: none;
 		padding: 6px 14px;
-		border-radius: 6px;
+		border-radius: 8px;
 		cursor: pointer;
 		font-size: 14px;
 		font-family: var(--font-family-body);

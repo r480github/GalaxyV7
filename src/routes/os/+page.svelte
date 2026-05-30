@@ -1,7 +1,14 @@
 <script>
 	// @ts-nocheck
 	import Window from '$lib/utils/window/window.svelte';
-	import { windowList, minimizedSig, activeSignal, focusWindowTop } from '$lib/stores/index.js';
+	import Notifications from '$lib/utils/notifications.svelte';
+	import {
+		windowList,
+		minimizedSig,
+		activeSignal,
+		focusWindowTop,
+		notif
+	} from '$lib/stores/index.js';
 	import '$lib/style/os.css';
 	import { onMount } from 'svelte';
 	import mainBG from '$lib/img/bg/bg4.jpg';
@@ -133,6 +140,12 @@
 	}
 
 	function openWindow(url, name, height, width, top, left, appId) {
+		if (localStorage.getItem('firstVisit') == 'false') {
+		} else {
+			localStorage.setItem('firstVisit', 'false');
+			$notif = 'Right click to open new window!';
+		}
+		console.log(localStorage.getItem('firstVisit'));
 		let appWindows = getAppWindows(appId);
 		if (appWindows.length > 1) {
 			previewApp = appId;
@@ -245,6 +258,7 @@
 	<div class="middle"></div>
 	<div class="right"><p>{timeString}</p></div>
 </div>
+<Notifications />
 <svelte:window
 	onclick={() => {
 		closeMenu();
