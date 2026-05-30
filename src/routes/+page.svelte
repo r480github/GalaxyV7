@@ -3,58 +3,96 @@
 	import { browser } from '$app/environment';
 	import gsap from 'gsap';
 	import { onMount } from 'svelte';
+	import { tick } from 'svelte';
+
+	let percentage = $state(0);
+	let loaded = $state(false);
 	let selected = $state(null);
-	let mode = $state(browser ? localStorage.getItem('mode') : null);
+	let mode = $state(null);
 
 	function choose(m) {
 		selected = m;
 		localStorage.setItem('mode', m);
 	}
+
 	function next() {
 		gsap.to('.stagger', {
 			y: -50,
 			opacity: 0,
 			duration: 0.2,
 			stagger: 0.04,
-
 			onComplete: () => {
-				mode = selected;
+				if (selected === 'os') location.href = '/os';
+				else if (selected === 'website') location.href = '/books';
 			}
 		});
 	}
-	onMount(() => {
-		gsap.fromTo(
-			'.question',
-			{
-				y: 50,
-				opacity: 0
-			},
-			{
-				y: 0,
-				opacity: 1,
-				duration: 0.4,
-				onComplete: () => {
-					gsap.fromTo(
-						'.option',
-						{
-							y: 50,
-							opacity: 0
-						},
-						{
-							y: 0,
-							ease: 'power1.out',
-							opacity: 1,
-							duration: 0.3,
-							stagger: 0.08
-						}
-					);
+
+	async function afterLoad() {
+		const savedMode = localStorage.getItem('mode');
+		if (savedMode === 'os') {
+			location.href = '/os';
+		} else if (savedMode === 'website') {
+			location.href = '/books';
+		} else {
+			loaded = true;
+			await tick();
+			gsap.fromTo(
+				'.question',
+				{ y: 50, opacity: 0 },
+				{
+					y: 0,
+					opacity: 1,
+					duration: 0.4,
+					onComplete: () => {
+						gsap.fromTo(
+							'.option',
+							{ y: 50, opacity: 0 },
+							{ y: 0, ease: 'power1.out', opacity: 1, duration: 0.3, stagger: 0.08 }
+						);
+					}
 				}
+			);
+		}
+	}
+
+	onMount(() => {
+		const obj = { value: 0 };
+		gsap.to(obj, {
+			value: 100,
+			duration: 2,
+			ease: 'power4.inOut',
+			onUpdate() {
+				percentage = Math.round(obj.value);
+			},
+			onComplete() {
+				gsap.to('.hero', {
+					duration: 0.4,
+					ease: 'power2.in',
+					opacity: 0,
+					onComplete: afterLoad
+				});
 			}
-		);
+		});
+
+		gsap.fromTo('.loadBar', { scaleX: 0 }, { scaleX: 1, duration: 2, ease: 'power4.inOut' });
 	});
 </script>
 
-{#if mode == null}
+{#if !loaded}
+	<div class="hero">
+		<div class="logo">
+			<p class="title">Galaxy</p>
+			<p class="version">v7</p>
+		</div>
+		<div class="loader">
+			<p class="percentage">{percentage}%</p>
+			<div class="loadBg">
+				<div class="loadBar"></div>
+			</div>
+		</div>
+	</div>
+{:else if mode == null}
 	<div class="container">
 		<h1 class="stagger question">How would you like to use Galaxy?</h1>
 
@@ -79,19 +117,113 @@
 		</div>
 
 		{#if selected}
-			<button class="continue stagger" onclick={() => next()}> <p>Continue</p> </button>
+			<button class="continue stagger" onclick={() => next()}><p>Continue</p></button>
 		{/if}
 	</div>
-{:else if mode === 'os'}
-	{(location.href = '/os')}
-{:else if mode === 'website'}
-	{(location.href = '/books')}
 {/if}
 
 <style>
 	:global(body) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
 		margin: 0;
-		background: var(--color-bg);
-		color: var(--color-text);
+		background-color: var(--color-bg);
+	}
+
+	.hero {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.logo {
+		display: flex;
+		flex-direction: row;
+		gap: 5px;
+	}
+
+	.title {
+		font-family: var(--font-family-heading);
+		font-size: 60px;
+		letter-spacing: 3px;
+		margin: 0;
+	}
+
+	.version {
+		font-size: 15px;
+		letter-spacing: normal;
+		color: var(--color-bg);
+		background-color: var(--color-text);
+		line-height: 15px;
+		height: 15px;
+		padding: 2px 4px;
+		border-radius: 4px;
+		opacity: 0.9;
+	}
+
+	.loader {
+		margin-top: 5px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		width: 300px;
+	}
+
+	.loadBg {
+		width: 100%;
+		height: 2px;
+		border-radius: 999px;
+		background-color: var(--color-surface-3);
+		overflow: hidden;
+	}
+
+	.loadBar {
+		height: 100%;
+		border-radius: 999px;
+		background-color: var(--color-text);
+		transform-origin: left center;
+	}
+
+	.percentage {
+		font-size: 10px;
+		width: 36px;
+		text-align: right;
+		margin: 0;
+		margin-left: auto;
+		opacity: 0.8;
+	}
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 24px;
+	}
+
+	.question {
+		font-family: gravity;
+		font-weight: 200;
+		margin: 0;
+	}
+
+	.options {
+		display: flex;
+		gap: 16px;
+	}
+
+	.option {
+		cursor: pointer;
+	}
+
+	.option.active {
+		outline: 1px solid var(--color-border);
+	}
+
+	.continue {
+		cursor: pointer;
 	}
 </style>

@@ -4,6 +4,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	overflow: hidden;
+	animation: brighten 0.2s ease-in forwards;
 }
 .topNav {
 	position: absolute;
@@ -137,4 +138,12 @@ body {
 
 .previewCard:hover {
 	background: var(--overlay-hover-strong);
+}
+@keyframes brighten {
+	from {
+		filter: brightness(0);
+	}
+	to {
+		filter: brightness(1);
+	}
 }

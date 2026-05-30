@@ -48,7 +48,6 @@
 	let offSety = 0;
 	let draggingState = $state(false);
 	let transition = $state(false);
-	// Reserved zone at the top of the screen. A window's top edge can never go above this.
 	const topBarrier = 25;
 	//
 	//----- window drag logic -----
@@ -84,7 +83,6 @@
 		y = e.clientY - offSety;
 		x = e.clientX - offSetx;
 
-		// Don't let the window be dragged above the top barrier.
 		if (y < topBarrier) {
 			y = topBarrier;
 		}

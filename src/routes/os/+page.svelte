@@ -15,7 +15,7 @@
 	let activeButton = $state(null);
 	let bgURL = $state('');
 	let menuOpen = $state(false);
-	let openMenuX = $state(0)
+	let openMenuX = $state(0);
 	let menuX = $state(0);
 	let menuY = $state(0);
 	let menuSender = $state(null);
@@ -74,6 +74,13 @@
 			localStorage.setItem('background', mainBG);
 		}
 		bgURL = localStorage.getItem('background');
+		gsap.fromTo (".navButton", {
+			y: 50
+		}, {
+			y: 0,
+			stagger: 0.09,
+
+		})
 	});
 
 	function getAppWindows(appId) {

@@ -48,3 +48,6 @@
 	opacity: 0;
 	font-size: 0.1px;
 }
+body {
+	background-color: var(--color-bg);
+}
