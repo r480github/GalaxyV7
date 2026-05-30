@@ -70,21 +70,28 @@
 					duration: 0.5,
 					ease: 'power4.in',
 					y: -100,
-					stagger: 0.1,
+					stagger: 0.07,
 					opacity: 0,
 					onComplete: afterLoad
 				});
 			}
 		});
 
-		gsap.fromTo('.loadBar', { scaleX: 0 }, { scaleX: 1, duration: 2, ease: 'power4.inOut' });
+		gsap.fromTo(
+			'.loadBar',
+			{ scaleX: 0 },
+			{ scaleX: 1, duration: 2, opacity: 1, ease: 'power4.inOut' }
+		);
 	});
 </script>
 
 {#if !loaded}
 	<div class="hero">
 		<div class="loader">
-			<p class="percentage heroDiv">{percentage}%</p>
+			<div class="info">
+				<p class="loading heroDiv">Loading</p>
+				<p class="percentage heroDiv">{percentage}%</p>
+			</div>
 			<div class="loadBg heroDiv">
 				<div class="loadBar"></div>
 			</div>
@@ -154,23 +161,33 @@
 		background-color: var(--color-surface-3);
 		overflow: hidden;
 	}
-
+	.info {
+		display: flex;
+		text-align: center;
+		flex-direction: row;
+		align-items: space-between;
+		width: 100%;
+	}
 	.loadBar {
 		height: 100%;
+		opacity: 0;
 		border-radius: 999px;
 		background-color: var(--color-text);
 		transform-origin: left center;
 	}
 
-	.percentage {
+	.percentage,
+	.loading {
 		font-size: 10px;
 		width: 36px;
 		text-align: right;
 		margin: 0;
-		margin-left: auto;
 		opacity: 0.8;
 	}
-
+	.loading {
+		margin-right: auto;
+		opacity: 0.6;
+	}
 	.container {
 		display: flex;
 		flex-direction: column;

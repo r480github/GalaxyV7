@@ -143,7 +143,7 @@
 		if (localStorage.getItem('firstVisit') == 'false') {
 		} else {
 			localStorage.setItem('firstVisit', 'false');
-			$notif = 'Right click to open new window!';
+			$notif = 'Right click app to open new window!';
 		}
 		console.log(localStorage.getItem('firstVisit'));
 		let appWindows = getAppWindows(appId);
