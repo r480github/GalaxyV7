@@ -22,6 +22,7 @@
 	let previewOpen = $state(false);
 	let previewApp = $state(null);
 	let hoverTimeout = null;
+	let timeString = $state(null);
 
 	const apps = [
 		{
@@ -74,13 +75,19 @@
 			localStorage.setItem('background', mainBG);
 		}
 		bgURL = localStorage.getItem('background');
-		gsap.fromTo (".navButton", {
-			y: 50
-		}, {
-			y: 0,
-			stagger: 0.09,
-
-		})
+		gsap.fromTo(
+			'.navButton',
+			{
+				opacity: 0,
+				y: 50
+			},
+			{
+				opacity: 1,
+				y: 0,
+				stagger: 0.09,
+				delay: 0.1
+			}
+		);
 	});
 
 	function getAppWindows(appId) {
@@ -222,12 +229,21 @@
 			previewApp = null;
 		}, 200);
 	}
+	function updateTime() {
+		const now = new Date();
+		timeString = now.toLocaleTimeString();
+	}
+	onMount(() => {
+		updateTime();
+		const interval = setInterval(updateTime, 1000);
+		return () => clearInterval(interval);
+	});
 </script>
 
 <div class="topNav">
-	<div class="left"><p></p></div>
+	<div class="left"><p>GalaxyV7</p></div>
 	<div class="middle"></div>
-	<div class="right"></div>
+	<div class="right"><p>{timeString}</p></div>
 </div>
 <svelte:window
 	onclick={() => {

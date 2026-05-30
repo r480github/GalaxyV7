@@ -66,9 +66,11 @@
 				percentage = Math.round(obj.value);
 			},
 			onComplete() {
-				gsap.to('.hero', {
-					duration: 0.4,
-					ease: 'power2.in',
+				gsap.to('.heroDiv', {
+					duration: 0.5,
+					ease: 'power4.in',
+					y: -100,
+					stagger: 0.1,
 					opacity: 0,
 					onComplete: afterLoad
 				});
@@ -81,13 +83,9 @@
 
 {#if !loaded}
 	<div class="hero">
-		<div class="logo">
-			<p class="title">Galaxy</p>
-			<p class="version">v7</p>
-		</div>
 		<div class="loader">
-			<p class="percentage">{percentage}%</p>
-			<div class="loadBg">
+			<p class="percentage heroDiv">{percentage}%</p>
+			<div class="loadBg heroDiv">
 				<div class="loadBar"></div>
 			</div>
 		</div>
@@ -137,31 +135,7 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 12px;
-	}
-
-	.logo {
-		display: flex;
-		flex-direction: row;
-		gap: 5px;
-	}
-
-	.title {
-		font-family: var(--font-family-heading);
-		font-size: 60px;
-		letter-spacing: 3px;
-		margin: 0;
-	}
-
-	.version {
-		font-size: 15px;
-		letter-spacing: normal;
-		color: var(--color-bg);
-		background-color: var(--color-text);
-		line-height: 15px;
-		height: 15px;
-		padding: 2px 4px;
-		border-radius: 4px;
-		opacity: 0.9;
+		overflow: hidden;
 	}
 
 	.loader {
