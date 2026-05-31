@@ -55,11 +55,6 @@ await fastify.register(fastifyStatic, {
 	decorateReply: false
 });
 await fastify.register(fastifyStatic, {
-	root: bareModulePath,
-	prefix: '/bareasmodule/',
-	decorateReply: false
-});
-await fastify.register(fastifyStatic, {
 	root: baremuxPath,
 	prefix: '/charon/',
 	decorateReply: false

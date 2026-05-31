@@ -17,7 +17,6 @@ const lethePlugin = () => ({
 		});
 		server.middlewares.use('/epoxy', sirv(epoxyPath, { dev: true }));
 		server.middlewares.use('/libcurl', sirv(libcurlPath, { dev: true }));
-		server.middlewares.use('/bareasmodule', sirv(bareModulePath, { dev: true }));
 		server.middlewares.use('/reflux', sirv(refluxPath, { dev: true }));
 		server.middlewares.use('/charon', sirv(baremuxPath, { dev: true }));
 		server.middlewares.use('/glass', sirv(join(__dirname, 'glass'), { dev: true }));
