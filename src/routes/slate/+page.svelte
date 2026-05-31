@@ -23,7 +23,7 @@
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
-
+	import { plugin } from '$lib/lethe/reflux';
 	let tabs = $state([]);
 	let frames = $state([]);
 	let query = $state('');
@@ -107,7 +107,7 @@
 		}
 		connection = createConnection();
 		await setCar(connection, car, customWisp);
-
+		await plugin()
 		ready = true;
 	});
 
