@@ -22,10 +22,14 @@ export async function setCar(connection, car, custom) {
 
 	switch (car) {
 		case 'epoxy':
-			await connection.setTransport('/epoxy/index.mjs', [{ wisp: wispUrl }]);
+			await connection.setTransport('/reflux/index.mjs', [
+				{ base: '/epoxy/index.mjs', wisp: wispUrl }
+			]);
 			break;
 		case 'libcurl':
-			await connection.setTransport('/libcurl/index.mjs', [{ websocket: wispUrl }]);
+			await connection.setTransport('/reflux/index.mjs', [
+				{ base: '/libcurl/index.mjs', websocket: wispUrl }
+			]);
 			break;
 	}
 }

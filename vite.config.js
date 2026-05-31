@@ -6,6 +6,7 @@ import { epoxyPath } from '@mercuryworkshop/epoxy-transport';
 import { libcurlPath } from '@mercuryworkshop/libcurl-transport';
 import { bareModulePath } from '@mercuryworkshop/bare-as-module3';
 import { baremuxPath } from '@mercuryworkshop/bare-mux/node';
+import { refluxPath } from '@nightnetwork/reflux';
 import { server as wisp, logging } from '@mercuryworkshop/wisp-js/server';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -21,6 +22,7 @@ const lethePlugin = () => ({
 		server.middlewares.use('/epoxy', sirv(epoxyPath, { dev: true }));
 		server.middlewares.use('/libcurl', sirv(libcurlPath, { dev: true }));
 		server.middlewares.use('/bareasmodule', sirv(bareModulePath, { dev: true }));
+		server.middlewares.use('/reflux', sirv(refluxPath, { dev: true }));
 		server.middlewares.use('/charon', sirv(baremuxPath, { dev: true }));
 		server.middlewares.use('/glass', sirv(join(__dirname, 'glass'), { dev: true }));
 		server.middlewares.use('/poly', sirv(join(__dirname, 'poly'), { dev: true }));
