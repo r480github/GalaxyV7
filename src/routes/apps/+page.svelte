@@ -8,7 +8,7 @@
 	import { getOriginalUrl } from '$lib/lethe/decode';
 	import search from '$lib/img/icons/search.png';
 	import pin from '$lib/img/icons/pin.png';
-  import '$lib/style/apps.css'
+	import '$lib/style/apps.css';
 	const pinsKey = 'galaxy_appPins';
 	const genreOrder = [
 		'AI',
@@ -35,34 +35,28 @@
 	let overflow = $state(false);
 
 	const genres = $derived.by(() => {
-		// Collect each app's genre. A Set automatically ignores duplicates.
 		const usedGenres = new Set();
 		for (const app of apps) {
 			usedGenres.add(app.genre);
 		}
 
-		// Keep our preferred genres, but only the ones some app actually uses.
 		const ordered = genreOrder.filter((genre) => usedGenres.has(genre));
 
-		// Any remaining genres that aren't in our preferred list, sorted A-Z.
 		const extras = Array.from(usedGenres)
 			.filter((genre) => !genreOrder.includes(genre))
 			.sort();
 
-		// Preferred genres first, then the extras.
 		return ordered.concat(extras);
 	});
 
 	const filtered = $derived.by(() => {
 		const queryText = query.trim().toLowerCase();
 		return apps.filter((app) => {
-			// With no search text typed, every app counts as a match.
 			const noQuery = queryText === '';
 			const nameMatches = app.name.toLowerCase().includes(queryText);
 			const genreMatches = app.genre.toLowerCase().includes(queryText);
 			const matchesQuery = noQuery || nameMatches || genreMatches;
 
-			// With no genre selected, every app passes the genre filter.
 			const matchesGenre = activeGenre === '' || app.genre === activeGenre;
 
 			return matchesQuery && matchesGenre;
@@ -74,14 +68,12 @@
 	function loadPins() {
 		if (!browser) return [];
 		try {
-			// Read the saved pins. If nothing is stored yet, use an empty list "[]".
 			let stored = localStorage.getItem(pinsKey);
 			if (!stored) {
 				stored = '[]';
 			}
 			const parsed = JSON.parse(stored);
 
-			// Only trust the saved value if it's actually an array.
 			if (Array.isArray(parsed)) {
 				return parsed;
 			}
@@ -97,10 +89,8 @@
 
 	function togglePin(name) {
 		if (pins.includes(name)) {
-			// Already pinned, so remove it from the list.
 			pins = pins.filter((pinnedName) => pinnedName !== name);
 		} else {
-			// Not pinned yet, so add it to the end of the list.
 			pins = pins.concat([name]);
 		}
 
@@ -198,6 +188,7 @@
 			onclick={() => handleSubmit(app.url, app.type)}
 		/>
 		<div class="appMeta" onclick={() => handleSubmit(app.url, app.type)}>
+			<div></div>
 			<span class="appName">{app.name}</span>
 			<span class="appGenre">{app.genre}</span>
 		</div>
