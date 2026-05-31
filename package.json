@@ -32,7 +32,6 @@
 		"@mercuryworkshop/libcurl-transport": "^1.5.2",
 		"@mercuryworkshop/wisp-js": "^0.4.1",
 		"@nightnetwork/reflux": "^2.2.0",
-		"@tomphttp/bare-server-node": "^2.0.6",
 		"dotenv": "^17.4.2",
 		"fastify": "^5.8.5",
 		"favicon-fetch": "^1.0.0",
