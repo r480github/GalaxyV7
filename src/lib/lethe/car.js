@@ -8,9 +8,6 @@ export function getWispUrl(custom) {
 	}
 }
 
-export function getBareUrl() {
-	return `${location.origin}/bare/`;
-}
 
 export function createConnection() {
 	return new window.BareMux.BareMuxConnection('/charon/worker.js');
@@ -18,7 +15,6 @@ export function createConnection() {
 
 export async function setCar(connection, car, custom) {
 	const wispUrl = getWispUrl(custom);
-	const bareUrl = getBareUrl();
 
 	switch (car) {
 		case 'epoxy':
