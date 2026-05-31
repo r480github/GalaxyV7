@@ -1,5 +1,6 @@
-
 <script lang="ts">
+	import y from '$lib/img/icons/swap.png';
+
 	let {
 		search = $bindable(''),
 		tag = $bindable(''),
@@ -13,6 +14,15 @@
 		tags: string[];
 		onrandom: () => void;
 	} = $props();
+	function switchMode() {
+		if (localStorage.getItem('mode') == 'website') {
+			localStorage.setItem('mode', 'os');
+			location.replace('/');
+		} else {
+			localStorage.setItem('mode', 'website');
+			location.replace('/');
+		}
+	}
 </script>
 
 <header>
@@ -47,6 +57,10 @@
 		</svg>
 		Random
 	</button>
+	<button onclick={switchMode}>
+	Switch Mode
+		<img src={y} alt="" />
+	</button>
 </header>
 
 <style>
@@ -75,6 +89,10 @@
 		border-radius: 6px;
 		font-size: 14px;
 		font-family: var(--font-family-body);
+	}
+	button img {
+		height: 18px;
+		margin: 0px;
 	}
 	input {
 		flex: 1;

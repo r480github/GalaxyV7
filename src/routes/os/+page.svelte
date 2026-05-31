@@ -16,9 +16,9 @@
 	import g from '$lib/img/icons/controller.png';
 	import a from '$lib/img/icons/apps.png';
 	import s from '$lib/img/icons/settings.png';
+	import y from '$lib/img/icons/swap.png';
 	import { get } from 'svelte/store';
 	import gsap from 'gsap';
-
 	let activeButton = $state(null);
 	let bgURL = $state('');
 	let menuOpen = $state(false);
@@ -251,12 +251,26 @@
 		const interval = setInterval(updateTime, 1000);
 		return () => clearInterval(interval);
 	});
+	function switchMode() {
+		if (localStorage.getItem('mode') == 'website') {
+			localStorage.setItem('mode', 'os');
+			location.replace('/');
+		} else {
+			localStorage.setItem('mode', 'website');
+			location.replace('/');
+		}
+	}
 </script>
 
 <div class="topNav">
-	<div class="left"><p>GalaxyV7</p></div>
-	<div class="middle"></div>
-	<div class="right"><p>{timeString}</p></div>
+	<div class="topLeft"><p>GalaxyV7</p></div>
+	<div class="topMiddle"></div>
+	<div class="topRight">
+		<div class="topButton" onclick={switchMode}>
+			<img src={y} alt="" />
+		</div>
+		<p>{timeString}</p>
+	</div>
 </div>
 <Notifications />
 <svelte:window

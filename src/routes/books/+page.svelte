@@ -58,13 +58,7 @@
 	}
 </script>
 
-<GameToolbar
-	bind:search
-	bind:tag
-	bind:filter
-	tags={tagList}
-	onrandom={openRandom}
-/>
+<GameToolbar bind:search bind:tag bind:filter tags={tagList} onrandom={openRandom} />
 
 {#if favoriteGames.length > 0 && filter !== 'favorites'}
 	<div class="section-header">Favorites</div>
