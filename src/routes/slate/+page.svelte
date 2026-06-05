@@ -10,6 +10,8 @@
 	import { loadSetting } from '$lib/utils/localstorage.js';
 	import star from '$lib/img/icons/star.png';
 	import searchIcon from '$lib/img/icons/search.png';
+	import { plugin } from '$lib/lethe/reflux';
+
 	import {
 		tabID,
 		deleteTab,
@@ -18,12 +20,11 @@
 		goBackSignal,
 		goForwardSignal
 	} from '$lib/stores/index.js';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { loadScriptsSequential } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
-	import { plugin } from '$lib/lethe/reflux';
 	let tabs = $state([]);
 	let frames = $state([]);
 	let query = $state('');
@@ -84,6 +85,10 @@
 	}
 	addTab();
 	onMount(async () => {
+		window.addEventListener('message', (e) => {
+			console.log('[app] message:', e.data); // does this ever log your tab message?
+		});
+
 		const script = document.createElement('script');
 		script.src = 'https://cdn.jsdelivr.net/npm/eruda';
 		document.head.appendChild(script);
@@ -107,8 +112,19 @@
 		}
 		connection = createConnection();
 		await setCar(connection, car, customWisp);
-		await plugin()
+		// Register + enable reflux plugins ONCE, before any page can be navigated,
+		// so the injection is present on the very first proxied load.
+		await plugin();
 		ready = true;
+		const tabChannel = new BroadcastChannel('galaxy_tabs');
+		tabChannel.onmessage = async (e) => {
+			const data = e.data;
+			if (!data || data.type !== '__galaxy_new_tab' || typeof data.url !== 'string') return;
+			console.log('[galaxy] open tab request:', data.url);
+			addTab();
+			await tick();
+			navigateTo(data.url);
+		};
 	});
 
 	function navigateTo(rawQuery) {
@@ -125,7 +141,6 @@
 		}
 		activeFrame.url = encoded;
 	}
-
 	async function handleSubmit(e) {
 		e.preventDefault();
 		navigateTo(query);

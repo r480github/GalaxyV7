@@ -22,7 +22,7 @@ export async function setCar(connection, car, custom) {
 			]);
 			break;
 		case 'libcurl':
-			await connection.setTransport('/reflux/index.mjs', [
+			await connection.setTransport('/libcurl/index.mjs', [
 				{ base: '/libcurl/index.mjs', wisp: wispUrl }
 			]);
 			break;
