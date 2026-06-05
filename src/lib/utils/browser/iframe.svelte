@@ -1,7 +1,6 @@
 <script>
 	import { activeTab, reloadSignal, goBackSignal, goForwardSignal } from '$lib/stores/index.js';
 	import { getOriginalUrl } from '$lib/lethe/decode';
-
 	let { id, src = null, onnavigate } = $props();
 	let frame;
 
@@ -39,7 +38,8 @@
 		if ($goForwardSignal === id) {
 			try {
 				frame.contentWindow.history.forward();
-			} catch (e) {}
+			} catch (e) {
+			}
 			$goForwardSignal = null;
 		}
 		if ($reloadSignal === id) {
