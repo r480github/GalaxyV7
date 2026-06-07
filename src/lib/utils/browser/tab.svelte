@@ -10,6 +10,7 @@
 	let faviconUrl = $derived(
 		displayUrl ? faviconFetch({ hostname: new URL(displayUrl).hostname }) : defaultIcon
 	);
+	let tabHover = 'var(--overlay-browser-tab)';
 	let opacity = $state(0.7);
 	// svelte-ignore state_referenced_locally
 	$effect(() => {
@@ -33,13 +34,20 @@
 		$activeTab = id;
 	}
 
-	let bgColor = $derived(
-		id == $activeTab
-			? 'var(--color-chrome)'
-			: hovered
-				? 'var(--overlay-hover-strong)'
-				: 'transparent'
-	);
+	let bgColor = $derived.by(() => {
+		if (id == $activeTab) {
+			return 'var(--color-chrome)';
+		}
+		if (hovered) {
+			return tabHover;
+		}
+		return 'transparent';
+	});
+	let borderRadius = $derived.by(() => {
+		if (id == $activeTab || hovered) {
+			return '7px';
+		}
+	});
 </script>
 
 <div
@@ -49,7 +57,8 @@
 	onauxclick={handleAuxClick}
 	onmouseover={() => (hovered = true)}
 	onmouseout={() => (hovered = false)}
-	style="background-color: {bgColor};"
+	style="background-color: {bgColor}; 
+	border-top-left-radius: {borderRadius}; "
 >
 	<div class="stuff">
 		<div class="icon">
@@ -59,10 +68,20 @@
 		<div class="close" onclick={closeTab}><p class="closeText">&times;</p></div>
 	</div>
 	{#if id == $activeTab}
-		<div class="bottom-right"></div>
+		<div class="bottom-right" style="background-color: {bgColor};"></div>
+		<div class="bottom-left" style="background-color: {bgColor};"></div>
 	{/if}
-	{#if id == $activeTab}
-		<div class="bottom-left"></div>
+	{#if hovered}
+		<div
+			class="bottom-right"
+			style="background-color: {tabHover};
+		z-index: -10"
+		></div>
+		<div
+			class="bottom-left"
+			style="background-color: {tabHover};
+		z-index: -10"
+		></div>
 	{/if}
 </div>
 
@@ -71,9 +90,6 @@
 		position: relative;
 		height: 30px;
 		width: 178px;
-		border-top-left-radius: 7px;
-		border-top-right-radius: 7px;
-		border-right: 1px solid var(--color-chrome);
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -86,6 +102,8 @@
 		padding: 0px 10px;
 		box-sizing: border-box;
 		min-width: 0;
+		border-top-right-radius: 7px;
+		border-right: 1px solid rgba(255, 255, 255, 0);
 	}
 
 	.stuff {
@@ -97,7 +115,7 @@
 	.bottom-right,
 	.bottom-left {
 		position: absolute;
-		margin-top: 14px;
+		margin-top: 15px;
 		width: 200px;
 		height: 200px;
 		background-color: var(--color-chrome);

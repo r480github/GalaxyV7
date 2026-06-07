@@ -2,6 +2,7 @@
  * Global design tokens: color palette + font families.
  * Single source of truth, imported once in +layout.svelte.
  * Use these instead of hardcoding colors / font-family names.
+ * Formatted by AI
  */
 :root {
 	/* ===================== Color: surfaces ===================== */
@@ -9,7 +10,7 @@
 	--color-surface: #121212; /* recessed inputs, base cards */
 	--color-surface-2: #1a1a1a; /* hovered cards, raised panels */
 	--color-surface-3: #222222; /* menus, popovers */
-	--color-chrome: #2a2a2a; /* toolbars, active tab, card borders */
+	--color-chrome: #333333; /* toolbars, active tab, card borders */
 	--color-window: #808080; /* window frame placeholder */
 	--color-white: #ffffff;
 	--color-black: #000000;
@@ -32,15 +33,14 @@
 	--overlay-hover-strong: rgba(255, 255, 255, 0.16);
 	--overlay-active: rgba(255, 255, 255, 0.43);
 	--overlay-indicator: rgba(255, 255, 255, 0.38);
-
-	/* ===================== Color: status ===================== */
-	--color-danger: #ff0000;
+	--overlay-browser-tab: #1f1f1f; /*Do not add transparency to this; keep darker than --color-chrome*/
+		/* ===================== Color: status ===================== */ --color-danger: #ff0000;
 	--color-danger-hover: rgba(255, 0, 0, 0.7);
 	--color-success: #3fb950; /* finished / loaded checkmark */
 	--color-pin: #636363; /* pinned / favorite accent */
 
 	/* ===================== Color: scrollbar ===================== */
-	--color-scrollbar-track: #363636;
+	--color-scrollbar-track: #353535;
 	--color-scrollbar-thumb: #a5a5a5;
 	--color-scrollbar-thumb-hover: #696969;
 
