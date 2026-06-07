@@ -100,7 +100,91 @@ export async function plugin() {
         }
       }
       windowHooker(window);
-  
+
+      function wantsNewTab(mouseEvent) {
+        if (mouseEvent.ctrlKey) {
+          return true;
+        }
+        if (mouseEvent.metaKey) {
+          return true;
+        }
+        return false;
+      }
+
+      function hrefFinder(node) {
+        if (!node) {
+          return null;
+        }
+        if (!node.closest) {
+          return null;
+        }
+        return node.closest('a[href]');
+      }
+      document.addEventListener('click', function (clickEvent) {
+        if (clickEvent.defaultPrevented) {
+          return;
+        }
+        if (clickEvent.button !== 0) {
+          return;
+        }
+        let link = hrefFinder(clickEvent.target);
+        if (!link) {
+          return;
+        }
+        let opensNewTab = false;
+        if (link.target === '_blank') {
+          opensNewTab = true;
+        }
+        if (wantsNewTab(clickEvent)) {
+          opensNewTab = true;
+        }
+        if (!opensNewTab) {
+          return;
+        }
+        clickEvent.preventDefault();
+        clickEvent.stopPropagation();
+        emitNewTab(link.href);
+      }, true);
+
+      document.addEventListener('auxclick', function (auxClickEvent) {
+        if (auxClickEvent.button !== 1) {
+          return;
+        }
+        let link = hrefFinder(auxClickEvent.target);
+        if (!link) {
+          return;
+        }
+        auxClickEvent.preventDefault();
+        auxClickEvent.stopPropagation();
+        emitNewTab(link.href);
+      }, true);
+
+      document.addEventListener('mousedown', function (mouseDownEvent) {
+        if (mouseDownEvent.button !== 1) {
+          return;
+        }
+        let link = hrefFinder(mouseDownEvent.target);
+        if (!link) {
+          return;
+        }
+        mouseDownEvent.preventDefault();
+      }, true);
+      document.addEventListener('submit', function (submitEvent) {
+        let form = submitEvent.target;
+        if (!form) {
+          return;
+        }
+        if (form.target !== '_blank') {
+          return;
+        }
+        submitEvent.preventDefault();
+        submitEvent.stopPropagation();
+        let formAction = form.action;
+        if (!formAction) {
+          formAction = location.href;
+        }
+        emitNewTab(formAction);
+      }, true);
     })();
     /* @/browser */
     return body;
