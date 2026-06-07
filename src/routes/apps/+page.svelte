@@ -28,7 +28,7 @@
 	let iframeEl;
 	let polygon;
 	let decodedURL = $state('');
-	let car = $state('libcurl');
+	let car = $state('libcurlRaw');
 	let connection;
 	let frameDisplay = $state('none');
 	let location = '/img/';

@@ -26,5 +26,10 @@ export async function setCar(connection, car, custom) {
 				{ base: '/libcurl/index.mjs', wisp: wispUrl }
 			]);
 			break;
+		case 'libcurlRaw':
+			await connection.setTransport('/libcurl/index.mjs', [
+				{ base: '/libcurl/index.mjs', wisp: wispUrl }
+			]);
+			break;
 	}
 }
