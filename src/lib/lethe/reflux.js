@@ -101,6 +101,99 @@ export async function plugin() {
       }
       windowHooker(window);
 
+      function hookSneakyFrames(iframeElement) {
+        try {
+          if (iframeElement && iframeElement.contentWindow) {
+            windowHooker(iframeElement.contentWindow);
+          }
+        } catch (error) {
+        }
+      }
+      try {
+        let originalAppendChild = Node.prototype.appendChild;
+        Node.prototype.appendChild = function (newNode) {
+          let appendResult = originalAppendChild.call(this, newNode);
+          try {
+            if (newNode && newNode.tagName === 'IFRAME') {
+              hookSneakyFrames(newNode);
+            }
+          } catch (error) {
+          }
+          return appendResult;
+        };
+        let originalInsertBefore = Node.prototype.insertBefore;
+        Node.prototype.insertBefore = function (newNode, referenceNode) {
+          let insertResult = originalInsertBefore.call(this, newNode, referenceNode);
+          try {
+            if (newNode && newNode.tagName === 'IFRAME') {
+              hookSneakyFrames(newNode);
+            }
+          } catch (error) {
+          }
+          return insertResult;
+        };
+      } catch (error) {
+      }
+      function patchAllFrames() {
+        try {
+          let allIframes = document.querySelectorAll('iframe');
+          let iframeIndex = 0;
+          while (iframeIndex < allIframes.length) {
+            hookSneakyFrames(allIframes[iframeIndex]);
+            iframeIndex = iframeIndex + 1;
+          }
+        } catch (error) {
+        }
+      }
+      function startIframeObserver() {
+        patchAllFrames();
+        try {
+          let observer = new MutationObserver(function (mutations) {
+            let mutationIndex = 0;
+            while (mutationIndex < mutations.length) {
+              let addedNodes = mutations[mutationIndex].addedNodes;
+              let nodeIndex = 0;
+              while (nodeIndex < addedNodes.length) {
+                let addedNode = addedNodes[nodeIndex];
+                if (addedNode && addedNode.tagName === 'IFRAME') {
+                  hookSneakyFrames(addedNode);
+                  addedNode.addEventListener('load', function () {
+                    hookSneakyFrames(this);
+                  }, { once: true });
+                }
+                nodeIndex = nodeIndex + 1;
+              }
+              mutationIndex = mutationIndex + 1;
+            }
+          });
+          let observerTarget = document.documentElement;
+          if (!observerTarget) {
+            observerTarget = document;
+          }
+          observer.observe(observerTarget, { childList: true, subtree: true });
+        } catch (error) {
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startIframeObserver, { once: true });
+      } else {
+        startIframeObserver();
+      }
+      try {
+        let anchorPrototype = HTMLAnchorElement.prototype;
+        let originalAnchorClick = anchorPrototype.click;
+        anchorPrototype.click = function () {
+          try {
+            if (this && this.target === '_blank' && this.href) {
+              emitNewTab(this.href);
+              return;
+            }
+          } catch (error) {
+          }
+          return originalAnchorClick.apply(this, arguments);
+        };
+      } catch (error) {
+      }
       function wantsNewTab(mouseEvent) {
         if (mouseEvent.ctrlKey) {
           return true;
