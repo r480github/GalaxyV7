@@ -125,10 +125,20 @@
 		}
 		activeFrame.url = encoded;
 	}
+	let lastOpenedUrl = '';
+	let lastOpenedTime = 0;
 	async function openInNewTab(targetUrl) {
 		if (!targetUrl) {
 			return;
 		}
+		const currentTime = Date.now();
+		const timeSinceLastOpen = currentTime - lastOpenedTime;
+		const isSameUrl = targetUrl === lastOpenedUrl;
+		if (isSameUrl && timeSinceLastOpen < 800) {
+			return;
+		}
+		lastOpenedUrl = targetUrl;
+		lastOpenedTime = currentTime;
 		addTab();
 		await tick();
 		navigateTo(targetUrl);
@@ -322,6 +332,7 @@
 
 <div class="frameContainer">
 	{#each frames as frame (frame.id)}
+		<!-- COMMIT 1 (base): onnewtab hands intercepted URLs to openInNewTab -->
 		<Iframe
 			id={frame.id}
 			src={frame.url}
