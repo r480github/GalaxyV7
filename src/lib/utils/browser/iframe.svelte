@@ -1,7 +1,8 @@
 <script>
 	import { activeTab, reloadSignal, goBackSignal, goForwardSignal } from '$lib/stores/index.js';
 	import { getOriginalUrl } from '$lib/lethe/decode';
-	let { id, src = null, onnavigate } = $props();
+	import { newTabEventName, newTabQueueName } from '$lib/lethe/reflux';
+	let { id, src = null, onnavigate, onnewtab } = $props();
 	let frame;
 
 	function reportUrl() {
@@ -14,6 +15,7 @@
 		} catch (e) {}
 	}
 
+
 	function handleLoad() {
 		reportUrl();
 		try {
@@ -24,6 +26,27 @@
 			if (titleEl) {
 				const titleObserver = new MutationObserver(reportUrl);
 				titleObserver.observe(titleEl, { childList: true });
+			}
+			const pendingUrls = win[newTabQueueName];
+			if (Array.isArray(pendingUrls)) {
+				while (pendingUrls.length > 0) {
+					const pendingUrl = pendingUrls.shift();
+					if (onnewtab) {
+						onnewtab(pendingUrl);
+					}
+				}
+			}
+		if (!win.__galaxyNewTabBound) {
+				win.__galaxyNewTabBound = true;
+				win.addEventListener(newTabEventName, function (messageEvent) {
+					let newTabUrl = undefined;
+					if (messageEvent && messageEvent.detail) {
+						newTabUrl = messageEvent.detail.url;
+					}
+					if (onnewtab) {
+						onnewtab(newTabUrl);
+					}
+				});
 			}
 		} catch (e) {}
 	}
@@ -38,8 +61,7 @@
 		if ($goForwardSignal === id) {
 			try {
 				frame.contentWindow.history.forward();
-			} catch (e) {
-			}
+			} catch (e) {}
 			$goForwardSignal = null;
 		}
 		if ($reloadSignal === id) {
