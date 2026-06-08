@@ -56,6 +56,12 @@
 		"genre": "Other"
 	},
 	{
+		"name": "Disco",
+		"url": "https://discord.com/app",
+		"image": "30.jpg",
+		"genre": "Social Media"
+	},
+	{
 		"name": "Galaxy.Click",
 		"url": "https://galaxy.click/",
 		"image": "10.png",
