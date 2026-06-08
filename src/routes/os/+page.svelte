@@ -64,7 +64,7 @@
 		},
 		{
 			id: 4,
-			url: '',
+			url: '/settings',
 			name: 'Settings',
 			icon: s,
 			height: '50%',

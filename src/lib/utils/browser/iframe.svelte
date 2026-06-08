@@ -2,7 +2,7 @@
 	import { activeTab, reloadSignal, goBackSignal, goForwardSignal } from '$lib/stores/index.js';
 	import { getOriginalUrl } from '$lib/lethe/decode';
 	import { newTabEventName, newTabQueueName } from '$lib/lethe/reflux';
-	let { id, src = null, onnavigate, onnewtab } = $props();
+	let { id, src = null, onnavigate, onnewtab, interceptEnabled = true } = $props();
 	let frame;
 
 	function reportUrl() {
@@ -97,8 +97,12 @@
 				return fakeWindow;
 			}
 
+			const nativeOpen = targetWindow.open;
 			try {
 				targetWindow.open = function (url) {
+					if (!interceptEnabled) {
+						return nativeOpen.apply(targetWindow, arguments);
+					}
 					openTabForUrl(url);
 					return dudWindow();
 				};
@@ -114,7 +118,7 @@
 					const originalAnchorClick = anchorPrototype.click;
 					anchorPrototype.click = function () {
 						try {
-							if (this && this.target === '_blank' && this.href) {
+							if (interceptEnabled && this && this.target === '_blank' && this.href) {
 								openTabForUrl(this.href);
 								return;
 							}
@@ -138,6 +142,9 @@
 			frameDocument.addEventListener(
 				'click',
 				function (clickEvent) {
+					if (!interceptEnabled) {
+						return;
+					}
 					if (clickEvent.defaultPrevented) {
 						return;
 					}
@@ -171,6 +178,9 @@
 			frameDocument.addEventListener(
 				'auxclick',
 				function (auxClickEvent) {
+					if (!interceptEnabled) {
+						return;
+					}
 					if (auxClickEvent.button !== 1) {
 						return;
 					}
@@ -188,6 +198,9 @@
 			frameDocument.addEventListener(
 				'mousedown',
 				function (mouseDownEvent) {
+					if (!interceptEnabled) {
+						return;
+					}
 					if (mouseDownEvent.button !== 1) {
 						return;
 					}
@@ -203,6 +216,9 @@
 			frameDocument.addEventListener(
 				'submit',
 				function (submitEvent) {
+					if (!interceptEnabled) {
+						return;
+					}
 					const form = submitEvent.target;
 					if (!form) {
 						return;
@@ -227,6 +243,7 @@
 		reportUrl();
 		try {
 			const win = frame.contentWindow;
+			win.__galaxyInterceptEnabled = interceptEnabled;
 			installHostInterception(win);
 			win.addEventListener('popstate', reportUrl);
 			win.addEventListener('hashchange', reportUrl);
@@ -279,6 +296,13 @@
 			} catch (e) {}
 			$reloadSignal = null;
 		}
+	});
+	$effect(() => {
+		try {
+			if (frame && frame.contentWindow) {
+				frame.contentWindow.__galaxyInterceptEnabled = interceptEnabled;
+			}
+		} catch (e) {}
 	});
 </script>
 

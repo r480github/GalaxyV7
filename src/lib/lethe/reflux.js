@@ -3,8 +3,7 @@ const api = new RefluxAPI();
 
 export const newTabEventName = '__galaxyNewTab';
 export const newTabQueueName = '__galaxyPendingNewTabs';
-
-export async function plugin() {
+export async function enablePopupInterceptor() {
 	await api.addPlugin({
 		name: 'windowOpen',
 		sites: ['*'],
@@ -28,6 +27,17 @@ export async function plugin() {
           return window;
         } catch (error) {
           return window;
+        }
+      }
+      function isEnabled() {
+        try {
+          let target = deliveryTarget();
+          if (target.__galaxyInterceptEnabled === false) {
+            return false;
+          }
+          return true;
+        } catch (error) {
+          return true;
         }
       }
       function emitNewTab(rawUrl) {
@@ -92,7 +102,11 @@ export async function plugin() {
             return;
           }
           targetWindow.__galaxyOpenHooked = true;
+          let nativeOpen = targetWindow.open;
           targetWindow.open = function (url, name, features) {
+            if (!isEnabled()) {
+              return nativeOpen.apply(targetWindow, arguments);
+            }
             emitNewTab(url);
             return dudWindow();
           };
@@ -184,7 +198,7 @@ export async function plugin() {
         let originalAnchorClick = anchorPrototype.click;
         anchorPrototype.click = function () {
           try {
-            if (this && this.target === '_blank' && this.href) {
+            if (isEnabled() && this && this.target === '_blank' && this.href) {
               emitNewTab(this.href);
               return;
             }
@@ -214,6 +228,9 @@ export async function plugin() {
         return node.closest('a[href]');
       }
       document.addEventListener('click', function (clickEvent) {
+        if (!isEnabled()) {
+          return;
+        }
         if (clickEvent.defaultPrevented) {
           return;
         }
@@ -240,6 +257,9 @@ export async function plugin() {
       }, true);
 
       document.addEventListener('auxclick', function (auxClickEvent) {
+        if (!isEnabled()) {
+          return;
+        }
         if (auxClickEvent.button !== 1) {
           return;
         }
@@ -253,6 +273,9 @@ export async function plugin() {
       }, true);
 
       document.addEventListener('mousedown', function (mouseDownEvent) {
+        if (!isEnabled()) {
+          return;
+        }
         if (mouseDownEvent.button !== 1) {
           return;
         }
@@ -263,6 +286,9 @@ export async function plugin() {
         mouseDownEvent.preventDefault();
       }, true);
       document.addEventListener('submit', function (submitEvent) {
+        if (!isEnabled()) {
+          return;
+        }
         let form = submitEvent.target;
         if (!form) {
           return;

@@ -10,6 +10,7 @@
 	import { loadSetting } from '$lib/utils/localstorage.js';
 	import star from '$lib/img/icons/star.png';
 	import searchIcon from '$lib/img/icons/search.png';
+	import extensions from '$lib/img/icons/puzzle.png';
 	import {
 		tabID,
 		deleteTab,
@@ -23,7 +24,7 @@
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
-	import { plugin } from '$lib/lethe/reflux';
+	import { enablePopupInterceptor } from '$lib/lethe/reflux';
 	let tabs = $state([]);
 	let frames = $state([]);
 	let query = $state('');
@@ -107,7 +108,7 @@
 		}
 		connection = createConnection();
 		await setCar(connection, car, customWisp);
-		await plugin();
+		await enablePopupInterceptor();
 		ready = true;
 	});
 
@@ -128,7 +129,7 @@
 	let lastOpenedUrl = '';
 	let lastOpenedTime = 0;
 	async function openInNewTab(targetUrl) {
-		if (!targetUrl) {
+		if (!targetUrl || !popupInterceptor) {
 			return;
 		}
 		const currentTime = Date.now();
@@ -199,6 +200,8 @@
 	}
 
 	let settingsOpen = $state(false);
+	let extensionsOpen = $state(false);
+	let popupInterceptor = $state(loadSetting('popupInterceptor', 'true') === 'true');
 
 	function toggleSettings() {
 		settingsOpen = !settingsOpen;
@@ -206,7 +209,12 @@
 	function closeSettings() {
 		settingsOpen = false;
 	}
-
+	function toggleExtensions() {
+		extensionsOpen = !extensionsOpen;
+	}
+	function togglePopupInterceptor() {
+		popupInterceptor = !popupInterceptor;
+	}
 	function openInNewWindow() {
 		if (!activeFrame || !activeFrame.url) {
 			return;
@@ -230,6 +238,7 @@
 		localStorage.setItem('customWisp', customWisp);
 		localStorage.setItem('searchEngine', searchEngine);
 		localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+		localStorage.setItem('popupInterceptor', String(popupInterceptor));
 	});
 </script>
 
@@ -273,11 +282,38 @@
 		</form>
 	</div>
 	<div class="nav-right">
+		<div class="button" onclick={toggleExtensions}>
+			<img src={extensions} alt="extensions" class="nav-icon puzzle" />
+		</div>
+		{#if extensionsOpen}
+			<div class="settings-overlay" onclick={toggleExtensions}></div>
+			<div class="extensionContainer">
+				<div class="extensionBlock">
+					<div class="aboutExtension">
+						<p class="extensionName">Popup Interceptor</p>
+						<p class="extensionDesc">
+							Intercepts popup requests and opens them in Galaxy instead of the native browser.
+						</p>
+					</div>
+					<button
+						type="button"
+						class="extensionToggle"
+						class:on={popupInterceptor}
+						role="switch"
+						aria-checked={popupInterceptor}
+						aria-label="Toggle Popup Interceptor"
+						onclick={togglePopupInterceptor}
+					>
+						<span class="toggleKnob"></span>
+					</button>
+				</div>
+			</div>
+		{/if}
 		<div class="button" onclick={toggleSettings}>
 			<img src={setting} alt="settings" class="nav-icon" />
 		</div>
 		{#if settingsOpen}
-			<div class="settings-overlay" onclick={closeSettings}></div>
+			<div class="settings-overlay" onclick={toggleSettings}></div>
 			<div class="settings-dropdown">
 				<button class="menuBtn" onclick={addTab}>New Tab</button>
 				<button class="menuBtn" onclick={addBookmark}>Bookmark Site</button>
@@ -332,12 +368,12 @@
 
 <div class="frameContainer">
 	{#each frames as frame (frame.id)}
-		<!-- COMMIT 1 (base): onnewtab hands intercepted URLs to openInNewTab -->
 		<Iframe
 			id={frame.id}
 			src={frame.url}
 			onnavigate={(info) => handleNavigate(frame.id, info)}
 			onnewtab={(url) => openInNewTab(url)}
+			interceptEnabled={popupInterceptor}
 		/>
 		{#if frame.id === $activeTab && !frame.url}
 			<Home {ready} onsearch={(rawQuery) => navigateTo(rawQuery)} />

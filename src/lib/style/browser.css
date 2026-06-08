@@ -28,7 +28,8 @@ body {
 	flex-grow: 1;
 }
 .nav-right {
-	margin: 0px 10px;
+	gap: 2px;
+	margin: 0px 5px;
 	position: relative;
 }
 .nav-left,
@@ -62,6 +63,9 @@ form {
 	position: absolute;
 	margin-left: 10px;
 	filter: brightness(0.7);
+}
+.puzzle {
+	filter: brightness(0.7) !important;
 }
 .star {
 	z-index: 2;
@@ -110,6 +114,84 @@ form {
 	width: 100vw;
 	height: 100vh;
 	z-index: 1;
+}
+.extensionContainer {
+	position: absolute;
+	top: calc(100% + 6px);
+	right: 35px;
+	display: flex;
+	flex-direction: column;
+	min-width: 300px;
+	padding: 6px;
+	background-color: var(--color-surface-3);
+	border: 1px solid var(--color-border);
+	border-radius: 12px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+	z-index: 100;
+	height: auto;
+	transform-origin: top right;
+	animation: settings-pop 0.13s ease-out;
+}
+.extensionBlock {
+	padding: 8px 10px;
+	border-radius: 8px;
+	background-color: transparent;
+	color: var(--color-text-muted);
+	font-size: 13px;
+	font-family: var(--font-family-body);
+	text-align: left;
+	cursor: default;
+	transition-duration: 0.15s;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.aboutExtension {
+	flex: 1;
+	min-width: 0;
+}
+.extensionName {
+	font-weight: 600;
+	color: var(--color-text);
+}
+.extensionDesc {
+	margin-top: 4px;
+	font-size: 11px;
+	color: var(--color-text-subtle);
+}
+.extensionBlock:hover {
+	background-color: var(--overlay-hover);
+	color: var(--color-white);
+}
+.extensionToggle {
+	flex-shrink: 0;
+	position: relative;
+	width: 38px;
+	height: 22px;
+	padding: 0;
+	border: none;
+	border-radius: 999px;
+	background-color: var(--color-chrome);
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+.extensionToggle.on {
+	background-color: var(--color-success);
+}
+.toggleKnob {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: var(--color-white);
+	transition: transform 0.15s ease;
+}
+.extensionToggle.on .toggleKnob {
+	transform: translateX(16px);
 }
 .settings-dropdown {
 	position: absolute;

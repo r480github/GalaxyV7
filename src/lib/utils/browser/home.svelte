@@ -96,6 +96,7 @@
 			transparent 60%
 		);
     padding-bottom: 20%;
+		overflow: hidden;
 	}
 	.hero {
 		display: flex;
