@@ -64,6 +64,11 @@ await fastify.register(fastifyStatic, {
 	prefix: '/poly/',
 	decorateReply: false
 });
+await fastify.register(fastifyStatic, {
+	root: join(__dirname, 'prism'),
+	prefix: '/prism/',
+	decorateReply: false
+});
 fastify.all('/*', (req, reply) => {
 	svelteHandler(req.raw, reply.raw, () => reply.callNotFound());
 });
