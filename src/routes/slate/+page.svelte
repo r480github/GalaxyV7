@@ -38,7 +38,7 @@
 	let prismController;
 	let sjFrame;
 	let customWisp = $state(loadSetting('customWisp', ''));
-	let searchEngine = $state(loadSetting('searchEngine', 'ddg'));
+	let searchEngine = $state(loadSetting('searchEngine', 'google'));
 	let car = $state(loadSetting('car', 'libcurl'));
 	let bookmarks = $state(JSON.parse(loadSetting('bookmarks', '[]')));
 	let connection;
