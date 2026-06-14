@@ -10,7 +10,6 @@
 	let faviconUrl = $derived(
 		displayUrl ? faviconFetch({ hostname: new URL(displayUrl).hostname }) : defaultIcon
 	);
-	let tabHover = 'var(--overlay-browser-tab)';
 	let opacity = $state(0.7);
 	// svelte-ignore state_referenced_locally
 	$effect(() => {
@@ -33,20 +32,23 @@
 	function setActive() {
 		$activeTab = id;
 	}
+	let pillColor = $derived.by(() => {
+		if (id == $activeTab) {
+			return 'var(--color-chrome)';
+		}
+		if (hovered) {
+			return 'var(--color-chrome)';
+		}
+		return 'transparent';
+	});
 
 	let bgColor = $derived.by(() => {
 		if (id == $activeTab) {
 			return 'var(--color-chrome)';
 		}
 		if (hovered) {
-			return tabHover;
 		}
 		return 'transparent';
-	});
-	let borderRadius = $derived.by(() => {
-		if (id == $activeTab || hovered) {
-			return '7px';
-		}
 	});
 </script>
 
@@ -57,31 +59,20 @@
 	onauxclick={handleAuxClick}
 	onmouseover={() => (hovered = true)}
 	onmouseout={() => (hovered = false)}
-	style="background-color: {bgColor}; 
-	border-top-left-radius: {borderRadius}; "
+	style="background-color: {bgColor}; "
 >
-	<div class="stuff">
-		<div class="icon">
-			<img src={faviconUrl} class="tab-icon" alt="" style="opacity:{opacity}" />
+	<div class="pill" style="background-color: {pillColor};">
+		<div class="stuff">
+			<div class="icon">
+				<img src={faviconUrl} class="tab-icon" alt="" style="opacity:{opacity}" />
+			</div>
+			<p class="title">{title}</p>
+			<div class="close" onclick={closeTab}><p class="closeText">&times;</p></div>
 		</div>
-		<p class="title">{title}</p>
-		<div class="close" onclick={closeTab}><p class="closeText">&times;</p></div>
 	</div>
 	{#if id == $activeTab}
 		<div class="bottom-right" style="background-color: {bgColor};"></div>
 		<div class="bottom-left" style="background-color: {bgColor};"></div>
-	{/if}
-	{#if hovered}
-		<div
-			class="bottom-right"
-			style="background-color: {tabHover};
-		z-index: -10"
-		></div>
-		<div
-			class="bottom-left"
-			style="background-color: {tabHover};
-		z-index: -10"
-		></div>
 	{/if}
 </div>
 
@@ -99,13 +90,22 @@
 		-ms-user-select: none; /* IE 10 and IE 11 */
 		user-select: none; /* Standard syntax */
 		margin-top: auto;
-		padding: 0px 10px;
+		padding: 0px 3px;
 		box-sizing: border-box;
 		min-width: 0;
-		border-top-right-radius: 7px;
 		border-right: 1px solid rgba(255, 255, 255, 0);
+		border-top-right-radius: 8px;
+		border-top-left-radius: 8px;
 	}
-
+	.pill {
+		width: 100%;
+		height: 23px;
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		padding: 0px 7px;
+	}
 	.stuff {
 		display: flex;
 		align-items: center;
