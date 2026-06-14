@@ -356,7 +356,7 @@
 					<option value="epoxy">Epox</option>
 				</select>
 				<p>Wi<span class="filler">ha67</span>sp</p>
-				<input bind:value={customWisp} placeholder="wss://..." type="text" />
+				<input bind:value={customWisp} placeholder="keep blank for default" type="text" />
 				<p>Sea<span class="filler">ha67</span>rch Engine</p>
 				<select bind:value={searchEngine}>
 					<option value="ddg">DuckDuckGo</option>
