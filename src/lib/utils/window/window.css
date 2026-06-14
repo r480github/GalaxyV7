@@ -72,8 +72,8 @@ iframe {
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
-	background-color: var(--color-white);
-	border: none;
+background: var(--color-surface-2);
+	backdrop-filter: blur(16px);	border: none;
 	border-bottom-right-radius: 8px;
 	border-bottom-left-radius: 8px;
 }

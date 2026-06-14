@@ -24,6 +24,7 @@
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
+	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
 	import { enablePopupInterceptor } from '$lib/lethe/reflux';
 	let tabs = $state([]);
 	let frames = $state([]);
@@ -31,9 +32,11 @@
 	let inputEl;
 	let tabCounter = 0;
 	let inputFocused = $state(false);
-	let letheEngine = $state(loadSetting('lethe', 'sj'));
+	let letheEngine = $state(loadSetting('lethe', 'sj2'));
 	let ready = $state(false);
 	let polygon;
+	let prismController;
+	let sjFrame;
 	let customWisp = $state(loadSetting('customWisp', ''));
 	let searchEngine = $state(loadSetting('searchEngine', 'ddg'));
 	let car = $state(loadSetting('car', 'libcurl'));
@@ -112,13 +115,30 @@
 		ready = true;
 	});
 
-	function navigateTo(rawQuery) {
+	async function ensurePrism() {
+		if (sjFrame) return sjFrame;
+		prismController = await createPrismController(car, customWisp || undefined);
+		sjFrame = prismController.createFrame();
+		return sjFrame;
+	}
+	function prismEncode(fixedUrl) {
+		// @ts-ignore
+		return window.$scramjet.rewriteUrl(fixedUrl, sjFrame.context, {
+			origin: new URL(location.href),
+			base: new URL(location.href)
+		});
+	}
+
+	async function navigateTo(rawQuery) {
 		if (!ready || !activeFrame) {
 			return;
 		}
 		const fixedUrl = search(rawQuery, searchEngine);
 		let encoded;
-		if (letheEngine === 'uv') {
+		if (letheEngine === 'sj2') {
+			await ensurePrism();
+			encoded = prismEncode(fixedUrl);
+		} else if (letheEngine === 'uv') {
 			// @ts-ignore
 			encoded = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
 		} else {
@@ -152,7 +172,10 @@
 	}
 	async function bookmarkSearch(url, lethe) {
 		let encoded;
-		if (lethe === 'uv') {
+		if (lethe === 'sj2') {
+			await ensurePrism();
+			encoded = prismEncode(url);
+		} else if (lethe === 'uv') {
 			// @ts-ignore
 			encoded = window.__uv$config.prefix + window.__uv$config.encodeUrl(url);
 		} else {
@@ -186,6 +209,9 @@
 	$effect(() => {
 		if (ready && connection) {
 			setCar(connection, car, customWisp);
+		}
+		if (getPrismController()) {
+			setPrismTransport(car, customWisp || undefined);
 		}
 	});
 
@@ -320,6 +346,7 @@
 				<div class="break"></div>
 				<p>Pr<span class="filler">ha67</span>oxy</p>
 				<select bind:value={letheEngine} disabled={!ready}>
+					<option value="sj2">SJ2</option>
 					<option value="sj">SJ</option>
 					<option value="uv">UV</option>
 				</select>

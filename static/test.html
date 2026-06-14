@@ -9,13 +9,63 @@
     <select id="proxysel">
       <option value="uv">ultraviolet</option>
       <option value="scramjet">scramjet</option>
+      <option value="prism">scramjet v2</option>
     </select>
   </form>
   <iframe id="iframe" width="100%" height="100%"></iframe>
-
   <script src="/charon/index.js" defer></script>
   <script src="/glass/glass.bundle.js" defer></script>
   <script src="/glass/glass.config.js" defer></script>
   <script src="/poly/polygon.all.js" defer></script>
+  <script src="/prism/prism.js" defer></script>
+  <script src="/prism/prism.api.js" defer></script>
+  <script src="/prism/epoxy.js" defer></script>
   <script src="/stuff.js" defer></script>
+  <script type="module">
+    const wispUrl =
+      (location.protocol === "https:" ? "wss" : "ws") +
+      "://" +
+      location.host +
+      "/wisp/";
+
+    let controller;
+    let frame; 
+
+    async function bootPrism() {
+      const Epoxy = window.EpoxyTransport.default ?? window.EpoxyTransport;
+      const transport = new Epoxy({ wisp: wispUrl });
+      await transport.init();
+      const reg = await navigator.serviceWorker.register("/sw.js");
+      await navigator.serviceWorker.ready;
+      const sw = reg.active ?? navigator.serviceWorker.controller;
+      const { Controller, config } = window.$scramjetController;
+      config.scramjetPath = "/prism/prism.js";
+      config.injectPath = "/prism/prism.inject.js";
+      config.wasmPath = "/prism/prism.wasm";
+
+      controller = new Controller({ serviceworker: sw, transport });
+      await controller.wait();
+      return controller;
+    }
+
+    function search(input) {
+      try {
+        return new URL(input).toString();
+      } catch {}
+      try {
+        const u = new URL(`https://${input}`);
+        if (u.hostname.includes(".")) return u.toString();
+      } catch {}
+      return "https://duckduckgo.com/search?q=" + encodeURIComponent(input);
+    }
+
+    document.getElementById("idk").addEventListener("submit", async (event) => {
+      if (document.getElementById("proxysel").value !== "prism") return;
+      event.preventDefault();
+      if (!controller) controller = await bootPrism();
+      if (!frame) frame = controller.createFrame(document.getElementById("iframe"));
+
+      frame.go(search(document.getElementById("url").value));
+    });
+  </script>
 </body>

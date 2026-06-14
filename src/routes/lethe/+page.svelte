@@ -1,10 +1,10 @@
-
 <script>
 	import { onMount } from 'svelte';
 	import { loadScript } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
+	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
 	import { getOriginalUrl } from '$lib/lethe/decode';
 
 	let query = $state('');
@@ -16,7 +16,9 @@
 	let url = $state('');
 	let car = $state('libcurl');
 	let connection;
-	
+	let prismController;
+	let prismFrame;
+
 	//  debugger is vibecoded
 	let dependencies = $state([
 		{ key: 'baremux', label: 'BareMux transport', loaded: false },
@@ -28,7 +30,6 @@
 		{ key: 'transport', label: 'Transport connection', loaded: false }
 	]);
 
-	// Find the dependency with this key and mark it as finished loading.
 	function markLoaded(key) {
 		for (const dependency of dependencies) {
 			if (dependency.key === key) {
@@ -74,6 +75,15 @@
 		event.preventDefault();
 		if (!ready) return;
 		const fixedUrl = search(query);
+
+		if (letheEngine === 'prism') {
+			if (!prismController) prismController = await createPrismController(car);
+			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
+			decodedURL = fixedUrl;
+			prismFrame.go(fixedUrl);
+			return;
+		}
+
 		if (letheEngine === 'uv') {
 			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
 		} else {
@@ -86,6 +96,10 @@
 	$effect(() => {
 		if (ready && connection) {
 			setCar(connection, car);
+		}
+		// Keep a live Prism controller's transport in sync with the car dropdown.
+		if (getPrismController()) {
+			setPrismTransport(car);
 		}
 	});
 </script>
@@ -116,12 +130,13 @@
 	/>
 	<p>{decodedURL}</p>
 	<select bind:value={letheEngine} disabled={!ready}>
-		<option value="scramjet">Scra<span class="filler">ha67</span>mjet</option>
-		<option value="uv">Ultravi<span class="filler">ha67</span>olet</option>
+		<option value="scramjet">Scramjet</option>
+		<option value="prism">Scramjet v2</option>
+		<option value="uv">Ultraviolet</option>
 	</select>
 	<select bind:value={car} disabled={!ready}>
-		<option value="libcurl">Li<span class="filler">ha67</span>bcurl</option>
-		<option value="epoxy">Ep<span class="filler">ha67</span>oxy</option>
+		<option value="libcurl">Libcurl</option>
+		<option value="epoxy">Epoxy</option>
 	</select>
 </form>
 <iframe bind:this={iframeEl} title=""></iframe>

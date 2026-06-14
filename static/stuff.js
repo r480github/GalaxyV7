@@ -58,6 +58,7 @@ function search(input) {
 setTransport("epoxy");
 
 document.getElementById("idk").addEventListener("submit", async (event) => {
+  if (document.getElementById("proxysel").value === "prism") return;
   event.preventDefault();
   let fixedurl = search(document.getElementById("url").value);
   let url;

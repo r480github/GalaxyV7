@@ -1,5 +1,16 @@
 export function getOriginalUrl(url) {
 	if (!url) return '';
+	if (url.includes('/~/sj/')) {
+		try {
+			const path = url.split('#')[0].split('?')[0];
+			const after = path.split('/~/sj/')[1];
+			const encoded = after.split('/').slice(2).join('/'); 
+			const decoded = decodeURIComponent(encoded);
+			return decoded.startsWith('http') ? decoded : '';
+		} catch (e) {
+			return '';
+		}
+	}
 	if (url.includes('polygon')) {
 		try {
 			if (url.startsWith('/polygon/')) {
