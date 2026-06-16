@@ -38,18 +38,16 @@
 	}
 	let pillColor = $derived.by(() => {
 		if (id == $activeTab) {
-			return 'var(--color-chrome)';
+			return 'var(--color-surface-2)';
 		}
 		if (hovered) {
-			return 'var(--color-chrome)';
+			return 'var(--overlay-hover)';
 		}
 		return 'transparent';
 	});
 	let bgColor = $derived.by(() => {
 		if (id == $activeTab) {
-			return 'var(--color-chrome)';
-		}
-		if (hovered) {
+			return 'var(--color-surface-2)';
 		}
 		return 'transparent';
 	});
@@ -57,6 +55,7 @@
 
 <div
 	class="tab"
+	class:active={id == $activeTab}
 	{id}
 	bind:this={tabEl}
 	onclick={setActive}
@@ -103,7 +102,7 @@
 	}
 	.pill {
 		width: 100%;
-		height: 23px;
+		height: 24px;
 		border-radius: 8px;
 		display: flex;
 		align-items: center;
@@ -122,26 +121,27 @@
 		margin-top: 15px;
 		width: 200px;
 		height: 200px;
-		background-color: var(--color-chrome);
-		clip-path: path('M 20 20 L 20 180 L 180 180 Q 25 175 20 20 Z');
-		z-index: 50;
+		clip-path: path('M 20 20 L 20 180 L 180 180 Q 21 179 20 20 Z');
 	}
 	.bottom-right {
-		margin-left: calc(100% + 10px);
+		margin-left: calc(100% + 14px);
 		transform: scale(0.1);
 	}
 	.bottom-left {
-		margin-left: calc(-100% - 10px);
+		margin-left: calc(-100% - 14px);
 		transform: scale(0.1) scaleX(-1);
 	}
 	.title {
-		color: var(--color-text-muted);
+		color: var(--color-text-subtle);
 		font-size: 12px;
 		font-family: var(--font-family-body);
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		font-weight: 900;
+	}
+	.tab.active .title {
+		color: var(--color-text);
 	}
 	.tab-icon {
 		height: 15px;
@@ -157,6 +157,10 @@
 		align-items: center;
 		justify-content: center;
 		margin-bottom: 4px;
+		transition-duration: 0.2s;
+	}
+	.close:hover {
+		background-color: var(--overlay-hover);
 	}
 	.closeText {
 		margin: 0px;

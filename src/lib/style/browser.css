@@ -18,7 +18,7 @@ body {
 	height: 40px;
 	display: flex;
 	flex-direction: row;
-	background-color: var(--color-chrome);
+	background-color: var(--color-surface-2);
 }
 .nav-left {
 	margin: 0px 5px;
@@ -51,12 +51,16 @@ form {
 	width: 100%;
 	border-radius: 100px;
 	height: 25px;
-	border: none;
+	border: 1px solid var(--color-border);
 	background-color: var(--color-surface);
 	padding-left: 29px;
 	color: var(--color-white);
 	outline-style: none;
 	box-sizing: border-box;
+	transition-duration: 0.2s;
+}
+.search:focus {
+	border-color: var(--color-border-strong);
 }
 .searchIcon {
 	height: 13px;
@@ -123,7 +127,7 @@ form {
 	flex-direction: column;
 	min-width: 300px;
 	padding: 6px;
-	background-color: var(--color-surface-3);
+	background-color: var(--color-surface-2);
 	border: 1px solid var(--color-border);
 	border-radius: 12px;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
@@ -173,7 +177,7 @@ form {
 	padding: 0;
 	border: none;
 	border-radius: 999px;
-	background-color: var(--color-chrome);
+	background-color: var(--color-surface);
 	cursor: pointer;
 	transition: background-color 0.15s ease;
 }
@@ -201,7 +205,7 @@ form {
 	flex-direction: column;
 	min-width: 210px;
 	padding: 6px;
-	background-color: var(--color-surface-3);
+	background-color: var(--color-surface-2);
 	border: 1px solid var(--color-border);
 	border-radius: 12px;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
@@ -298,7 +302,8 @@ form {
 }
 .bookmarks {
 	height: 25px;
-	background-color: var(--color-chrome);
+	background-color: var(--color-surface-2);
+	border-top: 1px solid var(--color-border);
 	width: 100%;
 	display: flex;
 	align-items: center;

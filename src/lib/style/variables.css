@@ -33,7 +33,6 @@
 	--overlay-hover-strong: rgba(255, 255, 255, 0.16);
 	--overlay-active: rgba(255, 255, 255, 0.43);
 	--overlay-indicator: rgba(255, 255, 255, 0.38);
-	--overlay-browser-tab: #424242; /*Do not add transparency to this; keep slightly brighter than --color-chrome*/
 	/* ===================== Color: status ===================== */
 	--color-danger: #ff0000;
 	--color-danger-hover: rgba(255, 0, 0, 0.7);

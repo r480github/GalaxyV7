@@ -124,10 +124,11 @@
 		font-size: 13px;
 		font-weight: 700;
 		letter-spacing: 0.04em;
-		color: var(--color-bg);
-    background-color: var(--color-text);
-    padding: 2px;
-    border-radius: 4px;
+		color: var(--color-text-subtle);
+		background-color: var(--color-surface-2);
+		border: 1px solid var(--color-border);
+		padding: 2px 6px;
+		border-radius: 6px;
 	}
 	.greeting {
 		margin: 8px 0 28px;
