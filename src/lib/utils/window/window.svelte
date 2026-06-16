@@ -228,7 +228,6 @@
 		transition = false;
 		activeSignal.set(null);
 		gsap.to(`#${id}`, {
-			
 			scale: 0.8,
 			opacity: 0,
 			duration: 0.2,

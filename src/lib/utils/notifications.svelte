@@ -10,7 +10,7 @@
 			'.notification',
 			{ x: 0, opacity: 0, scale: 0.95 },
 			{
-				x: -150,
+				x: -280,
 				opacity: 1,
 				scale: 1,
 				duration: 0.45,
@@ -39,7 +39,7 @@
 		max-width: 220px;
 		padding: 12px 16px;
 		border-radius: 12px;
-		right: -150px;
+		right: -280px;
 		margin: 35px 10px;
 		background-color: var(--color-bg);
 		border: 1px solid rgba(255, 255, 255, 0.08);

@@ -2,9 +2,10 @@
 	import { deleteTab, activeTab } from '$lib/stores/index.js';
 	import faviconFetch from 'favicon-fetch';
 	import defaultIcon from '$lib/img/icons/earthWhite.png';
-
+	import gsap from 'gsap';
 	let { id, displayUrl = '', title = 'New Tab' } = $props();
 
+	let tabEl;
 	let hovered = $state(false);
 
 	let faviconUrl = $derived(
@@ -21,13 +22,16 @@
 	});
 	function closeTab(event) {
 		event.stopPropagation();
-		$deleteTab = id;
+		gsap.to(tabEl, {
+			width: 10,
+			duration: 0.14,
+			onComplete: () => {
+				$deleteTab = id;
+			}
+		});
 	}
 	function handleAuxClick(event) {
-		if (event.button === 1) {
-			event.preventDefault();
-			$deleteTab = id;
-		}
+		closeTab(event);
 	}
 	function setActive() {
 		$activeTab = id;
@@ -41,7 +45,6 @@
 		}
 		return 'transparent';
 	});
-
 	let bgColor = $derived.by(() => {
 		if (id == $activeTab) {
 			return 'var(--color-chrome)';
@@ -55,6 +58,7 @@
 <div
 	class="tab"
 	{id}
+	bind:this={tabEl}
 	onclick={setActive}
 	onauxclick={handleAuxClick}
 	onmouseover={() => (hovered = true)}
@@ -80,7 +84,7 @@
 	.tab {
 		position: relative;
 		height: 30px;
-		width: 178px;
+		width: 190px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
