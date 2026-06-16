@@ -3,9 +3,12 @@ export function getWispUrl(custom) {
 	if (custom) {
 		return custom;
 	} else {
-		// protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-		// return `${protocol}://${location.host}/wisp/`;
-		return 'wss://wisp.galxy.it.com/wisp/';
+		protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+		if (protocol === 'wss') {
+			return 'wss://wisp.galxy.it.com/nyx/';
+		} else {
+			return `${protocol}://${location.host}/wisp/`;
+		}
 	}
 }
 
