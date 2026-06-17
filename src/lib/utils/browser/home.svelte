@@ -116,20 +116,20 @@
 </div>
 
 <style>
+	/*...claude helped with some css*/
 	.home {
 		position: absolute;
 		inset: 0;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
+		justify-content: safe center;
 		padding: 40px 20px 14vh;
 		box-sizing: border-box;
 		overflow: hidden auto;
 		background-color: var(--color-bg);
 		isolation: isolate;
 	}
-	/* Depth + legibility scrim painted over the inline background image. */
 	.home::before {
 		content: '';
 		position: absolute;
@@ -169,7 +169,7 @@
 	.brand {
 		margin: 0;
 		font-family: var(--font-family-heading);
-		font-size: clamp(54px, 9vw, 76px);
+		font-size: clamp(34px, 11vw, 76px);
 		font-weight: 800;
 		letter-spacing: -0.01em;
 		line-height: 1;
@@ -225,8 +225,7 @@
 		font-family: var(--font-family-body);
 		outline: none;
 		box-sizing: border-box;
-		backdrop-filter: blur(22px) saturate(140%);
-		-webkit-backdrop-filter: blur(22px) saturate(140%);
+		backdrop-filter: brightness(1);
 		box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
 		transition:
 			border-color 0.25s,
