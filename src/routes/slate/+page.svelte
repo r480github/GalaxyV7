@@ -268,7 +268,11 @@
 		if (document.fullscreenElement) {
 			document.exitFullscreen();
 		} else {
-			document.documentElement.requestFullscreen();
+			const iframes = document.querySelectorAll('.frameContainer iframe');
+			const activeIframe = Array.from(iframes).find((el) => el.offsetParent !== null);
+			if (activeIframe) {
+				activeIframe.requestFullscreen();
+			}
 		}
 		closeSettings();
 	}

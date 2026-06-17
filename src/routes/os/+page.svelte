@@ -17,6 +17,7 @@
 	import a from '$lib/img/icons/apps.png';
 	import s from '$lib/img/icons/settings.png';
 	import y from '$lib/img/icons/swap.png';
+	import sp from '$lib/img/icons/spotify.png';
 	import { get } from 'svelte/store';
 	import gsap from 'gsap';
 	let activeButton = $state(null);
@@ -41,6 +42,16 @@
 			width: '50%',
 			top: 100,
 			left: 60
+		},
+		{
+			id: 5,
+			url: '/api?url=https://spotify.com&type=prism&notif=Make%20Sure%20To%20Sign%20In%20With%20Google',
+			name: 'Spotify',
+			icon: sp,
+			height: '50%',
+			width: '50%',
+			top: 50,
+			left: 210
 		},
 		{
 			id: 2,
@@ -159,6 +170,14 @@
 		}
 
 		activeSignal.set(appId);
+		const queryString = url.split('?')[1];
+		if (queryString) {
+			const params = new URLSearchParams(queryString);
+			const notifMsg = params.get('notif');
+			if (notifMsg) {
+				$notif = notifMsg;
+			}
+		}
 		windowList.update((list) => [
 			...list,
 			{
