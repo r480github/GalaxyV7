@@ -60,10 +60,16 @@
 		if (type === 'uv') {
 			// @ts-ignore
 			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
-		} else {
-			url = polygon.encodeUrl(url);
+			iframeEl.src = url;
 		}
-		iframeEl.src = url;
+		if (type === 'polygon') {
+			url = polygon.encodeUrl(url);
+			iframeEl.src = url;
+		} else {
+			if (!prismController) prismController = await createPrismController(car);
+			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
+			prismFrame.go(url);
+		}
 	}
 
 	$effect(() => {
