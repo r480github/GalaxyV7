@@ -20,6 +20,7 @@
 
 	/* ===================== Color: text ===================== */
 	--color-text: #e0e0e0; /* primary text */
+	--color-text-dark: #303030; /* primary text for dark theme/inverse color */
 	--color-text-muted: #c1c1c1; /* secondary text */
 	--color-text-subtle: #8a8a8a; /* labels, placeholders, captions */
 
