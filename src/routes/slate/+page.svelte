@@ -7,7 +7,7 @@
 	import Tab from '$lib/utils/browser/tab.svelte';
 	import Iframe from '$lib/utils/browser/iframe.svelte';
 	import Home from '$lib/utils/browser/home.svelte';
-	import { loadSetting } from '$lib/utils/localstorage.js';
+	import { loadSetting, saveSetting } from '$lib/utils/localspace.js';
 	import star from '$lib/img/icons/star.png';
 	import searchIcon from '$lib/img/icons/search.png';
 	import extensions from '$lib/img/icons/puzzle.png';
@@ -32,15 +32,16 @@
 	let inputEl;
 	let tabCounter = 0;
 	let inputFocused = $state(false);
-	let letheEngine = $state(loadSetting('lethe', 'sj2'));
+	let hydrated = $state(false);
+	let letheEngine = $state('sj2');
 	let ready = $state(false);
 	let polygon;
 	let prismController;
 	let sjFrame;
-	let customWisp = $state(loadSetting('customWisp', ''));
-	let searchEngine = $state(loadSetting('searchEngine', 'google'));
-	let car = $state(loadSetting('car', 'libcurl'));
-	let bookmarks = $state(JSON.parse(loadSetting('bookmarks', '[]')));
+	let customWisp = $state('');
+	let searchEngine = $state('google');
+	let car = $state('libcurl');
+	let bookmarks = $state([]);
 	let connection;
 	let activeFrame = $derived(frames.find((frame) => frame.id === $activeTab));
 	$effect(() => {
@@ -88,6 +89,23 @@
 	}
 	addTab();
 	onMount(async () => {
+		// hydrate saved settings
+		const [lethe, savedCar, wisp, engine, marks, intercept] = await Promise.all([
+			loadSetting('lethe', 'sj2'),
+			loadSetting('car', 'libcurl'),
+			loadSetting('customWisp', ''),
+			loadSetting('searchEngine', 'google'),
+			loadSetting('bookmarks', [], JSON.parse),
+			loadSetting('popupInterceptor', true, (raw) => raw === 'true')
+		]);
+		letheEngine = lethe;
+		car = savedCar;
+		customWisp = wisp;
+		searchEngine = engine;
+		bookmarks = marks;
+		popupInterceptor = intercept;
+		hydrated = true;
+
 		const script = document.createElement('script');
 		script.src = 'https://cdn.jsdelivr.net/npm/eruda';
 		document.head.appendChild(script);
@@ -243,7 +261,7 @@
 
 	let settingsOpen = $state(false);
 	let extensionsOpen = $state(false);
-	let popupInterceptor = $state(loadSetting('popupInterceptor', 'true') === 'true');
+	let popupInterceptor = $state(true); // hydrated from localspace in onMount
 	function toggleSettings() {
 		settingsOpen = !settingsOpen;
 	}
@@ -278,12 +296,13 @@
 	}
 
 	$effect(() => {
-		localStorage.setItem('lethe', letheEngine);
-		localStorage.setItem('car', car);
-		localStorage.setItem('customWisp', customWisp);
-		localStorage.setItem('searchEngine', searchEngine);
-		localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-		localStorage.setItem('popupInterceptor', String(popupInterceptor));
+		if (!hydrated) return;
+		saveSetting('lethe', letheEngine);
+		saveSetting('car', car);
+		saveSetting('customWisp', customWisp);
+		saveSetting('searchEngine', searchEngine);
+		saveSetting('bookmarks', $state.snapshot(bookmarks));
+		saveSetting('popupInterceptor', popupInterceptor);
 	});
 </script>
 
@@ -442,5 +461,6 @@
 		{/if}
 	{/each}
 </div>
+
 <style>
 </style>
