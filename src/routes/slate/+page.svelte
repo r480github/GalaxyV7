@@ -170,6 +170,29 @@
 		navigateTo(query);
 		inputEl?.blur();
 	}
+	let bookmarkMenu = $state(false);
+	let activeFrameURL = $state();
+	let activeFrameTitle = $state();
+	let activeFrameEngine = $state();
+
+	function startBookmark() {
+		settingsOpen = false;
+		activeFrameURL = activeFrame.displayUrl;
+		activeFrameTitle = activeFrame.title;
+		activeFrameEngine = letheEngine;
+		bookmarkMenu = true;
+	}
+	function toggleBookmarks() {
+		bookmarkMenu = !bookmarkMenu;
+	}
+	function addBookmark() {
+		if (!activeFrame?.displayUrl) return;
+		bookmarks.push({ url: activeFrameURL, title: activeFrameTitle, lethe: activeFrameEngine });
+		bookmarkMenu = false;
+	}
+	function removeBookmark(index) {
+		bookmarks.splice(index, 1);
+	}
 	async function bookmarkSearch(url, lethe) {
 		let encoded;
 		if (lethe === 'sj2') {
@@ -184,13 +207,7 @@
 		activeFrame.url = encoded;
 		inputEl?.blur();
 	}
-	function addBookmark() {
-		if (!activeFrame?.displayUrl) return;
-		bookmarks.push({ url: activeFrame.displayUrl, title: activeFrame.title, lethe: letheEngine });
-	}
-	function removeBookmark(index) {
-		bookmarks.splice(index, 1);
-	}
+
 	function handleNavigate(id, { url, title }) {
 		const frame = frames.find((frame) => frame.id === id);
 		if (!frame) {
@@ -214,7 +231,6 @@
 			setPrismTransport(car, customWisp || undefined);
 		}
 	});
-
 	function goBack() {
 		$goBackSignal = $activeTab;
 	}
@@ -228,7 +244,6 @@
 	let settingsOpen = $state(false);
 	let extensionsOpen = $state(false);
 	let popupInterceptor = $state(loadSetting('popupInterceptor', 'true') === 'true');
-
 	function toggleSettings() {
 		settingsOpen = !settingsOpen;
 	}
@@ -304,9 +319,25 @@
 				}}
 				disabled={!ready}
 			/>
-			<div class="star"><img class="starIcon" src={star} alt="" onclick={addBookmark} /></div>
+			<div class="star" onclick={startBookmark}><img class="starIcon" src={star} alt="" /></div>
 		</form>
+		{#if bookmarkMenu}
+			<div class="settings-overlay" onclick={toggleBookmarks}></div>
+
+			<div class="bookmarkContainer">
+				<p class="bookmarkTitle">Add bookmark</p>
+				<span class="bookmarkLabel">Name</span>
+				<input class="bookmark-input" bind:value={activeFrameTitle} autofocus />
+				<span class="bookmarkLabel">URL</span>
+				<input class="bookmark-input" bind:value={activeFrameURL} />
+				<div class="flex">
+					<p class="randomthing">Right click a bookmark to remove</p>
+					<button class="bookmarkDone" onclick={addBookmark}>Done</button>
+				</div>
+			</div>
+		{/if}
 	</div>
+
 	<div class="nav-right">
 		<div class="button" onclick={toggleExtensions}>
 			<img src={extensions} alt="extensions" class="nav-icon puzzle" />
@@ -342,7 +373,7 @@
 			<div class="settings-overlay" onclick={toggleSettings}></div>
 			<div class="settings-dropdown">
 				<button class="menuBtn" onclick={addTab}>New Tab</button>
-				<button class="menuBtn" onclick={addBookmark}>Bookmark Site</button>
+				<button class="menuBtn" onclick={startBookmark}>Bookmark Site</button>
 				<div class="break"></div>
 				<p>Pr<span class="filler">ha67</span>oxy</p>
 				<select bind:value={letheEngine} disabled={!ready}>
