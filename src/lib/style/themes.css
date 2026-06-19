@@ -1,19 +1,4 @@
-/*
- * themes.css - lo-fi / chill theme presets (color-wheel set)
- *
- * Apply a theme by setting data-theme on the root <html> element:
- *   <html data-theme="seafoam">   (see +layout.svelte)
- * or at runtime:
- *   document.documentElement.dataset.theme = 'seafoam'
- *
- * Each block overrides the design tokens defined in variables.css.
- * Remove/empty data-theme to fall back to the default dark palette.
- *
- * Available themes:
- *   default, ember-dusk, terracotta, amber-haze, honeyed-dusk, dijon, wheatfield, olive-grove, moss-stone, sage-mist, fern-hollow, eucalyptus, seafoam, lagoon, glacier, dusty-denim, twilight-blue, indigo-veil, wisteria, lavender-haze, amethyst-smoke, plum-velvet, mauve-dream, orchid-smoke, rosewood, sepia-tape, slate-fog
- */
-
-/* Default - Elegant pure-black neutral (mirrors the variables.css baseline) */
+:root[data-theme="default"],
 [data-theme="default"] {
 	/* surfaces */
 	--color-bg: #000000;
@@ -52,6 +37,7 @@
 }
 
 /* Ember Dusk - Smoldering embers under late-night haze */
+:root[data-theme="ember-dusk"],
 [data-theme="ember-dusk"] {
 	/* surfaces */
 	--color-bg: #110a09;
@@ -90,6 +76,7 @@
 }
 
 /* Terracotta - Sun-baked clay, dusty and low-lit */
+:root[data-theme="terracotta"],
 [data-theme="terracotta"] {
 	/* surfaces */
 	--color-bg: #100b09;
@@ -128,6 +115,7 @@
 }
 
 /* Amber Haze - Dusty golden-hour glow, late-night and faded. */
+:root[data-theme="amber-haze"],
 [data-theme="amber-haze"] {
 	/* surfaces */
 	--color-bg: #0e0a06;
@@ -166,6 +154,7 @@
 }
 
 /* Honeyed Dusk - Late-night honey haze over near-black vinyl. */
+:root[data-theme="honeyed-dusk"],
 [data-theme="honeyed-dusk"] {
 	/* surfaces */
 	--color-bg: #0d0b06;
@@ -204,6 +193,7 @@
 }
 
 /* Dijon - Faded vinyl mustard, late-night and dusty */
+:root[data-theme="dijon"],
 [data-theme="dijon"] {
 	/* surfaces */
 	--color-bg: #0d0c07;
@@ -242,6 +232,7 @@
 }
 
 /* Wheatfield - Dusty straw fields, late-night and faded. */
+:root[data-theme="wheatfield"],
 [data-theme="wheatfield"] {
 	/* surfaces */
 	--color-bg: #0c0b06;
@@ -280,6 +271,7 @@
 }
 
 /* Olive Grove - Dusty olive haze, late-night study hush */
+:root[data-theme="olive-grove"],
 [data-theme="olive-grove"] {
 	/* surfaces */
 	--color-bg: #0c0d08;
@@ -318,6 +310,7 @@
 }
 
 /* Moss Stone - Dusty lichen on cool night stone. */
+:root[data-theme="moss-stone"],
 [data-theme="moss-stone"] {
 	/* surfaces */
 	--color-bg: #0b0e08;
@@ -356,6 +349,7 @@
 }
 
 /* Sage Mist - Dusty sage haze, late-night and low-lit */
+:root[data-theme="sage-mist"],
 [data-theme="sage-mist"] {
 	/* surfaces */
 	--color-bg: #0c0f0b;
@@ -394,6 +388,7 @@
 }
 
 /* Fern Hollow - Dusky ferns, late-night green hush */
+:root[data-theme="fern-hollow"],
 [data-theme="fern-hollow"] {
 	/* surfaces */
 	--color-bg: #0b100c;
@@ -432,6 +427,7 @@
 }
 
 /* Eucalyptus - Late-night spa haze, dusty teal calm */
+:root[data-theme="eucalyptus"],
 [data-theme="eucalyptus"] {
 	/* surfaces */
 	--color-bg: #070d0b;
@@ -470,6 +466,7 @@
 }
 
 /* Seafoam - Foam on still midnight water */
+:root[data-theme="seafoam"],
 [data-theme="seafoam"] {
 	/* surfaces */
 	--color-bg: #070b0a;
@@ -508,6 +505,7 @@
 }
 
 /* Lagoon - Late-night teal haze on faded vinyl */
+:root[data-theme="lagoon"],
 [data-theme="lagoon"] {
 	/* surfaces */
 	--color-bg: #070b0b;
@@ -546,6 +544,7 @@
 }
 
 /* Glacier - Late-night ice, hazy and still */
+:root[data-theme="glacier"],
 [data-theme="glacier"] {
 	/* surfaces */
 	--color-bg: #080b0c;
@@ -584,6 +583,7 @@
 }
 
 /* Dusty Denim - Worn denim hush, late-night and faded */
+:root[data-theme="dusty-denim"],
 [data-theme="dusty-denim"] {
 	/* surfaces */
 	--color-bg: #0b0e12;
@@ -622,6 +622,7 @@
 }
 
 /* Twilight Blue - Late-night dusk haze, faded and cozy. */
+:root[data-theme="twilight-blue"],
 [data-theme="twilight-blue"] {
 	/* surfaces */
 	--color-bg: #0a0c12;
@@ -660,6 +661,7 @@
 }
 
 /* Indigo Veil - Late-night indigo haze, dusty and dim */
+:root[data-theme="indigo-veil"],
 [data-theme="indigo-veil"] {
 	/* surfaces */
 	--color-bg: #0b0b12;
@@ -698,6 +700,7 @@
 }
 
 /* Wisteria - Late-night violet haze on faded vinyl */
+:root[data-theme="wisteria"],
 [data-theme="wisteria"] {
 	/* surfaces */
 	--color-bg: #0b0a0f;
@@ -736,6 +739,7 @@
 }
 
 /* Lavender Haze - Dusty violet dusk, faded and dreaming */
+:root[data-theme="lavender-haze"],
 [data-theme="lavender-haze"] {
 	/* surfaces */
 	--color-bg: #0b0a0f;
@@ -774,6 +778,7 @@
 }
 
 /* Amethyst Smoke - Dusty amethyst haze, late-night vinyl glow */
+:root[data-theme="amethyst-smoke"],
 [data-theme="amethyst-smoke"] {
 	/* surfaces */
 	--color-bg: #0e0a10;
@@ -812,6 +817,7 @@
 }
 
 /* Plum Velvet - Faded vinyl haze, late-night plum velvet. */
+:root[data-theme="plum-velvet"],
 [data-theme="plum-velvet"] {
 	/* surfaces */
 	--color-bg: #0e080f;
@@ -850,6 +856,7 @@
 }
 
 /* Mauve Dream - Late-night vinyl haze in dusty mauve */
+:root[data-theme="mauve-dream"],
 [data-theme="mauve-dream"] {
 	/* surfaces */
 	--color-bg: #0d0a0c;
@@ -888,6 +895,7 @@
 }
 
 /* Orchid Smoke - Dusty orchid haze on late-night vinyl */
+:root[data-theme="orchid-smoke"],
 [data-theme="orchid-smoke"] {
 	/* surfaces */
 	--color-bg: #0c080b;
@@ -926,6 +934,7 @@
 }
 
 /* Rosewood - Faded rose vinyl spinning past midnight */
+:root[data-theme="rosewood"],
 [data-theme="rosewood"] {
 	/* surfaces */
 	--color-bg: #100a0c;
@@ -964,6 +973,7 @@
 }
 
 /* Sepia Tape - faded cassette warmth, dusty late-night calm */
+:root[data-theme="sepia-tape"],
 [data-theme="sepia-tape"] {
 	/* surfaces */
 	--color-bg: #0d0a07;
@@ -1002,6 +1012,7 @@
 }
 
 /* Slate Fog - Late-night fog over a dim blue city */
+:root[data-theme="slate-fog"],
 [data-theme="slate-fog"] {
 	/* surfaces */
 	--color-bg: #0c0e12;
