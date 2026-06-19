@@ -76,7 +76,6 @@
 <div
 	class="home"
 	style="
-	background-image: url({bg}); 	
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
