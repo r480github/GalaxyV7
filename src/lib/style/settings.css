@@ -2,6 +2,10 @@ body {
 	overflow: hidden;
 	margin: 0;
 }
+html {
+	scroll-snap-type: y mandatory;
+	scroll-behavior: smooth;
+}
 button {
 	border: none;
 }
@@ -116,9 +120,11 @@ h1 {
 }
 
 .block {
-	height: 100vh;
+	height: 100dvh;
 	box-sizing: border-box;
 	overflow-y: auto;
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
 	padding: 48px 48px 64px 216px;
 	display: flex;
 	flex-direction: column;
