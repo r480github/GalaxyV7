@@ -1,11 +1,12 @@
 body {
 	overflow: hidden;
+	margin: 0;
 }
 button {
 	border: none;
 }
 h1 {
-	margin-top: 30px;
+	margin-top: 0px;
 }
 .nav {
 	position: fixed;
@@ -87,8 +88,8 @@ h1 {
 	transform: translateY(-5px);
 }
 .toggleBtn.active {
-	background: var(--color-success);
-	border-color: var(--color-success);
+	background: var(--color-pin);
+	border-color: var(--color-pin);
 	color: var(--color-text-dark);
 	transform: translateY(0px);
 }
@@ -144,14 +145,15 @@ h1 {
 	flex: row;
 	width: 100%;
 	gap: 50px;
+	flex-wrap: wrap;
 }
 .subGroup {
 	padding-top: 10px;
 	padding-bottom: 30px;
 	background-color: var(--color-surface-2);
 	border-radius: 16px;
-	width: 100%;
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+	flex-grow: 1;
 }
 .divider {
 	width: 20%;

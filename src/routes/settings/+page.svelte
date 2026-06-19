@@ -1,6 +1,7 @@
 <script>
 	import '$lib/style/settings.css';
 	import Pref from '$lib/utils/settings/pref.svelte';
+	import Themes from '$lib/utils/settings/themes.svelte';
 	const stuffs = [
 		{ name: 'Preferences', id: 'pref' },
 		{ name: 'Themes', id: 'themes' },
@@ -24,9 +25,9 @@
 		{@render navItems(stuff.name, stuff.id)}
 	{/each}
 </div>
-<div class="block" id="pref"><Pref/></div>
+<div class="block" id="pref"><Pref /></div>
 <div class="block" id="themes">
-	<h1>Themes</h1>
+	<Themes />
 </div>
 <div class="block" id="proxy">
 	<h1>Proxy</h1>

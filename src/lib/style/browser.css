@@ -261,7 +261,7 @@ form {
 	transition: background-color 0.15s ease;
 }
 .extensionToggle.on {
-	background-color: var(--color-success);
+	background-color: var(--color-pin);
 }
 .toggleKnob {
 	position: absolute;

@@ -1,0 +1,1040 @@
+/*
+ * themes.css - lo-fi / chill theme presets (color-wheel set)
+ *
+ * Apply a theme by setting data-theme on the root <html> element:
+ *   <html data-theme="seafoam">   (see +layout.svelte)
+ * or at runtime:
+ *   document.documentElement.dataset.theme = 'seafoam'
+ *
+ * Each block overrides the design tokens defined in variables.css.
+ * Remove/empty data-theme to fall back to the default dark palette.
+ *
+ * Available themes:
+ *   default, ember-dusk, terracotta, amber-haze, honeyed-dusk, dijon, wheatfield, olive-grove, moss-stone, sage-mist, fern-hollow, eucalyptus, seafoam, lagoon, glacier, dusty-denim, twilight-blue, indigo-veil, wisteria, lavender-haze, amethyst-smoke, plum-velvet, mauve-dream, orchid-smoke, rosewood, sepia-tape, slate-fog
+ */
+
+/* Default - Elegant pure-black neutral (mirrors the variables.css baseline) */
+[data-theme="default"] {
+	/* surfaces */
+	--color-bg: #000000;
+	--color-surface: #0c0c0c;
+	--color-surface-2: #151515;
+	--color-surface-3: #1e1e1e;
+	--color-chrome: #2c2c2c;
+	--color-window: #6e6e6e;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.12);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #ededed;
+	--color-text-muted: #a6a6a6;
+	--color-text-subtle: #6e6e6e;
+	/* borders */
+	--color-border: rgba(255, 255, 255, 0.08);
+	--color-border-strong: rgba(255, 255, 255, 0.26);
+	--color-border-hover: #3a3a3a;
+	/* interactive overlays */
+	--overlay-hover: rgba(255, 255, 255, 0.06);
+	--overlay-hover-strong: rgba(255, 255, 255, 0.12);
+	--overlay-active: rgba(255, 255, 255, 0.4);
+	--overlay-indicator: rgba(255, 255, 255, 0.36);
+	--overlay-browser-tab: #343434;
+	/* status */
+	--color-danger: #e5534b;
+	--color-danger-hover: rgba(229, 83, 75, 0.7);
+	--color-pin: #7a7a7a;
+	/* scrollbar */
+	--color-scrollbar-track: #161616;
+	--color-scrollbar-thumb: #3a3a3a;
+	--color-scrollbar-thumb-hover: #545454;
+}
+
+/* Ember Dusk - Smoldering embers under late-night haze */
+[data-theme="ember-dusk"] {
+	/* surfaces */
+	--color-bg: #110a09;
+	--color-surface: #1a0f0e;
+	--color-surface-2: #231413;
+	--color-surface-3: #2e1a18;
+	--color-chrome: #412524;
+	--color-window: #6e5450;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e9d9d4;
+	--color-text-muted: #c3a8a2;
+	--color-text-subtle: #8d716c;
+	/* borders */
+	--color-border: rgba(233,217,212,0.08);
+	--color-border-strong: rgba(233,217,212,0.26);
+	--color-border-hover: #50302e;
+	/* interactive overlays */
+	--overlay-hover: rgba(233,217,212,0.07);
+	--overlay-hover-strong: rgba(233,217,212,0.14);
+	--overlay-active: rgba(176,90,78,0.40);
+	--overlay-indicator: rgba(176,90,78,0.50);
+	--overlay-browser-tab: #502f2d;
+	/* status */
+	--color-danger: #b85852;
+	--color-danger-hover: rgba(184,88,82,0.7);
+	--color-pin: #b05a4e;
+	/* scrollbar */
+	--color-scrollbar-track: #1a0f0e;
+	--color-scrollbar-thumb: #473030;
+	--color-scrollbar-thumb-hover: #5e4140;
+}
+
+/* Terracotta - Sun-baked clay, dusty and low-lit */
+[data-theme="terracotta"] {
+	/* surfaces */
+	--color-bg: #100b09;
+	--color-surface: #1a1311;
+	--color-surface-2: #241a16;
+	--color-surface-3: #30231d;
+	--color-chrome: #3f2f27;
+	--color-window: #8a6a5a;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e8d9cf;
+	--color-text-muted: #bda69a;
+	--color-text-subtle: #8a7066;
+	/* borders */
+	--color-border: rgba(232,217,207,0.08);
+	--color-border-strong: rgba(232,217,207,0.26);
+	--color-border-hover: #4a382e;
+	/* interactive overlays */
+	--overlay-hover: rgba(232,217,207,0.07);
+	--overlay-hover-strong: rgba(232,217,207,0.14);
+	--overlay-active: rgba(181,111,83,0.40);
+	--overlay-indicator: rgba(181,111,83,0.50);
+	--overlay-browser-tab: #4a382e;
+	/* status */
+	--color-danger: #b35e52;
+	--color-danger-hover: rgba(179,94,82,0.7);
+	--color-pin: #b56f53;
+	/* scrollbar */
+	--color-scrollbar-track: #1a1311;
+	--color-scrollbar-thumb: #4a382e;
+	--color-scrollbar-thumb-hover: #5e483b;
+}
+
+/* Amber Haze - Dusty golden-hour glow, late-night and faded. */
+[data-theme="amber-haze"] {
+	/* surfaces */
+	--color-bg: #0e0a06;
+	--color-surface: #171008;
+	--color-surface-2: #1f160c;
+	--color-surface-3: #2a1f12;
+	--color-chrome: #3a2c1a;
+	--color-window: #8a7250;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #ece1d2;
+	--color-text-muted: #c2b29c;
+	--color-text-subtle: #8a7860;
+	/* borders */
+	--color-border: rgba(236,225,210,0.08);
+	--color-border-strong: rgba(236,225,210,0.26);
+	--color-border-hover: #4a3a24;
+	/* interactive overlays */
+	--overlay-hover: rgba(236,225,210,0.07);
+	--overlay-hover-strong: rgba(236,225,210,0.14);
+	--overlay-active: rgba(217,154,82,0.40);
+	--overlay-indicator: rgba(217,154,82,0.50);
+	--overlay-browser-tab: #46361f;
+	/* status */
+	--color-danger: #c75c52;
+	--color-danger-hover: rgba(199,92,82,0.7);
+	--color-pin: #d99a52;
+	/* scrollbar */
+	--color-scrollbar-track: #150f08;
+	--color-scrollbar-thumb: #3a2c1a;
+	--color-scrollbar-thumb-hover: #52402a;
+}
+
+/* Honeyed Dusk - Late-night honey haze over near-black vinyl. */
+[data-theme="honeyed-dusk"] {
+	/* surfaces */
+	--color-bg: #0d0b06;
+	--color-surface: #16120a;
+	--color-surface-2: #1f1910;
+	--color-surface-3: #2a2216;
+	--color-chrome: #3a3020;
+	--color-window: #8a734a;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #ece2cf;
+	--color-text-muted: #c2b294;
+	--color-text-subtle: #8a7c61;
+	/* borders */
+	--color-border: rgba(236,226,207,0.08);
+	--color-border-strong: rgba(236,226,207,0.26);
+	--color-border-hover: #4a3f2b;
+	/* interactive overlays */
+	--overlay-hover: rgba(236,226,207,0.07);
+	--overlay-hover-strong: rgba(236,226,207,0.14);
+	--overlay-active: rgba(203,163,94,0.40);
+	--overlay-indicator: rgba(203,163,94,0.50);
+	--overlay-browser-tab: #473b28;
+	/* status */
+	--color-danger: #bf6a5a;
+	--color-danger-hover: rgba(191,106,90,0.7);
+	--color-pin: #cba35e;
+	/* scrollbar */
+	--color-scrollbar-track: #16120a;
+	--color-scrollbar-thumb: #3a3020;
+	--color-scrollbar-thumb-hover: #4f4329;
+}
+
+/* Dijon - Faded vinyl mustard, late-night and dusty */
+[data-theme="dijon"] {
+	/* surfaces */
+	--color-bg: #0d0c07;
+	--color-surface: #15130c;
+	--color-surface-2: #1d1a10;
+	--color-surface-3: #262214;
+	--color-chrome: #383219;
+	--color-window: #8c7d4a;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e7ddc2;
+	--color-text-muted: #bcb191;
+	--color-text-subtle: #8a8067;
+	/* borders */
+	--color-border: rgba(231, 221, 194, 0.08);
+	--color-border-strong: rgba(231, 221, 194, 0.26);
+	--color-border-hover: #4a4324;
+	/* interactive overlays */
+	--overlay-hover: rgba(231, 221, 194, 0.07);
+	--overlay-hover-strong: rgba(231, 221, 194, 0.14);
+	--overlay-active: rgba(201, 169, 78, 0.40);
+	--overlay-indicator: rgba(201, 169, 78, 0.50);
+	--overlay-browser-tab: #443d20;
+	/* status */
+	--color-danger: #b5483c;
+	--color-danger-hover: rgba(181, 72, 60, 0.7);
+	--color-pin: #c9a94e;
+	/* scrollbar */
+	--color-scrollbar-track: #211d12;
+	--color-scrollbar-thumb: #5a512e;
+	--color-scrollbar-thumb-hover: #766a3c;
+}
+
+/* Wheatfield - Dusty straw fields, late-night and faded. */
+[data-theme="wheatfield"] {
+	/* surfaces */
+	--color-bg: #0c0b06;
+	--color-surface: #15130a;
+	--color-surface-2: #1d1a0e;
+	--color-surface-3: #272213;
+	--color-chrome: #38321e;
+	--color-window: #7a7050;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e9e3d0;
+	--color-text-muted: #bdb69d;
+	--color-text-subtle: #8a8267;
+	/* borders */
+	--color-border: rgba(233,227,208,0.08);
+	--color-border-strong: rgba(233,227,208,0.26);
+	--color-border-hover: #443d26;
+	/* interactive overlays */
+	--overlay-hover: rgba(233,227,208,0.07);
+	--overlay-hover-strong: rgba(233,227,208,0.14);
+	--overlay-active: rgba(201,184,120,0.40);
+	--overlay-indicator: rgba(201,184,120,0.50);
+	--overlay-browser-tab: #443d26;
+	/* status */
+	--color-danger: #c5564f;
+	--color-danger-hover: rgba(197,86,79,0.7);
+	--color-pin: #c9b878;
+	/* scrollbar */
+	--color-scrollbar-track: #14120a;
+	--color-scrollbar-thumb: #3b3520;
+	--color-scrollbar-thumb-hover: #544b2f;
+}
+
+/* Olive Grove - Dusty olive haze, late-night study hush */
+[data-theme="olive-grove"] {
+	/* surfaces */
+	--color-bg: #0c0d08;
+	--color-surface: #15160e;
+	--color-surface-2: #1d1e14;
+	--color-surface-3: #26271a;
+	--color-chrome: #37382a;
+	--color-window: #7a7d5c;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e4e3d2;
+	--color-text-muted: #bdbca6;
+	--color-text-subtle: #85856e;
+	/* borders */
+	--color-border: rgba(228,227,210,0.09);
+	--color-border-strong: rgba(228,227,210,0.26);
+	--color-border-hover: #43442f;
+	/* interactive overlays */
+	--overlay-hover: rgba(228,227,210,0.07);
+	--overlay-hover-strong: rgba(228,227,210,0.14);
+	--overlay-active: rgba(163,176,114,0.40);
+	--overlay-indicator: rgba(163,176,114,0.50);
+	--overlay-browser-tab: #42432f;
+	/* status */
+	--color-danger: #b8584f;
+	--color-danger-hover: rgba(184,88,79,0.7);
+	--color-pin: #a3b072;
+	/* scrollbar */
+	--color-scrollbar-track: #14150d;
+	--color-scrollbar-thumb: #34352571;
+	--color-scrollbar-thumb-hover: #474832;
+}
+
+/* Moss Stone - Dusty lichen on cool night stone. */
+[data-theme="moss-stone"] {
+	/* surfaces */
+	--color-bg: #0b0e08;
+	--color-surface: #11150d;
+	--color-surface-2: #181d12;
+	--color-surface-3: #222819;
+	--color-chrome: #343c27;
+	--color-window: #67724e;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #d4dcc4;
+	--color-text-muted: #a4af90;
+	--color-text-subtle: #747e61;
+	/* borders */
+	--color-border: rgba(212, 220, 196, 0.08);
+	--color-border-strong: rgba(212, 220, 196, 0.26);
+	--color-border-hover: #474f34;
+	/* interactive overlays */
+	--overlay-hover: rgba(212, 220, 196, 0.07);
+	--overlay-hover-strong: rgba(212, 220, 196, 0.14);
+	--overlay-active: rgba(134, 148, 95, 0.40);
+	--overlay-indicator: rgba(134, 148, 95, 0.50);
+	--overlay-browser-tab: #404a2d;
+	/* status */
+	--color-danger: #c06a5e;
+	--color-danger-hover: rgba(192, 106, 94, 0.7);
+	--color-pin: #86945f;
+	/* scrollbar */
+	--color-scrollbar-track: #282e1c;
+	--color-scrollbar-thumb: #5a6443;
+	--color-scrollbar-thumb-hover: #757e58;
+}
+
+/* Sage Mist - Dusty sage haze, late-night and low-lit */
+[data-theme="sage-mist"] {
+	/* surfaces */
+	--color-bg: #0c0f0b;
+	--color-surface: #121611;
+	--color-surface-2: #1a1f18;
+	--color-surface-3: #232a21;
+	--color-chrome: #333b30;
+	--color-window: #7d8a72;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #dde3d6;
+	--color-text-muted: #b3bda9;
+	--color-text-subtle: #7e886f;
+	/* borders */
+	--color-border: rgba(221,227,214,0.08);
+	--color-border-strong: rgba(221,227,214,0.26);
+	--color-border-hover: #444d3f;
+	/* interactive overlays */
+	--overlay-hover: rgba(221,227,214,0.07);
+	--overlay-hover-strong: rgba(221,227,214,0.14);
+	--overlay-active: rgba(138,163,125,0.40);
+	--overlay-indicator: rgba(138,163,125,0.50);
+	--overlay-browser-tab: #3e4839;
+	/* status */
+	--color-danger: #c75d5d;
+	--color-danger-hover: rgba(199,93,93,0.7);
+	--color-pin: #8aa37d;
+	/* scrollbar */
+	--color-scrollbar-track: #141811;
+	--color-scrollbar-thumb: #3a4434;
+	--color-scrollbar-thumb-hover: #4e5946;
+}
+
+/* Fern Hollow - Dusky ferns, late-night green hush */
+[data-theme="fern-hollow"] {
+	/* surfaces */
+	--color-bg: #0b100c;
+	--color-surface: #111812;
+	--color-surface-2: #182119;
+	--color-surface-3: #1e2a1f;
+	--color-chrome: #273528;
+	--color-window: #556d57;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #d8e1d3;
+	--color-text-muted: #9aa893;
+	--color-text-subtle: #6c7866;
+	/* borders */
+	--color-border: rgba(216,225,211,0.08);
+	--color-border-strong: rgba(216,225,211,0.26);
+	--color-border-hover: #354537;
+	/* interactive overlays */
+	--overlay-hover: rgba(216,225,211,0.07);
+	--overlay-hover-strong: rgba(216,225,211,0.14);
+	--overlay-active: rgba(95,140,100,0.40);
+	--overlay-indicator: rgba(95,140,100,0.50);
+	--overlay-browser-tab: #304131;
+	/* status */
+	--color-danger: #b5564f;
+	--color-danger-hover: rgba(181,86,79,0.7);
+	--color-pin: #5f8c64;
+	/* scrollbar */
+	--color-scrollbar-track: #111812;
+	--color-scrollbar-thumb: #2b3b2d;
+	--color-scrollbar-thumb-hover: #3a4b3b;
+}
+
+/* Eucalyptus - Late-night spa haze, dusty teal calm */
+[data-theme="eucalyptus"] {
+	/* surfaces */
+	--color-bg: #070d0b;
+	--color-surface: #0d1512;
+	--color-surface-2: #131d19;
+	--color-surface-3: #1b2722;
+	--color-chrome: #26332d;
+	--color-window: #5a7a6c;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #d4e1d9;
+	--color-text-muted: #9eb3a8;
+	--color-text-subtle: #6c8379;
+	/* borders */
+	--color-border: rgba(212,225,217,0.08);
+	--color-border-strong: rgba(212,225,217,0.26);
+	--color-border-hover: #33433b;
+	/* interactive overlays */
+	--overlay-hover: rgba(212,225,217,0.07);
+	--overlay-hover-strong: rgba(212,225,217,0.14);
+	--overlay-active: rgba(111,174,147,0.40);
+	--overlay-indicator: rgba(111,174,147,0.50);
+	--overlay-browser-tab: #31413a;
+	/* status */
+	--color-danger: #c2685f;
+	--color-danger-hover: rgba(194,104,95,0.7);
+	--color-pin: #6fae93;
+	/* scrollbar */
+	--color-scrollbar-track: #101814;
+	--color-scrollbar-thumb: #2e3d36;
+	--color-scrollbar-thumb-hover: #3c4d45;
+}
+
+/* Seafoam - Foam on still midnight water */
+[data-theme="seafoam"] {
+	/* surfaces */
+	--color-bg: #070b0a;
+	--color-surface: #0d1413;
+	--color-surface-2: #131c1a;
+	--color-surface-3: #1b2623;
+	--color-chrome: #28332f;
+	--color-window: #5a807a;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #d6e3df;
+	--color-text-muted: #9fb3ad;
+	--color-text-subtle: #6b817b;
+	/* borders */
+	--color-border: rgba(214,227,223,0.08);
+	--color-border-strong: rgba(214,227,223,0.26);
+	--color-border-hover: #3a4844;
+	/* interactive overlays */
+	--overlay-hover: rgba(214,227,223,0.07);
+	--overlay-hover-strong: rgba(214,227,223,0.14);
+	--overlay-active: rgba(92,170,153,0.40);
+	--overlay-indicator: rgba(92,170,153,0.50);
+	--overlay-browser-tab: #313d39;
+	/* status */
+	--color-danger: #b85e5e;
+	--color-danger-hover: rgba(184,94,94,0.7);
+	--color-pin: #5caa99;
+	/* scrollbar */
+	--color-scrollbar-track: #0d1413;
+	--color-scrollbar-thumb: #2c3a36;
+	--color-scrollbar-thumb-hover: #3c4d48;
+}
+
+/* Lagoon - Late-night teal haze on faded vinyl */
+[data-theme="lagoon"] {
+	/* surfaces */
+	--color-bg: #070b0b;
+	--color-surface: #0d1414;
+	--color-surface-2: #131c1c;
+	--color-surface-3: #1b2727;
+	--color-chrome: #2a3838;
+	--color-window: #5a7370;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #d4e2e0;
+	--color-text-muted: #a3b6b4;
+	--color-text-subtle: #6f8281;
+	/* borders */
+	--color-border: rgba(212, 226, 224, 0.08);
+	--color-border-strong: rgba(212, 226, 224, 0.26);
+	--color-border-hover: #3a4d4c;
+	/* interactive overlays */
+	--overlay-hover: rgba(212, 226, 224, 0.07);
+	--overlay-hover-strong: rgba(212, 226, 224, 0.14);
+	--overlay-active: rgba(92, 157, 151, 0.40);
+	--overlay-indicator: rgba(92, 157, 151, 0.50);
+	--overlay-browser-tab: #344545;
+	/* status */
+	--color-danger: #c25b5b;
+	--color-danger-hover: rgba(194, 91, 91, 0.7);
+	--color-pin: #5c9d97;
+	/* scrollbar */
+	--color-scrollbar-track: #1b2727;
+	--color-scrollbar-thumb: #4a605e;
+	--color-scrollbar-thumb-hover: #637d7a;
+}
+
+/* Glacier - Late-night ice, hazy and still */
+[data-theme="glacier"] {
+	/* surfaces */
+	--color-bg: #080b0c;
+	--color-surface: #0f1517;
+	--color-surface-2: #161e20;
+	--color-surface-3: #1e282a;
+	--color-chrome: #2a3639;
+	--color-window: #5e7679;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #d2dee0;
+	--color-text-muted: #9fb1b4;
+	--color-text-subtle: #6c7d80;
+	/* borders */
+	--color-border: rgba(210,222,224,0.08);
+	--color-border-strong: rgba(210,222,224,0.26);
+	--color-border-hover: #3a484b;
+	/* interactive overlays */
+	--overlay-hover: rgba(210,222,224,0.07);
+	--overlay-hover-strong: rgba(210,222,224,0.14);
+	--overlay-active: rgba(92,143,150,0.40);
+	--overlay-indicator: rgba(92,143,150,0.50);
+	--overlay-browser-tab: #324244;
+	/* status */
+	--color-danger: #b5645f;
+	--color-danger-hover: rgba(181,100,95,0.7);
+	--color-pin: #5c8f96;
+	/* scrollbar */
+	--color-scrollbar-track: #10181a;
+	--color-scrollbar-thumb: #2f3d40;
+	--color-scrollbar-thumb-hover: #435457;
+}
+
+/* Dusty Denim - Worn denim hush, late-night and faded */
+[data-theme="dusty-denim"] {
+	/* surfaces */
+	--color-bg: #0b0e12;
+	--color-surface: #11151b;
+	--color-surface-2: #161b22;
+	--color-surface-3: #1d242d;
+	--color-chrome: #28323d;
+	--color-window: #5a6b7d;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #d6dde6;
+	--color-text-muted: #9fabba;
+	--color-text-subtle: #6c7886;
+	/* borders */
+	--color-border: rgba(214,221,230,0.08);
+	--color-border-strong: rgba(214,221,230,0.26);
+	--color-border-hover: #3a4754;
+	/* interactive overlays */
+	--overlay-hover: rgba(214,221,230,0.07);
+	--overlay-hover-strong: rgba(214,221,230,0.14);
+	--overlay-active: rgba(111,147,184,0.40);
+	--overlay-indicator: rgba(111,147,184,0.50);
+	--overlay-browser-tab: #303c49;
+	/* status */
+	--color-danger: #c2616a;
+	--color-danger-hover: rgba(194,97,106,0.7);
+	--color-pin: #6f93b8;
+	/* scrollbar */
+	--color-scrollbar-track: #0e1217;
+	--color-scrollbar-thumb: #2a333d;
+	--color-scrollbar-thumb-hover: #3a4652;
+}
+
+/* Twilight Blue - Late-night dusk haze, faded and cozy. */
+[data-theme="twilight-blue"] {
+	/* surfaces */
+	--color-bg: #0a0c12;
+	--color-surface: #10131c;
+	--color-surface-2: #161a26;
+	--color-surface-3: #1e2332;
+	--color-chrome: #2b3142;
+	--color-window: #5a6378;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #dce0ea;
+	--color-text-muted: #aab2c6;
+	--color-text-subtle: #727b93;
+	/* borders */
+	--color-border: rgba(220, 224, 234, 0.08);
+	--color-border-strong: rgba(220, 224, 234, 0.26);
+	--color-border-hover: #3c4459;
+	/* interactive overlays */
+	--overlay-hover: rgba(220, 224, 234, 0.07);
+	--overlay-hover-strong: rgba(220, 224, 234, 0.14);
+	--overlay-active: rgba(107, 127, 176, 0.40);
+	--overlay-indicator: rgba(107, 127, 176, 0.50);
+	--overlay-browser-tab: #353c50;
+	/* status */
+	--color-danger: #c0656a;
+	--color-danger-hover: rgba(192, 101, 106, 0.7);
+	--color-pin: #6b7fb0;
+	/* scrollbar */
+	--color-scrollbar-track: #3a4258;
+	--color-scrollbar-thumb: #525c78;
+	--color-scrollbar-thumb-hover: #6b7693;
+}
+
+/* Indigo Veil - Late-night indigo haze, dusty and dim */
+[data-theme="indigo-veil"] {
+	/* surfaces */
+	--color-bg: #0b0b12;
+	--color-surface: #12121d;
+	--color-surface-2: #1a1a28;
+	--color-surface-3: #232334;
+	--color-chrome: #34344a;
+	--color-window: #5c5c80;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #dcdce8;
+	--color-text-muted: #a7a7c0;
+	--color-text-subtle: #6f6f8c;
+	/* borders */
+	--color-border: rgba(220,220,232,0.08);
+	--color-border-strong: rgba(220,220,232,0.26);
+	--color-border-hover: #444460;
+	/* interactive overlays */
+	--overlay-hover: rgba(220,220,232,0.07);
+	--overlay-hover-strong: rgba(220,220,232,0.14);
+	--overlay-active: rgba(124,124,196,0.40);
+	--overlay-indicator: rgba(124,124,196,0.50);
+	--overlay-browser-tab: #3f3f58;
+	/* status */
+	--color-danger: #c25b63;
+	--color-danger-hover: rgba(194,91,99,0.7);
+	--color-pin: #7c7cc4;
+	/* scrollbar */
+	--color-scrollbar-track: #101019;
+	--color-scrollbar-thumb: #2c2c40;
+	--color-scrollbar-thumb-hover: #3c3c56;
+}
+
+/* Wisteria - Late-night violet haze on faded vinyl */
+[data-theme="wisteria"] {
+	/* surfaces */
+	--color-bg: #0b0a0f;
+	--color-surface: #13111a;
+	--color-surface-2: #1b1825;
+	--color-surface-3: #262130;
+	--color-chrome: #363042;
+	--color-window: #6f6788;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e2dfe9;
+	--color-text-muted: #bbb5c9;
+	--color-text-subtle: #827c92;
+	/* borders */
+	--color-border: rgba(226, 223, 233, 0.09);
+	--color-border-strong: rgba(226, 223, 233, 0.26);
+	--color-border-hover: #4a4459;
+	/* interactive overlays */
+	--overlay-hover: rgba(226, 223, 233, 0.07);
+	--overlay-hover-strong: rgba(226, 223, 233, 0.14);
+	--overlay-active: rgba(143, 130, 184, 0.40);
+	--overlay-indicator: rgba(143, 130, 184, 0.50);
+	--overlay-browser-tab: #423b52;
+	/* status */
+	--color-danger: #c25b63;
+	--color-danger-hover: rgba(194, 91, 99, 0.7);
+	--color-pin: #8f82b8;
+	/* scrollbar */
+	--color-scrollbar-track: #211d2b;
+	--color-scrollbar-thumb: #544d66;
+	--color-scrollbar-thumb-hover: #6d6483;
+}
+
+/* Lavender Haze - Dusty violet dusk, faded and dreaming */
+[data-theme="lavender-haze"] {
+	/* surfaces */
+	--color-bg: #0b0a0f;
+	--color-surface: #141220;
+	--color-surface-2: #1c1828;
+	--color-surface-3: #262134;
+	--color-chrome: #3a3450;
+	--color-window: #6a6285;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e4dcea;
+	--color-text-muted: #bdb2ca;
+	--color-text-subtle: #86809a;
+	/* borders */
+	--color-border: rgba(228,220,234,0.08);
+	--color-border-strong: rgba(228,220,234,0.26);
+	--color-border-hover: #4a4360;
+	/* interactive overlays */
+	--overlay-hover: rgba(228,220,234,0.07);
+	--overlay-hover-strong: rgba(228,220,234,0.14);
+	--overlay-active: rgba(154,143,181,0.40);
+	--overlay-indicator: rgba(154,143,181,0.50);
+	--overlay-browser-tab: #4a4360;
+	/* status */
+	--color-danger: #c05a6b;
+	--color-danger-hover: rgba(192,90,107,0.7);
+	--color-pin: #9a8fb5;
+	/* scrollbar */
+	--color-scrollbar-track: #150f1d;
+	--color-scrollbar-thumb: #26212f;
+	--color-scrollbar-thumb-hover: #2f2a3e;
+}
+
+/* Amethyst Smoke - Dusty amethyst haze, late-night vinyl glow */
+[data-theme="amethyst-smoke"] {
+	/* surfaces */
+	--color-bg: #0e0a10;
+	--color-surface: #161118;
+	--color-surface-2: #1f1822;
+	--color-surface-3: #2a212e;
+	--color-chrome: #3d3042;
+	--color-window: #745d7e;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e7dcec;
+	--color-text-muted: #bca8c4;
+	--color-text-subtle: #877390;
+	/* borders */
+	--color-border: rgba(231,220,236,0.08);
+	--color-border-strong: rgba(231,220,236,0.26);
+	--color-border-hover: #4d3e54;
+	/* interactive overlays */
+	--overlay-hover: rgba(231,220,236,0.07);
+	--overlay-hover-strong: rgba(231,220,236,0.14);
+	--overlay-active: rgba(177,132,196,0.40);
+	--overlay-indicator: rgba(177,132,196,0.50);
+	--overlay-browser-tab: #4a3b50;
+	/* status */
+	--color-danger: #cf6f78;
+	--color-danger-hover: rgba(207,111,120,0.7);
+	--color-pin: #b184c4;
+	/* scrollbar */
+	--color-scrollbar-track: #18121b;
+	--color-scrollbar-thumb: #403346;
+	--color-scrollbar-thumb-hover: #584660;
+}
+
+/* Plum Velvet - Faded vinyl haze, late-night plum velvet. */
+[data-theme="plum-velvet"] {
+	/* surfaces */
+	--color-bg: #0e080f;
+	--color-surface: #161019;
+	--color-surface-2: #1f1622;
+	--color-surface-3: #29202e;
+	--color-chrome: #3b2e41;
+	--color-window: #86708d;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #ebdded;
+	--color-text-muted: #c5adc7;
+	--color-text-subtle: #937e99;
+	/* borders */
+	--color-border: rgba(235,221,237,0.08);
+	--color-border-strong: rgba(235,221,237,0.26);
+	--color-border-hover: #52405a;
+	/* interactive overlays */
+	--overlay-hover: rgba(235,221,237,0.07);
+	--overlay-hover-strong: rgba(235,221,237,0.14);
+	--overlay-active: rgba(189,142,200,0.40);
+	--overlay-indicator: rgba(189,142,200,0.50);
+	--overlay-browser-tab: #48384f;
+	/* status */
+	--color-danger: #c06262;
+	--color-danger-hover: rgba(192,98,98,0.7);
+	--color-pin: #bd8ec8;
+	/* scrollbar */
+	--color-scrollbar-track: #1e1622;
+	--color-scrollbar-thumb: #423349;
+	--color-scrollbar-thumb-hover: #54435c;
+}
+
+/* Mauve Dream - Late-night vinyl haze in dusty mauve */
+[data-theme="mauve-dream"] {
+	/* surfaces */
+	--color-bg: #0d0a0c;
+	--color-surface: #161116;
+	--color-surface-2: #1e171e;
+	--color-surface-3: #272029;
+	--color-chrome: #332a34;
+	--color-window: #8a6f87;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e4dce2;
+	--color-text-muted: #bd9eb8;
+	--color-text-subtle: #8a7287;
+	/* borders */
+	--color-border: rgba(230,220,224,0.08);
+	--color-border-strong: rgba(230,220,224,0.26);
+	--color-border-hover: #473d49;
+	/* interactive overlays */
+	--overlay-hover: rgba(230,220,224,0.07);
+	--overlay-hover-strong: rgba(230,220,224,0.14);
+	--overlay-active: rgba(201,142,192,0.40);
+	--overlay-indicator: rgba(201,142,192,0.50);
+	--overlay-browser-tab: #39303a;
+	/* status */
+	--color-danger: #d97a7a;
+	--color-danger-hover: rgba(217,122,122,0.7);
+	--color-pin: #c98ec0;
+	/* scrollbar */
+	--color-scrollbar-track: #161116;
+	--color-scrollbar-thumb: #3a313c;
+	--color-scrollbar-thumb-hover: #4f4451;
+}
+
+/* Orchid Smoke - Dusty orchid haze on late-night vinyl */
+[data-theme="orchid-smoke"] {
+	/* surfaces */
+	--color-bg: #0c080b;
+	--color-surface: #150f14;
+	--color-surface-2: #1d141b;
+	--color-surface-3: #281b25;
+	--color-chrome: #3a2935;
+	--color-window: #7a5e6f;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e6d5e0;
+	--color-text-muted: #bfa6b8;
+	--color-text-subtle: #8a7283;
+	/* borders */
+	--color-border: rgba(230,213,224,0.08);
+	--color-border-strong: rgba(230,213,224,0.26);
+	--color-border-hover: #4a3743;
+	/* interactive overlays */
+	--overlay-hover: rgba(230,213,224,0.07);
+	--overlay-hover-strong: rgba(230,213,224,0.14);
+	--overlay-active: rgba(181,106,152,0.40);
+	--overlay-indicator: rgba(181,106,152,0.50);
+	--overlay-browser-tab: #46333f;
+	/* status */
+	--color-danger: #bd6573;
+	--color-danger-hover: rgba(189,101,115,0.7);
+	--color-pin: #b56a98;
+	/* scrollbar */
+	--color-scrollbar-track: #160f14;
+	--color-scrollbar-thumb: #3d2c37;
+	--color-scrollbar-thumb-hover: #503b48;
+}
+
+/* Rosewood - Faded rose vinyl spinning past midnight */
+[data-theme="rosewood"] {
+	/* surfaces */
+	--color-bg: #100a0c;
+	--color-surface: #181012;
+	--color-surface-2: #1f1618;
+	--color-surface-3: #291d20;
+	--color-chrome: #3a2a2d;
+	--color-window: #8a6166;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #ead8db;
+	--color-text-muted: #c4a9ae;
+	--color-text-subtle: #9b7e84;
+	/* borders */
+	--color-border: rgba(234, 216, 219, 0.08);
+	--color-border-strong: rgba(234, 216, 219, 0.26);
+	--color-border-hover: #5a4248;
+	/* interactive overlays */
+	--overlay-hover: rgba(234, 216, 219, 0.07);
+	--overlay-hover-strong: rgba(234, 216, 219, 0.14);
+	--overlay-active: rgba(199, 122, 138, 0.40);
+	--overlay-indicator: rgba(199, 122, 138, 0.50);
+	--overlay-browser-tab: #473438;
+	/* status */
+	--color-danger: #c75c5c;
+	--color-danger-hover: rgba(199, 92, 92, 0.7);
+	--color-pin: #c77a8a;
+	/* scrollbar */
+	--color-scrollbar-track: #1c1416;
+	--color-scrollbar-thumb: #5a4146;
+	--color-scrollbar-thumb-hover: #76575d;
+}
+
+/* Sepia Tape - faded cassette warmth, dusty late-night calm */
+[data-theme="sepia-tape"] {
+	/* surfaces */
+	--color-bg: #0d0a07;
+	--color-surface: #15110c;
+	--color-surface-2: #1d1812;
+	--color-surface-3: #27201a;
+	--color-chrome: #39302a;
+	--color-window: #8a7559;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #e8ddcf;
+	--color-text-muted: #c2b4a1;
+	--color-text-subtle: #8a7d6c;
+	/* borders */
+	--color-border: rgba(232,221,207,0.08);
+	--color-border-strong: rgba(232,221,207,0.26);
+	--color-border-hover: #4a3f37;
+	/* interactive overlays */
+	--overlay-hover: rgba(232,221,207,0.07);
+	--overlay-hover-strong: rgba(232,221,207,0.14);
+	--overlay-active: rgba(184,149,106,0.40);
+	--overlay-indicator: rgba(184,149,106,0.50);
+	--overlay-browser-tab: #473b33;
+	/* status */
+	--color-danger: #bd6a5c;
+	--color-danger-hover: rgba(189,106,92,0.7);
+	--color-pin: #b8956a;
+	/* scrollbar */
+	--color-scrollbar-track: #15110c;
+	--color-scrollbar-thumb: #3a312a;
+	--color-scrollbar-thumb-hover: #52453b;
+}
+
+/* Slate Fog - Late-night fog over a dim blue city */
+[data-theme="slate-fog"] {
+	/* surfaces */
+	--color-bg: #0c0e12;
+	--color-surface: #13161b;
+	--color-surface-2: #1a1e25;
+	--color-surface-3: #23272f;
+	--color-chrome: #30353e;
+	--color-window: #5a6675;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0,0,0,0.18);
+	--color-scrim-medium: rgba(0, 0, 0, 0.5);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #d6dae2;
+	--color-text-muted: #a3aab6;
+	--color-text-subtle: #6f7783;
+	/* borders */
+	--color-border: rgba(214,218,226,0.08);
+	--color-border-strong: rgba(214,218,226,0.26);
+	--color-border-hover: #3a414c;
+	/* interactive overlays */
+	--overlay-hover: rgba(214,218,226,0.07);
+	--overlay-hover-strong: rgba(214,218,226,0.14);
+	--overlay-active: rgba(126,147,176,0.40);
+	--overlay-indicator: rgba(126,147,176,0.50);
+	--overlay-browser-tab: #3a4049;
+	/* status */
+	--color-danger: #b9636a;
+	--color-danger-hover: rgba(185,99,106,0.7);
+	--color-pin: #7e93b0;
+	/* scrollbar */
+	--color-scrollbar-track: #13161b;
+	--color-scrollbar-thumb: #2c313a;
+	--color-scrollbar-thumb-hover: #3d434d;
+}

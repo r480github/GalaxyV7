@@ -7,15 +7,22 @@
 	let localAutoBlob = $state(false);
 	let localAntiClose = $state(false);
 	let hydrated = $state(false);
+	let name = $state();
+	let icon = $state();
 	onMount(async () => {
-		const [autoAB, autoBlob, antiClose] = await Promise.all([
+		const [autoAB, autoBlob, antiClose, tabNameIcon] = await Promise.all([
 			loadSetting('autoAB', false),
 			loadSetting('autoBlob', false),
-			loadSetting('antiClose', false)
+			loadSetting('antiClose', false),
+			loadSetting('tabPreset', null)
 		]);
 		localAutoAB = autoAB;
 		localAutoBlob = autoBlob;
 		localAntiClose = antiClose;
+		// @ts-ignore
+		name = tabNameIcon?.name;
+		// @ts-ignore
+		icon = tabNameIcon?.icon;
 		hydrated = true;
 	});
 	$effect(() => {
@@ -23,6 +30,7 @@
 		saveSetting('autoAB', localAutoAB);
 		saveSetting('autoBlob', localAutoBlob);
 		saveSetting('antiClose', localAntiClose);
+		saveTabPreset(name, icon);
 		setAntiClose(localAntiClose);
 	});
 	function toggleAB() {
@@ -110,5 +118,6 @@
 		{/each}
 	</div>
 	<p class="subHeading">Custom Tab</p>
-	<input class="textInput" type="text" placeholder="Enter Tab URL" />
+	<input class="textInput" type="text" placeholder="Tab Name" bind:value={name} />
+	<input class="textInput" type="text" placeholder="Icon URL" bind:value={icon} />
 </div>

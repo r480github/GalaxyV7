@@ -170,7 +170,7 @@
 		color: var(--color-text-subtle);
 	}
 	.loading-check {
-		color: var(--color-success);
+		color: var(--color-pin);
 	}
 	.loading-pending {
 		color: var(--color-text-subtle);
