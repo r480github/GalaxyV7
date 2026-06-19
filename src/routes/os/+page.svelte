@@ -19,6 +19,7 @@
 	import y from '$lib/img/icons/swap.png';
 	import sp from '$lib/img/icons/spotify.png';
 	import { get } from 'svelte/store';
+	import { applyStartupSettings } from '$lib/utils/cloak.js';
 	import gsap from 'gsap';
 	let activeButton = $state(null);
 	let bgURL = $state('');
@@ -89,6 +90,7 @@
 		activeButton = $activeSignal;
 	});
 	onMount(() => {
+		applyStartupSettings();
 		if (!localStorage.getItem('background')) {
 			localStorage.setItem('background', mainBG);
 		}

@@ -159,9 +159,6 @@
 		margin-bottom: 4px;
 		transition-duration: 0.2s;
 	}
-	.close:hover {
-		background-color: var(--overlay-hover);
-	}
 	.closeText {
 		margin: 0px;
 		margin-bottom: 2px;
