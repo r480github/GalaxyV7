@@ -75,7 +75,7 @@ fastify.all('/*', (req, reply) => {
 
 let port = parseInt(process.env.PORT || '');
 
-if (isNaN(port)) port = 8080;
+if (isNaN(port)) port = 5417;
 
 fastify.server.on('listening', () => {
 	const address = fastify.server.address();
