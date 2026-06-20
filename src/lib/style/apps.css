@@ -139,8 +139,8 @@
 	opacity: 1;
 	margin-left: 5%;
 }
-.appDiv:hover .appImg{
-  filter: brightness(0.5);
+.appDiv:hover .appImg {
+	filter: brightness(0.5);
 }
 .pinBtn {
 	position: absolute;

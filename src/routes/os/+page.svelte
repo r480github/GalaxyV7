@@ -79,12 +79,51 @@
 			url: '/settings',
 			name: 'Settings',
 			icon: s,
-			height: '50%',
-			width: '50%',
-			top: 50,
-			left: 210
+			height: '80%',
+			width: '80%',
+			top: 0,
+			left: 0,
+			center: true
 		}
 	];
+
+	function conertToPixies(size, viewportLength) {
+		const sizeAsText = String(size);
+		const isPercentage = sizeAsText.endsWith('%');
+
+		if (isPercentage) {
+			const percent = parseFloat(sizeAsText);
+			const fraction = percent / 100;
+			return fraction * viewportLength;
+		} else {
+			return parseFloat(sizeAsText);
+		}
+	}
+
+	function getCenteredPosition(width, height) {
+		const windowWidthInPixels = conertToPixies(width, window.innerWidth);
+		const windowHeightInPixels = conertToPixies(height, window.innerHeight);
+
+		const leftoverWidth = window.innerWidth - windowWidthInPixels;
+		const leftoverHeight = window.innerHeight - windowHeightInPixels;
+
+		const centeredLeft = leftoverWidth / 2;
+		const centeredTop = leftoverHeight / 2;
+
+		return {
+			left: centeredLeft,
+			top: centeredTop
+		};
+	}
+
+	function getAppConfig(appId) {
+		for (const app of apps) {
+			if (app.id === appId) {
+				return app;
+			}
+		}
+		return null;
+	}
 
 	$effect(() => {
 		activeButton = $activeSignal;
@@ -172,6 +211,14 @@
 		}
 
 		activeSignal.set(appId);
+
+		const appConfig = getAppConfig(appId);
+		if (appConfig && appConfig.center) {
+			const centeredPosition = getCenteredPosition(width, height);
+			top = centeredPosition.top;
+			left = centeredPosition.left;
+		}
+
 		const queryString = url.split('?')[1];
 		if (queryString) {
 			const params = new URLSearchParams(queryString);
@@ -202,6 +249,14 @@
 		name = newName;
 		console.log(newName);
 		activeSignal.set(uniqueSender);
+
+		const appConfig = getAppConfig(appId);
+		if (appConfig && appConfig.center) {
+			const centeredPosition = getCenteredPosition(width, height);
+			top = centeredPosition.top;
+			left = centeredPosition.left;
+		}
+
 		windowList.update((list) => [
 			...list,
 			{

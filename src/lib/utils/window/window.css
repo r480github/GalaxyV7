@@ -114,6 +114,7 @@ iframe,
 
 .resizer {
 	position: absolute;
+	z-index: 1000;
 }
 .r-top {
 	cursor: n-resize;

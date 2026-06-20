@@ -106,9 +106,9 @@
 		if (y < topBarrier) {
 			y = topBarrier;
 		}
-		if (x < 0) {
-			x = 0;
-		}
+		// if (x < 0) {
+		// 	x = 0;
+		// }
 		if (y > window.innerHeight - document.getElementById(id).offsetHeight - 40) {
 			y = window.innerHeight - document.getElementById(id).offsetHeight - 40;
 		}
@@ -306,6 +306,7 @@
 		const maxWidth = window.innerWidth - x;
 		const maxHeight = window.innerHeight - y;
 		const maxHeightBottom = window.innerHeight - y - 40;
+		const maxHeightTop = 25;
 		if (resizeType === 'right') {
 			width = Math.min(maxWidth, Math.max(400, startWidth + mouseXmove)) + 'px';
 		}
@@ -324,7 +325,7 @@
 		if (resizeType === 'top') {
 			const newHeight = Math.max(200, startHeight - mouseYmove);
 			const newY = startTop + (startHeight - newHeight);
-			y = Math.max(0, newY);
+			y = Math.max(maxHeightTop, Math.max(0, newY));
 			height = startTop + startHeight - y + 'px';
 		}
 
@@ -345,7 +346,7 @@
 			width = Math.min(maxWidth, Math.max(200, startWidth + mouseXmove)) + 'px';
 			const newHeight = Math.max(150, startHeight - mouseYmove);
 			const newY = startTop + (startHeight - newHeight);
-			y = Math.max(0, newY);
+			y = Math.max(maxHeightTop,Math.max(0, newY));
 			height = startTop + startHeight - y + 'px';
 		}
 
@@ -355,7 +356,7 @@
 			const newX = startLeft + (startWidth - newWidth);
 			const newY = startTop + (startHeight - newHeight);
 			x = Math.max(0, newX);
-			y = Math.max(0, newY);
+			y = Math.max(maxHeightTop,Math.max(0, newY));
 			width = startLeft + startWidth - x + 'px';
 			height = startTop + startHeight - y + 'px';
 		}
@@ -428,7 +429,9 @@
     top:{y}px;
     left:{x}px;
     z-index: {z};
-    transition-duration: {transition == true ? '0.3s' : '0s'};
+			  transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+    transition-duration: {transition == true ? '0.2s' : '0s'};
+
   "
 >
 	<div

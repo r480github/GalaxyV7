@@ -1,71 +1,1135 @@
-<body>
-  <form id="idk">
-    <input
-      id="url"
-      type="text"
-      class="search-input search"
-      placeholder="Search"
-    />
-    <select id="proxysel">
-      <option value="uv">ultraviolet</option>
-      <option value="scramjet">scramjet</option>
-      <option value="prism">scramjet v2</option>
-    </select>
-  </form>
-  <iframe id="iframe" width="100%" height="100%"></iframe>
-  <script src="/charon/index.js" defer></script>
-  <script src="/glass/glass.bundle.js" defer></script>
-  <script src="/glass/glass.config.js" defer></script>
-  <script src="/poly/polygon.all.js" defer></script>
-  <script src="/prism/prism.js" defer></script>
-  <script src="/prism/prism.api.js" defer></script>
-  <script src="/prism/epoxy.js" defer></script>
-  <script src="/stuff.js" defer></script>
-  <script type="module">
-    const wispUrl =
-      (location.protocol === "https:" ? "wss" : "ws") +
-      "://" +
-      location.host +
-      "/wisp/";
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS Grid — The Complete Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    let controller;
-    let frame; 
+<style>
+  :root{
+    --paper:#E9EDF1;
+    --surface:#FBFCFD;
+    --surface-2:#F1F4F7;
+    --ink:#16222E;
+    --ink-soft:#56697A;
+    --ink-faint:#8597A6;
+    --rule:#D2DAE1;
+    --line:#9AA8B5;       /* visible grid lines in demos */
+    --blue:#2347E5;       /* STRUCTURE: lines, tracks, the container */
+    --blue-soft:#E4E9FF;
+    --coral:#FF5A3C;      /* CONTENT: the items you place */
+    --teal:#0E9C92;
+    --amber:#E2890A;
+    --violet:#6D4AE0;
+    --code-bg:#10202C;
+    --code-ink:#D8E3EC;
+    --radius:10px;
+    --maxw:1180px;
+    --display:"Space Grotesk", system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    --body:"IBM Plex Sans", system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
 
-    async function bootPrism() {
-      const Epoxy = window.EpoxyTransport.default ?? window.EpoxyTransport;
-      const transport = new Epoxy({ wisp: wispUrl });
-      await transport.init();
-      const reg = await navigator.serviceWorker.register("/sw.js");
-      await navigator.serviceWorker.ready;
-      const sw = reg.active ?? navigator.serviceWorker.controller;
-      const { Controller, config } = window.$scramjetController;
-      config.scramjetPath = "/prism/prism.js";
-      config.injectPath = "/prism/prism.inject.js";
-      config.wasmPath = "/prism/prism.wasm";
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:78px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--body); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2.5px solid var(--blue); outline-offset:2px; border-radius:3px}
 
-      controller = new Controller({ serviceworker: sw, transport });
-      await controller.wait();
-      return controller;
+  /* ---------- top bar ---------- */
+  header.top{
+    position:sticky; top:0; z-index:50;
+    background:rgba(233,237,241,.86); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);
+  }
+  .top-inner{
+    max-width:var(--maxw); margin:0 auto; padding:14px 22px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .logo{
+    font-family:var(--mono); font-weight:500; font-size:13px; letter-spacing:.02em;
+    color:var(--ink); display:flex; align-items:center; gap:9px;
+  }
+  .logo .mark{
+    width:22px; height:22px; flex:none;
+    display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px;
+  }
+  .logo .mark i{background:var(--blue); border-radius:2px}
+  .logo .mark i:nth-child(2){background:var(--coral)}
+  .logo .mark i:nth-child(3){background:var(--teal)}
+  .logo b{font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:-.01em}
+  .top-tag{margin-left:auto; font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); display:none}
+  @media(min-width:720px){.top-tag{display:block}}
+
+  /* ---------- shell ---------- */
+  .shell{max-width:var(--maxw); margin:0 auto; padding:0 22px;
+    display:grid; grid-template-columns:1fr; gap:0}
+  @media(min-width:980px){
+    .shell{grid-template-columns:236px minmax(0,1fr); gap:48px; align-items:start}
+  }
+
+  /* ---------- side nav ---------- */
+  nav.toc{display:none}
+  @media(min-width:980px){
+    nav.toc{
+      display:block; position:sticky; top:78px; align-self:start;
+      max-height:calc(100vh - 96px); overflow:auto; padding:30px 0 60px;
+      font-size:13.5px;
     }
+  }
+  nav.toc .grp{font-family:var(--mono); font-size:10.5px; letter-spacing:.13em;
+    text-transform:uppercase; color:var(--ink-faint); margin:22px 0 7px; padding-left:14px}
+  nav.toc .grp:first-child{margin-top:0}
+  nav.toc a{display:block; color:var(--ink-soft); padding:4px 0 4px 14px;
+    border-left:2px solid transparent; line-height:1.35}
+  nav.toc a:hover{color:var(--ink); text-decoration:none; border-left-color:var(--rule)}
+  nav.toc a.active{color:var(--blue); border-left-color:var(--blue); font-weight:500}
 
-    function search(input) {
-      try {
-        return new URL(input).toString();
-      } catch {}
-      try {
-        const u = new URL(`https://${input}`);
-        if (u.hostname.includes(".")) return u.toString();
-      } catch {}
-      return "https://duckduckgo.com/search?q=" + encodeURIComponent(input);
-    }
+  /* mobile jump menu */
+  .jump{margin:18px 0 4px}
+  @media(min-width:980px){.jump{display:none}}
+  .jump summary{
+    cursor:pointer; list-style:none; font-family:var(--mono); font-size:13px;
+    background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius);
+    padding:13px 16px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .jump summary::-webkit-details-marker{display:none}
+  .jump summary::after{content:"▾"; color:var(--ink-faint)}
+  .jump[open] summary::after{content:"▴"}
+  .jump .links{padding:8px 6px 4px; columns:2; column-gap:18px}
+  .jump .links a{display:block; padding:6px 8px; color:var(--ink-soft); font-size:13.5px;
+    break-inside:avoid}
 
-    document.getElementById("idk").addEventListener("submit", async (event) => {
-      if (document.getElementById("proxysel").value !== "prism") return;
-      event.preventDefault();
-      if (!controller) controller = await bootPrism();
-      if (!frame) frame = controller.createFrame(document.getElementById("iframe"));
+  /* ---------- main ---------- */
+  main{padding:30px 0 100px; min-width:0}
 
-      frame.go(search(document.getElementById("url").value));
+  section{padding:30px 0; border-top:1px solid var(--rule)}
+  section:first-of-type{border-top:0}
+  section > h2{
+    font-family:var(--display); font-weight:700; font-size:clamp(24px,4.4vw,32px);
+    letter-spacing:-.02em; line-height:1.1; margin:0 0 4px;
+  }
+  .sec-eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--blue); margin:0 0 12px}
+  h3{font-family:var(--mono); font-weight:500; font-size:19px; letter-spacing:-.01em;
+    margin:42px 0 6px; color:var(--ink); scroll-margin-top:78px}
+  h3 .badge{font-family:var(--body); font-size:11px; font-weight:600; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--ink-faint); background:var(--surface-2);
+    border:1px solid var(--rule); padding:2px 8px; border-radius:20px; vertical-align:middle;
+    margin-left:8px}
+  p{margin:10px 0}
+  .lead{font-size:17px; color:var(--ink-soft)}
+  code.t{font-family:var(--mono); font-size:.9em; background:var(--surface-2);
+    border:1px solid var(--rule); padding:1px 6px; border-radius:5px; color:#10314a;
+    white-space:nowrap}
+  strong{font-weight:600}
+  ul.tight{margin:10px 0; padding-left:20px}
+  ul.tight li{margin:5px 0}
+
+  /* ---------- hero ---------- */
+  .hero{padding-top:46px}
+  .hero h1{
+    font-family:var(--display); font-weight:700; letter-spacing:-.035em; line-height:.98;
+    font-size:clamp(40px,9vw,76px); margin:14px 0 0;
+  }
+  .hero h1 .g{color:var(--blue)}
+  .hero .sub{font-size:clamp(17px,2.6vw,21px); color:var(--ink-soft); max-width:60ch; margin:18px 0 0}
+  .flexnote{
+    margin:30px 0 0; display:grid; gap:14px;
+    grid-template-columns:1fr;
+  }
+  @media(min-width:680px){.flexnote{grid-template-columns:1fr 1fr}}
+  .flexnote .card{background:var(--surface); border:1px solid var(--rule);
+    border-radius:var(--radius); padding:18px 20px}
+  .flexnote .card h4{margin:0 0 6px; font-family:var(--mono); font-size:13px; font-weight:500;
+    display:flex; align-items:center; gap:8px}
+  .flexnote .card.flex h4 .dot{color:var(--ink-faint)}
+  .flexnote .dot{width:9px;height:9px;border-radius:50%;background:var(--line);display:inline-block}
+  .flexnote .card.grid{border-color:var(--blue); box-shadow:0 0 0 1px var(--blue)}
+  .flexnote .card.grid .dot{background:var(--blue)}
+  .flexnote .card p{margin:0; font-size:14.5px; color:var(--ink-soft)}
+
+  /* ---------- anatomy diagram (signature) ---------- */
+  .anatomy{margin-top:34px; background:var(--surface); border:1px solid var(--rule);
+    border-radius:14px; padding:26px 24px 30px; overflow:hidden}
+  .anatomy .cap{font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-faint); margin-bottom:20px}
+  .diagram{
+    --c:64px; --r:48px; --g:14px;
+    display:inline-grid;
+    grid-template-columns:26px repeat(4, var(--c));
+    grid-template-rows:24px repeat(3, var(--r));
+    gap:0; position:relative; margin:6px 0 8px;
+  }
+  /* column line numbers */
+  .diagram .cn{grid-row:1; font-family:var(--mono); font-size:12px; color:var(--blue);
+    align-self:center; justify-self:start; transform:translateX(-50%); font-weight:500}
+  .diagram .cn[data-c="1"]{grid-column:2}
+  .diagram .cn[data-c="2"]{grid-column:3}
+  .diagram .cn[data-c="3"]{grid-column:4}
+  .diagram .cn[data-c="4"]{grid-column:5}
+  .diagram .cn[data-c="5"]{grid-column:5; justify-self:end; transform:translateX(50%)}
+  /* row line numbers */
+  .diagram .rn{grid-column:1; font-family:var(--mono); font-size:12px; color:var(--blue);
+    justify-self:center; align-self:start; transform:translateY(-50%); font-weight:500}
+  .diagram .rn[data-r="1"]{grid-row:2}
+  .diagram .rn[data-r="2"]{grid-row:3}
+  .diagram .rn[data-r="3"]{grid-row:4}
+  .diagram .rn[data-r="4"]{grid-row:4; align-self:end; transform:translateY(50%)}
+  /* the cell field, with gaps drawn */
+  .field{grid-column:2 / 6; grid-row:2 / 5; display:grid;
+    grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr);
+    gap:var(--g); background:var(--blue-soft); border:1px solid var(--blue);
+    border-radius:6px; padding:var(--g)}
+  .field .cell{background:var(--surface); border:1px dashed var(--line); border-radius:4px}
+  .field .area{grid-column:2 / 4; grid-row:1 / 3; background:var(--coral);
+    border:none; display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family:var(--mono); font-size:11px; border-radius:5px}
+  /* callout labels */
+  .legend{display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:18px; font-size:13px}
+  .legend span{display:flex; align-items:center; gap:8px; color:var(--ink-soft)}
+  .legend .k{width:16px; height:16px; border-radius:4px; flex:none}
+  .k.k-line{background:transparent; border:1px solid var(--blue)}
+  .k.k-track{background:var(--blue-soft); border:1px solid var(--blue)}
+  .k.k-cell{background:var(--surface); border:1px dashed var(--line)}
+  .k.k-area{background:var(--coral)}
+  .k.k-gap{background:repeating-linear-gradient(90deg,var(--blue-soft) 0 3px,transparent 3px 6px); border:1px solid var(--rule)}
+
+  /* ---------- demo blocks ---------- */
+  .demo{margin:16px 0 6px; border:1px solid var(--rule); border-radius:var(--radius);
+    overflow:hidden; background:var(--surface)}
+  .demo .stage{padding:22px; background:
+    linear-gradient(var(--surface-2) 1px,transparent 1px) 0 0/100% 22px,
+    var(--surface)}
+  .demo.two{display:grid; grid-template-columns:1fr}
+  @media(min-width:760px){.demo.two{grid-template-columns:1fr 1fr}
+    .demo.two .stage + .stage{border-left:1px solid var(--rule)}}
+
+  /* a demo grid container */
+  .g{
+    display:grid; gap:10px; background:transparent;
+  }
+  .g.framed{background:var(--blue-soft); border:1px solid var(--blue);
+    border-radius:8px; padding:10px}
+  /* generic items */
+  .box{background:var(--surface); border:1px solid var(--line); border-radius:6px;
+    min-height:46px; display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    transition:background .25s ease, color .25s ease}
+  /* colored items for placement demos */
+  .box.a{background:var(--coral); color:#fff; border-color:transparent}
+  .box.b{background:var(--blue); color:#fff; border-color:transparent}
+  .box.c{background:var(--teal); color:#fff; border-color:transparent}
+  .box.d{background:var(--amber); color:#fff; border-color:transparent}
+  .box.v{background:var(--violet); color:#fff; border-color:transparent}
+  .box.ghost{background:var(--surface-2); color:var(--ink-faint); border-style:dashed}
+  .stagelabel{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px}
+
+  /* controls */
+  .controls{display:flex; flex-wrap:wrap; gap:7px; padding:14px 22px;
+    border-top:1px solid var(--rule); background:var(--surface-2)}
+  .controls .lbl{font-family:var(--mono); font-size:11px; color:var(--ink-faint);
+    align-self:center; margin-right:4px; letter-spacing:.04em}
+  .controls button{
+    font-family:var(--mono); font-size:12.5px; cursor:pointer;
+    background:var(--surface); color:var(--ink); border:1px solid var(--rule);
+    border-radius:7px; padding:6px 11px; transition:all .15s ease}
+  .controls button:hover{border-color:var(--blue); color:var(--blue)}
+  .controls button[aria-pressed="true"]{background:var(--blue); border-color:var(--blue);
+    color:#fff}
+
+  /* code */
+  .code{font-family:var(--mono); font-size:13px; line-height:1.65; background:var(--code-bg);
+    color:var(--code-ink); padding:16px 18px; overflow:auto; margin:0}
+  .code .sel{color:#7FB2FF}
+  .code .prop{color:#9CDCFE}
+  .code .val{color:#FFB59B}
+  .code .fn{color:#C6A0F6}
+  .code .com{color:#5C7184; font-style:italic}
+  .code .dyn{color:#FFD27A; font-weight:500}
+  figure{margin:16px 0 0}
+  figure.with-demo{margin-top:0}
+  .demo + .code{border-radius:0 0 var(--radius) var(--radius); margin-top:-7px;
+    border:1px solid var(--rule); border-top:0}
+
+  /* callout */
+  .call{border-left:3px solid var(--coral); background:#FFF3F0; padding:12px 16px;
+    border-radius:0 8px 8px 0; margin:18px 0; font-size:14.5px; color:#5d2a1f}
+  .call.blue{border-left-color:var(--blue); background:var(--blue-soft); color:#15235e}
+  .call b{font-weight:600}
+  .call code.t{background:rgba(255,255,255,.6)}
+
+  /* cheat table */
+  .table-wrap{overflow:auto; margin-top:18px; border:1px solid var(--rule);
+    border-radius:var(--radius)}
+  table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:540px}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule);
+    vertical-align:top}
+  th{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink-faint); background:var(--surface-2)}
+  td:first-child{font-family:var(--mono); font-size:12.5px; color:#10314a; white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td .on{color:var(--blue); font-weight:600}
+
+  footer{max-width:var(--maxw); margin:0 auto; padding:30px 22px 60px;
+    color:var(--ink-faint); font-size:13px; font-family:var(--mono)}
+
+  /* reveal on load */
+  @media (prefers-reduced-motion: no-preference){
+    .field .cell, .field .area{opacity:0; transform:translateY(6px);
+      animation:pop .5s ease forwards}
+    .field .cell:nth-child(1){animation-delay:.05s}
+    .field .cell:nth-child(2){animation-delay:.10s}
+    .field .cell:nth-child(3){animation-delay:.15s}
+    .field .cell:nth-child(4){animation-delay:.20s}
+    .field .cell:nth-child(5){animation-delay:.25s}
+    .field .cell:nth-child(6){animation-delay:.30s}
+    .field .cell:nth-child(7){animation-delay:.35s}
+    .field .cell:nth-child(8){animation-delay:.40s}
+    .field .cell:nth-child(9){animation-delay:.45s}
+    .field .cell:nth-child(10){animation-delay:.50s}
+    .field .area{animation-delay:.55s}
+  }
+  @keyframes pop{to{opacity:1; transform:translateY(0)}}
+</style>
+
+<header class="top">
+  <div class="top-inner">
+    <span class="logo"><span class="mark"><i></i><i></i><i></i><i></i></span><b>display: grid</b></span>
+    <span class="top-tag">the complete reference · for people who already know flexbox</span>
+  </div>
+</header>
+
+<div class="shell">
+
+  <nav class="toc" aria-label="Table of contents">
+    <div class="grp">Foundations</div>
+    <a href="#intro">Flex vs Grid</a>
+    <a href="#anatomy">Anatomy & terms</a>
+    <div class="grp">Defining the grid</div>
+    <a href="#display">display</a>
+    <a href="#cols">grid-template-columns</a>
+    <a href="#rows">grid-template-rows</a>
+    <a href="#areas">grid-template-areas</a>
+    <a href="#template">grid-template</a>
+    <div class="grp">Sizing toolkit</div>
+    <a href="#fr">The fr unit</a>
+    <a href="#content-sizing">min/max/fit-content</a>
+    <a href="#minmax">minmax()</a>
+    <a href="#repeat">repeat()</a>
+    <a href="#autofill">auto-fill vs auto-fit</a>
+    <a href="#linenames">Named lines</a>
+    <div class="grp">Gaps</div>
+    <a href="#gap">gap, row-gap, column-gap</a>
+    <div class="grp">The implicit grid</div>
+    <a href="#autotracks">grid-auto-rows / columns</a>
+    <a href="#autoflow">grid-auto-flow</a>
+    <div class="grp">Alignment</div>
+    <a href="#items">justify/align-items</a>
+    <a href="#content">justify/align-content</a>
+    <div class="grp">Placing items</div>
+    <a href="#colrow">grid-column / grid-row</a>
+    <a href="#area">grid-area</a>
+    <a href="#self">justify/align-self</a>
+    <a href="#order">order & z-index</a>
+    <div class="grp">Advanced</div>
+    <a href="#shorthand">grid (shorthand)</a>
+    <a href="#subgrid">subgrid</a>
+    <a href="#masonry">masonry</a>
+    <a href="#cheat">Cheat sheet</a>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="intro" style="border-top:0">
+      <p class="sec-eyebrow">CSS Grid Layout</p>
+      <h1>Stop arranging.<br>Start <span class="g">placing.</span></h1>
+      <p class="sub">Flexbox lays out items along one line and lets their content push them around. Grid does the opposite: you draw a two‑dimensional structure first, then drop items into it. Here is every property, every value, and a live demo for each.</p>
+
+      <div class="flexnote">
+        <div class="card flex">
+          <h4><span class="dot"></span>Flexbox — content&nbsp;first</h4>
+          <p>One axis at a time. You give items a direction and rules for how leftover space is shared; the items' own sizes drive the result. Great for a toolbar, a row of tags, a centered thing.</p>
+        </div>
+        <div class="card grid">
+          <h4><span class="dot"></span>Grid — layout&nbsp;first</h4>
+          <p>Two axes at once. You define columns and rows up front — a real coordinate system — and assign items to specific lines or areas. Great for page layouts, cards, dashboards, any 2D arrangement.</p>
+        </div>
+      </div>
+
+      <!-- SIGNATURE: anatomy -->
+      <div class="anatomy" id="anatomy">
+        <div class="cap">Anatomy of a grid</div>
+        <div class="diagram" role="img" aria-label="A four column, three row grid. Numbered lines run 1 through 5 across and 1 through 4 down. Tracks are the bands between lines, cells are single boxes, and a coral area spans two columns and two rows.">
+          <span class="cn" data-c="1">1</span><span class="cn" data-c="2">2</span>
+          <span class="cn" data-c="3">3</span><span class="cn" data-c="4">4</span><span class="cn" data-c="5">5</span>
+          <span class="rn" data-r="1">1</span><span class="rn" data-r="2">2</span>
+          <span class="rn" data-r="3">3</span><span class="rn" data-r="4">4</span>
+          <div class="field">
+            <div class="area">area</div>
+            <div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div>
+          </div>
+        </div>
+        <div class="legend">
+          <span><i class="k k-line"></i> <b>Grid line</b> — the numbered dividers (1…n)</span>
+          <span><i class="k k-track"></i> <b>Track</b> — a column or row (space between two lines)</span>
+          <span><i class="k k-cell"></i> <b>Cell</b> — one column × one row</span>
+          <span><i class="k k-area"></i> <b>Area</b> — a rectangle of cells</span>
+          <span><i class="k k-gap"></i> <b>Gap</b> — the gutter between tracks</span>
+        </div>
+      </div>
+      <p class="lead" style="margin-top:22px">Two vocabularies run through everything below. <strong style="color:var(--blue)">Blue</strong> is always <em>structure</em> — the container, its lines and tracks. <strong style="color:var(--coral)">Coral</strong> (and friends) are always the <em>items</em> you place into it.</p>
+    </section>
+
+
+    <!-- DISPLAY -->
+    <section id="display">
+      <p class="sec-eyebrow">Defining the grid · the container</p>
+      <h2>Turning on the grid</h2>
+      <p class="lead">Everything starts on the <strong>container</strong>. The moment you declare a display value, its direct children become <strong>grid items</strong> — and their own <code class="t">float</code>, <code class="t">clear</code>, and <code class="t">vertical-align</code> stop mattering.</p>
+
+      <h3>display</h3>
+      <p>Two values create a grid. <code class="t">grid</code> makes the container a block (it takes the full width available). <code class="t">inline-grid</code> makes it flow inline with surrounding text, sized to its contents — exactly the block/inline distinction you know from flex.</p>
+      <ul class="tight">
+        <li><code class="t">display: grid</code> — block-level grid container</li>
+        <li><code class="t">display: inline-grid</code> — inline-level grid container</li>
+      </ul>
+      <figure>
+        <pre class="code"><span class="sel">.container</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="com">/* children are now grid items — that's the only requirement */</span>
+}</pre>
+      </figure>
+      <div class="call blue"><b>Coming from flex:</b> an empty grid container does nothing visible. Unlike flex, items don't auto‑arrange into a usable layout until you also define tracks (next). A bare <code class="t">display:grid</code> just stacks everything into one column.</div>
+    </section>
+
+
+    <!-- COLUMNS -->
+    <section id="cols">
+      <p class="sec-eyebrow">Defining the grid · the container</p>
+      <h2>Drawing the tracks</h2>
+
+      <h3>grid-template-columns</h3>
+      <p>The single most important property. You list the size of each column, separated by spaces. The number of values = the number of columns. Sizes can be lengths (<code class="t">px</code>, <code class="t">rem</code>, <code class="t">%</code>), the <code class="t">auto</code> keyword, the flexible <code class="t">fr</code> unit, or functions like <code class="t">minmax()</code>. Click to rebuild the grid:</p>
+
+      <div class="demo" data-demo data-target="#g-cols" data-prop="grid-template-columns">
+        <div class="stage">
+          <div class="stagelabel">live grid</div>
+          <div class="g framed" id="g-cols" style="grid-template-columns:repeat(3,1fr)">
+            <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+            <div class="box">4</div><div class="box">5</div><div class="box">6</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">columns:</span>
+          <button data-value="repeat(3, 1fr)" aria-pressed="true">repeat(3, 1fr)</button>
+          <button data-value="1fr 2fr">1fr 2fr</button>
+          <button data-value="200px 1fr 1fr">200px 1fr 1fr</button>
+          <button data-value="100px auto 100px">100px auto 100px</button>
+          <button data-value="repeat(2, 1fr)">repeat(2, 1fr)</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">#grid</span> { <span class="prop">grid-template-columns</span>: <span class="dyn" data-code>repeat(3, 1fr)</span>; }</pre>
+
+      <h3>grid-template-rows</h3>
+      <p>Identical syntax, vertical axis. You often <em>don't</em> set this — rows that you didn't define are created automatically and sized by their content (that's the <em>implicit grid</em>, covered later). Define rows explicitly when you need fixed heights, like a header/body/footer column.</p>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">grid-template-rows: 60px 1fr 40px</div>
+          <div class="g framed" style="grid-template-columns:1fr; grid-template-rows:60px 1fr 40px; min-height:230px">
+            <div class="box b">header · 60px</div>
+            <div class="box">body · 1fr (fills the rest)</div>
+            <div class="box d" style="color:#fff">footer · 40px</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.layout</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-rows</span>: <span class="val">60px 1fr 40px</span>;
+}</pre>
+    </section>
+
+
+    <!-- AREAS -->
+    <section id="areas">
+      <p class="sec-eyebrow">Defining the grid · the container</p>
+      <h2>Naming regions</h2>
+      <h3>grid-template-areas</h3>
+      <p>Instead of counting line numbers, you can paint an ASCII map of your layout. Each quoted string is a row; each word is a named cell. Repeat a name to make an item span. An item then claims its region with <code class="t">grid-area: name</code>. Use a dot <code class="t">.</code> for an empty cell.</p>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">a classic holy-grail layout, by name</div>
+          <div class="g" style="grid-template-columns:140px 1fr; grid-template-rows:auto 1fr auto;
+            grid-template-areas:'head head' 'side main' 'foot foot'; gap:8px; min-height:240px;
+            background:var(--blue-soft); border:1px solid var(--blue); border-radius:8px; padding:8px">
+            <div class="box b" style="grid-area:head">head</div>
+            <div class="box c" style="grid-area:side">side</div>
+            <div class="box a" style="grid-area:main">main</div>
+            <div class="box d" style="grid-area:foot; color:#fff">foot</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.page</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="val">140px 1fr</span>;
+  <span class="prop">grid-template-rows</span>: <span class="val">auto 1fr auto</span>;
+  <span class="prop">grid-template-areas</span>:
+    <span class="val">"head head"</span>
+    <span class="val">"side main"</span>
+    <span class="val">"foot foot"</span>;
+}
+<span class="sel">header</span> { <span class="prop">grid-area</span>: <span class="val">head</span>; }
+<span class="sel">main</span>   { <span class="prop">grid-area</span>: <span class="val">main</span>; }</pre>
+      <div class="call blue"><b>Why it's loved:</b> the source order of your items no longer matters, and you can completely re‑flow the layout at a breakpoint just by rewriting the area map — no other rules change. Each row string must have the same number of columns, and every named area must form a solid rectangle.</div>
+    </section>
+
+
+    <!-- GRID-TEMPLATE -->
+    <section id="template">
+      <p class="sec-eyebrow">Defining the grid · the container</p>
+      <h2>The template shorthand</h2>
+      <h3>grid-template <span class="badge">shorthand</span></h3>
+      <p>Combines <code class="t">grid-template-rows</code>, <code class="t">grid-template-columns</code>, and <code class="t">grid-template-areas</code> in one declaration. Rows and their area strings interleave; columns come after a slash. Powerful but dense — most people keep the three longhands for readability.</p>
+      <pre class="code"><span class="sel">.page</span> {
+  <span class="prop">grid-template</span>:
+    <span class="val">"head head" 50px</span>
+    <span class="val">"side main" 1fr</span>
+    <span class="val">"foot foot" 40px</span>
+    <span class="val">/ 140px  1fr</span>;   <span class="com">/* the column track list */</span>
+}</pre>
+    </section>
+
+
+    <!-- FR -->
+    <section id="fr">
+      <p class="sec-eyebrow">Sizing toolkit · track values</p>
+      <h2>Flexible space: the fr unit</h2>
+      <p class="lead">The <code class="t">fr</code> unit is grid's headline feature and the closest thing to <code class="t">flex-grow</code>. One <code class="t">fr</code> = one share of the <em>leftover</em> space after fixed sizes and gaps are subtracted. <code class="t">2fr</code> takes twice the share of <code class="t">1fr</code>.</p>
+      <div class="demo" data-demo data-target="#g-fr" data-prop="grid-template-columns">
+        <div class="stage">
+          <div class="stagelabel">watch the shares redistribute</div>
+          <div class="g framed" id="g-fr" style="grid-template-columns:1fr 1fr 1fr">
+            <div class="box a">1fr</div><div class="box b">1fr</div><div class="box c">1fr</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">columns:</span>
+          <button data-value="1fr 1fr 1fr" aria-pressed="true">1fr 1fr 1fr</button>
+          <button data-value="1fr 2fr 1fr">1fr 2fr 1fr</button>
+          <button data-value="3fr 1fr 1fr">3fr 1fr 1fr</button>
+          <button data-value="200px 1fr 2fr">200px 1fr 2fr</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">#grid</span> { <span class="prop">grid-template-columns</span>: <span class="dyn" data-code>1fr 1fr 1fr</span>; }
+<span class="com">/* 200px 1fr 2fr → fix 200px first, then split the rest 1:2 */</span></pre>
+      <div class="call"><b>Subtle but important:</b> by default an <code class="t">fr</code> track won't shrink below the size of its content (its minimum is <code class="t">auto</code>, i.e. <code class="t">min-content</code>). If long words or images are blowing out your tracks, swap <code class="t">1fr</code> for <code class="t">minmax(0, 1fr)</code> — that's the single most common grid gotcha.</div>
+    </section>
+
+
+    <!-- CONTENT SIZING -->
+    <section id="content-sizing">
+      <p class="sec-eyebrow">Sizing toolkit · track values</p>
+      <h2>Content-based sizes</h2>
+      <p>Beyond lengths and <code class="t">fr</code>, tracks can size themselves to what's inside them.</p>
+      <ul class="tight">
+        <li><code class="t">auto</code> — grows to fit content; in alignment terms it behaves like <code class="t">max-content</code> for a max but can stretch to fill leftover space. The everyday "as big as it needs to be" value.</li>
+        <li><code class="t">min-content</code> — the smallest the content can get without overflowing (roughly the longest unbreakable word).</li>
+        <li><code class="t">max-content</code> — the size content would take if it never wrapped (the whole string on one line).</li>
+        <li><code class="t">fit-content(limit)</code> — acts like <code class="t">auto</code> but never grows past <em>limit</em>. e.g. <code class="t">fit-content(300px)</code>: shrink‑to‑fit, capped at 300px.</li>
+      </ul>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">min-content · max-content · fit-content(220px) · 1fr</div>
+          <div class="g framed" style="grid-template-columns:min-content max-content fit-content(220px) 1fr">
+            <div class="box a" style="padding:6px">min-content wraps hard</div>
+            <div class="box b" style="padding:6px">max-content stays on one line</div>
+            <div class="box c" style="padding:6px">fit-content caps the width once it reaches the limit you set</div>
+            <div class="box ghost" style="padding:6px">1fr</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.grid</span> {
+  <span class="prop">grid-template-columns</span>:
+    <span class="val">min-content</span> <span class="val">max-content</span> <span class="fn">fit-content</span>(<span class="val">220px</span>) <span class="val">1fr</span>;
+}</pre>
+    </section>
+
+
+    <!-- MINMAX -->
+    <section id="minmax">
+      <p class="sec-eyebrow">Sizing toolkit · functions</p>
+      <h2>Ranges with minmax()</h2>
+      <h3>minmax(min, max)</h3>
+      <p>Defines a track that's clamped between a floor and a ceiling. The track will be as large as <em>max</em> allows but never smaller than <em>min</em>. <code class="t">minmax(150px, 1fr)</code> reads: "at least 150px, but grow to take a fair share of free space." This is the backbone of responsive grids.</p>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">grid-template-columns: minmax(120px, 250px) 1fr</div>
+          <div class="g framed" style="grid-template-columns:minmax(120px,250px) 1fr">
+            <div class="box a">≥120, ≤250</div>
+            <div class="box ghost">1fr fills the remainder</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.sidebar-layout</span> {
+  <span class="prop">grid-template-columns</span>: <span class="fn">minmax</span>(<span class="val">120px</span>, <span class="val">250px</span>) <span class="val">1fr</span>;
+  <span class="com">/* sidebar flexes within a range, content takes the rest */</span>
+}</pre>
+    </section>
+
+
+    <!-- REPEAT -->
+    <section id="repeat">
+      <p class="sec-eyebrow">Sizing toolkit · functions</p>
+      <h2>Repeating tracks</h2>
+      <h3>repeat(count, tracks)</h3>
+      <p>Shorthand for repetitive track lists. <code class="t">repeat(12, 1fr)</code> builds a 12‑column grid. The pattern can be multiple tracks — <code class="t">repeat(3, 1fr 2fr)</code> yields six columns (1fr 2fr 1fr 2fr 1fr 2fr). You can also mix it with explicit tracks on either side.</p>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">repeat(3, 1fr 2fr) → six alternating columns</div>
+          <div class="g framed" style="grid-template-columns:repeat(3, 1fr 2fr)">
+            <div class="box a">1</div><div class="box b">2</div><div class="box a">1</div>
+            <div class="box b">2</div><div class="box a">1</div><div class="box b">2</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.twelve-col</span> { <span class="prop">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="val">12</span>, <span class="val">1fr</span>); }
+<span class="sel">.mixed</span>     { <span class="prop">grid-template-columns</span>: <span class="val">200px</span> <span class="fn">repeat</span>(<span class="val">3</span>, <span class="val">1fr</span>) <span class="val">200px</span>; }</pre>
+    </section>
+
+
+    <!-- AUTO-FILL / AUTO-FIT -->
+    <section id="autofill">
+      <p class="sec-eyebrow">Sizing toolkit · functions</p>
+      <h2>Responsive grids with no media queries</h2>
+      <h3>auto-fill &nbsp;vs&nbsp; auto-fit</h3>
+      <p>Pass <code class="t">auto-fill</code> or <code class="t">auto-fit</code> as <code class="t">repeat()</code>'s count and the browser fits as many tracks as will fit on the row, reflowing on its own as the container resizes. Combined with <code class="t">minmax()</code>, this replaces most <code class="t">flex-wrap</code> card layouts. The two keywords differ only when there are <em>fewer</em> items than fit:</p>
+      <ul class="tight">
+        <li><code class="t">auto-fill</code> — keeps the empty tracks. Leftover space stays as blank columns.</li>
+        <li><code class="t">auto-fit</code> — collapses empty tracks to zero, so the existing items stretch to fill the row.</li>
+      </ul>
+      <div class="demo two">
+        <div class="stage">
+          <div class="stagelabel">auto-fill — empties preserved</div>
+          <div class="g" style="grid-template-columns:repeat(auto-fill, minmax(90px,1fr)); gap:8px">
+            <div class="box a">1</div><div class="box b">2</div><div class="box c">3</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stagelabel">auto-fit — items stretch</div>
+          <div class="g" style="grid-template-columns:repeat(auto-fit, minmax(90px,1fr)); gap:8px">
+            <div class="box a">1</div><div class="box b">2</div><div class="box c">3</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.cards</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="val">auto-fit</span>, <span class="fn">minmax</span>(<span class="val">220px</span>, <span class="val">1fr</span>));
+  <span class="prop">gap</span>: <span class="val">1rem</span>;
+  <span class="com">/* as many ≥220px columns as fit; they stretch to fill. Resize me! */</span>
+}</pre>
+      <div class="call blue"><b>The pattern to memorize:</b> <code class="t">repeat(auto-fit, minmax(MIN, 1fr))</code>. It's the responsive card grid in one line. Use <code class="t">auto-fill</code> instead if you want the column rhythm to stay even when only a couple of items are present.</div>
+    </section>
+
+
+    <!-- LINE NAMES -->
+    <section id="linenames">
+      <p class="sec-eyebrow">Sizing toolkit · naming</p>
+      <h2>Naming the lines</h2>
+      <p>You can name grid lines by putting identifiers in square brackets within the template. Items then reference those names instead of numbers, which survives refactors far better. A single line can carry multiple names.</p>
+      <pre class="code"><span class="sel">.grid</span> {
+  <span class="prop">grid-template-columns</span>:
+    <span class="val">[full-start] 1rem [content-start] 1fr [content-end] 1rem [full-end]</span>;
+}
+<span class="sel">.hero</span> { <span class="prop">grid-column</span>: <span class="val">full-start / full-end</span>; }
+<span class="sel">.text</span> { <span class="prop">grid-column</span>: <span class="val">content-start / content-end</span>; }</pre>
+      <div class="call"><b>Bonus:</b> when you name an area with <code class="t">grid-template-areas</code>, you automatically get line names for free — an area called <code class="t">main</code> creates lines <code class="t">main-start</code> and <code class="t">main-end</code> on both axes.</div>
+    </section>
+
+
+    <!-- GAP -->
+    <section id="gap">
+      <p class="sec-eyebrow">The gutters</p>
+      <h2>Spacing between tracks</h2>
+      <h3>gap · row-gap · column-gap</h3>
+      <p>Gaps add space <em>between</em> tracks only — never on the outer edges (use padding for that). <code class="t">gap</code> is shorthand: one value sets both axes; two values are <code class="t">row-gap column-gap</code>. Drag the value:</p>
+      <div class="demo" data-demo data-target="#g-gap" data-prop="gap">
+        <div class="stage">
+          <div class="stagelabel">gap grows between cells, not around them</div>
+          <div class="g framed" id="g-gap" style="grid-template-columns:repeat(3,1fr); gap:10px">
+            <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+            <div class="box">4</div><div class="box">5</div><div class="box">6</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">gap:</span>
+          <button data-value="0">0</button>
+          <button data-value="10px" aria-pressed="true">10px</button>
+          <button data-value="24px">24px</button>
+          <button data-value="40px">40px</button>
+          <button data-value="24px 4px">24px 4px</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">#grid</span> { <span class="prop">gap</span>: <span class="dyn" data-code>10px</span>; }
+<span class="com">/* two values = row-gap column-gap. Or set them separately: */</span>
+<span class="sel">#grid</span> { <span class="prop">row-gap</span>: <span class="val">24px</span>; <span class="prop">column-gap</span>: <span class="val">4px</span>; }</pre>
+      <div class="call blue"><b>Coming from flex:</b> <code class="t">gap</code> was born in Grid but now works in flexbox too — so you can finally delete those <code class="t">margin-right</code> hacks. The old names <code class="t">grid-gap</code>, <code class="t">grid-row-gap</code>, and <code class="t">grid-column-gap</code> still work but are deprecated aliases of the unprefixed versions.</div>
+    </section>
+
+
+    <!-- AUTO TRACKS -->
+    <section id="autotracks">
+      <p class="sec-eyebrow">The implicit grid</p>
+      <h2>Tracks you didn't ask for</h2>
+      <p class="lead">When you place more items than your defined (<em>explicit</em>) tracks hold, grid generates extra (<em>implicit</em>) tracks to catch them. These properties control how big those auto‑created tracks are.</p>
+      <h3>grid-auto-rows · grid-auto-columns</h3>
+      <p>Default implicit tracks are sized <code class="t">auto</code> (content height). Set <code class="t">grid-auto-rows</code> to give every overflow row a consistent size — useful when you only defined columns and let rows generate themselves.</p>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">2 columns defined; rows auto-generate at 70px each</div>
+          <div class="g framed" style="grid-template-columns:1fr 1fr; grid-auto-rows:70px">
+            <div class="box">1</div><div class="box">2</div>
+            <div class="box">3</div><div class="box">4</div>
+            <div class="box a">5 (implicit row)</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.grid</span> {
+  <span class="prop">grid-template-columns</span>: <span class="val">1fr 1fr</span>;   <span class="com">/* explicit */</span>
+  <span class="prop">grid-auto-rows</span>: <span class="val">70px</span>;            <span class="com">/* every generated row */</span>
+}</pre>
+    </section>
+
+
+    <!-- AUTO FLOW -->
+    <section id="autoflow">
+      <p class="sec-eyebrow">The implicit grid</p>
+      <h2>The auto-placement algorithm</h2>
+      <h3>grid-auto-flow</h3>
+      <p>Controls how items that you <em>haven't</em> explicitly placed get slotted in. <code class="t">row</code> (default) fills left‑to‑right then down; <code class="t">column</code> fills top‑to‑bottom then across. Adding <code class="t">dense</code> lets the algorithm backfill earlier holes left by larger items — visually tighter, but it can reorder items away from source order.</p>
+      <div class="demo" data-demo data-target="#g-flow" data-prop="grid-auto-flow">
+        <div class="stage">
+          <div class="stagelabel">item 1 spans 2 cols — watch where the rest land</div>
+          <div class="g framed" id="g-flow" style="grid-template-columns:repeat(4,1fr); grid-auto-flow:row; grid-auto-rows:46px">
+            <div class="box a" style="grid-column:span 2">1 (span 2)</div>
+            <div class="box b">2</div><div class="box c">3</div><div class="box d">4</div>
+            <div class="box v">5</div><div class="box">6</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">grid-auto-flow:</span>
+          <button data-value="row" aria-pressed="true">row</button>
+          <button data-value="column">column</button>
+          <button data-value="row dense">row dense</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">#grid</span> { <span class="prop">grid-auto-flow</span>: <span class="dyn" data-code>row</span>; }
+<span class="com">/* "row dense" pulls small items up to fill gaps left by spanned items */</span></pre>
+      <div class="call"><b>Accessibility note:</b> <code class="t">dense</code> (and <code class="t">order</code>, later) changes only the <em>visual</em> position. Screen readers, tab order, and copy‑paste still follow the DOM order — so don't use it to fix meaningful reading order.</div>
+    </section>
+
+
+    <!-- JUSTIFY/ALIGN ITEMS -->
+    <section id="items">
+      <p class="sec-eyebrow">Alignment · all items at once</p>
+      <h2>Aligning items inside their cells</h2>
+      <p class="lead">These four control how every item sits <em>within its own cell</em>. <code class="t">justify-*</code> is the inline (row / horizontal) axis; <code class="t">align-*</code> is the block (column / vertical) axis. This is the opposite mapping from how you might think of flex, so it's worth burning in: <strong>justify = across, align = down.</strong></p>
+
+      <h3>justify-items</h3>
+      <p>Positions items along the row axis inside each cell: <code class="t">stretch</code> (default — fill the cell width), <code class="t">start</code>, <code class="t">end</code>, <code class="t">center</code>.</p>
+      <div class="demo" data-demo data-target="#g-ji" data-prop="justify-items">
+        <div class="stage">
+          <div class="stagelabel">items shift horizontally within their cells</div>
+          <div class="g framed" id="g-ji" style="grid-template-columns:repeat(3,1fr); justify-items:stretch; grid-auto-rows:54px">
+            <div class="box a" style="min-width:54px">1</div><div class="box b" style="min-width:54px">2</div><div class="box c" style="min-width:54px">3</div>
+            <div class="box d" style="min-width:54px">4</div><div class="box v" style="min-width:54px">5</div><div class="box" style="min-width:54px">6</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">justify-items:</span>
+          <button data-value="stretch" aria-pressed="true">stretch</button>
+          <button data-value="start">start</button>
+          <button data-value="center">center</button>
+          <button data-value="end">end</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">#grid</span> { <span class="prop">justify-items</span>: <span class="dyn" data-code>stretch</span>; <span class="com">/* row axis, every item */</span> }</pre>
+
+      <h3>align-items</h3>
+      <p>Same idea on the column (vertical) axis: <code class="t">stretch</code> (default), <code class="t">start</code>, <code class="t">end</code>, <code class="t">center</code>, plus <code class="t">baseline</code>.</p>
+      <div class="demo" data-demo data-target="#g-ai" data-prop="align-items">
+        <div class="stage">
+          <div class="stagelabel">items shift vertically within tall cells</div>
+          <div class="g framed" id="g-ai" style="grid-template-columns:repeat(3,1fr); align-items:stretch; grid-auto-rows:80px">
+            <div class="box a">1</div><div class="box b">2</div><div class="box c">3</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">align-items:</span>
+          <button data-value="stretch" aria-pressed="true">stretch</button>
+          <button data-value="start">start</button>
+          <button data-value="center">center</button>
+          <button data-value="end">end</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">#grid</span> { <span class="prop">align-items</span>: <span class="dyn" data-code>stretch</span>; <span class="com">/* column axis, every item */</span> }</pre>
+
+      <h3>place-items <span class="badge">shorthand</span></h3>
+      <p>One line for both: <code class="t">place-items: &lt;align-items&gt; &lt;justify-items&gt;</code>. A single value applies to both axes — so <code class="t">place-items: center</code> is the famous, complete way to perfectly center children both ways.</p>
+      <pre class="code"><span class="sel">.center-everything</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">place-items</span>: <span class="val">center</span>;   <span class="com">/* dead-center, both axes, done */</span>
+}</pre>
+    </section>
+
+
+    <!-- JUSTIFY/ALIGN CONTENT -->
+    <section id="content">
+      <p class="sec-eyebrow">Alignment · the whole grid</p>
+      <h2>Aligning the grid within the container</h2>
+      <p class="lead">When the tracks together are <em>smaller</em> than the container, these decide what happens to the leftover space — they move the whole grid, not the items within cells. (If your tracks already fill the container, e.g. with <code class="t">fr</code>, these do nothing.)</p>
+
+      <h3>justify-content</h3>
+      <p>Distributes extra space on the row axis: <code class="t">start</code>, <code class="t">end</code>, <code class="t">center</code>, <code class="t">space-between</code>, <code class="t">space-around</code>, <code class="t">space-evenly</code> — the same value set as flexbox.</p>
+      <div class="demo" data-demo data-target="#g-jc" data-prop="justify-content">
+        <div class="stage">
+          <div class="stagelabel">fixed 60px columns leave free space to distribute →</div>
+          <div class="g framed" id="g-jc" style="grid-template-columns:repeat(3,60px); justify-content:start; gap:8px">
+            <div class="box a">1</div><div class="box b">2</div><div class="box c">3</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">justify-content:</span>
+          <button data-value="start" aria-pressed="true">start</button>
+          <button data-value="center">center</button>
+          <button data-value="end">end</button>
+          <button data-value="space-between">space-between</button>
+          <button data-value="space-around">space-around</button>
+          <button data-value="space-evenly">space-evenly</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">#grid</span> { <span class="prop">justify-content</span>: <span class="dyn" data-code>start</span>; <span class="com">/* the whole grid, row axis */</span> }</pre>
+
+      <h3>align-content</h3>
+      <p>Same distribution on the column (vertical) axis — needs the container to be taller than the rows. All six values apply.</p>
+      <div class="demo" data-demo data-target="#g-ac" data-prop="align-content">
+        <div class="stage" style="min-height:230px">
+          <div class="stagelabel">tall container, short rows ↓</div>
+          <div class="g framed" id="g-ac" style="grid-template-columns:repeat(3,1fr); grid-auto-rows:40px; align-content:start; gap:8px; min-height:200px">
+            <div class="box a">1</div><div class="box b">2</div><div class="box c">3</div>
+            <div class="box d">4</div><div class="box v">5</div><div class="box">6</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">align-content:</span>
+          <button data-value="start" aria-pressed="true">start</button>
+          <button data-value="center">center</button>
+          <button data-value="end">end</button>
+          <button data-value="space-between">space-between</button>
+          <button data-value="space-around">space-around</button>
+          <button data-value="space-evenly">space-evenly</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">#grid</span> { <span class="prop">align-content</span>: <span class="dyn" data-code>start</span>; <span class="com">/* the whole grid, column axis */</span> }</pre>
+
+      <h3>place-content <span class="badge">shorthand</span></h3>
+      <p><code class="t">place-content: &lt;align-content&gt; &lt;justify-content&gt;</code>. <code class="t">place-content: center</code> parks the entire grid in the middle of an oversized container.</p>
+      <div class="call blue"><b>The mental model:</b> <code class="t">*-items</code> / <code class="t">*-self</code> move items <em>inside</em> their cells. <code class="t">*-content</code> moves the <em>grid as a whole</em> inside the container. Different jobs, similar names.</div>
+    </section>
+
+
+    <!-- COL / ROW -->
+    <section id="colrow">
+      <p class="sec-eyebrow">Placing items · the item</p>
+      <h2>Placing one item by line</h2>
+      <p class="lead">Everything so far lived on the container. These live on individual <strong>items</strong> and let you pin them to exact grid lines — and span across tracks.</p>
+
+      <h3>grid-column-start / -end · grid-row-start / -end</h3>
+      <p>Name the line where an item begins and ends. Lines count from 1 on the left/top; negative numbers count from the end (<code class="t">-1</code> is the last line). The space between is what the item occupies.</p>
+
+      <h3>grid-column · grid-row <span class="badge">shorthand</span></h3>
+      <p>The shorthands: <code class="t">grid-column: start / end</code>. Use the <code class="t">span</code> keyword to count tracks instead of naming an end line — <code class="t">grid-column: 1 / span 2</code> starts at line 1 and covers two columns. Click an option for the coral item:</p>
+      <div class="demo" data-demo data-target="#g-place" data-prop="grid-column">
+        <div class="stage">
+          <div class="stagelabel">a 4-column grid; the coral item's placement changes</div>
+          <div class="g framed" id="g-placewrap" style="grid-template-columns:repeat(4,1fr); grid-auto-rows:48px; gap:8px">
+            <div class="box a" id="g-place" style="grid-column:1 / 3">me</div>
+            <div class="box ghost">·</div><div class="box ghost">·</div><div class="box ghost">·</div>
+            <div class="box ghost">·</div><div class="box ghost">·</div><div class="box ghost">·</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">grid-column:</span>
+          <button data-value="1 / 3" aria-pressed="true">1 / 3</button>
+          <button data-value="2 / 4">2 / 4</button>
+          <button data-value="1 / -1">1 / -1 (full width)</button>
+          <button data-value="3 / span 2">3 / span 2</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.item</span> { <span class="prop">grid-column</span>: <span class="dyn" data-code>1 / 3</span>; }
+<span class="com">/* longhand equivalent of "1 / 3": */</span>
+<span class="sel">.item</span> { <span class="prop">grid-column-start</span>: <span class="val">1</span>; <span class="prop">grid-column-end</span>: <span class="val">3</span>; }
+<span class="com">/* span: cover N tracks regardless of where it lands */</span>
+<span class="sel">.item</span> { <span class="prop">grid-row</span>: <span class="val">2 / span 3</span>; }</pre>
+    </section>
+
+
+    <!-- GRID AREA -->
+    <section id="area">
+      <p class="sec-eyebrow">Placing items · the item</p>
+      <h2>Placing by area</h2>
+      <h3>grid-area</h3>
+      <p>Two jobs in one property. <strong>Named form:</strong> <code class="t">grid-area: main</code> drops the item into a region you defined with <code class="t">grid-template-areas</code>. <strong>Numeric form:</strong> a four‑value super‑shorthand for all four lines at once, in the order <code class="t">row-start / column-start / row-end / column-end</code>.</p>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">grid-area: 1 / 2 / 3 / 4 &nbsp;(rows 1→3, cols 2→4)</div>
+          <div class="g framed" style="grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(2,48px); gap:8px">
+            <div class="box ghost">·</div>
+            <div class="box a" style="grid-area:1 / 2 / 3 / 4">1 / 2 / 3 / 4</div>
+            <div class="box ghost">·</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="com">/* named — pairs with grid-template-areas */</span>
+<span class="sel">.hero</span> { <span class="prop">grid-area</span>: <span class="val">hero</span>; }
+
+<span class="com">/* numeric — row-start / col-start / row-end / col-end */</span>
+<span class="sel">.feature</span> { <span class="prop">grid-area</span>: <span class="val">1 / 2 / 3 / 4</span>; }</pre>
+      <div class="call"><b>Watch the order.</b> <code class="t">grid-area</code>'s numeric order (<code class="t">row / col / row / col</code>) is <em>not</em> the same as reading <code class="t">grid-column</code> then <code class="t">grid-row</code>. When in doubt, the two‑property form (<code class="t">grid-column</code> + <code class="t">grid-row</code>) is harder to get wrong.</div>
+    </section>
+
+
+    <!-- SELF -->
+    <section id="self">
+      <p class="sec-eyebrow">Placing items · the item</p>
+      <h2>Aligning a single item</h2>
+      <p>The per‑item counterparts to <code class="t">justify-items</code> / <code class="t">align-items</code>. Set them on one item to override the container's alignment just for that item.</p>
+      <h3>justify-self · align-self · place-self <span class="badge">shorthand</span></h3>
+      <p><code class="t">justify-self</code> = row axis, <code class="t">align-self</code> = column axis, both taking <code class="t">start / end / center / stretch</code>. <code class="t">place-self</code> combines them (<code class="t">align</code> then <code class="t">justify</code>). Only the coral item below changes:</p>
+      <div class="demo" data-demo data-target="#g-self" data-prop="place-self">
+        <div class="stage">
+          <div class="stagelabel">container aligns items stretch; one item overrides</div>
+          <div class="g framed" style="grid-template-columns:repeat(3,1fr); grid-auto-rows:80px; gap:8px">
+            <div class="box b">stretch</div>
+            <div class="box a" id="g-self" style="place-self:center">me</div>
+            <div class="box c">stretch</div>
+          </div>
+        </div>
+        <div class="controls">
+          <span class="lbl">place-self:</span>
+          <button data-value="center" aria-pressed="true">center</button>
+          <button data-value="start start">start start</button>
+          <button data-value="end end">end end</button>
+          <button data-value="start end">start end</button>
+          <button data-value="stretch stretch">stretch</button>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.special-item</span> { <span class="prop">place-self</span>: <span class="dyn" data-code>center</span>; }
+<span class="com">/* = align-self: center; justify-self: center; */</span></pre>
+    </section>
+
+
+    <!-- ORDER / Z-INDEX -->
+    <section id="order">
+      <p class="sec-eyebrow">Placing items · the item</p>
+      <h2>Order, overlap & layering</h2>
+      <h3>order</h3>
+      <p>Just like in flexbox, <code class="t">order</code> (default <code class="t">0</code>) changes the visual sequence of auto‑placed items — lower numbers first. Same accessibility caveat as <code class="t">dense</code>: it doesn't move the item in the DOM.</p>
+      <h3>Overlapping items + z-index <span class="badge">grid superpower</span></h3>
+      <p>Unlike flex, two grid items can occupy the <em>same</em> cell — just place them on overlapping lines. They stack in source order, and <code class="t">z-index</code> controls which sits on top. This makes captions‑over‑images and layered hero sections trivial, with no absolute positioning.</p>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">both items placed in 1 / 1 / 2 / 3; z-index decides the top</div>
+          <div class="g framed" style="grid-template-columns:repeat(2,1fr); grid-auto-rows:90px; gap:8px">
+            <div class="box b" style="grid-area:1 / 1 / 2 / 3">background layer</div>
+            <div class="box a" style="grid-area:1 / 1 / 2 / 3; place-self:end start; min-height:auto; padding:6px 12px; z-index:2; box-shadow:0 4px 12px rgba(0,0,0,.18)">caption on top (z-index: 2)</div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.photo</span>, <span class="sel">.caption</span> { <span class="prop">grid-area</span>: <span class="val">1 / 1 / 2 / 3</span>; } <span class="com">/* same cell */</span>
+<span class="sel">.caption</span> { <span class="prop">align-self</span>: <span class="val">end</span>; <span class="prop">z-index</span>: <span class="val">2</span>; }</pre>
+    </section>
+
+
+    <!-- GRID SHORTHAND -->
+    <section id="shorthand">
+      <p class="sec-eyebrow">Advanced</p>
+      <h2>The grid mega-shorthand</h2>
+      <h3>grid <span class="badge">shorthand</span></h3>
+      <p>The most compressed property — it sets the explicit grid (<code class="t">grid-template-rows/columns/areas</code>) <em>and</em> the implicit-grid defaults (<code class="t">grid-auto-rows/columns/flow</code>) at once, resetting any you omit. A leading <code class="t">auto-flow</code> keyword switches the auto‑flow direction. Genuinely useful for defining auto‑flowing tracks compactly, but it's the property most people read least fluently — reach for the longhands unless you have a reason.</p>
+      <pre class="code"><span class="com">/* explicit rows / explicit columns */</span>
+<span class="sel">.a</span> { <span class="prop">grid</span>: <span class="val">100px 1fr / repeat(3, 1fr)</span>; }
+
+<span class="com">/* auto-flowing columns 80px wide, with two fixed rows */</span>
+<span class="sel">.b</span> { <span class="prop">grid</span>: <span class="val">auto-flow 80px / repeat(2, 1fr)</span>; }</pre>
+    </section>
+
+
+    <!-- SUBGRID -->
+    <section id="subgrid">
+      <p class="sec-eyebrow">Advanced · CSS Grid Level 2</p>
+      <h2>Inheriting tracks with subgrid</h2>
+      <h3>subgrid</h3>
+      <p>Normally a nested grid has its own independent tracks, so children of different cards never line up. Set a nested grid's <code class="t">grid-template-columns</code> (or rows) to <code class="t">subgrid</code> and it adopts the <em>parent's</em> track lines instead of creating new ones — so content inside separate children aligns to the same master grid. It's the long‑awaited fix for "ragged card internals."</p>
+      <div class="demo">
+        <div class="stage">
+          <div class="stagelabel">3 cards on a shared grid; each card is itself a subgrid → titles, bodies & footers align across cards</div>
+          <div class="g" style="grid-template-columns:repeat(3,1fr); grid-template-rows:auto 1fr auto; gap:10px;
+            background:var(--blue-soft); border:1px solid var(--blue); border-radius:8px; padding:10px">
+            <div style="display:grid; grid-template-rows:subgrid; grid-row:1 / 4; gap:6px">
+              <div class="box b" style="min-height:auto;padding:6px">Short title</div>
+              <div class="box ghost" style="padding:6px">Body</div>
+              <div class="box a" style="min-height:auto;padding:6px">Footer</div>
+            </div>
+            <div style="display:grid; grid-template-rows:subgrid; grid-row:1 / 4; gap:6px">
+              <div class="box b" style="min-height:auto;padding:6px">A noticeably longer title that wraps</div>
+              <div class="box ghost" style="padding:6px">Body content of varying length here</div>
+              <div class="box a" style="min-height:auto;padding:6px">Footer</div>
+            </div>
+            <div style="display:grid; grid-template-rows:subgrid; grid-row:1 / 4; gap:6px">
+              <div class="box b" style="min-height:auto;padding:6px">Mid title</div>
+              <div class="box ghost" style="padding:6px">Body</div>
+              <div class="box a" style="min-height:auto;padding:6px">Footer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <pre class="code"><span class="sel">.card-grid</span> { <span class="prop">display</span>: <span class="val">grid</span>; <span class="prop">grid-template-rows</span>: <span class="val">auto 1fr auto</span>; }
+<span class="sel">.card</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-row</span>: <span class="val">1 / 4</span>;
+  <span class="prop">grid-template-rows</span>: <span class="val">subgrid</span>;  <span class="com">/* share the parent's rows */</span>
+}</pre>
+      <div class="call"><b>Support:</b> subgrid is in all current major browsers, but verify your baseline if you must support older versions — it's the newest piece of the spec here.</div>
+    </section>
+
+
+    <!-- MASONRY -->
+    <section id="masonry">
+      <p class="sec-eyebrow">Advanced · experimental</p>
+      <h2>Masonry layout</h2>
+      <p>Pinterest‑style masonry (columns of unequal, tightly‑packed heights) is being added to Grid via <code class="t">grid-template-rows: masonry</code> (syntax is still being finalized and standardized). It is <strong>experimental</strong> with limited, flagged support today. If you need masonry in production right now, use a JS library or a CSS columns approach — but it's worth knowing it's coming to native Grid.</p>
+      <pre class="code"><span class="com">/* experimental — not production-ready, syntax may change */</span>
+<span class="sel">.masonry</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="val">auto-fill</span>, <span class="fn">minmax</span>(<span class="val">200px</span>, <span class="val">1fr</span>));
+  <span class="prop">grid-template-rows</span>: <span class="val">masonry</span>;
+}</pre>
+    </section>
+
+
+    <!-- CHEAT SHEET -->
+    <section id="cheat">
+      <p class="sec-eyebrow">Reference</p>
+      <h2>The whole property set</h2>
+      <p class="lead">Every grid property at a glance — where it goes and what it does.</p>
+
+      <h3 style="margin-top:24px">On the container</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Property</th><th>Does</th><th>Common values</th></tr></thead>
+          <tbody>
+            <tr><td>display</td><td>Creates the grid</td><td>grid · inline-grid</td></tr>
+            <tr><td>grid-template-columns</td><td>Defines column tracks</td><td>1fr · 200px · auto · minmax() · repeat()</td></tr>
+            <tr><td>grid-template-rows</td><td>Defines row tracks</td><td>(same as columns)</td></tr>
+            <tr><td>grid-template-areas</td><td>Names regions as an ASCII map</td><td>"head head" "side main"</td></tr>
+            <tr><td>grid-template</td><td><span class="on">Shorthand</span>: rows + columns + areas</td><td>"a" 50px / 1fr 1fr</td></tr>
+            <tr><td>column-gap / row-gap</td><td>Gutter on one axis</td><td>&lt;length&gt;</td></tr>
+            <tr><td>gap</td><td><span class="on">Shorthand</span>: row-gap + column-gap</td><td>16px · 24px 8px</td></tr>
+            <tr><td>justify-items</td><td>Items' position in cell, row axis</td><td>stretch · start · center · end</td></tr>
+            <tr><td>align-items</td><td>Items' position in cell, column axis</td><td>stretch · start · center · end · baseline</td></tr>
+            <tr><td>place-items</td><td><span class="on">Shorthand</span>: align-items + justify-items</td><td>center</td></tr>
+            <tr><td>justify-content</td><td>Whole grid in container, row axis</td><td>start · center · space-between …</td></tr>
+            <tr><td>align-content</td><td>Whole grid in container, column axis</td><td>start · center · space-between …</td></tr>
+            <tr><td>place-content</td><td><span class="on">Shorthand</span>: align-content + justify-content</td><td>center</td></tr>
+            <tr><td>grid-auto-columns</td><td>Size of implicit columns</td><td>&lt;track size&gt;</td></tr>
+            <tr><td>grid-auto-rows</td><td>Size of implicit rows</td><td>&lt;track size&gt;</td></tr>
+            <tr><td>grid-auto-flow</td><td>Auto-placement direction</td><td>row · column · dense</td></tr>
+            <tr><td>grid</td><td><span class="on">Shorthand</span>: explicit + implicit grid</td><td>auto-flow 80px / 1fr 1fr</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:34px">On an item</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Property</th><th>Does</th><th>Common values</th></tr></thead>
+          <tbody>
+            <tr><td>grid-column-start / -end</td><td>Item's start/end line, row axis</td><td>1 · -1 · span 2 · &lt;name&gt;</td></tr>
+            <tr><td>grid-row-start / -end</td><td>Item's start/end line, column axis</td><td>1 · -1 · span 2 · &lt;name&gt;</td></tr>
+            <tr><td>grid-column</td><td><span class="on">Shorthand</span>: column start / end</td><td>1 / 3 · 1 / -1 · 2 / span 2</td></tr>
+            <tr><td>grid-row</td><td><span class="on">Shorthand</span>: row start / end</td><td>1 / 3 · 2 / span 3</td></tr>
+            <tr><td>grid-area</td><td>Named region, or all 4 lines</td><td>main · 1 / 2 / 3 / 4</td></tr>
+            <tr><td>justify-self</td><td>This item in its cell, row axis</td><td>start · center · end · stretch</td></tr>
+            <tr><td>align-self</td><td>This item in its cell, column axis</td><td>start · center · end · stretch</td></tr>
+            <tr><td>place-self</td><td><span class="on">Shorthand</span>: align-self + justify-self</td><td>center</td></tr>
+            <tr><td>order</td><td>Visual sequence of auto-placed items</td><td>&lt;integer&gt;, default 0</td></tr>
+            <tr><td>z-index</td><td>Stack order for overlapping items</td><td>&lt;integer&gt;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="call blue" style="margin-top:30px"><b>When to still reach for flexbox:</b> one‑dimensional rows or columns where content sizes should drive the layout — navigation bars, button groups, tag lists, a single centered element, anything that should wrap based on its own content. Grid wins the moment you're thinking in two dimensions or want items pinned to a shared structure. They compose beautifully: grid for the page skeleton, flex for the bits inside each region.</div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  CSS Grid Layout — complete property reference · every demo above is live, editable CSS · built for the move from flex to grid
+</footer>
+
+<script>
+  // Interactive demos: data-driven. Each [data-demo] group has a target grid,
+  // a CSS property, and buttons carrying the value to apply.
+  document.querySelectorAll('[data-demo]').forEach(function (group) {
+    var grid = document.querySelector(group.getAttribute('data-target'));
+    var prop = group.getAttribute('data-prop');
+    var buttons = group.querySelectorAll('button[data-value]');
+    // the code snippet's dynamic span lives in the figure right after the demo
+    var codeSpan = null;
+    var next = group.nextElementSibling;
+    if (next && next.tagName === 'PRE') codeSpan = next.querySelector('[data-code]');
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var val = btn.getAttribute('data-value');
+        if (grid) grid.style.setProperty(prop, val);
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+        btn.setAttribute('aria-pressed', 'true');
+        if (codeSpan) codeSpan.textContent = val;
+      });
     });
-  </script>
-</body>
+  });
+
+  // Scroll-spy: highlight the current section in the side nav.
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map = {};
+  links.forEach(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) map[id] = a;
+  });
+  var watched = Object.keys(map).map(function (id) { return document.getElementById(id); });
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('active'); });
+          var a = map[e.target.id];
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-72px 0px -70% 0px', threshold: 0 });
+    watched.forEach(function (el) { spy.observe(el); });
+  }
+</script>
