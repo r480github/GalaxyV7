@@ -3,7 +3,8 @@
 		"name": "Amazon",
 		"url": "https://amazon.com/",
 		"image": "1.png",
-		"genre": "Shopping"
+		"genre": "Shopping",
+		"type": "prism"
 	},
 	{
 		"name": "AniWatch",

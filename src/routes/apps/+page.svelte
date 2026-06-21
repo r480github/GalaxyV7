@@ -5,7 +5,8 @@
 	import { loadScriptsSequential } from '$lib/lethe/loader';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
-	import { getOriginalUrl } from '$lib/lethe/decode';
+	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
+
 	import search from '$lib/img/icons/search.png';
 	import pin from '$lib/img/icons/pin.png';
 	import '$lib/style/apps.css';
@@ -27,8 +28,10 @@
 	let ready = $state(false);
 	let iframeEl;
 	let polygon;
-	let decodedURL = $state('');
 	let car = $state('libcurlRaw');
+	let prismController;
+	let prismFrame;
+
 	let connection;
 	let frameDisplay = $state('none');
 	let location = '/img/';
@@ -139,20 +142,35 @@
 		frameDisplay = 'block';
 		overflow = true;
 		if (!ready) return;
+		if (type === 'prism') {
+			if (!prismController) prismController = await createPrismController(car);
+			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
+			prismFrame.go(url);
+			return;
+		}
 		if (type === 'uv') {
 			// @ts-ignore
 			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
-		} else {
-			url = polygon.encodeUrl(url);
 		}
-		decodedURL = getOriginalUrl(url);
-		console.log('decoded is:' + decodedURL);
+		if (type === 'polygon') {
+			url = polygon.encodeUrl(url);
+			iframeEl.src = url;
+		} else {
+			if (!prismController) prismController = await createPrismController(car);
+			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
+			prismFrame.go(url);
+			return;
+		}
+
 		iframeEl.src = url;
 	}
 
 	$effect(() => {
 		if (ready && connection) {
 			setCar(connection, car);
+		}
+		if (getPrismController()) {
+			setPrismTransport(car);
 		}
 	});
 </script>
