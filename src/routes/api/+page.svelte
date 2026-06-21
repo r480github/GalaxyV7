@@ -1,8 +1,7 @@
 <!--
-
 /api?url={}&type={}&notif{}
-
 -->
+
 <script>
 	// @ts-nocheck
 
@@ -12,7 +11,7 @@
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
 	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
-
+	const api = '/api?url={}&type={}';
 	let ready = $state(false);
 	let iframeEl;
 	let polygon;
@@ -50,6 +49,7 @@
 	});
 
 	async function handleSubmit(url, type) {
+		if (apiUrl === null) return;
 		if (type === 'prism') {
 			if (!prismController) prismController = await createPrismController(car);
 			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
@@ -82,7 +82,9 @@
 	});
 </script>
 
-<iframe bind:this={iframeEl} title=""></iframe>
+<iframe bind:this={iframeEl} title="" style="opacity: {apiUrl ? '100%' : '0'};"></iframe>
+<p>{api}</p>
+<p class="types">types: <br />prism(sjv2) <br />polygon(sj) <br /> glass(uv)</p>
 
 <style>
 	:global(body) {
@@ -98,5 +100,11 @@
 		flex-grow: 1;
 		border: none;
 		margin: 0;
+		position: absolute;
+		height: 100vh;
+		background-color: white;
+	}
+	.types {
+		margin-left: 20px;
 	}
 </style>

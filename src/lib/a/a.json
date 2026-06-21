@@ -3,22 +3,19 @@
 		"name": "Amazon",
 		"url": "https://amazon.com/",
 		"image": "1.png",
-		"genre": "Shopping",
-		"type": "prism"
+		"genre": "Shopping"
 	},
 	{
 		"name": "AniWatch",
 		"url": "https://ww2.aniwatch.fit/",
 		"image": "3.png",
-		"genre": "Streaming",
-		"type": "UV"
+		"genre": "Streaming"
 	},
 	{
 		"name": "Animex",
 		"url": "https://animex.one/",
 		"image": "29.png",
-		"genre": "Streaming",
-		"type": "SJ"
+		"genre": "Streaming"
 	},
 	{
 		"name": "AniWave",
@@ -57,7 +54,7 @@
 		"genre": "Other"
 	},
 	{
-		"name": "Disco",
+		"name": "Discor",
 		"url": "https://discord.com/app",
 		"image": "30.png",
 		"genre": "Social Media"
@@ -123,15 +120,12 @@
 		"name": "TikTok",
 		"url": "https://TikTok.com",
 		"image": "21.png",
-		"genre": "Social Media",
-		"type": "SJ"
-	},
+		"genre": "Social Media"	},
 	{
 		"name": "VidLink",
 		"url": "https://vidlink.pro/",
 		"image": "28.png",
-		"genre": "Streaming",
-		"type": "UV"
+		"genre": "Streaming"
 	},
 	{
 		"name": "VS Code",
@@ -146,7 +140,6 @@
 		"image": "23.png",
 		"genre": "AI"
 	},
-
 	{
 		"name": "X (Twitter)",
 		"url": "https://x.com",
