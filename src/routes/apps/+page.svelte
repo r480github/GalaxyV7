@@ -137,7 +137,6 @@
 		overflow = false;
 		iframeEl.src = '';
 	}
-
 	async function handleSubmit(url, type) {
 		frameDisplay = 'block';
 		overflow = true;
@@ -148,7 +147,7 @@
 			prismFrame.go(url);
 			return;
 		}
-		
+
 		if (type === 'uv') {
 			// @ts-ignore
 			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
