@@ -224,8 +224,6 @@
 		font-family: var(--font-family-body);
 		outline: none;
 		box-sizing: border-box;
-		backdrop-filter: brightness(1);
-		box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
 		transition:
 			border-color 0.25s,
 			box-shadow 0.25s,
@@ -235,11 +233,8 @@
 		color: var(--color-text-subtle);
 	}
 	.home-search input:focus {
-		border-color: var(--color-border-strong);
+		border-color: var(--color-border-hover);
 		transform: translateY(-1px);
-		box-shadow:
-			0 22px 60px rgba(0, 0, 0, 0.4),
-			0 0 0 4px var(--overlay-hover);
 	}
 	.home-search input:disabled {
 		opacity: 0.55;
@@ -304,7 +299,12 @@
 		text-overflow: ellipsis;
 		max-width: 100%;
 	}
-
+	input,
+	.shortcuts {
+		-webkit-user-select: none; /* Safari */
+		-ms-user-select: none; /* IE 10 and IE 11 */
+		user-select: none; /* Standard syntax */
+	}
 	@media (max-width: 560px) {
 		.apps {
 			grid-template-columns: repeat(3, 1fr);

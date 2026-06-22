@@ -6,7 +6,7 @@
  */
 :root {
 	/* ===================== Color: surfaces ===================== */
-	--color-bg: #000000; /* app canvas / body background */
+	--color-bg: rgb(0, 0, 0); /* app canvas / body background */
 	--color-surface: #0c0c0c; /* recessed inputs, base cards */
 	--color-surface-2: #151515; /* hovered cards, raised panels */
 	--color-surface-3: #1e1e1e; /* menus, popovers */
@@ -17,6 +17,7 @@
 	--color-scrim: rgba(0, 0, 0, 0.12); /* translucent tint behind blurred glass */
 	--color-scrim-medium: rgba(0, 0, 0, 0.5); /* dark control background over imagery */
 	--color-scrim-strong: rgba(0, 0, 0, 0.85); /* legibility gradient/overlay over imagery */
+	--color-glass: color-mix(in srgb, var(--color-chrome) 30%, #1010104c);
 
 	/* ===================== Color: text ===================== */
 	--color-text: #ededed; /* primary text */

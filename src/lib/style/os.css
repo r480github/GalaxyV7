@@ -11,7 +11,7 @@ body {
 	top: 0px;
 	width: 100%;
 	backdrop-filter: blur(10px);
-	background-color: #1010104c;
+	background-color: var(--color-glass);
 	height: 25px;
 	display: flex;
 	align-items: center;
@@ -43,7 +43,7 @@ body {
 	bottom: 0px;
 	width: 100%;
 	backdrop-filter: blur(10px);
-	background-color: #1010104c;
+	background-color: var(--color-glass);
 	height: 40px;
 	display: flex;
 	align-items: center;
