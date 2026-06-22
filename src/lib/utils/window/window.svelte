@@ -346,7 +346,7 @@
 			width = Math.min(maxWidth, Math.max(200, startWidth + mouseXmove)) + 'px';
 			const newHeight = Math.max(150, startHeight - mouseYmove);
 			const newY = startTop + (startHeight - newHeight);
-			y = Math.max(maxHeightTop,Math.max(0, newY));
+			y = Math.max(maxHeightTop, Math.max(0, newY));
 			height = startTop + startHeight - y + 'px';
 		}
 
@@ -356,7 +356,7 @@
 			const newX = startLeft + (startWidth - newWidth);
 			const newY = startTop + (startHeight - newHeight);
 			x = Math.max(0, newX);
-			y = Math.max(maxHeightTop,Math.max(0, newY));
+			y = Math.max(maxHeightTop, Math.max(0, newY));
 			width = startLeft + startWidth - x + 'px';
 			height = startTop + startHeight - y + 'px';
 		}
@@ -489,11 +489,11 @@
   "
 	></div>
 	<div class="bar" style="width: 100%;">
-		<div class="left">
+		<div class="bar-left">
 			<p class="window-title">{name}</p>
 		</div>
-		<div class="middle" onmousedown={dragStart} ondblclick={maximizeWindow}></div>
-		<div class="right">
+		<div class="bar-middle" onmousedown={dragStart} ondblclick={maximizeWindow}></div>
+		<div class="bar-right">
 			<button class="navControl" onclick={minimizeWindow} type="button">
 				<img class="minimize" src={minimize} alt="Minimize" />
 			</button>
@@ -508,8 +508,11 @@
 	</div>
 	<iframe src={url} title={name} style={draggingState ? 'pointer-events: none;' : 'auto'}></iframe>
 </div>
-{#if rightSplit === true}
-	<div class="snapPreview right"></div>
-{:else if rightSplit === 'left'}
-	<div class="snapPreview left"></div>
-{/if}
+<div
+	class="snapPreview"
+	style="z-index: {$topZ - 1}; left: {rightSplit === true ? '50%' : '100%'};"
+></div>
+<div
+	class="snapPreview"
+	style="z-index: {$topZ - 1}; left: {rightSplit === 'left' ? '0%' : '-51%'};"
+></div>
