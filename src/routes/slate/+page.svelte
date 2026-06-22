@@ -26,6 +26,7 @@
 	import { createScramjetController } from '$lib/lethe/poly';
 	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
 	import { enablePopupInterceptor } from '$lib/lethe/reflux';
+	import { subscribeSettings } from '$lib/utils/settingsSync.js';
 	let tabs = $state([]);
 	let frames = $state([]);
 	let query = $state('');

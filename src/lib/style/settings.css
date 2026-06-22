@@ -73,12 +73,16 @@ h1 {
 .actionBtn:active {
 	background: var(--overlay-active);
 }
+.actionBtn.active {
+	background: var(--color-pin);
+	color: var(--color-text-dark);
+}
 
 .toggleBtn {
 	padding: 8px 20px;
 	color: var(--color-text-muted);
 	border: 1px solid var(--color-border-strong);
-	border-radius: 999px;
+	border-radius: 20px;
 	background: transparent;
 	font-family: var(--font-family-heading);
 	font-size: 0.95rem;
@@ -155,11 +159,12 @@ h1 {
 }
 .subGroup {
 	padding-top: 10px;
-	padding-bottom: 30px;
+	padding-bottom: 60px;
 	background-color: var(--color-surface-2);
 	border-radius: 16px;
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-	flex-grow: 1;
+	flex: 1;
+
 }
 .divider {
 	width: 20%;

@@ -41,26 +41,35 @@ function applyToDocument(doc, slug) {
 	else delete doc.documentElement.dataset.theme;
 }
 
+const themeThingy = 'galaxy-theme';
+let channel = null;
+function getChannel() {
+	if (!browser || typeof BroadcastChannel === 'undefined') return null;
+	if (!channel) channel = new BroadcastChannel(themeThingy);
+	return channel;
+}
+
 export function applyTheme(slug) {
 	if (!browser) return;
 	applyToDocument(document, slug);
-	const top = window.top;
-	if (top && top !== window) {
-		try {
-			applyToDocument(top.document, slug);
-		} catch {}
-	}
 }
 
 export async function saveTheme(slug) {
 	await saveSetting('theme', slug);
 	applyTheme(slug);
+	getChannel()?.postMessage(slug);
 }
 
 export async function loadTheme() {
 	return await loadSetting('theme', '');
 }
 
-export async function applySavedTheme() {
-	applyTheme(await loadTheme());
+export function initTheme() {
+	if (!browser) return () => {};
+	loadTheme().then(applyTheme);
+	const ch = getChannel();
+	if (!ch) return () => {};
+	const onMessage = (event) => applyTheme(event.data);
+	ch.addEventListener('message', onMessage);
+	return () => ch.removeEventListener('message', onMessage);
 }

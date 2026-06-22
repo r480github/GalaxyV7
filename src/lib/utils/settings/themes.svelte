@@ -144,6 +144,7 @@
 		margin-left: 2px;
 	}
 	.dot.pin {
+		margin-left: 2px;
 		background: var(--color-pin);
 	}
 	.dot.danger {
