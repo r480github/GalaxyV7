@@ -134,6 +134,15 @@
 		ready = true;
 	});
 
+	onMount(() =>
+		subscribeSettings((key, value) => {
+			if (key === 'lethe') letheEngine = value;
+			else if (key === 'car') car = value;
+			else if (key === 'customWisp') customWisp = value;
+			else if (key === 'searchEngine') searchEngine = value;
+		})
+	);
+
 	async function ensurePrism() {
 		if (sjFrame) return sjFrame;
 		prismController = await createPrismController(car, customWisp || undefined);

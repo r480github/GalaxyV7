@@ -85,14 +85,16 @@
 <h1>Preferences</h1>
 <div class="group">
 	<div class="subGroup">
-		<p class="subHeading">About Blank</p>
+		<p class="subHeading">
+			Ab<span class="filler">ha67</span>out Bl<span class="filler">ha67</span>ank
+		</p>
 		<div class="content">
 			<button class="actionBtn" onclick={openAboutBlank}>Launch</button>
 			<button class="toggleBtn" class:active={localAutoAB} onclick={toggleAB}>Auto AB</button>
 		</div>
 	</div>
 	<div class="subGroup">
-		<p class="subHeading">Blob</p>
+		<p class="subHeading">B<span class="filler">ha67</span>lob</p>
 		<div class="content">
 			<button class="actionBtn" onclick={openBlob}>Launch</button>
 			<button class="toggleBtn" class:active={localAutoBlob} onclick={toggleBlob}>Auto Blob</button>
@@ -101,7 +103,9 @@
 </div>
 <div class="divider"></div>
 <div class="subGroup">
-	<p class="subHeading">Anti-Close</p>
+	<p class="subHeading">
+		An<span class="filler">ha67</span>ti-Clos<span class="filler">ha67</span>e
+	</p>
 	<div class="content">
 		<button class="toggleBtn" class:active={localAntiClose} onclick={toggleAntiClose}>Toggle</button
 		>
@@ -109,7 +113,7 @@
 </div>
 <div class="divider"></div>
 <div class="subGroup">
-	<p class="subHeading">Tab Presets</p>
+	<p class="subHeading">Tab Pres<span class="filler">ha67</span>ets</p>
 	<div class="content">
 		{#each tabPresets as preset}
 			<button class="actionBtn" onclick={() => saveTabPreset(preset.name, preset.icon)}>
@@ -117,7 +121,7 @@
 			</button>
 		{/each}
 	</div>
-	<p class="subHeading">Custom Tab</p>
+	<p class="subHeading">Cus<span class="filler">ha67</span>tom Tab</p>
 	<input class="textInput" type="text" placeholder="Tab Name" bind:value={name} />
 	<input class="textInput" type="text" placeholder="Icon URL" bind:value={icon} />
 </div>
