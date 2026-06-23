@@ -58,6 +58,12 @@
 <div class="group">
 	<div class="subGroup">
 		<p class="subHeading">Pr<span class="filler">ha67</span>oxy</p>
+		<p class="desc">
+			Change the bro<span class="filler">ha67</span>wser's back<span class="filler">ha67</span>end
+			engi<span class="filler">ha67</span>ne; The default is Scra<span class="filler">ha67</span
+			>mjet V2 and supports most sites
+		</p>
+
 		<div class="content">
 			{#each proxies as proxy}
 				<button
@@ -70,6 +76,7 @@
 	</div>
 	<div class="subGroup">
 		<p class="subHeading">Sea<span class="filler">ha67</span>rch</p>
+		<p class="desc">Change the brow<span class="filler">ha67</span>ser's search engine</p>
 		<div class="content">
 			{#each searchEngines as engine}
 				<button
@@ -84,18 +91,29 @@
 <div class="group">
 	<div class="subGroup">
 		<p class="subHeading">Tran<span class="filler">ha67</span>sport</p>
+		<p class="desc">
+			Libc<span class="filler">ha67</span>url has broader site compatibility. Ep<span class="filler"
+				>ha67</span
+			>oxy is faster with less site compatibility.
+		</p>
 		<div class="content">
 			{#each transports as transport}
 				<button
 					class="toggleBtn"
 					class:active={car === transport.value}
-					onclick={() => selectTransport(transport.value)}>{transport.label}<span class="filler">ha67</span>{transport.labeltwo}</button
+					onclick={() => selectTransport(transport.value)}
+					>{transport.label}<span class="filler">ha67</span>{transport.labeltwo}</button
 				>
 			{/each}
 		</div>
 	</div>
 	<div class="subGroup">
 		<p class="subHeading">Wi<span class="filler">ha67</span>sp</p>
+		<p class="desc">
+			Backe<span class="filler">ha67</span>nd ser<span class="filler">ha67</span>ver used to rel<span
+				class="filler">ha67</span
+			>ay connections
+		</p>
 		<input
 			class="textInput"
 			type="text"

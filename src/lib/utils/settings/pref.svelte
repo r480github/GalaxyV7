@@ -88,6 +88,15 @@
 		<p class="subHeading">
 			Ab<span class="filler">ha67</span>out Bl<span class="filler">ha67</span>ank
 		</p>
+		<p class="desc">
+			Works great on Go<span class="filler">ha67</span>Gua<span class="filler">ha67</span>rdian by
+			making the tab invi<span class="filler">ha67</span>sible to teachers and prev<span
+				class="filler">ha67</span
+			>enting it from appea<span class="filler">ha67</span>ring in your hist<span class="filler"
+				>ha67</span
+			>ory
+		</p>
+
 		<div class="content">
 			<button class="actionBtn" onclick={openAboutBlank}>Launch</button>
 			<button class="toggleBtn" class:active={localAutoAB} onclick={toggleAB}>Auto AB</button>
@@ -95,9 +104,16 @@
 	</div>
 	<div class="subGroup">
 		<p class="subHeading">B<span class="filler">ha67</span>lob</p>
+		<p class="desc">
+			Doesn't hi<span class="filler">ha67</span>de the tab but does pre<span class="filler"
+				>ha67</span
+			>vent the site from appearing in your his<span class="filler">ha67</span>tory
+		</p>
 		<div class="content">
 			<button class="actionBtn" onclick={openBlob}>Launch</button>
-			<button class="toggleBtn" class:active={localAutoBlob} onclick={toggleBlob}>Auto Blob</button>
+			<button class="toggleBtn" class:active={localAutoBlob} onclick={toggleBlob}
+				>Au<span class="filler">ha67</span>to Blob</button
+			>
 		</div>
 	</div>
 </div>
@@ -105,6 +121,11 @@
 <div class="subGroup">
 	<p class="subHeading">
 		An<span class="filler">ha67</span>ti-Clos<span class="filler">ha67</span>e
+	</p>
+	<p class="desc">
+		Preve<span class="filler">ha67</span>nts teach<span class="filler">ha67</span>ers from closing
+		your tab by lau<span class="filler">ha67</span>nching the
+		<code> `Changes you made may not be saved`</code> prompt
 	</p>
 	<div class="content">
 		<button class="toggleBtn" class:active={localAntiClose} onclick={toggleAntiClose}>Toggle</button
@@ -117,6 +138,7 @@
 	<div class="content">
 		{#each tabPresets as preset}
 			<button class="actionBtn" onclick={() => saveTabPreset(preset.name, preset.icon)}>
+				<img class="icons" src={preset.icon} alt="" />
 				{preset.label}
 			</button>
 		{/each}

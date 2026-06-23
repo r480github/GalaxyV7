@@ -64,6 +64,9 @@ h1 {
 	transition: all 0.2s ease;
 	font-size: 0.95rem;
 	font-weight: 900;
+	display: flex;
+	align-items: center;
+	gap: 5px;
 }
 .actionBtn:hover {
 	background: var(--overlay-hover-strong);
@@ -124,17 +127,16 @@ h1 {
 }
 
 .block {
-	height: 100dvh;
+	height: 100vh;
 	box-sizing: border-box;
 	overflow-y: auto;
-	scroll-snap-align: start;
-	scroll-snap-stop: always;
 	padding: 48px 48px 64px 216px;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
 	width: 100%;
 	padding-right: 192px;
+	margin-top: 10vh;
 }
 .subHeading {
 	font-size: 23px;
@@ -164,12 +166,26 @@ h1 {
 	border-radius: 16px;
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 	flex: 1;
-
+	padding-right: 10px;
+	min-width: 340px;
 }
 .divider {
 	width: 20%;
 	height: 10px;
 	border-bottom: 1px solid var(--color-border);
 	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.icons {
+	height: 20px;
+	padding: none;
+	margin: none;
+	width: auto;
+	opacity: 0.9;
+}
+.desc {
+	font-size: 15px;
+	margin: 12px 0 0 20px;
+	color: var(--color-text);
 	margin-bottom: 20px;
 }
