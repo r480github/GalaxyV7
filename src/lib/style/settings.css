@@ -186,6 +186,7 @@ h1 {
 .desc {
 	font-size: 15px;
 	margin: 12px 0 0 20px;
-	color: var(--color-text);
+	color: var(	--color-text-muted);
 	margin-bottom: 20px;
+	line-height: 20px;
 }
