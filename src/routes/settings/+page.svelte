@@ -5,6 +5,7 @@
 	import Pro from '$lib/utils/settings/pro.svelte';
 	import Os from '$lib/utils/settings/os.svelte';
 	import Data from '$lib/utils/settings/data.svelte';
+	import About from '$lib/utils/settings/about.svelte';
 	const stuffs = [
 		{ name: 'Preferences', id: 'pref' },
 		{ name: 'Pro', nametwo: 'xy', id: 'pro' },
@@ -44,5 +45,5 @@
 	<Data />
 </div>
 <div class="block" id="about">
-	<h1>About</h1>
+	<About />
 </div>

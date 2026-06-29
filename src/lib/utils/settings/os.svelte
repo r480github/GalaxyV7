@@ -75,6 +75,8 @@
 		</div>
 	</div>
 </div>
+<div class="divider"></div>
+
 <div class="group">
 	<div class="subGroup">
 		<p class="subHeading">Upload</p>
