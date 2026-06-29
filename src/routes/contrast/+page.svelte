@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import b1g from '$lib/img/bg/123.jpg';
+	import b1g from '$lib/img/bg/0027.jpg';
 	import getContrast from '$lib/utils/contrast.js';
 	let fg = $state('#ffffff');
 	onMount(async () => {
