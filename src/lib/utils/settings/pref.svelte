@@ -89,12 +89,9 @@
 			Ab<span class="filler">ha67</span>out Bl<span class="filler">ha67</span>ank
 		</p>
 		<p class="desc">
-			Works great on Go<span class="filler">ha67</span>Gua<span class="filler">ha67</span>rdian by
-			making the tab invi<span class="filler">ha67</span>sible to teachers and prev<span
+			Makes the tab invi<span class="filler">ha67</span>sible to teachers and your bro<span
 				class="filler">ha67</span
-			>enting it from appea<span class="filler">ha67</span>ring in your hist<span class="filler"
-				>ha67</span
-			>ory
+			>wsing hist<span class="filler">ha67</span>ory
 		</p>
 
 		<div class="content">

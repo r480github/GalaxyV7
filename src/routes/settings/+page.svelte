@@ -3,6 +3,7 @@
 	import Pref from '$lib/utils/settings/pref.svelte';
 	import Themes from '$lib/utils/settings/themes.svelte';
 	import Pro from '$lib/utils/settings/pro.svelte';
+	import Os from '$lib/utils/settings/os.svelte';
 	const stuffs = [
 		{ name: 'Preferences', id: 'pref' },
 		{ name: 'Themes', id: 'themes' },
@@ -35,7 +36,7 @@
 	<Pro />
 </div>
 <div class="block" id="os">
-	<h1>OS</h1>
+	<Os />
 </div>
 <div class="block" id="data">
 	<h1>Data</h1>

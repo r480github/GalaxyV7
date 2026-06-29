@@ -1,4 +1,6 @@
-// yes
+
+
+// yes, these are ai comments
 /* https://www.jsdelivr.com/package/npm/localspace */
 
 import { browser } from '$app/environment';
@@ -8,6 +10,30 @@ import localspace from 'localspace';
 // localStorage/memory automatically). Null on the server — there is no storage
 // during SSR, so every read returns its fallback.
 const store = browser ? localspace.createInstance({ name: 'galaxy', storeName: 'settings' }) : null;
+
+// IndexedDB fires no change events, and our settings UI lives in an <iframe>
+// separate from the pages that consume those settings (e.g. the OS desktop).
+// A BroadcastChannel lets a `saveSetting` in one context notify every other
+// same-origin context so they can live-update instead of waiting for a reload.
+const channel = browser ? new BroadcastChannel('galaxy-settings') : null;
+
+/**
+ * Subscribe to live changes for a single setting key. The callback fires with
+ * the new value whenever `saveSetting(key, ...)` runs in any same-origin
+ * context (this page, another tab, or an <iframe>).
+ *
+ * @param {string} key
+ * @param {(value: *) => void} callback
+ * @returns {() => void} unsubscribe
+ */
+export function onSettingChange(key, callback) {
+	if (!browser || !channel) return () => {};
+	const handler = (event) => {
+		if (event.data?.key === key) callback(event.data.value);
+	};
+	channel.addEventListener('message', handler);
+	return () => channel.removeEventListener('message', handler);
+}
 
 /**
  * Read a persisted setting.
@@ -62,6 +88,10 @@ export async function saveSetting(key, value) {
 	// unhandled promise rejection.
 	try {
 		await store.setItem(key, value);
+		// Notify other contexts (other tabs, the OS desktop behind the settings
+		// iframe) so they can react without a reload. Same structured-clone rules
+		// as IndexedDB, so a value that persisted above is safe to post here.
+		channel?.postMessage({ key, value });
 	} catch (error) {
 		console.error(`Failed to persist setting "${key}":`, error);
 	}

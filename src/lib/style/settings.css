@@ -127,6 +127,8 @@ h1 {
 }
 
 .block {
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
 	height: 100vh;
 	box-sizing: border-box;
 	overflow-y: auto;
@@ -186,7 +188,7 @@ h1 {
 .desc {
 	font-size: 15px;
 	margin: 12px 0 0 20px;
-	color: var(	--color-text-muted);
+	color: var(--color-text-muted);
 	margin-bottom: 20px;
 	line-height: 20px;
 }

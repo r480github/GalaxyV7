@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import searchIcon from '$lib/img/icons/search.png';
-	import b1g from '$lib/img/bg/planet.jpg';
 	import getContrast from '$lib/utils/contrast.js';
 	import faviconFetch from 'favicon-fetch';
 	let { ready = false, onsearch } = $props();

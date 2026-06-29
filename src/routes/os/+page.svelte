@@ -11,7 +11,7 @@
 	} from '$lib/stores/index.js';
 	import '$lib/style/os.css';
 	import { onMount } from 'svelte';
-	import mainBG from '$lib/img/bg/bg4.jpg';
+	import mainBG from '$lib/img/bg/default.jpg';
 	import browser from '$lib/img/icons/earthWhite.png';
 	import g from '$lib/img/icons/controller.png';
 	import a from '$lib/img/icons/apps.png';
@@ -21,8 +21,9 @@
 	import { get } from 'svelte/store';
 	import { applyStartupSettings } from '$lib/utils/cloak.js';
 	import gsap from 'gsap';
+	import { loadSetting, onSettingChange } from '$lib/utils/localspace.js';
+
 	let activeButton = $state(null);
-	let bgURL = $state('');
 	let menuOpen = $state(false);
 	let openMenuX = $state(0);
 	let menuX = $state(0);
@@ -32,7 +33,8 @@
 	let previewApp = $state(null);
 	let hoverTimeout = null;
 	let timeString = $state(null);
-
+	let bgURL = $state(null);
+	let hydrated = $state(false);
 	const apps = [
 		{
 			id: 1,
@@ -130,10 +132,6 @@
 	});
 	onMount(() => {
 		applyStartupSettings();
-		if (!localStorage.getItem('background')) {
-			localStorage.setItem('background', mainBG);
-		}
-		bgURL = localStorage.getItem('background');
 		gsap.fromTo(
 			'.navButton',
 			{
@@ -322,11 +320,21 @@
 		const now = new Date();
 		timeString = now.toLocaleTimeString();
 	}
-	onMount(() => {
+	onMount(async () => {
+		bgURL = await loadSetting('bg', mainBG);
+		hydrated = true;
 		updateTime();
 		const interval = setInterval(updateTime, 1000);
-		return () => clearInterval(interval);
+		// Live-update when the background is changed from the settings iframe.
+		const unsubscribeBG = onSettingChange('bg', (value) => {
+			bgURL = value ?? mainBG;
+		});
+		return () => {
+			clearInterval(interval);
+			unsubscribeBG();
+		};
 	});
+
 	function switchMode() {
 		if (localStorage.getItem('mode') == 'website') {
 			localStorage.setItem('mode', 'os');
