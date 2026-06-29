@@ -55,7 +55,7 @@
 	const bg = Object.values(modules);
 </script>
 
-<h1>OS</h1>
+<h1>Backgrounds</h1>
 {#snippet Card(url)}
 	<button
 		class="buttonCard"

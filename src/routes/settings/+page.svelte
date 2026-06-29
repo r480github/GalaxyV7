@@ -6,9 +6,9 @@
 	import Os from '$lib/utils/settings/os.svelte';
 	const stuffs = [
 		{ name: 'Preferences', id: 'pref' },
-		{ name: 'Themes', id: 'themes' },
 		{ name: 'Pro', nametwo: 'xy', id: 'pro' },
-		{ name: 'OS', id: 'os' },
+		{ name: 'Themes', id: 'themes' },
+		{ name: 'Background', id: 'os' },
 		{ name: 'Data', id: 'data' },
 		{ name: 'About', id: 'about' }
 	];
@@ -28,13 +28,14 @@
 	{/each}
 </div>
 <div class="block" id="pref"><Pref /></div>
-<div class="block" id="themes">
-	<Themes />
-</div>
 <div class="block" id="pro">
 	<h1>Pro<span class="filler">ha67</span>xy</h1>
 	<Pro />
 </div>
+<div class="block" id="themes">
+	<Themes />
+</div>
+
 <div class="block" id="os">
 	<Os />
 </div>
