@@ -92,7 +92,7 @@
 
 		{#if recents.length}
 			<p class="subHeading">Recent Uploads</p>
-			<p class="desc">Click to reuse — your last {maxRecents} are kept</p>
+			<p class="desc">Click to reuse. Your last {maxRecents} are kept</p>
 			<div class="content">
 				{#each recents as src}
 					{@render Card(src)}
