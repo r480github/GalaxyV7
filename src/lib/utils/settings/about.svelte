@@ -10,12 +10,20 @@
 	];
 
 	const credits = [
-		{ label: 'GalaxyV7 Source', url: 'https://gitlab.com/Hydra.Network/galaxy/galaxyv7' },
-		{ label: 'DC Server', url: 'https://tinyurl.com/galaxyiscool' },
-		{ label: 'Scramjet', url: 'https://github.com/MercuryWorkshop/scramjet' },
-		{ label: 'Ultraviolet', url: 'https://github.com/titaniumnetwork-dev/Ultraviolet' },
-		{ label: 'Reflux', url: 'https://github.com/Obsidian-Dev-Labs/Reflux' },
-		{ label: 'Backgrounds', url: 'https://pin.it/kiPWq2bBW' }
+		{
+			label: 'Galax',
+			labeltwo: 'yV7 Source',
+			url: 'https://gitlab.com/Hydra.Network/galaxy/galaxyv7'
+		},
+		{ label: 'Disc', labeltwo: 'ord Server', url: 'https://tinyurl.com/galaxyiscool' },
+		{ label: 'Scra', labeltwo: 'mjet', url: 'https://tinyurl.com/hgworkshopsj' },
+		{
+			label: 'Ultra',
+			labeltwo: 'violet',
+			url: 'https://tinyurl.com/tnnetworkuv'
+		},
+		{ label: 'Reflux', labeltwo: '', url: 'https://github.com/Obsidian-Dev-Labs/Reflux' },
+		{ label: 'Backgrounds', labeltwo: '', url: 'https://pin.it/kiPWq2bBW' }
 	];
 
 	let modal = $state(false);
@@ -88,7 +96,9 @@
 		<p class="subHeading">Credits</p>
 		<div class="content">
 			{#each credits as item}
-				<button class="actionBtn" onclick={() => launchModal(item)}>{item.label}</button>
+				<button class="actionBtn" onclick={() => launchModal(item)}
+					><span>{item.label}<span class="filler">ha67</span>{item.labeltwo}</span></button
+				>
 			{/each}
 		</div>
 	</div>
