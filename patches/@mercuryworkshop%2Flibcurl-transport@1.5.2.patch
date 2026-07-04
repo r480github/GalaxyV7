@@ -1,0 +1,35 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 95cb36786b2f20a62297216c6d2866749e02c107..a0551510c3d4ba81d4ea77f70bfacee67203e889 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -6397,6 +6397,10 @@ var LibcurlClient = class {
+   async init() {
+     if (this.transport)
+       libcurl.transport = this.transport;
++    if (!libcurl.ready) {
++      await libcurl.load_wasm();
++      console.log("loaded libcurl.js v" + libcurl.version.lib);
++    }
+     libcurl.set_websocket(this.wisp);
+     this.session = new libcurl.HTTPSession({
+       proxy: this.proxy
+@@ -6404,18 +6408,7 @@ var LibcurlClient = class {
+     if (this.connections)
+       this.session.set_connections(...this.connections);
+     this.ready = libcurl.ready;
+-    if (this.ready) {
+-      console.log("running libcurl.js v" + libcurl.version.lib);
+-      return;
+-    }
+-    ;
+-    await new Promise((resolve, reject) => {
+-      libcurl.onload = () => {
+-        console.log("loaded libcurl.js v" + libcurl.version.lib);
+-        this.ready = true;
+-        resolve(null);
+-      };
+-    });
++    console.log("running libcurl.js v" + libcurl.version.lib);
+   }
+   ready = false;
+   async meta() {
