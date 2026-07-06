@@ -195,7 +195,6 @@
 			localStorage.setItem('firstVisit', 'false');
 			$notif = 'Right click app to open new window!';
 		}
-		console.log(localStorage.getItem('firstVisit'));
 		let appWindows = getAppWindows(appId);
 		if (appWindows.length > 1) {
 			previewApp = appId;
@@ -245,7 +244,6 @@
 		let uniqueSender = `${appId}-${Date.now()}`;
 		let newName = String(name) + ' (' + getAppWindows(appId).length + ')';
 		name = newName;
-		console.log(newName);
 		activeSignal.set(uniqueSender);
 
 		const appConfig = getAppConfig(appId);
@@ -325,7 +323,6 @@
 		hydrated = true;
 		updateTime();
 		const interval = setInterval(updateTime, 1000);
-		// Live-update when the background is changed from the settings iframe.
 		const unsubscribeBG = onSettingChange('bg', (value) => {
 			bgURL = value ?? mainBG;
 		});

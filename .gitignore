@@ -29,3 +29,5 @@ src/routes/books/curate/+page.svelte
 src/routes/books/curate/+page.ts
 src/routes/books/curate/+server.ts
 src/routes/books/curate/sizes/+server.ts
+test.json
+curate-deleted.json

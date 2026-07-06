@@ -57,6 +57,16 @@
 	}
 
 	onMount(() => {
+		const savedMode = localStorage.getItem('mode');
+		if (savedMode === 'os') {
+			location.href = '/os';
+			return;
+		}
+		if (savedMode === 'website') {
+			location.href = '/books';
+			return;
+		}
+
 		const obj = { value: 0 };
 		gsap.to(obj, {
 			value: 100,

@@ -56,7 +56,6 @@
 	function setTop() {
 		topZ.update((n) => n + 1);
 		z = get(topZ);
-		console.log('Universal Z-index is: ' + z);
 	}
 	function dragStart(e) {
 		activeSignal.set(sender);
@@ -65,7 +64,6 @@
 		offSety = e.clientY - y;
 		topZ.update((n) => n + 1);
 		z = get(topZ);
-		console.log('Universal Z-index is: ' + z);
 		window.addEventListener('mousemove', dragging);
 		window.addEventListener('mouseup', dragStop);
 		if (

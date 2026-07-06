@@ -93,11 +93,12 @@ fastify.server.on('listening', () => {
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 
-function shutdown() {
-	console.log('SIGTERM signal received: closing HTTP server');
-	fastify.close();
-	bare.close();
-	process.exit(0);
+function shutdown(signal) {
+	console.log(`${signal} received: closing HTTP server`);
+	fastify.close().then(
+		() => process.exit(0),
+		() => process.exit(1)
+	);
 }
 
 await fastify.listen({ port, host: '0.0.0.0' });

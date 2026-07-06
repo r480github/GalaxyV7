@@ -7,13 +7,13 @@ import { baremuxPath } from '@mercuryworkshop/bare-mux/node';
 import { refluxPath } from '@nightnetwork/reflux';
 import { server as wisp, logging } from '@mercuryworkshop/wisp-js/server';
 import { fileURLToPath } from 'node:url';
-import { dirname, join} from 'node:path';
+import { dirname, join } from 'node:path';
 
 const lethePlugin = () => ({
 	name: 'lethe',
 	configureServer(server) {
 		server.middlewares.use((req, res, next) => {
-			 next();
+			next();
 		});
 		server.middlewares.use('/epoxy', sirv(epoxyPath, { dev: true }));
 		server.middlewares.use('/libcurl', sirv(libcurlPath, { dev: true }));

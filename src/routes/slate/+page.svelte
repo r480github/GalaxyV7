@@ -20,7 +20,7 @@
 		goForwardSignal
 	} from '$lib/stores/index.js';
 	import { onMount, tick } from 'svelte';
-	import { loadScriptsSequential } from '$lib/lethe/loader';
+	import { loadScript, loadScriptsSequential } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
@@ -106,10 +106,6 @@
 		bookmarks = marks;
 		popupInterceptor = intercept;
 		hydrated = true;
-
-		const script = document.createElement('script');
-		script.src = 'https://cdn.jsdelivr.net/npm/eruda';
-		document.head.appendChild(script);
 
 		await loadScriptsSequential([
 			'/charon/index.js',
@@ -292,6 +288,17 @@
 		closeSettings();
 	}
 
+	async function openInspector() {
+		closeSettings();
+		try {
+			await loadScript('https://cdn.jsdelivr.net/npm/eruda');
+			window.eruda?.init();
+			window.eruda?.show();
+		} catch (e) {
+			console.error('Failed to load inspector:', e);
+		}
+	}
+
 	function toggleFullscreen() {
 		if (document.fullscreenElement) {
 			document.exitFullscreen();
@@ -431,7 +438,7 @@
 				<button onclick={openInNewWindow}>Open in new window</button>
 				<div class="break"></div>
 				<button onclick={toggleFullscreen}>Full Screen</button>
-				<button onclick={window.eruda.init()}>Inspect Element</button>
+				<button onclick={openInspector}>Inspect Element</button>
 			</div>
 		{/if}
 	</div>
