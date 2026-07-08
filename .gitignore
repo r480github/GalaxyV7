@@ -31,4 +31,3 @@ src/routes/books/curate/+server.ts
 src/routes/books/curate/sizes/+server.ts
 test.json
 curate-deleted.json
-test.json
