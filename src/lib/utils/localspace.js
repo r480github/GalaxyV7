@@ -1,5 +1,3 @@
-
-
 // yes, these are ai comments
 /* https://www.jsdelivr.com/package/npm/localspace */
 
