@@ -21,7 +21,7 @@
 	import { get } from 'svelte/store';
 	import { applyStartupSettings } from '$lib/utils/cloak.js';
 	import gsap from 'gsap';
-	import { loadSetting, onSettingChange } from '$lib/utils/localspace.js';
+	import { loadSetting, saveSetting, onSettingChange } from '$lib/utils/localspace.js';
 
 	let activeButton = $state(null);
 	let menuOpen = $state(false);
@@ -35,6 +35,23 @@
 	let timeString = $state(null);
 	let bgURL = $state(null);
 	let hydrated = $state(false);
+	let navSizeMulti = $state(1);
+	let temp = 0;
+	let currentY = $state(null);
+	function startNavResize(e) {
+		currentY = e.clientY;
+		addEventListener('mousemove', dragStart);
+		addEventListener('mouseup', dragStop);
+		temp = navSizeMulti;
+	}
+	function dragStart(e) {
+		let update = e.clientY;
+		navSizeMulti = Math.max(Math.min(temp + (currentY - e.clientY) * 0.2, 39), -29);
+	}
+	function dragStop(e) {
+		removeEventListener('mousemove', dragStart);
+		removeEventListener('mouseup', dragStop);
+	}
 	const apps = [
 		{
 			id: 1,
@@ -129,6 +146,8 @@
 
 	$effect(() => {
 		activeButton = $activeSignal;
+		if (!hydrated) return;
+		saveSetting('navbarsize', navSizeMulti);
 	});
 	onMount(() => {
 		applyStartupSettings();
@@ -320,6 +339,7 @@
 	}
 	onMount(async () => {
 		bgURL = await loadSetting('bg', mainBG);
+		navSizeMulti = await loadSetting('navbarsize', 1);
 		hydrated = true;
 		updateTime();
 		const interval = setInterval(updateTime, 1000);
@@ -412,22 +432,29 @@
 		{/each}
 	</div>
 {/if}
-<div class="nav">
-	{#each apps as app}
-		<button
-			class="navButton"
-			class:active={isAppActive(app.id)}
-			class:hasMinimized={hasMinimizedWindow(app.id)}
-			onclick={() =>
-				openWindow(app.url, app.name, app.height, app.width, app.top, app.left, app.id)}
-			oncontextmenu={(e) =>
-				openMenu(e, app.id, app.url, app.name, app.height, app.width, app.top, app.left)}
-			onmouseenter={(e) => hoverStart(e, app.id)}
-			onmouseleave={hoverEnd}
-		>
-			<img class="navIcon" src={app.icon} alt={app.name} />
-		</button>
-	{/each}
+<div
+	class="nav"
+	style="	height: {40 + navSizeMulti}px;
+"
+>
+	<div class="navResize" onmousedown={startNavResize}></div>
+	<div class="navStuff">
+		{#each apps as app}
+			<button
+				class="navButton"
+				class:active={isAppActive(app.id)}
+				class:hasMinimized={hasMinimizedWindow(app.id)}
+				onclick={() =>
+					openWindow(app.url, app.name, app.height, app.width, app.top, app.left, app.id)}
+				oncontextmenu={(e) =>
+					openMenu(e, app.id, app.url, app.name, app.height, app.width, app.top, app.left)}
+				onmouseenter={(e) => hoverStart(e, app.id)}
+				onmouseleave={hoverEnd}
+			>
+				<img class="navIcon" src={app.icon} alt={app.name} />
+			</button>
+		{/each}
+	</div>
 </div>
 
 {#each $windowList as window (window.id)}

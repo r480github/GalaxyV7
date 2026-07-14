@@ -41,13 +41,27 @@ body {
 .topButton:hover {
 	background-color: var(--overlay-hover);
 }
+
 .nav {
 	position: absolute;
 	bottom: 0px;
-	width: 100%;
 	backdrop-filter: blur(10px);
 	background-color: var(--color-glass);
-	height: 40px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+.navResize {
+	position: absolute;
+	margin-bottom: auto;
+	width: 100%;
+	height: 2.5px;
+	cursor: ns-resize;
+}
+
+.navStuff {
+	width: 100%;
+	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
