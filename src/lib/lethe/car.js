@@ -5,7 +5,7 @@ export function getWispUrl(custom) {
 	} else {
 		protocol = location.protocol === 'https:' ? 'wss' : 'ws';
 		if (protocol === 'wss') {
-			return 'wss://wisp.galxy.it.com/nyx/';
+			return `${protocol}://${location.host}/nyx/`;
 		} else {
 			return `${protocol}://${location.host}/wisp/`;
 		}

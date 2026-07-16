@@ -45,7 +45,7 @@
 		accumY = 0;
 		e.currentTarget.requestPointerLock();
 		addEventListener('mousemove', dragStart);
-		addEventListener('mouseup', dragStop);	
+		addEventListener('mouseup', dragStop);
 		document.addEventListener('pointerlockchange', onPointerLockChange);
 	}
 	function dragStart(e) {
