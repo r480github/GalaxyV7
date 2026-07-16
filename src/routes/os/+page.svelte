@@ -22,7 +22,6 @@
 	import { applyStartupSettings } from '$lib/utils/cloak.js';
 	import gsap from 'gsap';
 	import { loadSetting, saveSetting, onSettingChange } from '$lib/utils/localspace.js';
-
 	let activeButton = $state(null);
 	let menuOpen = $state(false);
 	let openMenuX = $state(0);
@@ -35,22 +34,34 @@
 	let timeString = $state(null);
 	let bgURL = $state(null);
 	let hydrated = $state(false);
-	let navSizeMulti = $state(1);
+	let navSizeMulti = $state(0);
 	let temp = 0;
-	let currentY = $state(null);
+	let accumY = 0;
+	let dragging = $state(false);
 	function startNavResize(e) {
-		currentY = e.clientY;
+		dragging = true;
+		temp = navSizeMulti;
+		accumY = 0;
+		document.body.style.cursor = 'none';
+		e.currentTarget.requestPointerLock();
 		addEventListener('mousemove', dragStart);
 		addEventListener('mouseup', dragStop);
-		temp = navSizeMulti;
+		document.addEventListener('pointerlockchange', onPointerLockChange);
 	}
 	function dragStart(e) {
-		let update = e.clientY;
-		navSizeMulti = Math.max(Math.min(temp + (currentY - e.clientY) * 0.2, 39), -29);
+		accumY += e.movementY;
+		navSizeMulti = Math.max(Math.min(temp - accumY * 0.2, 39), -29);
 	}
 	function dragStop(e) {
 		removeEventListener('mousemove', dragStart);
 		removeEventListener('mouseup', dragStop);
+		document.removeEventListener('pointerlockchange', onPointerLockChange);
+		if (document.pointerLockElement) document.exitPointerLock();
+		document.body.style.cursor = '';
+		dragging = false;
+	}
+	function onPointerLockChange() {
+		if (!document.pointerLockElement) dragStop();
 	}
 	const apps = [
 		{
@@ -325,7 +336,6 @@
 		}, 400);
 	}
 	let closeTimeout = null;
-
 	function hoverEnd() {
 		clearTimeout(hoverTimeout);
 		closeTimeout = setTimeout(() => {
@@ -337,9 +347,10 @@
 		const now = new Date();
 		timeString = now.toLocaleTimeString();
 	}
+
 	onMount(async () => {
 		bgURL = await loadSetting('bg', mainBG);
-		navSizeMulti = await loadSetting('navbarsize', 1);
+		navSizeMulti = await loadSetting('navbarsize', 0);
 		hydrated = true;
 		updateTime();
 		const interval = setInterval(updateTime, 1000);
@@ -380,7 +391,7 @@
 	}}
 />
 
-<div class="background" style="background-image: url({bgURL});"></div>
+<div class="background" style="background-image: url({bgURL}); "></div>
 
 {#if menuOpen}
 	<div class="contextMenu" style="left: {openMenuX}px;" onclick={(e) => e.stopPropagation()}>
@@ -434,7 +445,7 @@
 {/if}
 <div
 	class="nav"
-	style="	height: {40 + navSizeMulti}px;
+	style="	height: {40 + navSizeMulti}px; 
 "
 >
 	<div class="navResize" onmousedown={startNavResize}></div>
@@ -456,7 +467,6 @@
 		{/each}
 	</div>
 </div>
-
 {#each $windowList as window (window.id)}
 	<Window
 		url={window.url}
