@@ -38,14 +38,14 @@
 	let temp = 0;
 	let accumY = 0;
 	let dragging = $state(false);
+	let windowComps = [];
 	function startNavResize(e) {
 		dragging = true;
 		temp = navSizeMulti;
 		accumY = 0;
-		document.body.style.cursor = 'none';
 		e.currentTarget.requestPointerLock();
 		addEventListener('mousemove', dragStart);
-		addEventListener('mouseup', dragStop);
+		addEventListener('mouseup', dragStop);	
 		document.addEventListener('pointerlockchange', onPointerLockChange);
 	}
 	function dragStart(e) {
@@ -57,8 +57,8 @@
 		removeEventListener('mouseup', dragStop);
 		document.removeEventListener('pointerlockchange', onPointerLockChange);
 		if (document.pointerLockElement) document.exitPointerLock();
-		document.body.style.cursor = '';
 		dragging = false;
+		callTaskbarHeight();
 	}
 	function onPointerLockChange() {
 		if (!document.pointerLockElement) dragStop();
@@ -372,6 +372,11 @@
 			location.replace('/');
 		}
 	}
+	function callTaskbarHeight() {
+		for (const comp of windowComps) {
+			comp?.updateTaskbarHeight();
+		}
+	}
 </script>
 
 <div class="topNav">
@@ -467,8 +472,9 @@
 		{/each}
 	</div>
 </div>
-{#each $windowList as window (window.id)}
+{#each $windowList as window, i (window.id)}
 	<Window
+		bind:this={windowComps[i]}
 		url={window.url}
 		name={window.name}
 		height={window.height}

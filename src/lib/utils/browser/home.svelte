@@ -17,9 +17,9 @@
 	});
 	let bg = $state();
 	onMount(async () => {
-		bg = await b1g;
-		fg = String(await getContrast(bg));
-		console.log('local color is set to: ' + fg);
+		// bg = await b1g;
+		// fg = String(await getContrast(bg));
+		// console.log('local color is set to: ' + fg);
 	});
 	let greeting = $derived.by(() => {
 		const hour = now.getHours();

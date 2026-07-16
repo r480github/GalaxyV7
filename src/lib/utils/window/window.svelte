@@ -11,6 +11,7 @@
 	import { get } from 'svelte/store';
 	import { scale } from 'svelte/transition';
 	import { linear } from 'svelte/easing';
+	import { loadSetting } from '$lib/utils/localspace.js';
 	import {
 		topZ,
 		windowList,
@@ -23,7 +24,7 @@
 	let z = $state(1);
 	let minimizedStat = $state(false);
 	let rightSplit = $state(false);
-
+	let taskbarHeight = $state(40);
 	let {
 		url,
 		name,
@@ -35,7 +36,6 @@
 		sender
 	} = $props();
 	setTop();
-
 	// svelte-ignore state_referenced_locally
 	let x = $state(left);
 	// svelte-ignore state_referenced_locally
@@ -66,10 +66,7 @@
 		z = get(topZ);
 		window.addEventListener('mousemove', dragging);
 		window.addEventListener('mouseup', dragStop);
-		if (
-			width === '100%' &&
-			height === ((window.innerHeight - 40.001) / window.innerHeight) * 100 + '%'
-		) {
+		if (maximizedStat) {
 			maximizedStat = false;
 			transition = false;
 			height = tempHeight;
@@ -107,8 +104,8 @@
 		// if (x < 0) {
 		// 	x = 0;
 		// }
-		if (y > window.innerHeight - document.getElementById(id).offsetHeight - 40) {
-			y = window.innerHeight - document.getElementById(id).offsetHeight - 40;
+		if (y > window.innerHeight - document.getElementById(id).offsetHeight - taskbarHeight) {
+			y = window.innerHeight - document.getElementById(id).offsetHeight - taskbarHeight;
 		}
 	}
 	function dragStop() {
@@ -119,7 +116,7 @@
 			width = '50%';
 			x = window.innerWidth - window.innerWidth / 2;
 			y = 0;
-			height = ((window.innerHeight - 40) / window.innerHeight) * 100 + '%';
+			height = ((window.innerHeight - taskbarHeight) / window.innerHeight) * 100 + '%';
 			rightSplit = null;
 		} else if (rightSplit === 'left') {
 			transition = true;
@@ -128,7 +125,7 @@
 			width = '50%';
 			x = 0;
 			y = 0;
-			height = ((window.innerHeight - 40) / window.innerHeight) * 100 + '%';
+			height = ((window.innerHeight - taskbarHeight) / window.innerHeight) * 100 + '%';
 			rightSplit = null;
 		} else {
 			checkBoundaries();
@@ -145,6 +142,11 @@
 	let tempHeight = 0;
 	let tempWidth = 0;
 	let maximizedStat = $state(false);
+	export async function updateTaskbarHeight() {
+		let x = await loadSetting('navbarsize', 0);
+		taskbarHeight = 40 + x;
+	}
+	updateTaskbarHeight();
 	function maximizeWindow() {
 		activeSignal.set(sender);
 		if (maximizedStat === true) {
@@ -154,7 +156,6 @@
 			width = tempWidth;
 			transition = true;
 			maximizedStat = false;
-
 			setTimeout(() => {
 				transition = false;
 			}, 300);
@@ -164,7 +165,7 @@
 			tempY = y;
 			tempHeight = height;
 			tempWidth = width;
-			height = ((window.innerHeight - 40.001) / window.innerHeight) * 100 + '%';
+			height = ((window.innerHeight - taskbarHeight) / window.innerHeight) * 100 + '%';
 			width = '100%';
 			x = 0;
 			y = 0;
@@ -303,7 +304,7 @@
 		const mouseYmove = e.clientY - startY;
 		const maxWidth = window.innerWidth - x;
 		const maxHeight = window.innerHeight - y;
-		const maxHeightBottom = window.innerHeight - y - 40;
+		const maxHeightBottom = window.innerHeight - y - taskbarHeight;
 		const maxHeightTop = 25;
 		if (resizeType === 'right') {
 			width = Math.min(maxWidth, Math.max(400, startWidth + mouseXmove)) + 'px';
@@ -414,6 +415,9 @@
 		}
 		minimizedSig.set(null);
 	});
+	async function getHeight() {
+		return;
+	}
 </script>
 
 <div
@@ -506,11 +510,18 @@
 	</div>
 	<iframe src={url} title={name} style={draggingState ? 'pointer-events: none;' : 'auto'}></iframe>
 </div>
+
 <div
 	class="snapPreview"
-	style="z-index: {$topZ - 1}; left: {rightSplit === true ? '50%' : '100%'};"
+	style="z-index: {$topZ - 1}; left: {rightSplit === true ? '50%' : '100%'}; height: {document
+		.documentElement.scrollHeight -
+		taskbarHeight -
+		5}px"
 ></div>
 <div
 	class="snapPreview"
-	style="z-index: {$topZ - 1}; left: {rightSplit === 'left' ? '0%' : '-51%'};"
+	style="z-index: {$topZ - 1}; left: {rightSplit === 'left' ? '0%' : '-51%'}; height: {document
+		.documentElement.scrollHeight -
+		taskbarHeight -
+		5}px"
 ></div>

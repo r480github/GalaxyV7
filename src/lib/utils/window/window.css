@@ -176,7 +176,6 @@ iframe,
 	position: fixed;
 	top: 0;
 	width: 50%;
-	height: calc(100% - 40px);
 	background: var(--overlay-active);
 	border: 2px solid var(--color-border-strong);
 	border-radius: 8px;
