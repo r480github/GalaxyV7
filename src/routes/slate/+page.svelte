@@ -16,7 +16,11 @@
 		activeTab,
 		reloadSignal,
 		goBackSignal,
-		goForwardSignal
+		goForwardSignal,
+		slotsDragged,
+		draggedOverLeft,
+		draggedOverRight,
+		isTabDragging
 	} from '$lib/stores/index.js';
 	import { onMount, tick } from 'svelte';
 	import { loadScript, loadScriptsSequential } from '$lib/lethe/loader';
@@ -62,6 +66,7 @@
 			tabID = $activeTab;
 		}
 	});
+
 	function addTab() {
 		// @ts-ignore
 		tabID = Date.now();
@@ -249,6 +254,27 @@
 			query = current;
 		}
 	});
+	let activeIndex;
+	$effect(() => {
+		if ($isTabDragging) {
+			activeIndex = tabs.findIndex((tab) => tab.id === $activeTab);
+			if (activeIndex > activeIndex + $slotsDragged) {
+				$draggedOverRight = tabs[$slotsDragged].id;
+			} else if (activeIndex < tabs.length + $slotsDragged) {
+				$draggedOverLeft = tabs[$slotsDragged].id;
+			}
+		}
+	});
+	function moveTab(id) {
+		const from = tabs.findIndex((tab) => tab.id === id);
+		if (from === -1) return;
+		const temp = tabs.splice(from, 1)[0];
+		const newIndex = Math.max(0, Math.min(from + ($slotsDragged ?? 0), tabs.length));
+		tabs.splice(newIndex, 0, temp);
+		$slotsDragged = null;
+		$draggedOverLeft = null;
+		$draggedOverRight = null;
+	}
 	$effect(() => {
 		if (ready && connection) {
 			setCar(connection, car, customWisp);
@@ -328,7 +354,12 @@
 <div class="tab-bar">
 	{#each tabs as tab (tab.id)}
 		{@const frame = frames.find((frame) => frame.id === tab.id)}
-		<Tab id={tab.id} title={frame?.title ?? 'New Tab'} displayUrl={frame?.displayUrl ?? ''} />
+		<Tab
+			id={tab.id}
+			title={frame?.title ?? 'New Tab'}
+			displayUrl={frame?.displayUrl ?? ''}
+			onDrop={moveTab}
+		/>
 	{/each}
 	<div class="newTab" onclick={addTab}><p class="plus">+</p></div>
 </div>

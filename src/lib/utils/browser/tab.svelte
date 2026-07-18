@@ -1,10 +1,16 @@
 <script>
-	import { deleteTab, activeTab, dragTab } from '$lib/stores/index.js';
+	import {
+		deleteTab,
+		activeTab,
+		slotsDragged,
+		draggedOverLeft,
+		draggedOverRight,
+		isTabDragging
+	} from '$lib/stores/index.js';
 	import faviconFetch from 'favicon-fetch';
 	import defaultIcon from '$lib/img/icons/earthWhite.png';
 	import gsap from 'gsap';
-	let { id, displayUrl = '', title = 'New Tab' } = $props();
-
+	let { id, displayUrl = '', title = 'New Tab', onDrop } = $props();
 	let tabEl;
 	let hovered = $state(false);
 
@@ -37,6 +43,7 @@
 		if (id == $activeTab) {
 			return 'var(--color-surface-2)';
 		}
+
 		if (hovered) {
 			return 'var(--overlay-hover)';
 		}
@@ -50,25 +57,27 @@
 	});
 	// svelte-ignore non_reactive_update
 	let accumX = $state(0);
-	let dragging = $state(false);
+	let tabLength = $state(null);
 	function callDrag(e) {
 		$activeTab = id;
-		$dragTab = id;
 		// @ts-ignore
 		accumX = e.movementX;
 		addEventListener('mousemove', startDrag);
 		addEventListener('mouseup', stopDrag);
+		tabLength = tabEl.getBoundingClientRect().width;
 	}
 	function startDrag(e) {
-		dragging = true;
-		accumX -= - e.movementX;
+		$isTabDragging = true;
+		accumX -= -e.movementX;
 		// @ts-ignore
-		console.log(accumX);
+		$slotsDragged = Math.round(accumX / tabLength);
 	}
 	function stopDrag(e) {
 		removeEventListener('mousemove', startDrag);
 		removeEventListener('mouseup', stopDrag);
 		accumX = 0;
+		$isTabDragging = false;
+		onDrop?.(id);
 	}
 </script>
 
@@ -81,9 +90,11 @@
 	onauxclick={handleAuxClick}
 	onmouseover={() => (hovered = true)}
 	onmouseout={() => (hovered = false)}
-	style="background-color: {bgColor}; "
-	style:transform={dragging ? `translateX(${accumX}px)` : null}
-	style:z-index={dragging ? 10 : null}
+	style={`background-color: ${bgColor}; --tabMargin: ${tabLength}px;`}
+	style:transform={$isTabDragging ? `translateX(${accumX}px)` : null}
+	style:z-index={$isTabDragging ? 10 : null}
+	class:marginLeft={id == $draggedOverLeft}
+	class:marginRight={id == $draggedOverRight}
 >
 	<div class="pill" style="background-color: {pillColor};">
 		<div class="stuff">
@@ -120,6 +131,15 @@
 		border-right: 1px solid rgba(255, 255, 255, 0);
 		border-top-right-radius: 8px;
 		border-top-left-radius: 8px;
+		transition:
+			margin-left 0.3s ease,
+			margin-right 0.3s ease;
+	}
+	.tab.marginLeft {
+		margin-left: var(--tabMargin);
+	}
+	.tab.marginRight {
+		margin-right: var(--tabMargin);
 	}
 	.pill {
 		width: 100%;
