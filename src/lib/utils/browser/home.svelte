@@ -89,6 +89,7 @@
 		<form class="home-search" onsubmit={submitSearch}>
 			<img src={searchIcon} class="home-search-icon" alt="" />
 			<input
+			class="noSelect"
 				type="text"
 				placeholder=""
 				bind:value={homeQuery}
@@ -98,7 +99,7 @@
 		</form>
 		{#snippet App(label, url)}
 			<div class="shortcutDiv" onclick={onsearch(url)}>
-				<button class="shortcuts">
+				<button class="shortcuts noSelect">
 					<img src={faviconFetch({ hostname: new URL(url).hostname })} alt="" />
 					<p>{label}</p>
 				</button>
@@ -297,12 +298,6 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		max-width: 100%;
-	}
-	input,
-	.shortcuts {
-		-webkit-user-select: none; /* Safari */
-		-ms-user-select: none; /* IE 10 and IE 11 */
-		user-select: none; /* Standard syntax */
 	}
 	@media (max-width: 560px) {
 		.apps {

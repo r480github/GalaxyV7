@@ -82,7 +82,7 @@
 </script>
 
 <div
-	class="tab"
+	class="tab noSelect"
 	class:active={id == $activeTab}
 	{id}
 	bind:this={tabEl}
@@ -95,6 +95,10 @@
 	style:z-index={$isTabDragging ? 10 : null}
 	style:border-right={id == $draggedOverLeft ? `1px solid white` : null}
 	style:border-left={id == $draggedOverRight ? `1px solid white` : null}
+	// I tried but ts won't work
+	// so ig I'll just stick with border
+	// 	style:margin-right={id == $draggedOverLeft ? `190px` : null}
+	// style:margin-left={id == $draggedOverRight ? `190px` : null}
 >
 	<div class="pill" style="background-color: {pillColor};">
 		<div class="stuff">
@@ -121,9 +125,6 @@
 		justify-content: center;
 		align-items: center;
 		animation: expand 0.2s;
-		-webkit-user-select: none; /* Safari */
-		-ms-user-select: none; /* IE 10 and IE 11 */
-		user-select: none; /* Standard syntax */
 		margin-top: auto;
 		padding: 0px 3px;
 		box-sizing: border-box;

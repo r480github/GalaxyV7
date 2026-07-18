@@ -290,6 +290,7 @@
 	function goForward() {
 		$goForwardSignal = $activeTab;
 	}
+	
 	function reloadTab() {
 		$reloadSignal = $activeTab;
 	}
@@ -353,7 +354,7 @@
 	});
 </script>
 
-<div class="tab-bar">
+<div class="tab-bar noSelect">
 	{#each tabs as tab (tab.id)}
 		{@const frame = frames.find((frame) => frame.id === tab.id)}
 		<Tab
@@ -363,9 +364,9 @@
 			onDrop={moveTab}
 		/>
 	{/each}
-	<div class="newTab" onclick={addTab}><p class="plus">+</p></div>
+	<div class="newTab noSelect" onclick={addTab}><p class="plus">+</p></div>
 </div>
-<div class="nav-bar">
+<div class="nav-bar noSelect">
 	<div class="nav-left">
 		<div class="button" onclick={goBack}>
 			<img src={back} alt="back" class="nav-icon" />

@@ -24,7 +24,7 @@
 		}}><p>{name}<span class="filler">ha67</span>{part}</p></button
 	>
 {/snippet}
-<div class="nav">
+<div class="nav noSelect">
 	{#each stuffs as stuff}
 		{@render navItems(stuff.name, stuff.nametwo, stuff.id)}
 	{/each}

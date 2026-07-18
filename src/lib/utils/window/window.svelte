@@ -422,7 +422,7 @@
 
 <div
 	role="toolbar"
-	class="window"
+	class="window noSelect"
 	class:active={z == $topZ}
 	{id}
 	style="
@@ -490,25 +490,30 @@
     z-index: {z};
   "
 	></div>
-	<div class="bar" style="width: 100%;">
+	<div class="bar noSelect" style="width: 100%;">
 		<div class="bar-left">
 			<p class="window-title">{name}</p>
 		</div>
 		<div class="bar-middle" onmousedown={dragStart} ondblclick={maximizeWindow}></div>
 		<div class="bar-right">
 			<button class="navControl" onclick={minimizeWindow} type="button">
-				<img class="minimize" src={minimize} alt="Minimize" />
+				<img class="minimize noSelect" src={minimize} alt="Minimize" />
 			</button>
 			<button class="navControl" onclick={maximizeWindow} type="button">
-				<img class="maximize" src={maximizedStat ? layers : maximize} alt="Maximize" />
+				<img class="maximize noSelect" src={maximizedStat ? layers : maximize} alt="Maximize" />
 			</button>
 			<button class="navControl closeDiv" onclick={closeWindow} type="button">
-				<img class="close" src={close} alt="Close" />
+				<img class="close noSelect" src={close} alt="Close" />
 				<!--I'll just live with this ig-->
 			</button>
 		</div>
 	</div>
-	<iframe src={url} title={name} style={draggingState ? 'pointer-events: none;' : 'auto'}></iframe>
+	<iframe
+		class="noSelect"
+		src={url}
+		title={name}
+		style={draggingState ? 'pointer-events: none;' : 'auto'}
+	></iframe>
 </div>
 
 <div

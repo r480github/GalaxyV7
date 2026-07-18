@@ -101,17 +101,6 @@ iframe {
 .closeDiv:hover {
 	background-color: var(--color-danger-hover);
 }
-body,
-.left,
-.right,
-.right img,
-iframe,
-.left p,
-.window {
-	-webkit-user-select: none; /* Safari */
-	-ms-user-select: none; /* IE 10 and IE 11 */
-	user-select: none; /* Standard syntax */
-}
 
 .resizer {
 	position: absolute;

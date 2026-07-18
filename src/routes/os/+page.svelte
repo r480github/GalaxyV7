@@ -379,7 +379,7 @@
 	}
 </script>
 
-<div class="topNav">
+<div class="topNav noSelect">
 	<div class="topLeft"><p>GalaxyV7</p></div>
 	<div class="topMiddle"></div>
 	<div class="topRight">
@@ -454,7 +454,7 @@
 "
 >
 	<div class="navResize" onmousedown={startNavResize}></div>
-	<div class="navStuff">
+	<div class="navStuff noSelect">
 		{#each apps as app}
 			<button
 				class="navButton"
