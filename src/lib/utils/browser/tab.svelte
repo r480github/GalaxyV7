@@ -90,11 +90,11 @@
 	onauxclick={handleAuxClick}
 	onmouseover={() => (hovered = true)}
 	onmouseout={() => (hovered = false)}
-	style={`background-color: ${bgColor}; --tabMargin: ${tabLength}px;`}
+	style={`background-color: ${bgColor}; `}
 	style:transform={$isTabDragging ? `translateX(${accumX}px)` : null}
 	style:z-index={$isTabDragging ? 10 : null}
-	class:marginLeft={id == $draggedOverLeft}
-	class:marginRight={id == $draggedOverRight}
+	style:border-right={id == $draggedOverLeft ? `1px solid white` : null}
+	style:border-left={id == $draggedOverRight ? `1px solid white` : null}
 >
 	<div class="pill" style="background-color: {pillColor};">
 		<div class="stuff">
@@ -134,12 +134,6 @@
 		transition:
 			margin-left 0.3s ease,
 			margin-right 0.3s ease;
-	}
-	.tab.marginLeft {
-		margin-left: var(--tabMargin);
-	}
-	.tab.marginRight {
-		margin-right: var(--tabMargin);
 	}
 	.pill {
 		width: 100%;

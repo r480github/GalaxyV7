@@ -256,11 +256,12 @@
 	});
 	let activeIndex;
 	$effect(() => {
+		console.log($slotsDragged);
 		if ($isTabDragging) {
 			activeIndex = tabs.findIndex((tab) => tab.id === $activeTab);
 			if (activeIndex > activeIndex + $slotsDragged) {
-				$draggedOverRight = tabs[$slotsDragged].id;
-			} else if (activeIndex < tabs.length + $slotsDragged) {
+				$draggedOverRight = tabs[activeIndex + $slotsDragged].id;
+			} else if(activeIndex < activeIndex + $slotsDragged){
 				$draggedOverLeft = tabs[$slotsDragged].id;
 			}
 		}
@@ -321,6 +322,7 @@
 		try {
 			await loadScript('https://cdn.jsdelivr.net/npm/eruda');
 			window.eruda?.init();
+			inputEl;
 			window.eruda?.show();
 		} catch (e) {
 			console.error('Failed to load inspector:', e);
