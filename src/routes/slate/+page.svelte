@@ -12,7 +12,6 @@
 	import searchIcon from '$lib/img/icons/search.png';
 	import extensions from '$lib/img/icons/puzzle.png';
 	import {
-		tabID,
 		deleteTab,
 		activeTab,
 		reloadSignal,
@@ -45,6 +44,8 @@
 	let bookmarks = $state([]);
 	let connection;
 	let activeFrame = $derived(frames.find((frame) => frame.id === $activeTab));
+	let draggedTab = null;
+	let tabID = null;
 	$effect(() => {
 		if ($deleteTab) {
 			tabs = tabs.filter((tab) => tab.id !== $deleteTab);
@@ -58,18 +59,19 @@
 			}
 		}
 		if ($activeTab) {
-			$tabID = $activeTab;
+			tabID = $activeTab;
 		}
 	});
 	function addTab() {
 		// @ts-ignore
-		$tabID = Date.now();
-		$activeTab = $tabID;
+		tabID = Date.now();
+		// @ts-ignore
+		$activeTab = tabID;
 		const newTab = {
-			id: $tabID
+			id: tabID
 		};
 		const newFrame = {
-			id: $tabID,
+			id: tabID,
 			url: null,
 			displayUrl: '',
 			title: 'New Tab'
@@ -478,6 +480,3 @@
 		{/if}
 	{/each}
 </div>
-
-<style>
-</style>

@@ -1,5 +1,5 @@
 <script>
-	import { deleteTab, activeTab } from '$lib/stores/index.js';
+	import { deleteTab, activeTab, dragTab } from '$lib/stores/index.js';
 	import faviconFetch from 'favicon-fetch';
 	import defaultIcon from '$lib/img/icons/earthWhite.png';
 	import gsap from 'gsap';
@@ -33,9 +33,6 @@
 	function handleAuxClick(event) {
 		closeTab(event);
 	}
-	function setActive() {
-		$activeTab = id;
-	}
 	let pillColor = $derived.by(() => {
 		if (id == $activeTab) {
 			return 'var(--color-surface-2)';
@@ -51,6 +48,28 @@
 		}
 		return 'transparent';
 	});
+	// svelte-ignore non_reactive_update
+	let accumX = $state(0);
+	let dragging = $state(false);
+	function callDrag(e) {
+		$activeTab = id;
+		$dragTab = id;
+		// @ts-ignore
+		accumX = e.movementX;
+		addEventListener('mousemove', startDrag);
+		addEventListener('mouseup', stopDrag);
+	}
+	function startDrag(e) {
+		dragging = true;
+		accumX -= - e.movementX;
+		// @ts-ignore
+		console.log(accumX);
+	}
+	function stopDrag(e) {
+		removeEventListener('mousemove', startDrag);
+		removeEventListener('mouseup', stopDrag);
+		accumX = 0;
+	}
 </script>
 
 <div
@@ -58,11 +77,13 @@
 	class:active={id == $activeTab}
 	{id}
 	bind:this={tabEl}
-	onclick={setActive}
+	onmousedown={callDrag}
 	onauxclick={handleAuxClick}
 	onmouseover={() => (hovered = true)}
 	onmouseout={() => (hovered = false)}
 	style="background-color: {bgColor}; "
+	style:transform={dragging ? `translateX(${accumX}px)` : null}
+	style:z-index={dragging ? 10 : null}
 >
 	<div class="pill" style="background-color: {pillColor};">
 		<div class="stuff">

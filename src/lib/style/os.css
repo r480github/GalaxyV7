@@ -87,6 +87,7 @@ body {
 	border: none;
 	padding: 0;
 	filter: brightness(0.85);
+	margin-top: 5px;
 }
 .navButton:hover {
 	background-color: var(--overlay-hover-strong);

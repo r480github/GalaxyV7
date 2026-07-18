@@ -64,7 +64,7 @@
 	}
 	const quickLinks = [
 		{ label: 'YouTube', url: 'https://youtube.com' },
-		{ label: 'Discord', url: 'https://discord.com' },
+		{ label: 'Discord', url: 'https://discord.com/app' },
 		{ label: 'Reddit', url: 'https://reddit.com' },
 		{ label: 'GitHub', url: 'https://github.com' },
 		{ label: 'Spotify', url: 'https://open.spotify.com' },
