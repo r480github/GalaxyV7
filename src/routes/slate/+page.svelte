@@ -261,7 +261,7 @@
 			activeIndex = tabs.findIndex((tab) => tab.id === $activeTab);
 			if (activeIndex > activeIndex + $slotsDragged) {
 				$draggedOverRight = tabs[activeIndex + $slotsDragged].id;
-			} else if(activeIndex < activeIndex + $slotsDragged){
+			} else if (activeIndex < activeIndex + $slotsDragged) {
 				$draggedOverLeft = tabs[$slotsDragged].id;
 			}
 		}
@@ -290,7 +290,7 @@
 	function goForward() {
 		$goForwardSignal = $activeTab;
 	}
-	
+
 	function reloadTab() {
 		$reloadSignal = $activeTab;
 	}

@@ -21,6 +21,7 @@
 	import { get } from 'svelte/store';
 	import { applyStartupSettings } from '$lib/utils/cloak.js';
 	import gsap from 'gsap';
+	import { Warp, LiquidMetal } from '@devmischief/shaders-svelte';
 	import { loadSetting, saveSetting, onSettingChange } from '$lib/utils/localspace.js';
 	let activeButton = $state(null);
 	let menuOpen = $state(false);
@@ -50,7 +51,7 @@
 	}
 	function dragStart(e) {
 		accumY += e.movementY;
-		navSizeMulti = Math.max(Math.min(temp - accumY * 0.2, 39), -29);
+		navSizeMulti = Math.max(Math.min(temp - accumY * 0.2, 39), -15);
 	}
 	function dragStop(e) {
 		removeEventListener('mousemove', dragStart);

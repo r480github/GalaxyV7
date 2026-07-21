@@ -89,7 +89,7 @@
 		<form class="home-search" onsubmit={submitSearch}>
 			<img src={searchIcon} class="home-search-icon" alt="" />
 			<input
-			class="noSelect"
+				class="noSelect"
 				type="text"
 				placeholder=""
 				bind:value={homeQuery}
@@ -128,6 +128,8 @@
 		overflow: hidden auto;
 		background-color: var(--color-bg);
 		isolation: isolate;
+		margin: 0px;
+		
 	}
 	.home::before {
 		content: '';

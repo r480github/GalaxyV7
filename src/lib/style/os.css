@@ -8,6 +8,7 @@ body {
 	padding: 0px;
 	overflow: hidden;
 	animation: brighten 0.3s ease-in forwards;
+	
 }
 .topNav {
 	position: absolute;
@@ -110,6 +111,7 @@ body {
 	height: 75%;
 	width: auto;
 	transition-duration: 0.15s;
+	margin-top: 3px;
 }
 .navButton:active .navIcon {
 	transform: scale(0.8);

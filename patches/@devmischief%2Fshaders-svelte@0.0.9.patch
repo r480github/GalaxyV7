@@ -1,0 +1,26 @@
+diff --git a/dist/GemSmoke.svelte b/dist/GemSmoke.svelte
+index 1a921dcd6929609b8237a060f8a8f5d0be2c8825..91c38b448d7ba5b8b4bab5146606eb19823b7022 100644
+--- a/dist/GemSmoke.svelte
++++ b/dist/GemSmoke.svelte
+@@ -54,7 +54,7 @@
+ 	let {
+ 		width = "100%",
+ 		height = 320,
+-		image = "https://shaders.paper.design/images/logos/diamond.svg",
++		image = undefined,
+ 		colors,
+ 		colorBack = "#f0efea",
+ 		colorInner = "#fafaf5",
+diff --git a/dist/LiquidMetal.svelte b/dist/LiquidMetal.svelte
+index 734a088980dfcc0515e1cbf3d3bf1d3a67ec3648..f520e73b8bd3008c27b2117ce19e2a036b02cba5 100644
+--- a/dist/LiquidMetal.svelte
++++ b/dist/LiquidMetal.svelte
+@@ -53,7 +53,7 @@
+ 	let {
+ 		width = "100%",
+ 		height = 320,
+-		image = "https://shaders.paper.design/images/logos/diamond.svg",
++		image = undefined,
+ 		colorBack = "#aaaaac",
+ 		colorTint = "#ffffff",
+ 		shape = "diamond",

@@ -61,7 +61,7 @@
 		class="buttonCard"
 		onclick={() => {
 			updateBG(url);
-		}}><img class="card" src={url} loading="lazy" decoding="async" /></button
+		}}><img class="card noSelect" src={url} loading="lazy" decoding="async" /></button
 	>
 {/snippet}
 <div class="group">
