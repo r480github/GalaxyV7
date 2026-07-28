@@ -49,8 +49,7 @@ export function openAboutBlank() {
 	if (!browser) return false;
 	const win = window.open('about:blank', '_blank');
 	if (!win) return false;
-	win.document.open();
-	win.document.write(cloakMarkup({ fixedIframe: false }));
+	win.document.documentElement.innerHTML = cloakMarkup({ fixedIframe: false });
 	win.document.close();
 	goToDecoything();
 	return true;
