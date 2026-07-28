@@ -100,10 +100,10 @@
 	// 	style:margin-right={id == $draggedOverLeft ? `190px` : null}
 	// style:margin-left={id == $draggedOverRight ? `190px` : null}
 >
-	<div class="pill" style="background-color: {pillColor};">
-		<div class="stuff">
-			<div class="icon">
-				<img src={faviconUrl} class="tab-icon" alt="" style="opacity:{opacity}" />
+	<div class="pill noSelect" style="background-color: {pillColor};">
+		<div class="stuff noSelect">
+			<div class="icon noSelect">
+				<img src={faviconUrl} class="tab-icon noSelect" alt="" style="opacity:{opacity}" />
 			</div>
 			<p class="title">{title}</p>
 			<div class="close" onclick={closeTab}><p class="closeText">&times;</p></div>

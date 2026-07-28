@@ -100,7 +100,7 @@
 		{#snippet App(label, url)}
 			<div class="shortcutDiv" onclick={onsearch(url)}>
 				<button class="shortcuts noSelect">
-					<img src={faviconFetch({ hostname: new URL(url).hostname })} alt="" />
+					<img class="noSelect" src={faviconFetch({ hostname: new URL(url).hostname })} alt="" />
 					<p>{label}</p>
 				</button>
 			</div>
@@ -129,7 +129,6 @@
 		background-color: var(--color-bg);
 		isolation: isolate;
 		margin: 0px;
-		
 	}
 	.home::before {
 		content: '';
@@ -213,6 +212,10 @@
 		opacity: 0.8;
 		filter: brightness(0) invert(1);
 		pointer-events: none;
+		-webkit-user-select: none; /* Safari */
+		-ms-user-select: none; /* IE 10 and IE 11 */
+		user-select: none; /* Standard syntax */
+		-webkit-user-drag: none; /* Chrome, Safari */
 	}
 	.home-search input {
 		width: 100%;
