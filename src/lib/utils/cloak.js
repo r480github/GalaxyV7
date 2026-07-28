@@ -47,7 +47,7 @@ function goToDecoything() {
 //ab
 export function openAboutBlank() {
 	if (!browser) return false;
-	const win = window.open('about:blank');
+	const win = window.open('about:blank', '_blank');
 	if (!win) return false;
 	win.document.open();
 	win.document.write(cloakMarkup({ fixedIframe: false }));
