@@ -43,7 +43,7 @@
 	let prismController;
 	let sjFrame;
 	let customWisp = $state('');
-	let searchEngine = $state('google');
+	let searchEngine = $state('brave');
 	let car = $state('libcurl');
 	let bookmarks = $state([]);
 	let connection;
@@ -102,7 +102,7 @@
 			loadSetting('lethe', 'sj2'),
 			loadSetting('car', 'libcurl'),
 			loadSetting('customWisp', ''),
-			loadSetting('searchEngine', 'google'),
+			loadSetting('searchEngine', 'brave'),
 			loadSetting('bookmarks', [], JSON.parse),
 			loadSetting('popupInterceptor', true, (raw) => raw === 'true')
 		]);

@@ -75,7 +75,7 @@
 			<button
 				class="toggleBtn"
 				class:active={includeSession}
-				onclick={() => (includeSession = !includeSession)}>Include session</button
+				onclick={() => (includeSession = !includeSession)}>Include session storage</button
 			>
 		</div>
 		{#if exportMsg}
