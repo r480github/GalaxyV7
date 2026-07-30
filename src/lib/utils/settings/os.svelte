@@ -14,8 +14,16 @@
 		recents = await loadSetting('bgRecents', []);
 	});
 
-	function updateBG(bgURL) {
-		saveSetting('bg', bgURL);
+	function updateBG(bgURL, downscaled) {
+		if (downscaled) {
+			let i = bgDownscaled.indexOf(bgURL);
+			bgURL = bgOrg[i];
+			saveSetting('bg', bgURL);
+		} else if (!downscaled) {
+			saveSetting('bg', bgURL);
+		} else {
+			alert('uh oh... something malfunctioned');
+		}
 	}
 
 	function readFileAsDataURL(file) {
@@ -47,20 +55,28 @@
 		updateBG(dataURL);
 	}
 
-	const modules = import.meta.glob('$lib/img/bg/*', {
+	const modules = import.meta.glob('$lib/img/bg-downsized/*', {
 		eager: true,
 		query: '?url',
 		import: 'default'
 	});
-	const bg = Object.values(modules);
+	const bgDownscaled = Object.values(modules);
+
+	const bgOrg = Object.values(
+		import.meta.glob('$lib/img/bg/*', {
+			eager: true,
+			query: '?url',
+			import: 'default'
+		})
+	);
 </script>
 
 <h1>Backgrounds</h1>
-{#snippet Card(url)}
+{#snippet Card(url, x)}
 	<button
 		class="buttonCard"
 		onclick={() => {
-			updateBG(url);
+			updateBG(url, x);
 		}}><img class="card noSelect" src={url} loading="lazy" decoding="async" /></button
 	>
 {/snippet}
@@ -69,8 +85,8 @@
 		<p class="subHeading">Backgrounds</p>
 		<p class="desc">Upscaled pinterest backgrounds</p>
 		<div class="content">
-			{#each bg as src}
-				{@render Card(src)}
+			{#each bgDownscaled as src}
+				{@render Card(src, true)}
 			{/each}
 		</div>
 	</div>
@@ -97,7 +113,7 @@
 			<p class="desc">Click to reuse. Your last {maxRecents} are kept</p>
 			<div class="content">
 				{#each recents as src}
-					{@render Card(src)}
+					{@render Card(src, false)}
 				{/each}
 			</div>
 		{/if}
