@@ -8,6 +8,7 @@ glass for UV
 
 transport: libcurl, libcurlRaw (default), or epoxy
 wisp: wss://...
+url: https:// is added when missing
 -->
 
 <script>
@@ -19,6 +20,19 @@ wisp: wss://...
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
 	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
+	function normalizeUrl(raw) {
+		const trimmed = (raw ?? '').trim();
+		if (!trimmed) return null;
+		const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+		try {
+			const parsed = new URL(withProtocol);
+			if (!parsed.hostname.includes('.')) return null;
+			return parsed.href;
+		} catch {
+			return null;
+		}
+	}
+
 	const api = '/api?url={}&type={}';
 	let ready = $state(false);
 	let iframeEl;
@@ -28,7 +42,7 @@ wisp: wss://...
 	let prismController;
 	let prismFrame;
 
-	const apiUrl = $derived($page.url.searchParams.get('url'));
+	const apiUrl = $derived(normalizeUrl($page.url.searchParams.get('url')));
 	const apiType = $derived($page.url.searchParams.get('type'));
 	const apiTransport = $derived($page.url.searchParams.get('transport'));
 	const apiWisp = $derived($page.url.searchParams.get('wisp') || undefined);
