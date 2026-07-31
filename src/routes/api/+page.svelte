@@ -1,10 +1,13 @@
 <!--
-/api?url={}&type={}&notif{}
+/api?url={}&type={}&notif{}&transport={}&wisp={}
 
 For the API, use:
 prism for SJ2
 polygon for SJ
-glass for UV 
+glass for UV
+
+transport: libcurl, libcurlRaw (default), or epoxy
+wisp: wss://...
 -->
 
 <script>
@@ -27,6 +30,8 @@ glass for UV
 
 	const apiUrl = $derived($page.url.searchParams.get('url'));
 	const apiType = $derived($page.url.searchParams.get('type'));
+	const apiTransport = $derived($page.url.searchParams.get('transport'));
+	const apiWisp = $derived($page.url.searchParams.get('wisp') || undefined);
 
 	onMount(async () => {
 		await loadScriptsSequential([
@@ -47,7 +52,8 @@ glass for UV
 			console.error('Failed to initialize SJ:', e);
 		}
 		connection = createConnection();
-		await setCar(connection, car);
+		if (['libcurl', 'libcurlRaw', 'epoxy'].includes(apiTransport)) car = apiTransport;
+		await setCar(connection, car, apiWisp);
 
 		ready = true;
 		handleSubmit(apiUrl, apiType);
@@ -55,34 +61,27 @@ glass for UV
 
 	async function handleSubmit(url, type) {
 		if (apiUrl === null) return;
-		if (type === 'prism') {
-			if (!prismController) prismController = await createPrismController(car);
-			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
-			prismFrame.go(url);
-			return;
-		}
 
 		if (type === 'glass') {
 			// @ts-ignore
-			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
-			iframeEl.src = url;
+			iframeEl.src = window.__uv$config.prefix + window.__uv$config.encodeUrl(url);
+			return;
 		}
 		if (type === 'polygon') {
-			url = polygon.encodeUrl(url);
-			iframeEl.src = url;
-		} else {
-			if (!prismController) prismController = await createPrismController(car);
-			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
-			prismFrame.go(url);
+			iframeEl.src = polygon.encodeUrl(url);
+			return;
 		}
+		if (!prismController) prismController = await createPrismController(car, apiWisp);
+		if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
+		prismFrame.go(url);
 	}
 
 	$effect(() => {
 		if (ready && connection) {
-			setCar(connection, car);
+			setCar(connection, car, apiWisp);
 		}
 		if (getPrismController()) {
-			setPrismTransport(car);
+			setPrismTransport(car, apiWisp);
 		}
 	});
 </script>
