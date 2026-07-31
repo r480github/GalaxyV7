@@ -305,16 +305,22 @@
 		focusWindowTop.set(sender);
 		previewOpen = false;
 	}
-
-	function openMenu(e, appId, url, name, height, width, top, left) {
+	let menuType = $state(null);
+	function openMenu(e, type, appId, url, name, height, width, top, left) {
 		e.preventDefault();
 		e.stopPropagation();
 		menuX = e.clientX;
 		menuY = e.clientY;
 		openMenuX = e.clientX;
-		menuSender = { appId, url, name, height, width, top, left };
-		hoverEnd();
-		menuOpen = true;
+		if (type == 'navBar') {
+			menuType = 'nav';
+			menuOpen = true;
+		} else if (type == 'apps') {
+			menuSender = { appId, url, name, height, width, top, left };
+			menuType = 'app';
+			hoverEnd();
+			menuOpen = true;
+		}
 	}
 
 	function closeMenu() {
@@ -401,21 +407,25 @@
 
 {#if menuOpen}
 	<div class="contextMenu" style="left: {openMenuX}px;" onclick={(e) => e.stopPropagation()}>
-		<button
-			class="menuOption"
-			onclick={() =>
-				openNewWindow(
-					menuSender.url,
-					menuSender.name,
-					menuSender.height,
-					menuSender.width,
-					menuSender.top,
-					menuSender.left,
-					menuSender.appId
-				)}
-		>
-			Open New Window
-		</button>
+		{#if menuType == 'app'}
+			<button
+				class="menuOption"
+				onclick={() =>
+					openNewWindow(
+						menuSender.url,
+						menuSender.name,
+						menuSender.height,
+						menuSender.width,
+						menuSender.top,
+						menuSender.left,
+						menuSender.appId
+					)}
+			>
+				Open New Window
+			</button>
+		{:else if menuType == 'nav'}
+			<button class="menuOption"> Add New App </button>
+		{/if}
 	</div>
 {/if}
 {#if previewOpen}
@@ -452,10 +462,11 @@
 <div
 	class="nav"
 	style="	height: {40 + navSizeMulti}px; 
+	
 "
 >
 	<div class="navResize" onmousedown={startNavResize}></div>
-	<div class="navStuff noSelect">
+	<div class="navStuff noSelect" oncontextmenu={(e) => openMenu(e, 'navBar')}>
 		{#each apps as app}
 			<button
 				class="navButton"
@@ -464,7 +475,7 @@
 				onclick={() =>
 					openWindow(app.url, app.name, app.height, app.width, app.top, app.left, app.id)}
 				oncontextmenu={(e) =>
-					openMenu(e, app.id, app.url, app.name, app.height, app.width, app.top, app.left)}
+					openMenu(e, 'apps', app.id, app.url, app.name, app.height, app.width, app.top, app.left)}
 				onmouseenter={(e) => hoverStart(e, app.id)}
 				onmouseleave={hoverEnd}
 			>

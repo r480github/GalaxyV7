@@ -78,6 +78,7 @@ body {
 }
 
 .navButton {
+	opacity: 0;
 	position: relative;
 	height: 80%;
 	aspect-ratio: 1 / 1;
@@ -124,20 +125,23 @@ body {
 	z-index: 99999;
 	padding: 4px 0;
 	bottom: 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 .menuOption {
 	width: 100%;
 	height: 32px;
 	padding: 0 12px;
-	display: flex;
 	align-items: center;
 	cursor: pointer;
-	color: var(--color-white);
 	font-size: 13px;
 	white-space: nowrap;
-	background: none;
 	border: none;
-	text-align: left;
+	text-align: center;
+	color: var(--color-white);
+	background: none;
 }
 
 .menuOption:hover {

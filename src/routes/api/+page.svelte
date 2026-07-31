@@ -1,5 +1,10 @@
 <!--
 /api?url={}&type={}&notif{}
+
+For the API, use:
+prism for SJ2
+polygon for SJ
+glass for UV 
 -->
 
 <script>
@@ -57,7 +62,7 @@
 			return;
 		}
 
-		if (type === 'uv') {
+		if (type === 'glass') {
 			// @ts-ignore
 			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
 			iframeEl.src = url;
