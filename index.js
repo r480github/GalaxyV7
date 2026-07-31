@@ -10,6 +10,10 @@ import { refluxPath } from '@nightnetwork/reflux';
 import { baremuxPath } from '@mercuryworkshop/bare-mux/node';
 import { server as wisp, logging } from '@mercuryworkshop/wisp-js/server';
 import { handler as svelteHandler } from './build/handler.js';
+wisp.options.dns_servers = ['94.140.14.14', '94.140.15.15'];
+wisp.options.dns_method = 'resolve';
+wisp.options.dns_result_order = 'ipv4first';
+wisp.options.hostname_blacklist = [/google\.com/, /reddit\.com/];
 
 // scramjet on npm is outdated
 // import { scramjetPath } from "@mercuryworkshop/scramjet";
@@ -20,11 +24,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const fastify = Fastify({
 	serverFactory: (handler) => {
 		const server = createServer();
-		wisp.options.dns_method = "resolve";
-    wisp.options.dns_servers = ["1.1.1.1", "1.0.0.1"];
-    wisp.options.dns_result_order = "ipv4first";
-    wisp.options.wisp_version = 2;
-    wisp.options.wisp_motd = "WISP server";
 		server.on('request', (req, res) => {
 			handler(req, res);
 		});

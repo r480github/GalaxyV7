@@ -23,6 +23,7 @@
 	import gsap from 'gsap';
 	import { Warp, LiquidMetal } from '@devmischief/shaders-svelte';
 	import { loadSetting, saveSetting, onSettingChange } from '$lib/utils/localspace.js';
+	import faviconFetch from 'favicon-fetch';
 	let activeButton = $state(null);
 	let menuOpen = $state(false);
 	let openMenuX = $state(0);
@@ -64,7 +65,7 @@
 	function onPointerLockChange() {
 		if (!document.pointerLockElement) dragStop();
 	}
-	const apps = [
+	const baseApps = [
 		{
 			id: 1,
 			url: '/slate',
@@ -118,6 +119,9 @@
 		}
 	];
 
+	let customApps = $state([]);
+	const apps = $derived([...baseApps, ...customApps]);
+
 	function conertToPixies(size, viewportLength) {
 		const sizeAsText = String(size);
 		const isPercentage = sizeAsText.endsWith('%');
@@ -161,10 +165,12 @@
 		if (!hydrated) return;
 		saveSetting('navbarsize', navSizeMulti);
 	});
-	onMount(() => {
-		applyStartupSettings();
+	let navMounted = false;
+	let navIndex = 0;
+	function animateNavButton(node) {
+		const delay = navMounted ? 0 : 0.1 + navIndex++ * 0.09;
 		gsap.fromTo(
-			'.navButton',
+			node,
 			{
 				opacity: 0,
 				y: 50
@@ -172,10 +178,13 @@
 			{
 				opacity: 1,
 				y: 0,
-				stagger: 0.09,
-				delay: 0.1
+				delay
 			}
 		);
+	}
+	onMount(() => {
+		applyStartupSettings();
+		navMounted = true;
 	});
 
 	function getAppWindows(appId) {
@@ -328,6 +337,98 @@
 		menuSender = null;
 	}
 
+	const proxies = [
+		{ value: 'prism', label: 'SJ2' },
+		{ value: 'polygon', label: 'SJ' },
+		{ value: 'glass', label: 'UV' }
+	];
+	const transports = [
+		{ value: 'libcurl', label: 'Libcurl' },
+		{ value: 'epoxy', label: 'Epoxy' }
+	];
+
+	let addOpen = $state(false);
+	let advancedOpen = $state(false);
+	let addError = $state(null);
+	let newName = $state('');
+	let newUrl = $state('');
+	let newIcon = $state('');
+	let newProxy = $state('prism');
+	let newTransport = $state('libcurl');
+	let newWisp = $state('');
+	let newNotif = $state('');
+
+	function openAddApp() {
+		closeMenu();
+		addError = null;
+		advancedOpen = false;
+		newName = '';
+		newUrl = '';
+		newIcon = '';
+		newProxy = 'prism';
+		newTransport = 'libcurl';
+		newWisp = '';
+		newNotif = '';
+		addOpen = true;
+	}
+
+	function closeAddApp() {
+		addOpen = false;
+	}
+
+	function hostnameOf(url) {
+		try {
+			return new URL(/^https?:\/\//i.test(url) ? url : `https://${url}`).hostname;
+		} catch {
+			return null;
+		}
+	}
+	function nextWindowPosition() {
+		const step = customApps.length % 6;
+		return { top: 60 + step * 24, left: 90 + step * 40 };
+	}
+
+	function addApp() {
+		const url = newUrl.trim();
+		const name = newName.trim();
+		if (!url || !name) {
+			addError = 'Name and URL are required';
+			return;
+		}
+
+		const params = new URLSearchParams({ url, type: newProxy, transport: newTransport });
+		if (newNotif.trim()) params.set('notif', newNotif.trim());
+		if (newWisp.trim()) params.set('wisp', newWisp.trim());
+
+		const host = hostnameOf(url);
+		const { top, left } = nextWindowPosition();
+		customApps.push({
+			id: `custom-${Date.now()}`,
+			url: `/api?${params.toString()}`,
+			name,
+			icon: newIcon.trim() || (host ? faviconFetch({ hostname: host }) : browser),
+			height: '50%',
+			width: '50%',
+			top,
+			left
+		});
+		saveSetting('customApps', $state.snapshot(customApps));
+		addOpen = false;
+	}
+
+	function removeApp(appId) {
+		customApps = customApps.filter((app) => app.id !== appId);
+		saveSetting('customApps', $state.snapshot(customApps));
+		closeMenu();
+	}
+
+	function isCustomApp(appId) {
+		for (const app of customApps) {
+			if (app.id === appId) return true;
+		}
+		return false;
+	}
+
 	function hoverStart(e, appId) {
 		previewOpen = false;
 		previewApp = null;
@@ -358,15 +459,20 @@
 	onMount(async () => {
 		bgURL = await loadSetting('bg', mainBG);
 		navSizeMulti = await loadSetting('navbarsize', 0);
+		customApps = await loadSetting('customApps', []);
 		hydrated = true;
 		updateTime();
 		const interval = setInterval(updateTime, 1000);
 		const unsubscribeBG = onSettingChange('bg', (value) => {
 			bgURL = value ?? mainBG;
 		});
+		const unsubscribeApps = onSettingChange('customApps', (value) => {
+			customApps = value ?? [];
+		});
 		return () => {
 			clearInterval(interval);
 			unsubscribeBG();
+			unsubscribeApps();
 		};
 	});
 
@@ -401,6 +507,9 @@
 	onclick={() => {
 		closeMenu();
 	}}
+	onkeydown={(e) => {
+		if (addOpen && e.key === 'Escape') closeAddApp();
+	}}
 />
 
 <div class="background" style="background-image: url({bgURL}); "></div>
@@ -423,9 +532,120 @@
 			>
 				Open New Window
 			</button>
+			{#if isCustomApp(menuSender.appId)}
+				<button class="menuOption danger" onclick={() => removeApp(menuSender.appId)}>
+					Remove App
+				</button>
+			{/if}
 		{:else if menuType == 'nav'}
-			<button class="menuOption"> Add New App </button>
+			<button class="menuOption" onclick={openAddApp}> Add New App </button>
 		{/if}
+	</div>
+{/if}
+{#if addOpen}
+	<div class="modalOverlay" onclick={closeAddApp}>
+		<div
+			class="modal"
+			onclick={(e) => e.stopPropagation()}
+			{@attach (node) => {
+				gsap.fromTo(
+					node,
+					{ y: 12, opacity: 0, scale: 0.97 },
+					{ y: 0, opacity: 1, scale: 1, duration: 0.25, ease: 'power2.out' }
+				);
+			}}
+		>
+			<p class="modalTitle">Add App</p>
+
+			<p class="modalLabel">URL</p>
+			<input
+				class="modalInput"
+				type="text"
+				placeholder="example.com"
+				bind:value={newUrl}
+				oninput={() => (addError = null)}
+				onkeydown={(e) => e.key === 'Enter' && addApp()}
+			/>
+
+			<p class="modalLabel">Name</p>
+			<input
+				class="modalInput"
+				type="text"
+				placeholder="Example"
+				bind:value={newName}
+				oninput={() => (addError = null)}
+				onkeydown={(e) => e.key === 'Enter' && addApp()}
+			/>
+
+			<p class="modalLabel">Icon</p>
+			<input
+				class="modalInput"
+				type="text"
+				placeholder="leave blank to auto generate"
+				bind:value={newIcon}
+				onkeydown={(e) => e.key === 'Enter' && addApp()}
+			/>
+
+			<button class="advancedToggle" onclick={() => (advancedOpen = !advancedOpen)}>
+				<span class="advancedArrow" class:open={advancedOpen}></span> Advanced
+			</button>
+
+			{#if advancedOpen}
+				<div
+					class="advancedPanel"
+					{@attach (node) => {
+						gsap.fromTo(node, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.2 });
+					}}
+				>
+					<p class="modalLabel">Proxy</p>
+					<div class="modalOptions">
+						{#each proxies as proxy}
+							<button
+								class="modalOption"
+								class:active={newProxy === proxy.value}
+								onclick={() => (newProxy = proxy.value)}>{proxy.label}</button
+							>
+						{/each}
+					</div>
+
+					<p class="modalLabel">Transport</p>
+					<div class="modalOptions">
+						{#each transports as transport}
+							<button
+								class="modalOption"
+								class:active={newTransport === transport.value}
+								onclick={() => (newTransport = transport.value)}>{transport.label}</button
+							>
+						{/each}
+					</div>
+
+					<p class="modalLabel">Wisp</p>
+					<input
+						class="modalInput"
+						type="text"
+						placeholder="keep blank for default"
+						bind:value={newWisp}
+					/>
+
+					<p class="modalLabel">Open Notification</p>
+					<input
+						class="modalInput"
+						type="text"
+						placeholder="shown when the app opens"
+						bind:value={newNotif}
+					/>
+				</div>
+			{/if}
+
+			{#if addError}
+				<p class="modalError">{addError}</p>
+			{/if}
+
+			<div class="modalActions">
+				<button class="modalBtn" onclick={closeAddApp}>Cancel</button>
+				<button class="modalBtn primary" onclick={addApp}>Add</button>
+			</div>
+		</div>
 	</div>
 {/if}
 {#if previewOpen}
@@ -467,9 +687,10 @@
 >
 	<div class="navResize" onmousedown={startNavResize}></div>
 	<div class="navStuff noSelect" oncontextmenu={(e) => openMenu(e, 'navBar')}>
-		{#each apps as app}
+		{#each apps as app (app.id)}
 			<button
 				class="navButton"
+				{@attach animateNavButton}
 				class:active={isAppActive(app.id)}
 				class:hasMinimized={hasMinimizedWindow(app.id)}
 				onclick={() =>
