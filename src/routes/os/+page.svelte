@@ -121,7 +121,6 @@
 
 	let customApps = $state([]);
 	const apps = $derived([...baseApps, ...customApps]);
-
 	function conertToPixies(size, viewportLength) {
 		const sizeAsText = String(size);
 		const isPercentage = sizeAsText.endsWith('%');
@@ -228,7 +227,6 @@
 		}
 		return false;
 	}
-
 	function openWindow(url, name, height, width, top, left, appId) {
 		if (localStorage.getItem('firstVisit') == 'false') {
 		} else {
@@ -692,7 +690,7 @@
 				class="navButton"
 				{@attach animateNavButton}
 				class:active={isAppActive(app.id)}
-				class:hasMinimized={hasMinimizedWindow(app.id)}
+				class:hasMinimized={hasMinimizedWindow(app.id) || getAppWindows(app.id).length > 0}
 				onclick={() =>
 					openWindow(app.url, app.name, app.height, app.width, app.top, app.left, app.id)}
 				oncontextmenu={(e) =>
