@@ -59,7 +59,7 @@
 		if (!trimmed) {
 			return;
 		}
-		onsearch?.(trimmed);
+		onsearch.trimmed;
 		homeQuery = '';
 	}
 	const quickLinks = [
@@ -98,7 +98,12 @@
 			/>
 		</form>
 		{#snippet App(label, url)}
-			<div class="shortcutDiv" onclick={onsearch(url)}>
+			<div
+				class="shortcutDiv"
+				onclick={() => {
+					onsearch(url);
+				}}
+			>
 				<button class="shortcuts noSelect">
 					<img class="noSelect" src={faviconFetch({ hostname: new URL(url).hostname })} alt="" />
 					<p>{label}</p>
