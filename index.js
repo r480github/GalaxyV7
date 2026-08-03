@@ -13,8 +13,8 @@ import { handler as svelteHandler } from './build/handler.js';
 wisp.options.dns_servers = ['94.140.14.14', '94.140.15.15'];
 wisp.options.dns_method = 'resolve';
 wisp.options.dns_result_order = 'ipv4first';
-wisp.options.hostname_blacklist = [/google\.com/, /reddit\.com/];
-
+wisp.options.hostname_blacklist = [];
+// /google\.com/, /reddit\.com/
 // scramjet on npm is outdated
 // import { scramjetPath } from "@mercuryworkshop/scramjet";
 // import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
