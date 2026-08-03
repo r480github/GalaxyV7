@@ -105,3 +105,4 @@ function shutdown(signal) {
 }
 
 await fastify.listen({ port, host: '0.0.0.0' });
+
