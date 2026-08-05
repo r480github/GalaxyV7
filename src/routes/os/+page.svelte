@@ -68,7 +68,7 @@
 	function onPointerLockChange() {
 		if (!document.pointerLockElement) dragStop();
 	}
-	const baseApps = [
+	const baseApps = $derived([
 		{
 			id: 1,
 			url: '/slate',
@@ -130,8 +130,7 @@
 			left: 0,
 			center: true
 		}
-	];
-
+	]);
 	let customApps = $state([]);
 	const apps = $derived([...baseApps, ...customApps]);
 	function conertToPixies(size, viewportLength) {
@@ -197,7 +196,7 @@
 	onMount(() => {
 		applyStartupSettings();
 		navMounted = true;
-		hostname = window.location.hostname;
+		hostname = location.hostname;
 		if (hostname.includes('localhost')) {
 			hostname = 'v7.galxy.it.com';
 		}
