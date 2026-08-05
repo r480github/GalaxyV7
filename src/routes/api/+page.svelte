@@ -1,14 +1,11 @@
 <!--
-/api?url={}&type={}&notif{}&transport={}&wisp={}
+/api?url={}&type={}&transport={}&wisp={}&notif={}
 
-For the API, use:
-prism for SJ2
-polygon for SJ
-glass for UV
-
-transport: libcurl, libcurlRaw (default), or epoxy
-wisp: wss://...
-url: https:// is added when missing
+url:       required, https:// is added when missing, must contain a dot
+type:      prism (SJv2, default), polygon (SJ), glass (UV)
+transport: libcurlRaw (default), libcurl, epoxy
+wisp:      wss://..., defaults to the server's own wisp
+notif:     read by /os when it opens this page in a window, not by /api itself
 -->
 
 <script>
@@ -33,7 +30,14 @@ url: https:// is added when missing
 		}
 	}
 
-	const api = '/api?url={}&type={}';
+	const api = '/api?url={}&type={}&transport={}&wisp={}&notif={}';
+	const params = [
+		['url', 'required', 'https:// added when missing'],
+		['type', 'prism', 'prism (sjv2), polygon (sj), glass (uv)'],
+		['transport', 'libcurlRaw', 'libcurlRaw, libcurl(dont use), epoxy'],
+		['wisp', 'this server', 'wss://... to use another wisp'],
+		['notif', 'none', 'toast text, shown by /os when it opens the window']
+	];
 	let ready = $state(false);
 	let iframeEl;
 	let polygon;
@@ -101,8 +105,17 @@ url: https:// is added when missing
 </script>
 
 <iframe bind:this={iframeEl} title="" style="opacity: {apiUrl ? '100%' : '0'};"></iframe>
-<p>{api}</p>
-<p class="types">types: <br />prism(sjv2) <br />polygon(sj) <br /> glass(uv)</p>
+
+<div class="guide">
+	<p class="route">{api}</p>
+	<dl>
+		{#each params as [name, fallback, notes]}
+			<dt>{name}</dt>
+			<dd><span class="fallback">{fallback}</span> — {notes}</dd>
+		{/each}
+	</dl>
+	<p class="example">/api?url=example.com&amp;type=prism&amp;transport=epoxy</p>
+</div>
 
 <style>
 	:global(body) {
@@ -122,7 +135,29 @@ url: https:// is added when missing
 		height: 100vh;
 		background-color: white;
 	}
-	.types {
-		margin-left: 20px;
+	.guide {
+		margin: 20px;
+		font-family: monospace;
+		line-height: 1.6;
+		z-index: -50;
+	}
+	.route,
+	.example {
+		font-weight: bold;
+	}
+	.example {
+		opacity: 0.6;
+	}
+	dl {
+		margin: 12px 0;
+	}
+	dt {
+		font-weight: bold;
+	}
+	dd {
+		margin: 0 0 6px 20px;
+	}
+	.fallback {
+		opacity: 0.6;
 	}
 </style>
