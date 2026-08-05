@@ -51,15 +51,13 @@
 	});
 
 	function submitSearch(event) {
-		event.preventDefault();
 		if (!ready) {
 			return;
 		}
-		const trimmed = homeQuery.trim();
-		if (!trimmed) {
+		onsearch(homeQuery);
+		if (!homeQuery) {
 			return;
 		}
-		onsearch.trimmed;
 		homeQuery = '';
 	}
 	const quickLinks = [
