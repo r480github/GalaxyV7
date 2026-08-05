@@ -42,7 +42,7 @@
 	let accumY = 0;
 	let dragging = $state(false);
 	let windowComps = [];
-	let hostname = null;
+	let hostname = $state(null);
 	let proxApi = '/api?url?&type=prism&&transport=libcurlRaw';
 	function startNavResize(e) {
 		dragging = true;
