@@ -17,6 +17,7 @@
 	import a from '$lib/img/icons/apps.png';
 	import s from '$lib/img/icons/settings.png';
 	import y from '$lib/img/icons/swap.png';
+	import p from '$lib/img/icons/pyrite.png';
 	import sp from '$lib/img/icons/spotify.png';
 	import { get } from 'svelte/store';
 	import { applyStartupSettings } from '$lib/utils/cloak.js';
@@ -41,6 +42,8 @@
 	let accumY = 0;
 	let dragging = $state(false);
 	let windowComps = [];
+	let hostname = null;
+	let proxApi = '/api?url?&type=prism&&transport=libcurlRaw';
 	function startNavResize(e) {
 		dragging = true;
 		temp = navSizeMulti;
@@ -77,7 +80,7 @@
 			left: 60
 		},
 		{
-			id: 5,
+			id: 6,
 			url: '/api?url=https://spotify.com&type=prism&notif=Make%20Sure%20To%20Sign%20In%20With%20Google',
 			name: 'Spotify',
 			icon: sp,
@@ -98,6 +101,16 @@
 		},
 		{
 			id: 3,
+			url: `https://${hostname}/pyrite/?api=https://${hostname}${proxApi}`,
+			name: 'Pyrite',
+			icon: p,
+			height: '50%',
+			width: '50%',
+			top: 30,
+			left: 110
+		},
+		{
+			id: 4,
 			url: '/apps',
 			name: 'Apps',
 			icon: a,
@@ -107,7 +120,7 @@
 			left: 160
 		},
 		{
-			id: 4,
+			id: 5,
 			url: '/settings',
 			name: 'Settings',
 			icon: s,
@@ -163,6 +176,10 @@
 		activeButton = $activeSignal;
 		if (!hydrated) return;
 		saveSetting('navbarsize', navSizeMulti);
+		hostname = window.location.hostname;
+		if (hostname.includes('localhost')) {
+			hostname = 'v7.galxy.it.com';
+		}
 	});
 	let navMounted = false;
 	let navIndex = 0;
