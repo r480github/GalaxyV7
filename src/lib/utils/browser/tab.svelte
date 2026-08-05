@@ -87,7 +87,11 @@
 	{id}
 	bind:this={tabEl}
 	onmousedown={callDrag}
-	onauxclick={handleAuxClick}
+	onauxclick={(event) => {
+		if (event.button === 1) {
+			handleAuxClick(event);
+		}
+	}}
 	onmouseover={() => (hovered = true)}
 	onmouseout={() => (hovered = false)}
 	style={`background-color: ${bgColor}; `}
