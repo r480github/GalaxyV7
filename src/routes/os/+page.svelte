@@ -176,10 +176,6 @@
 		activeButton = $activeSignal;
 		if (!hydrated) return;
 		saveSetting('navbarsize', navSizeMulti);
-		hostname = window.location.hostname;
-		if (hostname.includes('localhost')) {
-			hostname = 'v7.galxy.it.com';
-		}
 	});
 	let navMounted = false;
 	let navIndex = 0;
@@ -201,6 +197,10 @@
 	onMount(() => {
 		applyStartupSettings();
 		navMounted = true;
+		hostname = window.location.hostname;
+		if (hostname.includes('localhost')) {
+			hostname = 'v7.galxy.it.com';
+		}
 	});
 
 	function getAppWindows(appId) {
