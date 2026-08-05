@@ -7,13 +7,13 @@ var $scramjetController;
 			},
 			355(e, t, r) {
 				r.d(t, { O: () => s, x: () => o });
-				let o = '0.0.13';
+				let o = '0.0.14';
 				function s() {
 					if ('undefined' == typeof $scramjet)
 						throw Error(
 							'@mercuryworkshop/scramjet is not loaded. Load scramjet before the controller.'
 						);
-					var e = '2.0.67-alpha.1',
+					var e = '2.0.67-alpha.2',
 						t = $scramjet.versionInfo.version;
 					if (e !== t)
 						throw Error(
@@ -238,9 +238,9 @@ var $scramjetController;
 			423(e, t, r) {
 				r.d(t, {
 					Cx: () => p,
-					Oy: () => K,
+					Oy: () => G,
 					cP: () => s,
-					ht: () => V,
+					ht: () => z,
 					k_: () => n,
 					mK: () => d,
 					sb: () => y,
@@ -264,40 +264,41 @@ var $scramjetController;
 					flagEnabled: g,
 					getOwnPropertyDescriptorHandler: w,
 					getRewriter: k,
-					htmlRules: b,
-					isArchiveMimeType: j,
-					isAudioOrVideoMimeType: S,
-					isFontMimeType: v,
-					isHtmlMimeType: C,
-					isImageMimeType: x,
-					isInlineDisplayableMimeType: $,
-					isJavascriptMimeType: P,
-					isJavascriptMimeTypeEssenceMatch: O,
-					isModuleScriptType: R,
-					isScriptType: A,
-					isScriptableMimeType: E,
-					isXmlMimeType: U,
-					isZipBasedMimeType: M,
-					isdedicated: W,
-					isshared: T,
-					issw: D,
-					iswindow: I,
-					isworker: L,
-					parseMimeType: N,
-					rewriteBlob: _,
-					rewriteCss: J,
-					rewriteHtml: H,
-					rewriteJs: q,
-					rewriteJsInner: F,
-					rewriteSrcset: B,
-					rewriteUrl: K,
-					rewriteWorkers: G,
-					setWasm: V,
-					unrewriteBlob: z,
-					unrewriteCss: Q,
-					unrewriteHtml: X,
-					unrewriteUrl: Y,
-					versionInfo: Z
+					getScriptBlockTypeString: b,
+					htmlRules: j,
+					isArchiveMimeType: S,
+					isAudioOrVideoMimeType: v,
+					isFontMimeType: C,
+					isHtmlMimeType: x,
+					isImageMimeType: $,
+					isInlineDisplayableMimeType: P,
+					isJavascriptMimeType: O,
+					isJavascriptMimeTypeEssenceMatch: R,
+					isModuleScriptType: A,
+					isScriptType: E,
+					isScriptableMimeType: U,
+					isXmlMimeType: M,
+					isZipBasedMimeType: W,
+					isdedicated: T,
+					isshared: D,
+					issw: I,
+					iswindow: L,
+					isworker: N,
+					parseMimeType: _,
+					rewriteBlob: J,
+					rewriteCss: H,
+					rewriteHtml: q,
+					rewriteJs: F,
+					rewriteJsInner: B,
+					rewriteSrcset: K,
+					rewriteUrl: G,
+					rewriteWorkers: V,
+					setWasm: z,
+					unrewriteBlob: Q,
+					unrewriteCss: X,
+					unrewriteHtml: Y,
+					unrewriteUrl: Z,
+					versionInfo: ee
 				} = globalThis.$scramjet;
 			}
 		},
