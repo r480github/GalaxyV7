@@ -1,33 +1,28 @@
+import { codec } from './codec';
+
 export function getOriginalUrl(url) {
 	if (!url) return '';
-	if (url.includes('/~/prism/')) {
-		try {
-			const path = url.split('#')[0].split('?')[0];
-			const after = path.split('/~/prism/')[1];
-			const encoded = after.split('/').slice(2).join('/');
-			const decoded = decodeURIComponent(encoded);
-			return decoded.startsWith('http') ? decoded : '';
-		} catch (e) {
-			return '';
-		}
+	let path = url.split('#')[0];
+	path = path.split('?')[0];
+	if (path.includes('/~/prism/')) {
+		const afterPrefix = path.split('/~/prism/')[1];
+		const pieces = afterPrefix.split('/');
+		const encoded = pieces[2];
+		if (!encoded) return '';
+		const real = codec.decode(encoded);
+		if (real.startsWith('http')) return real;
+		return '';
 	}
-	if (url.includes('polygon')) {
-		try {
-			if (url.startsWith('/polygon/')) {
-				const encodedUrl = url.substring('/polygon/'.length);
-				try {
-					const decoded = decodeURIComponent(encodedUrl);
-					if (decoded.startsWith('http')) {
-						return decoded;
-					}
-					const base64Decoded = atob(encodedUrl);
-					if (base64Decoded.startsWith('http')) {
-						return base64Decoded;
-					}
-				} catch (e) {}
-			}
-		} catch (e) {}
-	} else {
-		return __uv$config.decodeUrl(url.split(__uv$config.prefix)[1]);
+	if (path.includes('/polygon/')) {
+		const encoded = path.split('/polygon/')[1];
+		const real = codec.decode(encoded);
+		if (real.startsWith('http')) return real;
+		return '';
 	}
+
+	if (typeof __uv$config !== 'undefined' && path.includes(__uv$config.prefix)) {
+		return __uv$config.decodeUrl(path.split(__uv$config.prefix)[1]);
+	}
+
+	return '';
 }

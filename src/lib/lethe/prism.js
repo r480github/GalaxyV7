@@ -1,5 +1,6 @@
 import { loadScript } from './loader';
 import { getWispUrl } from './car';
+import { codec } from './codec.js';
 
 let controller;
 
@@ -52,7 +53,8 @@ export async function createPrismController(car = 'libcurl', customWisp) {
 	config.scramjetPath = '/prism/prism.js';
 	config.injectPath = '/prism/prism.inject.js';
 	config.wasmPath = '/prism/prism.wasm';
-
+	config.codec.encode = codec.encode;
+	config.codec.decode = codec.decode;
 	controller = new Controller({ serviceworker: sw, transport });
 	await controller.wait();
 	return controller;
