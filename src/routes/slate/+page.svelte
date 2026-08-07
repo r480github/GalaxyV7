@@ -95,8 +95,9 @@
 		frames = updatedFrames;
 		tabCounter++;
 	}
-	addTab();
 	onMount(async () => {
+		addTab();
+
 		// hydrate saved settings
 		const [lethe, savedCar, wisp, engine, marks, intercept] = await Promise.all([
 			loadSetting('lethe', 'sj2'),
@@ -357,12 +358,7 @@
 <div class="tab-bar noSelect">
 	{#each tabs as tab (tab.id)}
 		{@const frame = frames.find((frame) => frame.id === tab.id)}
-		<Tab
-			id={tab.id}
-			title={frame?.title ?? 'New Tab'}
-			displayUrl={frame?.displayUrl ?? ''}
-			onDrop={moveTab}
-		/>
+		<Tab id={tab.id} title={frame.title} displayUrl={frame?.displayUrl ?? ''} onDrop={moveTab} />
 	{/each}
 	<div class="newTab noSelect" onclick={addTab}><p class="plus">+</p></div>
 </div>

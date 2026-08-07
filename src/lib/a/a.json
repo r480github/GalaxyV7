@@ -30,12 +30,6 @@
 		"genre": "Other"
 	},
 	{
-		"name": "COMET-HANG3R",
-		"url": "https://pxlnovae.pages.dev/",
-		"image": "7.png",
-		"genre": "exploit"
-	},
-	{
 		"name": "Cool Math G",
 		"url": "https://coolmathgames.com",
 		"image": "8.png",
@@ -120,7 +114,8 @@
 		"name": "TikTok",
 		"url": "https://TikTok.com",
 		"image": "21.png",
-		"genre": "Social Media"	},
+		"genre": "Social Media"
+	},
 	{
 		"name": "VidLink",
 		"url": "https://vidlink.pro/",
