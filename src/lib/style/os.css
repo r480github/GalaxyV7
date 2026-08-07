@@ -21,6 +21,15 @@ body {
 	padding: 0 10px 0 10px;
 	box-sizing: border-box;
 }
+.topNavText {
+	font-size: 15px;
+	padding: 3px 5px;
+	border-radius: 3px;
+}
+.topNavText:hover {
+	background-color: var(--overlay-hover-strong);
+	cursor: pointer;
+}
 .topRight {
 	margin-left: auto;
 	display: flex;

@@ -280,6 +280,7 @@
 		}
 		windowList.update((list) => [
 			...list,
+
 			{
 				url,
 				name,
@@ -504,10 +505,23 @@
 			comp?.updateTaskbarHeight();
 		}
 	}
+	function openChangelogs() {
+		openWindow(
+			'/changelog',
+			'Changelogs',
+			'50%',
+			'600px',
+			'25',
+			'0',
+			`win-${Date.now()}`,
+			Date.now(),
+			Date.now()
+		);
+	}
 </script>
 
 <div class="topNav noSelect">
-	<div class="topLeft"><p>GalaxyV7</p></div>
+	<div class="topLeft"><p onclick={openChangelogs} class="topNavText topNavHover">GalaxyV7</p></div>
 	<div class="topMiddle"></div>
 	<div class="topRight">
 		<div class="topButton" onclick={switchMode}>
@@ -719,6 +733,7 @@
 		{/each}
 	</div>
 </div>
+
 {#each $windowList as window, i (window.id)}
 	<Window
 		bind:this={windowComps[i]}

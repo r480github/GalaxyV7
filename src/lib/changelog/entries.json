@@ -1,0 +1,276 @@
+[
+	{
+		"key": "2026-08",
+		"title": "New Features and Bug Fixes",
+		"date": "8/6/26",
+		"sections": [
+			{
+				"area": "OS",
+				"items": [
+					"Movie app pyrite",
+					"Show nav indicator for any open windows and not just minimized ones"
+				]
+			},
+			{
+				"area": "Browser",
+				"items": [
+					"Newtab name",
+					"Home search bar",
+					"Right click closes tabs"
+				]
+			},
+			{
+				"area": "Proxy",
+				"items": [
+					"Add encoding to proxied urls",
+					"Bump to scramjet 0.0.14 & prism api 2.0.67-alpha.2",
+					"Wisp blacklist"
+				]
+			}
+		]
+	},
+	{
+		"key": "2026-07",
+		"title": "New Features and Bug Fixes",
+		"date": "7/31/26",
+		"sections": [
+			{
+				"area": "OS",
+				"items": [
+					"Add new apps by right clicking nav bar",
+					"Nav rightclick menu",
+					"Center taskbar items",
+					"Add shaders",
+					"Fix taskbar resize bugs",
+					"Hide cursor when resizing taskbar",
+					"Change navbar height",
+					"Update bg"
+				]
+			},
+			{
+				"area": "Browser",
+				"items": [
+					"Home shortcuts for uv",
+					"Stop icons from getting dragged around",
+					"A good enough indicator when dragging tabs",
+					"Add somewhat working tab reordering"
+				]
+			},
+			{
+				"area": "Proxy",
+				"items": [
+					"Fix urls that doesn't include https://",
+					"Add transport and wisp param"
+				]
+			},
+			{
+				"area": "Settings",
+				"items": [
+					"Make themes less vibrant",
+					"Bg previews are now downscaled for faster load",
+					"More vibrant themes",
+					"Use innerHTML instead of document.write for about blank for webkit compatability",
+					"About blank"
+				]
+			}
+		]
+	},
+	{
+		"key": "2026-06",
+		"title": "Big update",
+		"date": "6/28/26",
+		"sections": [
+			{
+				"area": "OS",
+				"items": [
+					"Fix left side resizer and top window boundaries",
+					"Add spotify app",
+					"Add proxy api",
+					"Update gsap for tabs"
+				]
+			},
+			{
+				"area": "Browser",
+				"items": [
+					"Browser rework; redid css and homepage",
+					"Remade the bookmarks menu for better customization",
+					"Update styles",
+					"Default to google since ddg dosn't work with sjV2",
+					"Make tab hover effects better"
+				]
+			},
+			{
+				"area": "Proxy",
+				"items": [
+					"Default to prism",
+					"Use external wisp",
+					"Scramjet v2",
+					"Add host-side new-tab fallback",
+					"Block popunders opened via hidden iframes",
+					"Catch ctrl/cmd/middle-click and _blank links",
+					"Open window.open popups as in-app tabs",
+					"Make libcurl use reflux",
+					"Update to sj beta v2"
+				]
+			},
+			{
+				"area": "Apps",
+				"items": [
+					"Add sjv2 to apps",
+					"Add discord",
+					"Toggle popup interceptor via extensions",
+					"Prevent apps from using reflux",
+					"Update link for aniwave"
+				]
+			},
+			{
+				"area": "Settings",
+				"items": [
+					"Remove keywords",
+					"Export/import site and game data",
+					"Remove bad backgrounds",
+					"Option to upload your own bg",
+					"Add setting to change background picture",
+					"Add background pics",
+					"Add browser settings",
+					"Make themes automatically update within iframes",
+					"Add scroll snap to settings pages",
+					"Galaxy color pallete remake",
+					"Preferences",
+					"Replace localstorage with localspace"
+				]
+			}
+		]
+	},
+	{
+		"key": "2026-05",
+		"title": "Big update",
+		"date": "5/31/26",
+		"sections": [
+			{
+				"area": "OS",
+				"items": [
+					"Add button to switch from os to website mode",
+					"Make loading bar better",
+					"Add notification system",
+					"Fine tune gsap animations for cleaner feel",
+					"Add loading screen and boot animations",
+					"Fix context menu hover",
+					"Use Google Classroom",
+					"Enhance top navigation and adjust layout styles",
+					"Update icons",
+					"New tab icon",
+					"Maximize toggle",
+					"Hover logic",
+					"Add indicator showing minimized window for apps",
+					"Add popup animation"
+				]
+			},
+			{
+				"area": "Browser",
+				"items": [
+					"Add new tab home page",
+					"Add middle-click functionality to close tabs",
+					"Adjust star icon dimensions and hover effect",
+					"Add search icon and polish nav bar styling",
+					"Bookmarks!",
+					"Restyle tabs, new-tab button, and nav bar",
+					"Integrate eruda",
+					"Add fullscreen and new window button",
+					"Enhance URL handling and add local storage settings",
+					"Static setting options",
+					"Tab delete",
+					"Add functionality to nav buttons",
+					"Working tabs and search bar",
+					"Use https instead of http",
+					"Add browser"
+				]
+			},
+			{
+				"area": "Proxy",
+				"items": [
+					"Add reflux",
+					"Use reflux",
+					"Replace baremux with charon",
+					"Show per-dependency loading checklist with checkmarks for debugging",
+					"Alert when proxy scripts fail to load",
+					"Add bare-as-module3 transport",
+					"Repair broken proxy decode and transport switching",
+					"Add proxy backends"
+				]
+			},
+			{
+				"area": "Apps",
+				"items": [
+					"Update app css",
+					"Remove broken apps",
+					"Add apps"
+				]
+			},
+			{
+				"area": "Games",
+				"items": [
+					"Obfuscate game titles in catalog and rendered DOM",
+					"Add games"
+				]
+			},
+			{
+				"area": "Settings",
+				"items": [
+					"Obfuscate proxy and game keywords"
+				]
+			}
+		]
+	},
+	{
+		"key": "2026-04",
+		"title": "Big update",
+		"date": "4/25/26",
+		"sections": [
+			{
+				"area": "OS",
+				"items": [
+					"Clicking on panel will no longer minimize window",
+					"Add split screen",
+					"Entrance animation and custom fonts",
+					"Glassmorphism background and icon press animation",
+					"Clamp position and resize to screen boundaries",
+					"Child windows have number indicator next to their title",
+					"Prevent hover preview from conflicting with context menu",
+					"Preview automatically closes on mouse leave",
+					"Add context menu, hover preview panel, and multi-window support per app",
+					"Background-color for buttons update based on window status",
+					"Add window minimize functionality; Window will also minimize when you click on the icon",
+					"Add somewhat working task bar",
+					"Replace browser icon",
+					"Resizers disappear when window is in fullscreen",
+					"Update minimum window size to prevent overflow error",
+					"Add resizers",
+					"Non-active windows will show up as darker",
+					"Add popup animation",
+					"Add transition-duration to window controls",
+					"Add double click to maximize",
+					"Add close and maximized functionality",
+					"Add draggable window component and OS mode page"
+				]
+			},
+			{
+				"area": "Proxy",
+				"items": [
+					"Add working searchbar",
+					"Update scramjet",
+					"Add /prox route and Iframe wrapper component",
+					"Add bare/ultraviolet/scramjet proxy server"
+				]
+			},
+			{
+				"area": "Other",
+				"items": [
+					"Keep preview open when hovering over the panel",
+					"Window will open on top of other windows",
+					"Enable drag-to-unmaximize for maximized windows"
+				]
+			}
+		]
+	}
+]
