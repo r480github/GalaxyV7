@@ -1,3 +1,5 @@
+<!--This page is for debugging purposes-->
+<!--For the actual proxy, go to slate/+page.svelte-->
 <script>
 	import { onMount } from 'svelte';
 	import { loadScript } from '$lib/lethe/loader';
