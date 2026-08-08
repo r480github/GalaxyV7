@@ -3,7 +3,6 @@
 	import { saveSetting, loadSetting } from '$lib/utils/localspace.js';
 	import uploadImg from '$lib/img/icons/upload.png';
 	import { onMount } from 'svelte';
-
 	const maxRecents = 3;
 	const maxSize = 15 * 1024 * 1024;
 

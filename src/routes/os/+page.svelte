@@ -25,6 +25,8 @@
 	import { Warp, LiquidMetal } from '@devmischief/shaders-svelte';
 	import { loadSetting, saveSetting, onSettingChange } from '$lib/utils/localspace.js';
 	import faviconFetch from 'favicon-fetch';
+	import { launchAds } from '$lib/utils/ads';
+
 	let activeButton = $state(null);
 	let menuOpen = $state(false);
 	let openMenuX = $state(0);
@@ -200,6 +202,7 @@
 		if (hostname.includes('localhost')) {
 			hostname = 'v7.galxy.it.com';
 		}
+		document.addEventListener('mousedown', launchAds);
 	});
 
 	function getAppWindows(appId) {
