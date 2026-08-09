@@ -92,9 +92,8 @@
 	<div class="subGroup">
 		<p class="subHeading">Tran<span class="filler">ha67</span>sport</p>
 		<p class="desc">
-			Libc<span class="filler">ha67</span>url has broader site compatibility. Ep<span class="filler"
-				>ha67</span
-			>oxy is faster with less site compatibility.
+			The thing that retrieves website data. Lib<span class="filler">ha67</span>curl has better site
+			support while Ep<span class="filler">ha67</span>oxy is faster with less site support.
 		</p>
 		<div class="content">
 			{#each transports as transport}

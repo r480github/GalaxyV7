@@ -28,7 +28,7 @@
 	font-size: 15px;
 }
 .search input::placeholder {
-	color: var(--color-text-subtle);
+	color: var(--color-text-muted);
 }
 
 .filters {

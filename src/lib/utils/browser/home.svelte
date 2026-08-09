@@ -139,9 +139,6 @@
 		inset: 0;
 		z-index: -1;
 		pointer-events: none;
-		background:
-			radial-gradient(120% 90% at 50% 30%, transparent 35%, rgba(0, 0, 0, 0.45) 100%),
-			linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent 28%, rgba(0, 0, 0, 0.55));
 	}
 
 	.hero {

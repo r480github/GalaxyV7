@@ -41,7 +41,7 @@
 	}
 	let pillColor = $derived.by(() => {
 		if (id == $activeTab) {
-			return 'var(--color-surface-2)';
+			return 'transparent';
 		}
 
 		if (hovered) {
@@ -158,17 +158,17 @@
 	.bottom-right,
 	.bottom-left {
 		position: absolute;
-		margin-top: 15px;
+		margin-top: 14px;
 		width: 200px;
 		height: 200px;
-		clip-path: path('M 20 20 L 20 180 L 180 180 Q 21 179 20 20 Z');
+		clip-path: path('M 20 20 L 20 180 L 140 180 C 85 180 55 170 40 145 C 25 120 20 80 20 20 Z');
 	}
 	.bottom-right {
-		margin-left: calc(100% + 14px);
+		margin-left: calc(100% + 18px);
 		transform: scale(0.1);
 	}
 	.bottom-left {
-		margin-left: calc(-100% - 14px);
+		margin-left: calc(-100% - 16px);
 		transform: scale(0.1) scaleX(-1);
 	}
 	.title {
@@ -182,6 +182,8 @@
 	}
 	.tab.active .title {
 		color: var(--color-text);
+	}
+	.tab.active {
 	}
 	.tab-icon {
 		height: 15px;

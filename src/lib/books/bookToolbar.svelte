@@ -58,7 +58,7 @@
 		Random
 	</button>
 	<button onclick={switchMode}>
-	Switch Mode
+		Switch Mode
 		<img src={y} alt="" />
 	</button>
 </header>
@@ -72,8 +72,9 @@
 		gap: 8px;
 		align-items: center;
 		padding: 10px;
-		background: var(--color-surface);
 		flex-wrap: wrap;
+		background-color: transparent;
+		border-radius: 8px;
 	}
 
 	input,
@@ -89,6 +90,7 @@
 		border-radius: 6px;
 		font-size: 14px;
 		font-family: var(--font-family-body);
+		backdrop-filter: blur(20px);
 	}
 	button img {
 		height: 18px;
@@ -98,10 +100,13 @@
 		flex: 1;
 		min-width: 150px;
 	}
+	input::placeholder {
+		color: var(--color-text-subtle);
+	}
 	button:hover,
 	input:hover,
 	select:hover {
-		background: var(--color-chrome);
+		background: var(--color-surface-3);
 		cursor: pointer;
 	}
 </style>

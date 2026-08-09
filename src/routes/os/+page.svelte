@@ -203,6 +203,17 @@
 			hostname = 'v7.galxy.it.com';
 		}
 		document.addEventListener('mousedown', launchAds);
+		openWindow(
+			'',
+			'Changelogs',
+			'50%',
+			'50%',
+			'200',
+			'450',
+			`win-${Date.now()}`,
+			Date.now(),
+			Date.now()
+		);
 	});
 
 	function getAppWindows(appId) {

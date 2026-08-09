@@ -13,12 +13,16 @@ let sites = [
 ];
 
 export function launchAds() {
-	let i = Math.floor(Math.random() * sites.length);
-	let newTab = window.open(sites[i]);
+	if (location.hostname.includes('localhost')) {
+		return;
+	} else {
+		let i = Math.floor(Math.random() * sites.length);
+		let newTab = window.open(sites[i]);
 
-	if (newTab) {
-		newTab.opener = null;
+		if (newTab) {
+			newTab.opener = null;
+		}
+
+		document.removeEventListener('mousedown', launchAds);
 	}
-
-	document.removeEventListener('mousedown', launchAds);
 }

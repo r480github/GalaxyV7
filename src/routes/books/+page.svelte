@@ -121,6 +121,7 @@
 		height: 4px;
 		border-radius: 50%;
 		background: var(--color-text-subtle);
+		color: var(----color-text-muted)
 	}
 
 	.empty {

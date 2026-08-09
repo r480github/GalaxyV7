@@ -55,10 +55,11 @@
 	height: 25px;
 	display: flex;
 	flex: row;
-	background-color: var(--color-surface);
+	background-color: var(--color-surface-3) !important;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	color: var(--color-text);
+	backdrop-filter: blur(var(--blur-hard));
 }
 .window-title {
 	font-family: var(--font-family-title);
@@ -72,11 +73,11 @@ iframe {
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
-	background: var(--color-surface-2);
-	backdrop-filter: blur(16px);
+	background: var(--color-surface-3) !important;
 	border: none;
 	border-bottom-right-radius: 8px;
 	border-bottom-left-radius: 8px;
+	backdrop-filter: blur(var(--blur-normal));
 }
 .navControl {
 	height: 100%;

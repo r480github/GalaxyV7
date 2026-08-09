@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import type { Game } from './types';
 	import FillerName from './fillerName.svelte';
@@ -87,7 +86,7 @@
 		align-items: center;
 		gap: 10px;
 		padding: 8px 12px;
-		background: var(--color-surface);
+		background: black;
 		border-bottom: 1px solid var(--color-border);
 	}
 

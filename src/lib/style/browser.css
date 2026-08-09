@@ -50,7 +50,7 @@ form {
 .search {
 	width: 100%;
 	border-radius: 100px;
-	height: 25px;
+	height: 28px;
 	border: 1px solid var(--color-border);
 	background-color: var(--color-surface);
 	padding-left: 29px;
@@ -63,11 +63,14 @@ form {
 	white-space: nowrap;
 	padding-right: 40px;
 }
+.search::placeholder {
+	color: var(--color-text-muted);
+}
 .search:focus {
 	border-color: var(--color-border-strong);
 }
 .searchIcon {
-	height: 13px;
+	height: 12px;
 	position: absolute;
 	margin-left: 10px;
 	filter: brightness(0.7);

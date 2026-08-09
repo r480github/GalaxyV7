@@ -1,3 +1,45 @@
+:root[data-theme='glass'],
+[data-theme='glass'] {
+	/* surfaces */
+	--color-bg: #00000000;
+	--color-surface: #57575702;
+	--color-surface-2: #00000025;
+	--color-surface-3: #1b1b1b4d;
+	--color-chrome: #000000cb;
+	--color-window: #00000000;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-scrim: rgba(0, 0, 0, 0.12);
+	--color-scrim-medium: rgba(0, 0, 0, 0.13);
+	--color-scrim-strong: rgba(0, 0, 0, 0.85);
+	/* text */
+	--color-text: #ededed;
+	--color-text-muted: #ddd8d8;
+	--color-text-subtle: #a6a6a6;
+	/* borders */
+	--color-border: rgba(255, 255, 255, 0.08);
+	--color-border-strong: rgba(255, 255, 255, 0.26);
+	--color-border-hover: #dfdfdf93;
+	/* interactive overlays */
+	--overlay-hover: rgba(129, 129, 129, 0.06);
+	--overlay-hover-strong: rgba(163, 158, 158, 0.12);
+	--overlay-active: rgba(255, 255, 255, 0.4);
+	--overlay-indicator: rgba(255, 255, 255, 0.36);
+	--overlay-browser-tab: #343434;
+	/* status */
+	--color-danger: #e5534b;
+	--color-danger-hover: rgba(229, 83, 75, 0.7);
+	--color-pin: #e0e0e0;
+	/* scrollbar */
+	--color-scrollbar-track: #16161602;
+	--color-scrollbar-thumb: #6d6b6bc7;
+	--color-scrollbar-thumb-hover: #8b8a8a;
+
+	/*blur*/
+	--blur-normal: 14px;
+	--blur-hard: 30px;
+}
+
 /* Crimson - Vivid crimson pulse on black */
 :root[data-theme='crimson'],
 [data-theme='crimson'] {

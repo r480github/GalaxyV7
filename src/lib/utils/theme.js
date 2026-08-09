@@ -23,7 +23,8 @@ export const themes = [
 	'fuchsia',
 	'orchid-smoke',
 	'rosewood',
-	'default'
+	'default',
+	'glass'
 ];
 
 export function themeLabel(slug) {
