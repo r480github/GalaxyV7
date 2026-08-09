@@ -54,7 +54,7 @@ body {
 .nav {
 	position: absolute;
 	bottom: 0px;
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(20px);
 	background-color: var(--color-glass);
 	display: flex;
 	flex-direction: column;

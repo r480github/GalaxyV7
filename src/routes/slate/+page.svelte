@@ -484,7 +484,7 @@
 					<option value="google"><p>Google</p></option>
 				</select>
 				<div class="break"></div>
-				<button onclick={openInNewWindow}>Open in new window</button>
+				<button onclick={openInNewWindow}>Open in new tab</button>
 				<div class="break"></div>
 				<button onclick={toggleFullscreen}>Full Screen</button>
 				<button onclick={openInspector}>Inspect Element</button>
