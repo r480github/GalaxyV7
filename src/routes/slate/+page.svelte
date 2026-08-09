@@ -50,6 +50,8 @@
 	let activeFrame = $derived(frames.find((frame) => frame.id === $activeTab));
 	let draggedTab = null;
 	let tabID = null;
+	let LastPopupIntState = $state(true);
+
 	$effect(() => {
 		if ($deleteTab) {
 			tabs = tabs.filter((tab) => tab.id !== $deleteTab);
@@ -96,23 +98,28 @@
 		tabCounter++;
 	}
 	onMount(async () => {
+		LastPopupIntState = popupInterceptor;
 		addTab();
 
 		// hydrate saved settings
-		const [lethe, savedCar, wisp, engine, marks, intercept] = await Promise.all([
-			loadSetting('lethe', 'sj2'),
-			loadSetting('car', 'libcurl'),
-			loadSetting('customWisp', ''),
-			loadSetting('searchEngine', 'brave'),
-			loadSetting('bookmarks', [], JSON.parse),
-			loadSetting('popupInterceptor', true, (raw) => raw === 'true')
-		]);
+		const [lethe, savedCar, wisp, engine, marks, intercept, LastPopupIntStateX] = await Promise.all(
+			[
+				loadSetting('lethe', 'sj2'),
+				loadSetting('car', 'libcurl'),
+				loadSetting('customWisp', ''),
+				loadSetting('searchEngine', 'brave'),
+				loadSetting('bookmarks', [], JSON.parse),
+				loadSetting('popupInterceptor', true, (raw) => raw === 'true'),
+				loadSetting('LastPopupIntState', true)
+			]
+		);
 		letheEngine = lethe;
 		car = savedCar;
 		customWisp = wisp;
 		searchEngine = engine;
 		bookmarks = marks;
-		popupInterceptor = intercept;
+		LastPopupIntState = LastPopupIntStateX;
+		popupInterceptor = LastPopupIntState; //intercept
 		hydrated = true;
 
 		await loadScriptsSequential([
@@ -177,7 +184,15 @@
 			encoded = polygon.encodeUrl(fixedUrl);
 		}
 		activeFrame.url = encoded;
+		if (rawQuery.includes('discord')) {
+			LastPopupIntState = popupInterceptor;
+			popupInterceptor = false;
+		}
+		if (!rawQuery.includes('discord')) {
+			popupInterceptor = LastPopupIntState;
+		}
 	}
+
 	let lastOpenedUrl = '';
 	let lastOpenedTime = 0;
 	async function openInNewTab(targetUrl) {
@@ -248,7 +263,6 @@
 		frame.displayUrl = url;
 		frame.title = title;
 	}
-
 	$effect(() => {
 		const current = activeFrame?.displayUrl ?? '';
 		if (!inputFocused) {
@@ -352,6 +366,7 @@
 		saveSetting('searchEngine', searchEngine);
 		saveSetting('bookmarks', $state.snapshot(bookmarks));
 		saveSetting('popupInterceptor', popupInterceptor);
+		saveSetting('LastPopupIntState', LastPopupIntState);
 	});
 </script>
 
