@@ -213,7 +213,7 @@
 				matching.push(win);
 			}
 		}
-		return matching;
+		return matching;``
 	}
 
 	function isAppActive(appId) {

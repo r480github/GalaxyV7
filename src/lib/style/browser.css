@@ -382,6 +382,9 @@ form {
 .settings-dropdown select {
 	cursor: pointer;
 }
+.settings-dropdown select option {
+	background-color: var(--color-surface-3);
+}
 .bookmarks {
 	height: 30px;
 	background-color: var(--color-surface-2);
