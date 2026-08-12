@@ -23,13 +23,14 @@
 
 	//  debugger is vibecoded
 	let dependencies = $state([
-		{ key: 'baremux', label: 'BareMux transport', loaded: false },
+		{ key: 'baremux', label: 'Charon', loaded: false },
 		{ key: 'glassBundle', label: 'Glass bundle', loaded: false },
 		{ key: 'glassConfig', label: 'Glass config', loaded: false },
 		{ key: 'polygon', label: 'Polygon engine', loaded: false },
-		{ key: 'scramjet', label: 'Scramjet controller', loaded: false },
+		{ key: 'scramjet', label: 'Glass controller', loaded: false },
 		{ key: 'serviceWorker', label: 'Service worker', loaded: false },
-		{ key: 'transport', label: 'Transport connection', loaded: false }
+		{ key: 'prism', label: 'SJ2 (prism)', loaded: false },
+		{ key: 'transport', label: 'Car connection', loaded: false }
 	]);
 
 	function markLoaded(key) {
@@ -66,6 +67,10 @@
 		} catch (e) {
 			console.error('Failed to initialize SJ:', e);
 		}
+		await loadScript('/prism/prism.js');
+		await loadScript('/prism/prism.api.js');
+		markLoaded('prism');
+
 		connection = createConnection();
 		await setCar(connection, car);
 		markLoaded('transport');

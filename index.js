@@ -44,12 +44,12 @@ await fastify.register(fastifyStatic, {
 });
 await fastify.register(fastifyStatic, {
 	root: epoxyPath,
-	prefix: '/epoxy/',
+	prefix: '/libbybutslightlyworse/',
 	decorateReply: false
 });
 await fastify.register(fastifyStatic, {
 	root: libcurlPath,
-	prefix: '/libcurl/',
+	prefix: '/libby/',
 	decorateReply: false
 });
 await fastify.register(fastifyStatic, {
@@ -105,4 +105,3 @@ function shutdown(signal) {
 }
 
 await fastify.listen({ port, host: '0.0.0.0' });
-

@@ -15,8 +15,8 @@ const lethePlugin = () => ({
 		server.middlewares.use((req, res, next) => {
 			next();
 		});
-		server.middlewares.use('/epoxy', sirv(epoxyPath, { dev: true }));
-		server.middlewares.use('/libcurl', sirv(libcurlPath, { dev: true }));
+		server.middlewares.use('/libbybutslightlyworse', sirv(epoxyPath, { dev: true }));
+		server.middlewares.use('/libby', sirv(libcurlPath, { dev: true }));
 		server.middlewares.use('/reflux', sirv(refluxPath, { dev: true }));
 		server.middlewares.use('/charon', sirv(baremuxPath, { dev: true }));
 		server.middlewares.use('/glass', sirv(join(__dirname, 'glass'), { dev: true }));

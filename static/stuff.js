@@ -29,10 +29,10 @@ const wispUrl =
 async function setTransport(transportsel) {
   switch (transportsel) {
     case "epoxy":
-      await connection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
+      await connection.setTransport("/libbybutslightlyworse/index.mjs", [{ wisp: wispUrl }]);
       break;
     case "libcurl":
-      await connection.setTransport("/libcurl/index.mjs", [
+      await connection.setTransport("/libby/index.mjs", [
         { websocket: wispUrl },
       ]);
       break;
