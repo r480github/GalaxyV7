@@ -33,7 +33,6 @@
 
 <style>
 	:global(body) {
-		background: var(--color-bg);
 		margin: 0;
 	}
 

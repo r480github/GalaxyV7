@@ -401,6 +401,7 @@
 				onfocus={() => {
 					inputFocused = true;
 				}}
+				//onclick={inputEl.select}
 				onblur={() => {
 					inputFocused = false;
 				}}

@@ -10,10 +10,11 @@
 	import faviconFetch from 'favicon-fetch';
 	import defaultIcon from '$lib/img/icons/earthWhite.png';
 	import gsap from 'gsap';
+	import { compile } from 'svelte/compiler';
 	let { id, displayUrl = '', title = 'New Tab', onDrop } = $props();
 	let tabEl;
 	let hovered = $state(false);
-
+	let compiledTitle = $state([]);
 	let faviconUrl = $derived(
 		displayUrl ? faviconFetch({ hostname: new URL(displayUrl).hostname }) : defaultIcon
 	);
@@ -24,6 +25,9 @@
 			opacity = 0.7;
 		} else {
 			opacity = 1;
+		}
+		if (title) {
+			sliceText(title);
 		}
 	});
 	function closeTab(event) {
@@ -79,6 +83,10 @@
 		$isTabDragging = false;
 		onDrop?.(id);
 	}
+	function sliceText(text) {
+		let x = text.length / 2;
+		compiledTitle = [text.slice(0, x), text.slice(x)];
+	}
 </script>
 
 <div
@@ -109,7 +117,7 @@
 			<div class="icon noSelect">
 				<img src={faviconUrl} class="tab-icon noSelect" alt="" style="opacity:{opacity}" />
 			</div>
-			<p class="title">{title}</p>
+			<p class="title">{compiledTitle[0]}<span class="filler">haha6767</span>{compiledTitle[1]}</p>
 			<div class="close" onclick={closeTab}><p class="closeText">&times;</p></div>
 		</div>
 	</div>
