@@ -28,7 +28,7 @@ const fastify = Fastify({
 			handler(req, res);
 		});
 		server.on('upgrade', (req, socket, head) => {
-			if (req.url.endsWith('/wisp/')) {
+			if (req.url.endsWith('/cargovroom/')) {
 				wisp.routeRequest(req, socket, head);
 			} else socket.end();
 		});

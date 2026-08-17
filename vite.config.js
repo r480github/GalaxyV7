@@ -24,7 +24,7 @@ const lethePlugin = () => ({
 		server.middlewares.use('/prism', sirv(join(__dirname, 'prism'), { dev: true }));
 
 		server.httpServer?.on('upgrade', (req, socket, head) => {
-			if (req.url.endsWith('/wisp/')) wisp.routeRequest(req, socket, head);
+			if (req.url.endsWith('/cargovroom/')) wisp.routeRequest(req, socket, head);
 		});
 	}
 });

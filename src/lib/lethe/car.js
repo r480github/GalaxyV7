@@ -5,9 +5,9 @@ export function getWispUrl(custom) {
 	} else {
 		protocol = location.protocol === 'https:' ? 'wss' : 'ws';
 		if (protocol === 'wss') {
-			return `${protocol}://${location.host}/nyx/`;
+			return `${protocol}://${location.host}/cargovroom/`;
 		} else {
-			return `${protocol}://${location.host}/wisp/`;
+			return `${protocol}://${location.host}/cargovroom/`;
 		}
 	}
 }
