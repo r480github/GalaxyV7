@@ -8144,5 +8144,4 @@ self.WASM = '${r}';`),
       document?.currentScript &&
       document.currentScript.remove());
 })();
-//# sourceMappingURL=scramjet.all.js.map
 ``

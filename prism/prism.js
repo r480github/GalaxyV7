@@ -8426,4 +8426,3 @@ ${c}`;
 		}),
 		(self.$scramjet = u));
 })();
-//# sourceMappingURL=scramjet.js.map

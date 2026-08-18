@@ -341,4 +341,3 @@ var $scramjetController;
 	})(),
 		($scramjetController = r));
 })();
-//# sourceMappingURL=controller.inject.js.map

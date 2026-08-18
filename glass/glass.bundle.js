@@ -18002,4 +18002,3 @@
     S1 = _r;
   typeof self == "object" && (self.Ultraviolet = _r);
 })();
-//# sourceMappingURL=uv.bundle.js.map
