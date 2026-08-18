@@ -59,7 +59,6 @@
 			if (navigator.serviceWorker) {
 				polygon.init();
 				markLoaded('scramjet');
-				await navigator.serviceWorker.register('/sw.js');
 				markLoaded('serviceWorker');
 			} else {
 				console.warn('Service workers not supported');
@@ -84,13 +83,17 @@
 		const fixedUrl = search(query);
 
 		if (letheEngine === 'prism') {
-			if (!prismController) prismController;
-			if (!prismFrame) prismFrame;
+			if (!prismController) prismController = await createPrismController(car);
+			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
+			decodedURL = fixedUrl;
+			prismFrame.go(fixedUrl);
 			return;
 		}
 
 		if (letheEngine === 'uv') {
+			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
 		} else {
+			url = polygon.encodeUrl(fixedUrl);
 		}
 		decodedURL = getOriginalUrl(url);
 		console.log('decoded is:' + decodedURL);
@@ -98,9 +101,11 @@
 	}
 	$effect(() => {
 		if (ready && connection) {
+			setCar(connection, car);
 		}
 		// Keep a live Prism controller's transport in sync with the car dropdown.
 		if (getPrismController()) {
+			setPrismTransport(car);
 		}
 	});
 </script>
