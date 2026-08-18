@@ -1,11 +1,12 @@
 <!--
-/api?url={}&type={}&transport={}&wisp={}&notif={}
+/api?url={}&type={}&transport={}&wisp={}&notif={}&autoSW={}
 
 url:       required, https:// is added when missing, must contain a dot
 type:      prism (SJv2, default), polygon (SJ), glass (UV)
 transport: libcurlRaw (default), libcurl, epoxy
 wisp:      wss://..., defaults to the server's own wisp
 notif:     read by /os when it opens this page in a window, not by /api itself
+autoSW:    true loads on its own, false waits for a click first
 -->
 
 <script>
@@ -30,15 +31,17 @@ notif:     read by /os when it opens this page in a window, not by /api itself
 		}
 	}
 
-	const api = '/api?url={}&type={}&transport={}&wisp={}&notif={}';
+	const api = '/api?url={}&type={}&transport={}&wisp={}&notif={}&autoSW={}';
 	const params = [
 		['url', 'required', 'https:// added when missing'],
 		['type', 'prism', 'prism (sjv2), polygon (sj), glass (uv)'],
 		['transport', 'libcurlRaw', 'libcurlRaw, libcurl(dont use), epoxy'],
 		['wisp', 'this server', 'wss://... to use another wisp'],
-		['notif', 'none', 'toast text, shown by /os when it opens the window']
+		['notif', 'none', 'toast text, shown by /os when it opens the window'],
+		['autoSW', 'true', 'false shows a button and loads on click instead']
 	];
 	let ready = $state(false);
+	let showButton = $state(false);
 	let iframeEl;
 	let polygon;
 	let car = $state('libcurlRaw');
@@ -50,8 +53,13 @@ notif:     read by /os when it opens this page in a window, not by /api itself
 	const apiType = $derived($page.url.searchParams.get('type'));
 	const apiTransport = $derived($page.url.searchParams.get('transport'));
 	const apiWisp = $derived($page.url.searchParams.get('wisp') || undefined);
+	const apiAutoSW = $derived($page.url.searchParams.get('autoSW') || 'true');
+	const apiHost = $derived(apiUrl ? new URL(apiUrl).hostname : '');
 
 	onMount(async () => {
+		// No url is the docs view - nothing to load, so nothing to register.
+		if (apiUrl === null) return;
+
 		await loadScriptsSequential([
 			'/charon/index.js',
 			'/glass/glass.bundle.js',
@@ -59,25 +67,36 @@ notif:     read by /os when it opens this page in a window, not by /api itself
 			'/poly/polygon.all.js'
 		]);
 		polygon = createScramjetController();
-		setTimeout(async () => {
-			try {
-				if (navigator.serviceWorker) {
-					polygon.init();
-					await navigator.serviceWorker.register('/sw.js');
-				} else {
-					console.warn('Service workers not supported');
-				}
-			} catch (e) {
-				console.error('Failed to initialize SJ:', e);
-			}
-			connection = createConnection();
-			if (['libcurl', 'libcurlRaw', 'epoxy'].includes(apiTransport)) car = apiTransport;
-			await setCar(connection, car, apiWisp);
 
-			ready = true;
-			handleSubmit(apiUrl, apiType);
-		}, 2000);
+		// A worker that registers itself on load, with nothing the user did in
+		// between, is what Lightspeed picks up on. autoSW=false leaves all of it
+		// to the button so the click is what starts everything.
+		if (apiAutoSW == 'true') {
+			await start();
+		} else {
+			showButton = true;
+		}
 	});
+
+	async function start() {
+		showButton = false;
+		try {
+			if (navigator.serviceWorker) {
+				polygon.init();
+				await navigator.serviceWorker.register('/sw.js');
+			} else {
+				console.warn('Service workers not supported');
+			}
+		} catch (e) {
+			console.error('Failed to initialize SJ:', e);
+		}
+		connection = createConnection();
+		if (['libcurl', 'libcurlRaw', 'epoxy'].includes(apiTransport)) car = apiTransport;
+		await setCar(connection, car, apiWisp);
+
+		ready = true;
+		handleSubmit(apiUrl, apiType);
+	}
 
 	async function handleSubmit(url, type) {
 		if (apiUrl === null) return;
@@ -107,6 +126,12 @@ notif:     read by /os when it opens this page in a window, not by /api itself
 </script>
 
 <iframe bind:this={iframeEl} title="" style="opacity: {apiUrl ? '100%' : '0'};"></iframe>
+
+{#if showButton}
+	<div class="start">
+		<button onclick={start}>Load {apiHost}</button>
+	</div>
+{/if}
 
 <div class="guide">
 	<p class="route">{api}</p>
@@ -161,5 +186,22 @@ notif:     read by /os when it opens this page in a window, not by /api itself
 	}
 	.fallback {
 		opacity: 0.6;
+	}
+	.start {
+		position: fixed;
+		inset: 0;
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: white;
+	}
+	.start button {
+		font-family: monospace;
+		font-size: 1rem;
+		padding: 10px 18px;
+		border: 1px solid black;
+		background: none;
+		cursor: pointer;
 	}
 </style>
