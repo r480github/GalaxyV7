@@ -1,42 +1,66 @@
-# sv
+# GalaxyV7
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+> Browse the internet with no restrictions.
 
-## Creating a project
+**Demo:** https://galxy.it.com/
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Run Galaxy Locally
 
-```sh
-# create a new project
-npx sv create my-app
+### Prerequisites
+
+- [Bun](https://bun.com/docs/installation)
+- [Node.js](https://nodejs.org/en/download)
+
+### Install Galaxy
+
+```bash
+git clone https://github.com/r480github/GalaxyV7
+cd GalaxyV7
+bun i
 ```
 
-To recreate this project with the same configuration:
+### Install Games (Optional)
 
-```sh
-# recreate this project
-bun x sv@0.13.2 create --template minimal --types jsdoc --add prettier --install bun ./
+```bash
+cd static
+git clone https://gitlab.com/Hydra.Network/game-assets/endis-assets books
+cd ..
 ```
 
-## Developing
+### Dev
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```bash
+bun run dev
 ```
 
-## Building
+Default port: `5173`
 
-To create a production version of your app:
+### Prod
 
-```sh
-npm run build
+```bash
+bun run build
+bun index.js
 ```
 
-You can preview the production build with `npm run preview`.
+Default port: `5417`
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Don't have a server?
+
+Galaxy can also be deployed statically with Netlify or other static deployers.
+[GalaxyV7-Static](https://github.com/r480github/GalaxyV7-Static)
+
+
+## A Look Inside
+
+### OS
+
+<img src="readme/os.png" width="800">
+
+### Browser
+
+<img src="readme/browser.png" width="800">
+
+### Settings
+
+<img src="readme/settings.png" width="800">
+

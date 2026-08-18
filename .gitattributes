@@ -13,5 +13,6 @@ vite.config.ts linguist-vendored
 # Don't count lockfiles (probably already ignored, but just in case)
 pnpm-lock.yaml linguist-generated
 
-poly/
-glass/
+poly/** linguist-vendored
+glass/** linguist-vendored
+prism/** linguist-vendored

@@ -57,7 +57,6 @@ autoSW:    true loads on its own, false waits for a click first
 	const apiHost = $derived(apiUrl ? new URL(apiUrl).hostname : '');
 
 	onMount(async () => {
-		// No url is the docs view - nothing to load, so nothing to register.
 		if (apiUrl === null) return;
 
 		await loadScriptsSequential([
@@ -68,9 +67,6 @@ autoSW:    true loads on its own, false waits for a click first
 		]);
 		polygon = createScramjetController();
 
-		// A worker that registers itself on load, with nothing the user did in
-		// between, is what Lightspeed picks up on. autoSW=false leaves all of it
-		// to the button so the click is what starts everything.
 		if (apiAutoSW == 'true') {
 			await start();
 		} else {
