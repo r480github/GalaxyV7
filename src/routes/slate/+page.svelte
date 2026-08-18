@@ -129,16 +129,6 @@
 			'/poly/polygon.all.js'
 		]);
 		polygon = createScramjetController();
-		try {
-			if (navigator.serviceWorker) {
-				polygon.init();
-				await navigator.serviceWorker.register('/sw.js');
-			} else {
-				console.warn('Service workers not supported');
-			}
-		} catch (error) {
-			console.error('Failed to initialize SJ:', error);
-		}
 		connection = createConnection();
 		await setCar(connection, car, customWisp);
 		await enablePopupInterceptor();
@@ -368,6 +358,20 @@
 		saveSetting('popupInterceptor', popupInterceptor);
 		saveSetting('LastPopupIntState', LastPopupIntState);
 	});
+	function registerSW() {
+		inputFocused = true;
+
+		try {
+			if (navigator.serviceWorker) {
+				polygon.init();
+				navigator.serviceWorker.register('/sw.js');
+			} else {
+				console.warn('Service workers not supported');
+			}
+		} catch (error) {
+			console.error('Failed to initialize SJ:', error);
+		}
+	}
 </script>
 
 <div class="tab-bar noSelect">
@@ -398,9 +402,7 @@
 				placeholder="Search or enter address"
 				bind:value={query}
 				bind:this={inputEl}
-				onfocus={() => {
-					inputFocused = true;
-				}}
+				onfocus={registerSW}
 				//onclick={inputEl.select}
 				onblur={() => {
 					inputFocused = false;

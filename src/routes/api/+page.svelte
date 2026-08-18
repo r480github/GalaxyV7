@@ -59,22 +59,24 @@ notif:     read by /os when it opens this page in a window, not by /api itself
 			'/poly/polygon.all.js'
 		]);
 		polygon = createScramjetController();
-		try {
-			if (navigator.serviceWorker) {
-				polygon.init();
-				await navigator.serviceWorker.register('/sw.js');
-			} else {
-				console.warn('Service workers not supported');
+		setTimeout(async () => {
+			try {
+				if (navigator.serviceWorker) {
+					polygon.init();
+					await navigator.serviceWorker.register('/sw.js');
+				} else {
+					console.warn('Service workers not supported');
+				}
+			} catch (e) {
+				console.error('Failed to initialize SJ:', e);
 			}
-		} catch (e) {
-			console.error('Failed to initialize SJ:', e);
-		}
-		connection = createConnection();
-		if (['libcurl', 'libcurlRaw', 'epoxy'].includes(apiTransport)) car = apiTransport;
-		await setCar(connection, car, apiWisp);
+			connection = createConnection();
+			if (['libcurl', 'libcurlRaw', 'epoxy'].includes(apiTransport)) car = apiTransport;
+			await setCar(connection, car, apiWisp);
 
-		ready = true;
-		handleSubmit(apiUrl, apiType);
+			ready = true;
+			handleSubmit(apiUrl, apiType);
+		}, 2000);
 	});
 
 	async function handleSubmit(url, type) {
@@ -114,7 +116,7 @@ notif:     read by /os when it opens this page in a window, not by /api itself
 			<dd><span class="fallback">{fallback}</span> — {notes}</dd>
 		{/each}
 	</dl>
-	<p class="example">/api?url=example.com&amp;type=prism&amp;transport=epoxy</p>
+	<p class="example">/api?url=example.com&amp;type=prism&amp;transport=libcurlRaw</p>
 </div>
 
 <style>

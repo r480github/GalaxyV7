@@ -116,16 +116,6 @@
 			'/poly/polygon.all.js'
 		]);
 		polygon = createScramjetController();
-		try {
-			if (navigator.serviceWorker) {
-				polygon.init();
-				await navigator.serviceWorker.register('/sw.js');
-			} else {
-				console.warn('Service workers not supported');
-			}
-		} catch (e) {
-			console.error('Failed to initialize SJ:', e);
-		}
 		connection = createConnection();
 		await setCar(connection, car);
 
@@ -138,6 +128,16 @@
 		iframeEl.src = '';
 	}
 	async function handleSubmit(url, type) {
+		try {
+			if (navigator.serviceWorker) {
+				polygon.init();
+				await navigator.serviceWorker.register('/sw.js');
+			} else {
+				console.warn('Service workers not supported');
+			}
+		} catch (e) {
+			console.error('Failed to initialize SJ:', e);
+		}
 		frameDisplay = 'block';
 		overflow = true;
 		if (!ready) return;
