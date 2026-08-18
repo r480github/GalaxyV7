@@ -45,7 +45,7 @@
 	let dragging = $state(false);
 	let windowComps = [];
 	let hostname = $state(null);
-	let proxApi = '/api?url?&type=prism&&transport=libcurlRaw';
+	let proxApi = '%2Fapi%3Furl%3D%7Burl%7D%26type%3Dprism%26transport%3DlibcurlRaw%26autoSW%3Dfalse';
 	function startNavResize(e) {
 		dragging = true;
 		temp = navSizeMulti;
@@ -83,7 +83,7 @@
 		},
 		{
 			id: 6,
-			url: '/api?url=https://spotify.com&type=prism&notif=Make%20Sure%20To%20Sign%20In%20With%20Google',
+			url: '/api?url=https://spotify.com&type=prism&notif=Make%20Sure%20To%20Sign%20In%20With%20Google&autoSW=false',
 			name: 'Spotify',
 			icon: sp,
 			height: '50%',
@@ -103,7 +103,7 @@
 		},
 		{
 			id: 3,
-			url: `https://${hostname}/pyrite/?api=https://${hostname}${proxApi}`,
+			url: `https://${hostname}/pyrite/?api=https%3A%2F%2F${hostname}${proxApi}`,
 			name: 'Pyrite',
 			icon: p,
 			height: '50%',

@@ -59,8 +59,6 @@
 			if (navigator.serviceWorker) {
 				polygon.init();
 				markLoaded('scramjet');
-				await navigator.serviceWorker.register('/sw.js');
-				markLoaded('serviceWorker');
 			} else {
 				console.warn('Service workers not supported');
 			}
@@ -109,6 +107,10 @@
 			setPrismTransport(car);
 		}
 	});
+	async function testAlert() {
+		await navigator.serviceWorker.register('/sw.js');
+		markLoaded('serviceWorker');
+	}
 </script>
 
 {#if !ready}
@@ -134,6 +136,7 @@
 		placeholder="Search"
 		bind:value={query}
 		disabled={!ready}
+		onfocus={testAlert}
 	/>
 	<p>{decodedURL}</p>
 	<select bind:value={letheEngine} disabled={!ready}>
