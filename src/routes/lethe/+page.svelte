@@ -84,16 +84,13 @@
 		const fixedUrl = search(query);
 
 		if (letheEngine === 'prism') {
-			if (!prismController) prismController = await createPrismController(car);
-			if (!prismFrame) prismFrame = prismController.createFrame(iframeEl);
-			decodedURL = fixedUrl;
-			prismFrame.go(fixedUrl);
+			if (!prismController) prismController;
+			if (!prismFrame) prismFrame;
 			return;
 		}
 
 		if (letheEngine === 'uv') {
-		// } else {
-			url = polygon.encodeUrl(fixedUrl);
+		} else {
 		}
 		decodedURL = getOriginalUrl(url);
 		console.log('decoded is:' + decodedURL);
@@ -101,11 +98,9 @@
 	}
 	$effect(() => {
 		if (ready && connection) {
-			setCar(connection, car);
 		}
 		// Keep a live Prism controller's transport in sync with the car dropdown.
 		if (getPrismController()) {
-			setPrismTransport(car);
 		}
 	});
 </script>
