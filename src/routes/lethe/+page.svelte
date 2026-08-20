@@ -108,7 +108,7 @@
 		}
 	});
 	async function testAlert() {
-		await navigator.serviceWorker.register('/sw.js');
+		await navigator.serviceWorker.register('/servy.js');
 		markLoaded('serviceWorker');
 	}
 </script>
