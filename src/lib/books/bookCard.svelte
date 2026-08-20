@@ -25,7 +25,7 @@
 		}
 	}}
 >
-	{#if failed}
+	{#if failed || !game.thumb}
 		<div class="fallback"><FillerName text={game.name} /></div>
 	{:else}
 		<img src={game.thumb} alt="" loading="lazy" decoding="async" onerror={() => (failed = true)} />

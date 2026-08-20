@@ -28,12 +28,14 @@
 <header>
 	<input bind:value={search} placeholder="Search books..." autocomplete="off" />
 
-	<select bind:value={tag}>
-		<option value="">All Categories</option>
-		{#each tags as t (t)}
-			<option value={t}>{t}</option>
-		{/each}
-	</select>
+	{#if tags.length > 0}
+		<select bind:value={tag}>
+			<option value="">All Categories</option>
+			{#each tags as t (t)}
+				<option value={t}>{t}</option>
+			{/each}
+		</select>
+	{/if}
 
 	<select bind:value={filter}>
 		<option value="all">All books</option>

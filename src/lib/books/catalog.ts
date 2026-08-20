@@ -1,8 +1,12 @@
 import type { Game } from './types';
 import { GAMES_BASE } from './config';
-import { decodeName } from './obfuscate';
 
 const BASE = GAMES_BASE.replace(/\/+$/, '');
+
+/** Root of the asset repo, as served out of `static/`. */
+const BOOKS_ROOT = '/books';
+/** Playable html lives at `gmes/<slug>/index.html`; thumbs are already root-relative. */
+const GAMES_DIR = 'gmes';
 
 export function asset(path: string): string {
 	if (!path) return path;
@@ -10,37 +14,48 @@ export function asset(path: string): string {
 	return BASE + (path.startsWith('/') ? path : `/${path}`);
 }
 
-export const CATALOG_URL = asset('/books/books.json');
+/** Resolve a path the catalog gives us relative to the asset repo root. */
+function fromRoot(path: string): string {
+	if (/^https?:\/\//i.test(path)) return path;
+	return asset(`${BOOKS_ROOT}/${path.replace(/^\/+/, '')}`);
+}
+
+export const CATALOG_URL = fromRoot('gmes.json');
 
 interface RawGame {
-	id?: number;
-	name?: string;
-	cover?: string;
-	thumb?: string;
-	url?: string;
-	special?: string[];
-	author?: string;
-	authorLink?: string;
+	file_name?: string;
+	title?: string;
+	thumb?: string | null;
+	thumb_error?: string;
+}
+
+/** `10-bullets/index.html` -> `10-bullets` */
+function slugOf(fileName: string): string {
+	return fileName.replace(/index\.html?$/i, '').replace(/^\/+|\/+$/g, '');
 }
 
 export function normalize(raw: RawGame[]): Game[] {
-	let list = raw.map((z) => (z?.name ? { ...z, name: decodeName(z.name) } : z));
-	if (list.length > 0 && list[0]?.name?.includes('SUGGEST')) {
-		list = list.slice(1);
+	const seen = new Set<string>();
+	const games: Game[] = [];
+
+	for (const z of raw ?? []) {
+		if (!z?.file_name || !z?.title) continue;
+
+		// The slug doubles as a stable id, so favorites and history survive a catalog refresh.
+		const id = slugOf(z.file_name);
+		if (!id || seen.has(id)) continue;
+		seen.add(id);
+
+		games.push({
+			id,
+			name: z.title,
+			thumb: z.thumb ? fromRoot(z.thumb) : '',
+			url: fromRoot(`${GAMES_DIR}/${z.file_name}`),
+			tags: []
+		});
 	}
 
-	return list
-		.filter((z): z is RawGame & { name: string; url: string } => Boolean(z?.name && z?.url))
-		.map((z, idx) => ({
-			id: idx,
-			name: z.name,
-			cover: asset(z.cover ?? ''),
-			thumb: asset(z.thumb || z.cover || ''),
-			url: asset(z.url),
-			tags: z.special ?? [],
-			author: z.author,
-			authorLink: z.authorLink
-		}));
+	return games;
 }
 
 export async function loadCatalog(fetchFn: typeof fetch = fetch): Promise<Game[]> {

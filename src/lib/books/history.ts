@@ -4,7 +4,7 @@ import type { VisitEntry } from './types';
 const KEY = 'endis_visitHistory';
 const MAX = 50;
 
-export function trackVisit(type: string, id: number, name: string, icon: string): void {
+export function trackVisit(type: string, id: string, name: string, icon: string): void {
 	if (!browser) return;
 	try {
 		const history: VisitEntry[] = JSON.parse(localStorage.getItem(KEY) || '[]');

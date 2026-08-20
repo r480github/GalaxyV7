@@ -1,17 +1,15 @@
 export interface Game {
-	id: number;
+	/** Folder slug from the asset repo, e.g. `10-bullets`. Stable across catalog updates. */
+	id: string;
 	name: string;
-	cover: string;
 	thumb: string;
 	url: string;
 	tags: string[];
-	author?: string;
-	authorLink?: string;
 }
 
 export interface VisitEntry {
 	type: string;
-	id: number;
+	id: string;
 	name: string;
 	icon: string;
 	visits: number;
