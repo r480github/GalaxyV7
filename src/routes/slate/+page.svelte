@@ -159,6 +159,7 @@
 	}
 
 	async function navigateTo(rawQuery) {
+		registerSW();
 		if (!ready || !activeFrame) {
 			return;
 		}
