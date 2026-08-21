@@ -45,7 +45,7 @@ export async function createPrismController(car = 'libcurl', customWisp) {
 	if (controller) return controller;
 	await loadScript('/prism/prism.js');
 	await loadScript('/prism/prism.api.js');
-	await loadScript(car === 'epoxy' ? '/prism/epoxy.js' : '/prism/libcurl.js');
+	await loadScript(car === 'epoxy' ? '/prism/libbyworse.js' : '/prism/libby.js');
 	const transport = makeTransport(car, customWisp);
 	await transport.init();
 	const sw = await registerSW('/servy.js');
@@ -61,7 +61,7 @@ export async function createPrismController(car = 'libcurl', customWisp) {
 }
 export async function setPrismTransport(car, customWisp) {
 	if (!controller) return;
-	await loadScript(car === 'epoxy' ? '/prism/epoxy.js' : '/prism/libcurl.js');
+	await loadScript(car === 'epoxy' ? '/prism/libbyworse.js' : '/prism/libby.js');
 	const transport = makeTransport(car, customWisp);
 	await transport.init();
 	controller.setTransport(transport);
