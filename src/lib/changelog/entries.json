@@ -1,5 +1,43 @@
 [
 	{
+		"key": "2026-082",
+		"title": "New Features and Bug Fixes",
+		"date": "8/18/26",
+		"sections": [
+			{
+				"area": "OS",
+				"items": ["Encode api params in Pyrite Link"]
+			},
+			{
+				"area": "Games",
+				"items": ["Use Hydra Assets"]
+			},
+			{
+				"area": "Proxy",
+				"items": ["Rename SJ2 transports", "Remove SJ2 tilda", "Rename service worker"]
+			},
+			{
+				"area": "Browser",
+				"items": ["Make sure sw is registered before searching"]
+			}
+		]
+	},
+	{
+		"key": "2026-081",
+		"title": "New Features and Bug Fixes",
+		"date": "8/9/26",
+		"sections": [
+			{
+				"area": "Browser",
+				"items": ["Disable popupintercept for Discord", "Obfuscate tab title name"]
+			},
+			{
+				"area": "Proxy",
+				"items": ["Encrypt initiator origin for SJ2"]
+			}
+		]
+	},
+	{
 		"key": "2026-08",
 		"title": "New Features and Bug Fixes",
 		"date": "8/6/26",
@@ -13,11 +51,7 @@
 			},
 			{
 				"area": "Browser",
-				"items": [
-					"Newtab name",
-					"Home search bar",
-					"Right click closes tabs"
-				]
+				"items": ["Newtab name", "Home search bar", "Right click closes tabs"]
 			},
 			{
 				"area": "Proxy",
@@ -58,10 +92,7 @@
 			},
 			{
 				"area": "Proxy",
-				"items": [
-					"Fix urls that doesn't include https://",
-					"Add transport and wisp param"
-				]
+				"items": ["Fix urls that doesn't include https://", "Add transport and wisp param"]
 			},
 			{
 				"area": "Settings",
@@ -201,24 +232,15 @@
 			},
 			{
 				"area": "Apps",
-				"items": [
-					"Update app css",
-					"Remove broken apps",
-					"Add apps"
-				]
+				"items": ["Update app css", "Remove broken apps", "Add apps"]
 			},
 			{
 				"area": "Games",
-				"items": [
-					"Obfuscate game titles in catalog and rendered DOM",
-					"Add games"
-				]
+				"items": ["Obfuscate game titles in catalog and rendered DOM", "Add games"]
 			},
 			{
 				"area": "Settings",
-				"items": [
-					"Obfuscate proxy and game keywords"
-				]
+				"items": ["Obfuscate proxy and game keywords"]
 			}
 		]
 	},
