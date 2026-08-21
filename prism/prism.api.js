@@ -342,7 +342,7 @@ var $scramjetController;
 			n = r(286),
 			a = r(355);
 		let c = {
-				prefix: '/~/prism/',
+				prefix: '/prism/',
 				scramjetPath: '/scramjet/scramjet.js',
 				injectPath: '/controller/controller.inject.js',
 				wasmPath: '/scramjet/scramjet.wasm',
