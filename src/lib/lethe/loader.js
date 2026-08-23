@@ -1,6 +1,6 @@
 export function loadScript(src) {
 	return new Promise((resolve, reject) => {
-		const existing = document.querySelector(`script[data-proxy-src="${src}"]`);
+		const existing = document.querySelector(`script[data-mod="${src}"]`);
 		if (existing) {
 			resolve();
 			return;
@@ -8,7 +8,7 @@ export function loadScript(src) {
 
 		const s = document.createElement('script');
 		s.src = src;
-		s.dataset.proxySrc = src;
+		s.dataset.mod = src;
 		s.onload = () => resolve();
 		s.onerror = () => reject(new Error(`Failed to load ${src}`));
 		document.head.appendChild(s);
