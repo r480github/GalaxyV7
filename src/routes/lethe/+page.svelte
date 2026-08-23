@@ -53,8 +53,6 @@
 
 		await loadScript('/poly/polygon.all.js');
 		markLoaded('polygon');
-		await navigator.serviceWorker.register('/servy.js');
-		markLoaded('serviceWorker');
 
 		polygon = createScramjetController();
 		try {
