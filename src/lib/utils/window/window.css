@@ -55,7 +55,7 @@
 	height: 25px;
 	display: flex;
 	flex: row;
-	background-color: var(--color-surface-3) !important;
+	background-color: var(--color-surface-2) !important;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	color: var(--color-text);
