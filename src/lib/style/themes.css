@@ -3,7 +3,7 @@
 	/* surfaces */
 	--color-bg: #00000000;
 	--color-surface: #57575702;
-	--color-surface-2: #00000025;
+	--color-surface-2: #00000069;
 	--color-surface-3: #1b1b1b4d;
 	--color-chrome: #000000cb;
 	--color-window: #00000000;
@@ -36,8 +36,8 @@
 	--color-scrollbar-thumb-hover: #8b8a8a;
 
 	/*blur*/
-	--blur-normal: 14px;
-	--blur-hard: 30px;
+	--blur-normal: 30px;
+	--blur-hard: 50px;
 }
 
 /* Crimson - Vivid crimson pulse on black */
