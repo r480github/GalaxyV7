@@ -213,7 +213,8 @@
 				matching.push(win);
 			}
 		}
-		return matching;``
+		return matching;
+		``;
 	}
 
 	function isAppActive(appId) {
@@ -250,7 +251,7 @@
 		if (localStorage.getItem('firstVisit') == 'false') {
 		} else {
 			localStorage.setItem('firstVisit', 'false');
-			$notif = 'Right click app to open new window!';
+			$notif = 'Right click an app to open new window!';
 		}
 		let appWindows = getAppWindows(appId);
 		if (appWindows.length > 1) {

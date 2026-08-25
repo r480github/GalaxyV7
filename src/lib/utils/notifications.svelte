@@ -21,7 +21,7 @@
 						opacity: 0,
 						scale: 0.95,
 						duration: 0.3,
-						delay: 1.8,
+						delay: 2,
 						ease: 'power2.in'
 					});
 				}

@@ -10,7 +10,7 @@
 	import { getOriginalUrl } from '$lib/lethe/decode';
 
 	let query = $state('');
-	let letheEngine = $state('scramjet');
+	let letheEngine = $state('prism');
 	let ready = $state(false);
 	let iframeEl;
 	let polygon;

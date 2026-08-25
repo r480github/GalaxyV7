@@ -43,7 +43,7 @@
 	let prismController;
 	let sjFrame;
 	let customWisp = $state('');
-	let searchEngine = $state('brave');
+	let searchEngine = $state('ddg');
 	let car = $state('libcurl');
 	let bookmarks = $state([]);
 	let connection;
@@ -255,7 +255,8 @@
 		frame.title = title;
 	}
 	$effect(() => {
-		const current = activeFrame?.displayUrl ?? '';
+		let current = $state(activeFrame?.displayUrl ?? '');
+		console.log('current frameURL is: ' + current);
 		if (!inputFocused) {
 			query = current;
 		}
@@ -360,7 +361,7 @@
 		saveSetting('LastPopupIntState', LastPopupIntState);
 	});
 	function registerSW() {
-		inputFocused = true;
+		inputFocused = false;
 
 		try {
 			if (navigator.serviceWorker) {
