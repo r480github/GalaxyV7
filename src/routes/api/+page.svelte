@@ -125,7 +125,7 @@ autoSW:    true loads on its own, false waits for a click first
 
 {#if showButton}
 	<div class="start">
-		<button onclick={start}>Load {apiHost}</button>
+		<button onclick={start}>Click to load</button>
 	</div>
 {/if}
 
