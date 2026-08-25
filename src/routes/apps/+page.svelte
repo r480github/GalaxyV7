@@ -23,7 +23,7 @@
 	];
 
 	let query = $state('');
-	let activeGenre = $state('');
+	let activeGenres = $state([]);
 	let pins = $state(loadPins());
 	let ready = $state(false);
 	let iframeEl;
@@ -60,13 +60,21 @@
 			const genreMatches = app.genre.toLowerCase().includes(queryText);
 			const matchesQuery = noQuery || nameMatches || genreMatches;
 
-			const matchesGenre = activeGenre === '' || app.genre === activeGenre;
+			const matchesGenre = activeGenres.length === 0 || activeGenres.includes(app.genre);
 
 			return matchesQuery && matchesGenre;
 		});
 	});
 
 	const pinnedApps = $derived(filtered.filter((app) => pins.includes(app.name)));
+
+	function toggleGenre(genre) {
+		if (activeGenres.includes(genre)) {
+			activeGenres = activeGenres.filter((activeGenre) => activeGenre !== genre);
+		} else {
+			activeGenres = activeGenres.concat([genre]);
+		}
+	}
 
 	function loadPins() {
 		if (!browser) return [];
@@ -214,11 +222,11 @@
 </div>
 
 <div class="filters">
-	<button class="pill" class:active={activeGenre === ''} onclick={() => (activeGenre = '')}>
+	<button class="pill" class:active={activeGenres.length === 0} onclick={() => (activeGenres = [])}>
 		All
 	</button>
 	{#each genres as g (g)}
-		<button class="pill" class:active={activeGenre === g} onclick={() => (activeGenre = g)}>
+		<button class="pill" class:active={activeGenres.includes(g)} onclick={() => toggleGenre(g)}>
 			{g}
 		</button>
 	{/each}

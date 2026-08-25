@@ -85,31 +85,36 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		padding: 8px 12px;
-		background: black;
+		padding: 10px 16px;
+		background: var(--color-black);
 		border-bottom: 1px solid var(--color-border);
 	}
 
 	.tbtn {
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
-		background: var(--color-surface-2);
-		color: var(--color-text);
-		border: none;
-		padding: 6px 14px;
-		border-radius: 8px;
+		gap: 8px;
+		background: var(--overlay-hover);
+		color: var(--color-text-muted);
+		border: 1px solid var(--color-border);
+		padding: 8px 18px;
+		border-radius: 999px;
 		cursor: pointer;
 		font-size: 14px;
 		font-family: var(--font-family-body);
+		backdrop-filter: blur(12px);
+		transition:
+			background 0.2s,
+			color 0.2s;
 	}
 	.tbtn:hover {
-		background: var(--color-chrome);
+		background: var(--overlay-hover-strong);
+		color: var(--color-text);
 	}
 
 	.title {
 		flex: 1;
-		font-family: var(--font-family-title);
+		font-family: var(--font-family-heading);
 		font-weight: 600;
 		font-size: 15px;
 		color: var(--color-text);
@@ -122,6 +127,6 @@
 		flex: 1;
 		width: 100%;
 		border: none;
-		background: var(--color-bg);
+		background: var(--color-black);
 	}
 </style>

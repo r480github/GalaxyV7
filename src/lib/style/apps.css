@@ -78,8 +78,8 @@
 
 .container {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-	gap: 18px;
+	grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+	gap: 16px;
 	padding: 0 24px 24px;
 }
 
@@ -89,15 +89,11 @@
 	border-radius: 16px;
 	overflow: hidden;
 	background: var(--color-surface);
-	border: 1px solid var(--color-border);
 	cursor: pointer;
-	transition:
-		transform 0.2s ease,
-		border-color 0.2s ease;
+	transition: transform 0.2s ease;
 }
 .appDiv:hover {
 	transform: translateY(-4px);
-	border-color: var(--color-border-hover);
 }
 .appImg {
 	width: 100%;

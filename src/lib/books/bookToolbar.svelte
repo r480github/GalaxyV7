@@ -1,19 +1,39 @@
 <script lang="ts">
+	import { formatTag } from './catalog';
+	import searchIcon from '$lib/img/icons/search.png';
+	import shuffle from '$lib/img/icons/shuffle.png';
 	import y from '$lib/img/icons/swap.png';
 
 	let {
 		search = $bindable(''),
-		tag = $bindable(''),
+		selected = $bindable<string[]>([]),
 		filter = $bindable('all'),
 		tags,
 		onrandom
 	}: {
 		search?: string;
-		tag?: string;
+		selected?: string[];
 		filter?: 'all' | 'favorites';
 		tags: string[];
 		onrandom: () => void;
 	} = $props();
+
+	const VISIBLE_TAGS = 8;
+	let expanded = $state(false);
+
+	const shownTags = $derived.by(() => {
+		if (expanded) return tags;
+		const head = tags.slice(0, VISIBLE_TAGS);
+		for (const t of selected) {
+			if (!head.includes(t)) head.push(t);
+		}
+		return head;
+	});
+
+	function toggleTag(t: string) {
+		selected = selected.includes(t) ? selected.filter((s) => s !== t) : selected.concat([t]);
+	}
+
 	function switchMode() {
 		if (localStorage.getItem('mode') == 'website') {
 			localStorage.setItem('mode', 'os');
@@ -25,90 +45,130 @@
 	}
 </script>
 
-<header>
-	<input bind:value={search} placeholder="Search books..." autocomplete="off" />
+<div class="search">
+	<img src={searchIcon} alt="" class="searchIcon" />
+	<input type="text" placeholder="Search Books or Tags" bind:value={search} autocomplete="off" />
+</div>
 
-	{#if tags.length > 0}
-		<select bind:value={tag}>
-			<option value="">All Categories</option>
-			{#each tags as t (t)}
-				<option value={t}>{t}</option>
-			{/each}
-		</select>
+<div class="filters">
+	<button
+		class="pill"
+		class:active={filter === 'all' && selected.length === 0}
+		onclick={() => {
+			filter = 'all';
+			selected = [];
+		}}
+	>
+		All
+	</button>
+	<button class="pill" class:active={filter === 'favorites'} onclick={() => (filter = 'favorites')}>
+		Favorites
+	</button>
+	{#each shownTags as t (t)}
+		<button class="pill" class:active={selected.includes(t)} onclick={() => toggleTag(t)}>
+			{formatTag(t)}
+		</button>
+	{/each}
+	{#if tags.length > VISIBLE_TAGS}
+		<button class="pill subtle" onclick={() => (expanded = !expanded)}>
+			{expanded ? 'Less' : `+${tags.length - VISIBLE_TAGS} More`}
+		</button>
 	{/if}
 
-	<select bind:value={filter}>
-		<option value="all">All books</option>
-		<option value="favorites">Favorites</option>
-	</select>
-
-	<button onclick={onrandom} title="Open a random game">
-		<svg
-			viewBox="0 0 24 24"
-			width="14"
-			height="14"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
-		>
-			<rect x="3" y="3" width="18" height="18" rx="3" />
-			<circle cx="8.5" cy="8.5" r="1.3" fill="currentColor" stroke="none" />
-			<circle cx="15.5" cy="8.5" r="1.3" fill="currentColor" stroke="none" />
-			<circle cx="8.5" cy="15.5" r="1.3" fill="currentColor" stroke="none" />
-			<circle cx="15.5" cy="15.5" r="1.3" fill="currentColor" stroke="none" />
-		</svg>
-		Random
-	</button>
-	<button onclick={switchMode}>
-		Switch Mode
-		<img src={y} alt="" />
-	</button>
-</header>
+	<div class="actions">
+		<button class="pill" onclick={onrandom} title="Open a random book">
+			<img src={shuffle} alt="" class="pillIcon" />
+			Random
+		</button>
+		<button class="pill" onclick={switchMode}>
+			Switch Mode
+			<img src={y} alt="" class="pillIcon" />
+		</button>
+	</div>
+</div>
 
 <style>
-	header {
-		position: sticky;
-		top: 0;
-		z-index: 100;
+	.search {
 		display: flex;
-		gap: 8px;
 		align-items: center;
-		padding: 10px;
-		flex-wrap: wrap;
+		gap: 10px;
+		max-width: 420px;
+		margin: 28px 0 18px 24px;
+		padding: 12px 18px;
 		background-color: transparent;
-		border-radius: 8px;
+		border-bottom: 1px solid var(--color-border);
+		transition: border-color 0.2s;
+	}
+	.search:focus-within {
+		border-color: var(--color-border-strong);
+	}
+	.searchIcon {
+		flex-shrink: 0;
+		height: 16px;
+		width: auto;
+		filter: brightness(0.6);
+	}
+	.search input {
+		flex: 1;
+		background: transparent;
+		border: none;
+		outline: none;
+		color: var(--color-text);
+		font-family: var(--font-family-body);
+		font-size: 15px;
+	}
+	.search input::placeholder {
+		color: var(--color-text-muted);
 	}
 
-	input,
-	select,
-	button {
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin: 0 24px 24px;
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-left: auto;
+	}
+	.pill {
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
-		background: var(--color-surface-2);
-		color: var(--color-text);
-		border: none;
-		padding: 8px 12px;
-		border-radius: 6px;
-		font-size: 14px;
+		gap: 8px;
+		padding: 8px 18px;
+		background: var(--overlay-hover);
+		border: 1px solid var(--color-border);
+		border-radius: 999px;
+		color: var(--color-text-muted);
 		font-family: var(--font-family-body);
-		backdrop-filter: blur(20px);
+		font-size: 14px;
+		cursor: pointer;
+		backdrop-filter: blur(12px);
+		transition:
+			background 0.2s,
+			color 0.2s;
 	}
-	button img {
-		height: 18px;
-		margin: 0px;
+	.pill:hover {
+		background: var(--overlay-hover-strong);
+		color: var(--color-text);
 	}
-	input {
-		flex: 1;
-		min-width: 150px;
-	}
-	input::placeholder {
+	.pill.subtle {
+		background: transparent;
 		color: var(--color-text-subtle);
 	}
-	button:hover,
-	input:hover,
-	select:hover {
-		background: var(--color-surface-3);
-		cursor: pointer;
+	.pill.subtle:hover {
+		background: var(--overlay-hover);
+		color: var(--color-text);
+	}
+	.pill.active {
+		background: var(--color-white);
+		color: var(--color-black);
+		border-color: var(--color-white);
+	}
+	.pillIcon {
+		height: 16px;
+		width: auto;
 	}
 </style>

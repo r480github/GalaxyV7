@@ -16,7 +16,7 @@
 	let { data }: { data: PageData } = $props();
 
 	let search = $state('');
-	let tag = $state('');
+	let selectedTags = $state<string[]>([]);
 	let filter = $state<'all' | 'favorites'>('all');
 	let displayedCount = $state(BATCH);
 	let activeGame = $state<Game | null>(null);
@@ -26,8 +26,9 @@
 	const filtered = $derived.by(() => {
 		const q = search.trim().toLowerCase();
 		return data.games.filter((g) => {
-			const matchesSearch = !q || g.name.toLowerCase().includes(q);
-			const matchesTag = !tag || g.tags.includes(tag);
+			const matchesSearch =
+				!q || g.name.toLowerCase().includes(q) || g.tags.some((t) => t.toLowerCase().includes(q));
+			const matchesTag = !selectedTags.length || g.tags.some((t) => selectedTags.includes(t));
 			const matchesFav = filter === 'all' || favorites.has(g.id);
 			return matchesSearch && matchesTag && matchesFav;
 		});
@@ -38,7 +39,7 @@
 
 	$effect(() => {
 		search;
-		tag;
+		selectedTags;
 		filter;
 		displayedCount = BATCH;
 	});
@@ -58,7 +59,13 @@
 	}
 </script>
 
-<GameToolbar bind:search bind:tag bind:filter tags={tagList} onrandom={openRandom} />
+<GameToolbar
+	bind:search
+	bind:selected={selectedTags}
+	bind:filter
+	tags={tagList}
+	onrandom={openRandom}
+/>
 
 {#if favoriteGames.length > 0 && filter !== 'favorites'}
 	<div class="section-header">Favorites</div>
@@ -69,7 +76,9 @@
 	</div>
 {/if}
 
-<div class="section-header">All Books ({filtered.length})</div>
+<div class="section-header">
+	{filter === 'favorites' ? 'Favorites' : 'All Books'} ({filtered.length})
+</div>
 
 {#if filtered.length === 0}
 	<p class="empty">No books match your filters.</p>
@@ -94,38 +103,28 @@
 
 <style>
 	:global(body) {
-		background: var(--color-surface);
+		background: var(--color-bg);
 	}
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-		gap: 12px;
-		padding: 12px;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+		gap: 16px;
+		padding: 0 24px 24px;
 		content-visibility: auto;
 		contain-intrinsic-size: 500px;
 	}
 
 	.section-header {
-		padding: 12px;
+		margin: 8px 24px;
 		font-family: var(--font-family-heading);
 		font-size: 15px;
 		font-weight: 600;
 		color: var(--color-text-muted);
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-	.section-header::before {
-		content: '';
-		width: 4px;
-		height: 4px;
-		border-radius: 50%;
-		background: var(--color-text-subtle);
-		color: var(----color-text-muted);
 	}
 
 	.empty {
-		padding: 40px 12px;
+		padding: 48px 24px;
 		text-align: center;
 		font-family: var(--font-family-body);
 		color: var(--color-text-subtle);
@@ -134,21 +133,24 @@
 	.load-more-row {
 		display: flex;
 		justify-content: center;
-		padding: 12px;
+		padding: 12px 24px 32px;
 	}
 	.load-more {
-		padding: 16px 32px;
-		background: var(--color-surface-2);
-		color: var(--color-text);
-		border: none;
-		border-radius: 8px;
-		font-size: 16px;
-		font-weight: 600;
+		padding: 12px 28px;
+		background: var(--overlay-hover);
+		border: 1px solid var(--color-border);
+		border-radius: 999px;
+		color: var(--color-text-muted);
 		font-family: var(--font-family-body);
+		font-size: 14px;
 		cursor: pointer;
-		transition: background 0.2s;
+		backdrop-filter: blur(12px);
+		transition:
+			background 0.2s,
+			color 0.2s;
 	}
 	.load-more:hover {
-		background: var(--color-surface-3);
+		background: var(--overlay-hover-strong);
+		color: var(--color-text);
 	}
 </style>

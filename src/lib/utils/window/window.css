@@ -59,7 +59,7 @@
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	color: var(--color-text);
-	backdrop-filter: blur(var(--blur-hard));
+	backdrop-filter: blur(var(--blur-xhard));
 }
 .window-title {
 	font-family: var(--font-family-title);

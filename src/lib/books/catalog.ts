@@ -3,9 +3,7 @@ import { GAMES_BASE } from './config';
 
 const BASE = GAMES_BASE.replace(/\/+$/, '');
 
-/** Root of the asset repo, as served out of `static/`. */
 const BOOKS_ROOT = '/books';
-/** Playable html lives at `gmes/<slug>/index.html`; thumbs are already root-relative. */
 const GAMES_DIR = 'gmes';
 
 export function asset(path: string): string {
@@ -14,7 +12,6 @@ export function asset(path: string): string {
 	return BASE + (path.startsWith('/') ? path : `/${path}`);
 }
 
-/** Resolve a path the catalog gives us relative to the asset repo root. */
 function fromRoot(path: string): string {
 	if (/^https?:\/\//i.test(path)) return path;
 	return asset(`${BOOKS_ROOT}/${path.replace(/^\/+/, '')}`);
@@ -27,9 +24,20 @@ interface RawGame {
 	title?: string;
 	thumb?: string | null;
 	thumb_error?: string;
+	tags?: string[] | null;
 }
 
-/** `10-bullets/index.html` -> `10-bullets` */
+const TAG_LABELS: Record<string, string> = { rpg: 'RPG' };
+
+export function formatTag(tag: string): string {
+	if (TAG_LABELS[tag]) return TAG_LABELS[tag];
+	return tag
+		.split(/[-_\s]+/)
+		.filter(Boolean)
+		.map((word) => word[0].toUpperCase() + word.slice(1))
+		.join(' ');
+}
+
 function slugOf(fileName: string): string {
 	return fileName.replace(/index\.html?$/i, '').replace(/^\/+|\/+$/g, '');
 }
@@ -41,7 +49,6 @@ export function normalize(raw: RawGame[]): Game[] {
 	for (const z of raw ?? []) {
 		if (!z?.file_name || !z?.title) continue;
 
-		// The slug doubles as a stable id, so favorites and history survive a catalog refresh.
 		const id = slugOf(z.file_name);
 		if (!id || seen.has(id)) continue;
 		seen.add(id);
@@ -51,7 +58,7 @@ export function normalize(raw: RawGame[]): Game[] {
 			name: z.title,
 			thumb: z.thumb ? fromRoot(z.thumb) : '',
 			url: fromRoot(`${GAMES_DIR}/${z.file_name}`),
-			tags: []
+			tags: (z.tags ?? []).filter((t): t is string => typeof t === 'string' && t !== '')
 		});
 	}
 
@@ -65,5 +72,12 @@ export async function loadCatalog(fetchFn: typeof fetch = fetch): Promise<Game[]
 }
 
 export function collectTags(games: Game[]): string[] {
-	return [...new Set(games.flatMap((g) => g.tags))].sort((a, b) => a.localeCompare(b));
+	const counts = new Map<string, number>();
+	for (const game of games) {
+		for (const tag of game.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+	}
+
+	return [...counts.keys()].sort(
+		(a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0) || a.localeCompare(b)
+	);
 }

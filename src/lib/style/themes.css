@@ -36,8 +36,9 @@
 	--color-scrollbar-thumb-hover: #8b8a8a;
 
 	/*blur*/
-	--blur-normal: 30px;
+	--blur-normal: 15px;
 	--blur-hard: 50px;
+	--blur-xhard: 90px;
 }
 
 /* Crimson - Vivid crimson pulse on black */

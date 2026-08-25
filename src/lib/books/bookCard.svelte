@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Game } from './types';
+	import { formatTag } from './catalog';
 	import { favorites } from './favorites.svelte';
 	import FillerName from './fillerName.svelte';
 
@@ -13,7 +14,7 @@
 </script>
 
 <div
-	class="zone"
+	class="bookDiv"
 	role="button"
 	tabindex="0"
 	data-zone-id={game.id}
@@ -25,17 +26,10 @@
 		}
 	}}
 >
-	{#if failed || !game.thumb}
-		<div class="fallback"><FillerName text={game.name} /></div>
-	{:else}
-		<img src={game.thumb} alt="" loading="lazy" decoding="async" onerror={() => (failed = true)} />
-	{/if}
-
-	<div class="zone-name"><FillerName text={game.name} /></div>
-
 	<button
-		class="favorite-btn"
-		class:active={favorites.has(game.id)}
+		class="favBtn"
+		class:favorited={favorites.has(game.id)}
+		title={favorites.has(game.id) ? 'Unfavorite' : 'Favorite'}
 		aria-label={favorites.has(game.id) ? 'Remove from favorites' : 'Add to favorites'}
 		onclick={(e) => {
 			e.stopPropagation();
@@ -57,34 +51,54 @@
 			/>
 		</svg>
 	</button>
+
+	{#if failed || !game.thumb}
+		<div class="fallback"><FillerName text={game.name} /></div>
+	{:else}
+		<img
+			src={game.thumb}
+			alt=""
+			class="bookImg"
+			loading="lazy"
+			decoding="async"
+			onerror={() => (failed = true)}
+		/>
+	{/if}
+
+	<div class="bookMeta">
+		<span class="bookName"><FillerName text={game.name} /></span>
+		{#if game.tags.length > 0}
+			<span class="bookTag">{game.tags.slice(0, 3).map(formatTag).join(' · ')}</span>
+		{/if}
+	</div>
 </div>
 
 <style>
-	.zone {
+	.bookDiv {
 		position: relative;
-		aspect-ratio: 1;
+		aspect-ratio: 16 / 9;
+		border-radius: 16px;
 		overflow: hidden;
-		cursor: pointer;
-		border-radius: 8px;
 		background: var(--color-surface);
+		cursor: pointer;
 		contain: layout style paint;
-		transition:
-			transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-			box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+		transition: transform 0.2s ease;
 	}
-
-	.zone img {
+	.bookDiv:hover,
+	.bookDiv:focus-visible {
+		transform: translateY(-4px);
+		outline: none;
+	}
+	.bookImg {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-		filter: brightness(0.9);
+		display: block;
+		transition-duration: 0.2s;
 	}
-
-	.zone:hover img,
-	.zone:focus-visible img {
-		transform: scale(1.1);
-		filter: brightness(0.6);
+	.bookDiv:hover .bookImg,
+	.bookDiv:focus-visible .bookImg {
+		filter: brightness(0.5);
 	}
 
 	.fallback {
@@ -100,55 +114,83 @@
 		color: var(--color-text-subtle);
 	}
 
-	.zone-name {
+	.bookMeta {
 		position: absolute;
-		inset: auto 0 0 0;
-		padding: 8px 6px;
-		background: rgba(0, 0, 0, 0.85);
-		text-align: center;
-		font-family: var(--font-family-body);
-		font-size: 13px;
-		font-weight: 500;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 28px 16px 12px;
+		background: linear-gradient(to top, var(--color-scrim-strong), transparent);
+	}
+	.bookName {
 		opacity: 0;
-		transition: opacity 0.15s;
-		color: var(--color-text);
+		font-family: var(--font-family-heading);
+		font-size: 22px;
+		font-weight: 600;
+		line-height: 1.15;
+		color: var(--color-white);
+		transition-duration: 0.3s;
+		/* Titles run up to ~60 characters, so cap the reveal at two lines. */
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		overflow: hidden;
+	}
+	.bookTag {
+		opacity: 0;
+		font-family: var(--font-family-body);
+		font-size: 12px;
+		color: var(--color-text-muted);
+		transition-duration: 0.3s;
+		transition-delay: 0.06s;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-	.zone:hover .zone-name,
-	.zone:focus-visible .zone-name {
+	.bookDiv:hover .bookName,
+	.bookDiv:hover .bookTag,
+	.bookDiv:focus-visible .bookName,
+	.bookDiv:focus-visible .bookTag {
 		opacity: 1;
+		margin-left: 5%;
 	}
 
-	.favorite-btn {
+	.favBtn {
 		position: absolute;
-		top: 6px;
-		left: 6px;
-		width: 28px;
-		height: 28px;
-		border-radius: 50%;
-		background: rgba(0, 0, 0, 0.6);
-		border: none;
-		color: var(--color-text-subtle);
-		cursor: pointer;
-		opacity: 0;
-		transition: opacity 0.15s;
+		top: 10px;
+		right: 10px;
+		z-index: 2;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 3;
+		width: 32px;
+		height: 32px;
+		padding: 0;
+		border: none;
+		border-radius: 50%;
+		background: var(--color-scrim-medium);
+		color: var(--color-white);
+		cursor: pointer;
+		opacity: 0;
+		backdrop-filter: blur(6px);
+		transition:
+			opacity 0.2s ease,
+			background 0.2s ease;
 	}
-	.zone:hover .favorite-btn,
-	.zone:focus-visible .favorite-btn {
+	.bookDiv:hover .favBtn,
+	.bookDiv:focus-visible .favBtn,
+	.favBtn:focus-visible {
 		opacity: 1;
 	}
-	.favorite-btn:hover {
-		background: rgba(0, 0, 0, 0.8);
-		color: var(--color-text);
+	.favBtn:hover {
+		background: var(--color-scrim-strong);
 	}
-	.favorite-btn.active {
+	.favBtn.favorited {
 		opacity: 1;
-		color: var(--color-danger);
+		background: var(--color-pin);
 	}
 </style>
