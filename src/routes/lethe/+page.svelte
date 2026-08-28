@@ -1,7 +1,6 @@
 <!--This page is for debugging purposes-->
 <!--For the actual proxy, go to slate/+page.svelte-->
 <script>
-	import { onMount } from 'svelte';
 	import { loadScript } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
@@ -11,7 +10,6 @@
 
 	let query = $state('');
 	let letheEngine = $state('prism');
-	let ready = $state(false);
 	let iframeEl;
 	let polygon;
 	let decodedURL = $state('');
@@ -22,59 +20,59 @@
 	let prismFrame;
 
 	//  debugger is vibecoded
-	let dependencies = $state([
-		{ key: 'baremux', label: 'Charon', loaded: false },
-		{ key: 'glassBundle', label: 'Glass bundle', loaded: false },
-		{ key: 'glassConfig', label: 'Glass config', loaded: false },
-		{ key: 'polygon', label: 'Polygon engine', loaded: false },
-		{ key: 'scramjet', label: 'Glass controller', loaded: false },
-		{ key: 'serviceWorker', label: 'Service worker', loaded: false },
-		{ key: 'prism', label: 'SJ2 (prism)', loaded: false },
-		{ key: 'transport', label: 'Car connection', loaded: false }
+	// Nothing loads on mount. Each step is clicked by hand, in order, so the
+	// service worker registrations never race each other.
+	let steps = $state([
+		{ key: 'charon', label: 'Charon', status: 'idle', error: '' },
+		{ key: 'glassBundle', label: 'Glass bundle', status: 'idle', error: '' },
+		{ key: 'glassConfig', label: 'Glass config', status: 'idle', error: '' },
+		{ key: 'polygon', label: 'Polygon engine', status: 'idle', error: '' },
+		{ key: 'scramjet', label: 'Glass controller', status: 'idle', error: '' },
+		{ key: 'prism', label: 'SJ2 (prism)', status: 'idle', error: '' },
+		{ key: 'transport', label: 'Car connection', status: 'idle', error: '' },
+		{ key: 'serviceWorker', label: 'Service worker', status: 'idle', error: '' }
 	]);
 
-	function markLoaded(key) {
-		for (const dependency of dependencies) {
-			if (dependency.key === key) {
-				dependency.loaded = true;
-			}
+	const runners = {
+		charon: () => loadScript('/charon/index.js'),
+		glassBundle: () => loadScript('/glass/glass.bundle.js'),
+		glassConfig: () => loadScript('/glass/glass.config.js'),
+		polygon: () => loadScript('/poly/polygon.all.js'),
+		scramjet: async () => {
+			if (!navigator.serviceWorker) throw new Error('Service workers not supported');
+			polygon = createScramjetController();
+			polygon.init();
+		},
+		prism: async () => {
+			await loadScript('/prism/prism.js');
+			await loadScript('/prism/prism.api.js');
+		},
+		transport: async () => {
+			connection = createConnection();
+			await setCar(connection, car);
+		},
+		serviceWorker: () => navigator.serviceWorker.register('/servy.js')
+	};
+
+	// The first step that is not done yet. Only its button is clickable.
+	let stepIndex = $derived(steps.findIndex((step) => step.status !== 'done'));
+	let running = $derived(steps.some((step) => step.status === 'running'));
+	let ready = $derived(stepIndex === -1);
+
+	async function runStep(index) {
+		if (running || index !== stepIndex) return;
+		const step = steps[index];
+		step.status = 'running';
+		step.error = '';
+		try {
+			await runners[step.key]();
+			step.status = 'done';
+		} catch (e) {
+			step.status = 'error';
+			step.error = e instanceof Error ? e.message : String(e);
+			console.error(`Failed to load ${step.key}:`, e);
 		}
 	}
-
-	onMount(async () => {
-		await loadScript('/charon/index.js');
-		markLoaded('charon');
-
-		await loadScript('/glass/glass.bundle.js');
-		markLoaded('glassBundle');
-
-		await loadScript('/glass/glass.config.js');
-		markLoaded('glassConfig');
-
-		await loadScript('/poly/polygon.all.js');
-		markLoaded('polygon');
-
-		polygon = createScramjetController();
-		try {
-			if (navigator.serviceWorker) {
-				polygon.init();
-				markLoaded('scramjet');
-			} else {
-				console.warn('Service workers not supported');
-			}
-		} catch (e) {
-			console.error('Failed to initialize SJ:', e);
-		}
-		await loadScript('/prism/prism.js');
-		await loadScript('/prism/prism.api.js');
-		markLoaded('prism');
-
-		connection = createConnection();
-		await setCar(connection, car);
-		markLoaded('transport');
-
-		ready = true;
-	});
 
 	async function handleSubmit(event) {
 		event.preventDefault();
@@ -107,24 +105,43 @@
 			setPrismTransport(car);
 		}
 	});
-	async function testAlert() {
-		await navigator.serviceWorker.register('/servy.js');
-		markLoaded('serviceWorker');
-	}
 </script>
 
 {#if !ready}
 	<div class="loading-status">
-		<p class="loading-title">Still loading…</p>
-		{#each dependencies as dependency}
-			<p class="loading-item">
-				{#if dependency.loaded}
+		<p class="loading-title">Load each piece in order</p>
+		{#each steps as step, index (step.key)}
+			<div class="loading-item" class:loading-next={index === stepIndex}>
+				{#if step.status === 'done'}
 					<span class="loading-check">✔</span>
+				{:else if step.status === 'running'}
+					<span class="loading-pending">…</span>
+				{:else if step.status === 'error'}
+					<span class="loading-error">✖</span>
 				{:else}
 					<span class="loading-pending">•</span>
 				{/if}
-				{dependency.label}
-			</p>
+				<span class="loading-label">{index + 1}. {step.label}</span>
+				{#if step.status !== 'done'}
+					<button
+						type="button"
+						class="loading-button"
+						onclick={() => runStep(index)}
+						disabled={running || index !== stepIndex}
+					>
+						{#if step.status === 'running'}
+							Loading…
+						{:else if step.status === 'error'}
+							Retry
+						{:else}
+							Load
+						{/if}
+					</button>
+				{/if}
+				{#if step.error}
+					<span class="loading-error">{step.error}</span>
+				{/if}
+			</div>
 		{/each}
 	</div>
 {/if}
@@ -136,7 +153,6 @@
 		placeholder="Search"
 		bind:value={query}
 		disabled={!ready}
-		onfocus={testAlert}
 	/>
 	<p>{decodedURL}</p>
 	<select bind:value={letheEngine} disabled={!ready}>
@@ -176,13 +192,38 @@
 		font-weight: bold;
 	}
 	.loading-item {
+		display: flex;
+		align-items: center;
+		gap: 8px;
 		margin: 4px 0;
 		color: var(--color-text-subtle);
+	}
+	.loading-next {
+		color: var(--color-text);
+	}
+	.loading-label {
+		min-width: 160px;
+	}
+	.loading-button {
+		font: inherit;
+		padding: 2px 10px;
+		border-radius: 6px;
+		border: 1px solid var(--color-border);
+		background: var(--color-surface-2);
+		color: var(--color-text);
+		cursor: pointer;
+	}
+	.loading-button:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
 	}
 	.loading-check {
 		color: var(--color-pin);
 	}
 	.loading-pending {
 		color: var(--color-text-subtle);
+	}
+	.loading-error {
+		color: var(--color-danger);
 	}
 </style>
