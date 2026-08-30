@@ -18,7 +18,7 @@
 	import s from '$lib/img/icons/settings.png';
 	import y from '$lib/img/icons/swap.png';
 	import p from '$lib/img/icons/pyrite.png';
-	import sp from '$lib/img/icons/spotify.png';
+	import sp from '$lib/img/icons/nvidia.png';
 	import { get } from 'svelte/store';
 	import { applyStartupSettings } from '$lib/utils/cloak.js';
 	import gsap from 'gsap';
@@ -83,8 +83,8 @@
 		},
 		{
 			id: 6,
-			url: '/api?url=https://spotify.com&type=prism&notif=Make%20Sure%20To%20Sign%20In%20With%20Google&autoSW=false',
-			name: 'Spotify',
+			url: '/api?url=https://play.geforcenow.com/mall&type=prism&autoSW=false',
+			name: 'GeForce',
 			icon: sp,
 			height: '50%',
 			width: '50%',

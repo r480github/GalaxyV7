@@ -5,12 +5,24 @@
 	let { game, onclose }: { game: Game | null; onclose: () => void } = $props();
 
 	let frame = $state<HTMLIFrameElement>();
+	let proxied = $state(false);
+	const src = $derived.by(() => {
+		if (!game) return '';
+		if (!proxied) return game.url;
+		const url = encodeURIComponent(new URL(game.url, 'https://galxy.it.com/').href);
+		return `/api?url=${url}&type=glass&transport=libcurlRaw&autoSW=true`;
+	});
 
 	$effect(() => {
 		document.body.style.overflow = game ? 'hidden' : '';
 		return () => {
 			document.body.style.overflow = '';
 		};
+	});
+
+	$effect(() => {
+		game;
+		proxied = false;
 	});
 
 	function requestFullscreen() {
@@ -45,6 +57,28 @@
 
 			<span class="title"><FillerName text={game.name} /></span>
 
+			<button
+				class="tbtn"
+				class:active={proxied}
+				onclick={() => (proxied = !proxied)}
+				title={proxied ? 'Load this book directly again' : 'Load this book through the proxy'}
+			>
+				<svg
+					viewBox="0 0 24 24"
+					width="14"
+					height="14"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<circle cx="12" cy="12" r="9" />
+					<path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18" />
+				</svg>
+				{proxied ? 'Run Direct' : 'Run via Proxy'}
+			</button>
+
 			<button class="tbtn" onclick={requestFullscreen} aria-label="Fullscreen">
 				<svg
 					viewBox="0 0 24 24"
@@ -61,13 +95,17 @@
 			</button>
 		</div>
 
-		<iframe
-			bind:this={frame}
-			src={game.url}
-			title=""
-			sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-pointer-lock"
-			allow="autoplay; fullscreen; gamepad"
-		></iframe>
+		{#key proxied}
+			<iframe
+				bind:this={frame}
+				{src}
+				title=""
+				sandbox={proxied
+					? undefined
+					: 'allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-pointer-lock'}
+				allow="autoplay; fullscreen; gamepad"
+			></iframe>
+		{/key}
 	</div>
 {/if}
 
@@ -110,6 +148,11 @@
 	.tbtn:hover {
 		background: var(--overlay-hover-strong);
 		color: var(--color-text);
+	}
+	.tbtn.active {
+		background: var(--color-white);
+		border-color: var(--color-white);
+		color: var(--color-black);
 	}
 
 	.title {
