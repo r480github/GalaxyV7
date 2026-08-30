@@ -4,7 +4,7 @@
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
-	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/api
+	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/api'
 	import { getOriginalUrl } from '$lib/lethe/decode';
 
 	let query = $state('');
