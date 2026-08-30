@@ -167,8 +167,8 @@
 			tempWidth = width;
 			height = ((window.innerHeight - taskbarHeight) / window.innerHeight) * 100 + '%';
 			width = '100%';
-			x = 0;
-			y = 0;
+			x = -1;
+			y = -1;
 			maximizedStat = true;
 			transition = true;
 		}
