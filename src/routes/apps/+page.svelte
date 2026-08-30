@@ -5,7 +5,7 @@
 	import { loadScriptsSequential } from '$lib/lethe/loader';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
-	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
+	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/api';
 
 	import search from '$lib/img/icons/search.png';
 	import pin from '$lib/img/icons/pin.png';

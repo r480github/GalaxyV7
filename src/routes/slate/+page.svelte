@@ -24,7 +24,7 @@
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
-	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
+	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/api';
 	import { enablePopupInterceptor } from '$lib/lethe/reflux';
 	import { subscribeSettings } from '$lib/utils/settingsSync.js';
 	let tabs = $state([]);

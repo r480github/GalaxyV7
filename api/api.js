@@ -2791,7 +2791,7 @@ return { apply, construct };
 								'object' === r && null !== e
 									? (location, i.iswindow && t.top)
 									: 'string' === r &&
-										(e.includes('scramjet'), e.includes('~/prism'), e.includes(location.origin)),
+										(e.includes('scramjet'), e.includes('~/api'), e.includes(location.origin)),
 								e
 							);
 						}),

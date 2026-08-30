@@ -10,7 +10,7 @@
 	import { loadScriptsSequential } from '$lib/lethe/loader';
 	import { createConnection, setCar } from '$lib/lethe/car';
 	import { createScramjetController } from '$lib/lethe/poly';
-	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
+	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/api';
 	const api = '/api?url={}&type={}';
 	let ready = $state(false);
 	let iframeEl;

@@ -42,16 +42,16 @@ async function registerSW(path = '/sw.js') {
 
 export async function createPrismController(car = 'libcurl', customWisp) {
 	if (controller) return controller;
-	await loadScript('/prism/prism.js');
-	await loadScript('/prism/prism.api.js');
-	await loadScript(car === 'epoxy' ? '/prism/epoxy.js' : '/prism/libcurl.js');
+	await loadScript('/api/api.js');
+	await loadScript('/api/api.api.js');
+	await loadScript(car === 'epoxy' ? '/api/epoxy.js' : '/api/libcurl.js');
 	const transport = makeTransport(car, customWisp);
 	await transport.init();
 	const sw = await registerSW('/sw.js');
 	const { Controller, config } = window.$scramjetController;
-	config.scramjetPath = '/prism/prism.js';
-	config.injectPath = '/prism/prism.inject.js';
-	config.wasmPath = '/prism/prism.wasm';
+	config.scramjetPath = '/api/api.js';
+	config.injectPath = '/api/api.inject.js';
+	config.wasmPath = '/api/api.wasm';
 
 	controller = new Controller({ serviceworker: sw, transport });
 	await controller.wait();
@@ -59,7 +59,7 @@ export async function createPrismController(car = 'libcurl', customWisp) {
 }
 export async function setPrismTransport(car, customWisp) {
 	if (!controller) return;
-	await loadScript(car === 'epoxy' ? '/prism/epoxy.js' : '/prism/libcurl.js');
+	await loadScript(car === 'epoxy' ? '/api/epoxy.js' : '/api/libcurl.js');
 	const transport = makeTransport(car, customWisp);
 	await transport.init();
 	controller.setTransport(transport);
