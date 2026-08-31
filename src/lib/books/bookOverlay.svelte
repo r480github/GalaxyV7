@@ -10,7 +10,7 @@
 		if (!game) return '';
 		if (!proxied) return game.url;
 		const url = encodeURIComponent(new URL(game.url, 'https://galxy.it.com/').href);
-		return `/api?url=${url}&type=polygon&transport=libcurlRaw&autoSW=true`;
+		return `/api?url=${url}&type=prism&transport=libcurlRaw&autoSW=true`;
 	});
 
 	$effect(() => {
