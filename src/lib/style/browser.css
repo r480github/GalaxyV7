@@ -7,7 +7,7 @@ body {
 	background-color: var(--color-bg);
 }
 .tab-bar {
-	height: 40px;
+	height: 46px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -49,8 +49,8 @@ form {
 }
 .search {
 	width: 100%;
-	border-radius: 100px;
-	height: 28px;
+	border-radius: 16px;
+	height: 30px;
 	border: 1px solid var(--color-border);
 	background-color: var(--color-surface);
 	padding-left: 29px;
@@ -318,7 +318,7 @@ form {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-top: 3px;
+	margin-top: auto;
 	font-family: var(--font-family-body);
 	transition-duration: 0.2s;
 	cursor: default;

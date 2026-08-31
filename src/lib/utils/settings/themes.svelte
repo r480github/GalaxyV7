@@ -15,9 +15,15 @@
 	}
 </script>
 
-<h1>Themes</h1>
-<p class="hint">Chill lofi vibes~</p>
-
+<div class="head">
+	<div class="headText">
+		<h1>Themes</h1>
+		<p class="hint">Chill lofi vibes~</p>
+	</div>
+	<div class="preview" aria-hidden="true">
+		<iframe src="/slate?preview" title="Theme preview" loading="lazy" inert></iframe>
+	</div>
+</div>
 <div class="themeGrid">
 	{#each themes as slug}
 		<button
@@ -48,6 +54,42 @@
 </div>
 
 <style>
+	.head {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 24px;
+		height: auto;
+		width: 100%;
+		margin-bottom: 32px;
+	}
+	.headText {
+		flex-grow: 1;
+		min-width: 0;
+	}
+	/* Fixed 1216x760 render scaled to 380px wide, so the preview always shows the
+	   desktop layout instead of resizing with the settings window. */
+	.preview {
+		flex: none;
+		width: 380px;
+		aspect-ratio: 16 / 10;
+		overflow: hidden;
+		pointer-events: none;
+		border: 1px solid var(--color-border-strong);
+		border-radius: 10px;
+	}
+	.preview iframe {
+		width: 1216px;
+		height: 760px;
+		border: 0;
+		transform: scale(0.3125);
+		transform-origin: top left;
+	}
+	@media (max-width: 900px) {
+		.preview {
+			display: none;
+		}
+	}
 	.hint {
 		margin: -8px 0 4px;
 		color: var(--color-text-subtle);

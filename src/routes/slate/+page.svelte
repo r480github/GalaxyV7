@@ -122,6 +122,13 @@
 		popupInterceptor = LastPopupIntState; //intercept
 		hydrated = true;
 
+		// Rendered inside the settings theme preview: show the chrome, skip the proxy stack
+		// so opening /settings doesn't load the transports or open a wisp connection.
+		if (new URLSearchParams(location.search).has('preview')) {
+			ready = true;
+			return;
+		}
+
 		await loadScriptsSequential([
 			'/charon/index.js',
 			'/glass/glass.bundle.js',

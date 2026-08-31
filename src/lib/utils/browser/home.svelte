@@ -64,8 +64,8 @@
 		{ label: 'YouTube', url: 'https://youtube.com' },
 		{ label: 'Discord', url: 'https://discord.com/app' },
 		{ label: 'Reddit', url: 'https://reddit.com' },
+		{ label: 'Geforce', url: 'https://play.geforcenow.com/mall/' },
 		{ label: 'GitHub', url: 'https://github.com' },
-		{ label: 'Spotify', url: 'https://open.spotify.com' },
 		{ label: 'Twitch', url: 'https://twitch.tv' }
 	];
 </script>
@@ -78,35 +78,33 @@
 	background-position: center center;
 	"
 >
+	<div class="brand-row">
+		<h1 class="brand" style="color:{fg}">Galaxy</h1>
+		<span class="version">v7</span>
+	</div>
 	<div class="hero">
-		<div class="brand-row">
-			<h1 class="brand" style="color:{fg}">Galaxy</h1>
-			<span class="version">v7</span>
-		</div>
 		<p class="greeting" style="color:{fg}">{greeting} &middot; {clock}</p>
 		<form class="home-search" onsubmit={submitSearch}>
 			<img src={searchIcon} class="home-search-icon" alt="" />
 			<input
 				class="noSelect"
 				type="text"
-				placeholder=""
+				placeholder="Search or enter address"
 				bind:value={homeQuery}
 				bind:this={inputEl}
 				disabled={!ready}
 			/>
 		</form>
 		{#snippet App(label, url)}
-			<div
-				class="shortcutDiv"
+			<button
+				class="shortcuts noSelect"
 				onclick={() => {
 					onsearch(url);
 				}}
 			>
-				<button class="shortcuts noSelect">
-					<img class="noSelect" src={faviconFetch({ hostname: new URL(url).hostname })} alt="" />
-					<p>{label}</p>
-				</button>
-			</div>
+				<img class="noSelect" src={faviconFetch({ hostname: new URL(url).hostname })} alt="" />
+				<!-- <p>{label}</p> -->
+			</button>
 		{/snippet}
 
 		<div class="apps">
@@ -160,25 +158,28 @@
 			transform: translateY(0);
 		}
 	}
-
 	.brand-row {
+		position: absolute;
+		top: 0;
+		left: 0;
 		display: flex;
 		align-items: flex-start;
 		gap: 10px;
 	}
 	.brand {
-		margin: 0;
 		font-family: var(--font-family-heading);
-		font-size: clamp(34px, 11vw, 76px);
+		font-size: clamp(20px, 30px, 35px);
 		font-weight: 800;
 		letter-spacing: -0.01em;
 		line-height: 1;
 		text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+		margin: 15px;
+		margin-right: 0px;
 	}
 	.version {
 		margin-top: 14px;
 		font-family: var(--font-family-body);
-		font-size: 12px;
+		font-size: 10px;
 		font-weight: 700;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
@@ -190,13 +191,14 @@
 		backdrop-filter: blur(10px);
 		-webkit-backdrop-filter: blur(10px);
 	}
+
 	.greeting {
-		margin: 14px 0 36px;
-		font-family: var(--font-family-body);
-		font-size: 17px;
-		font-weight: 500;
-		letter-spacing: 0.01em;
-		text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+		margin: 0 0 26px;
+		font-family: var(--font-family-heading);
+		font-size: clamp(26px, 4.4vw, 34px);
+		font-weight: 700;
+		letter-spacing: -0.01em;
+		color: var(--color-text);
 	}
 
 	.home-search {
@@ -207,9 +209,9 @@
 	}
 	.home-search-icon {
 		position: absolute;
-		left: 22px;
-		height: 17px;
-		opacity: 0.8;
+		left: 18px;
+		height: 16px;
+		opacity: 0.45;
 		filter: brightness(0) invert(1);
 		pointer-events: none;
 		-webkit-user-select: none; /* Safari */
@@ -219,27 +221,26 @@
 	}
 	.home-search input {
 		width: 100%;
-		height: 58px;
+		height: 52px;
 		border: 1px solid var(--color-border);
-		border-radius: 999px;
-		background-color: var(--color-scrim-medium);
-		padding: 0 24px 0 54px;
-		color: var(--color-white);
-		font-size: 17px;
+		border-radius: 12px;
+		background-color: var(--color-surface-2);
+		padding: 0 20px 0 50px;
+		color: var(--color-text);
+		font-size: 16px;
 		font-family: var(--font-family-body);
 		outline: none;
 		box-sizing: border-box;
 		transition:
-			border-color 0.25s,
-			box-shadow 0.25s,
-			transform 0.25s;
+			border-color 0.18s,
+			box-shadow 0.18s;
 	}
 	.home-search input::placeholder {
 		color: var(--color-text-subtle);
 	}
 	.home-search input:focus {
-		border-color: var(--color-border-hover);
-		transform: translateY(-1px);
+		border-color: var(--color-border-strong);
+		box-shadow: 0 0 0 4px var(--overlay-hover);
 	}
 	.home-search input:disabled {
 		opacity: 0.55;
@@ -249,64 +250,56 @@
 	.apps {
 		display: grid;
 		grid-template-columns: repeat(6, 1fr);
-		gap: 16px;
-		margin-top: 40px;
-		width: 100%;
-	}
-	.shortcutDiv {
-		display: flex;
+		gap: 20px;
+		margin-top: 22px;
 	}
 	.shortcuts {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
 		gap: 10px;
-		width: 100%;
-		padding: 16px 8px;
+		width: 60px;
+		height: 60px;
+		padding: 0 14px;
+		box-sizing: border-box;
 		border: 1px solid var(--color-border);
-		border-radius: 18px;
-		background-color: var(--color-scrim);
-		backdrop-filter: blur(18px) saturate(130%);
-		-webkit-backdrop-filter: blur(18px) saturate(130%);
+		border-radius: 12px;
+		background-color: var(--color-surface);
+		color: var(--color-text);
 		cursor: pointer;
 		transition:
-			transform 0.22s cubic-bezier(0.16, 0.8, 0.24, 1),
-			background-color 0.22s,
-			border-color 0.22s,
-			box-shadow 0.22s;
+			transform 0.18s cubic-bezier(0.16, 0.8, 0.24, 1),
+			background-color 0.18s,
+			border-color 0.18s;
 	}
 	.shortcuts:hover {
-		transform: translateY(-4px);
-		background-color: var(--overlay-hover);
-		border-color: var(--color-border-strong);
-		box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+		transform: translateY(-2px);
+		background-color: var(--color-surface-2);
+		border-color: var(--color-border-hover);
 	}
 	.shortcuts:active {
-		transform: translateY(-1px) scale(0.98);
+		transform: translateY(0);
 	}
 	.shortcuts img {
-		width: 40px;
-		height: 40px;
-		border-radius: 11px;
-		object-fit: cover;
-		background-color: var(--color-surface-2);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+		width: 30px;
+		height: 30px;
+		flex: none;
+		border-radius: 5px;
+		object-fit: contain;
 	}
 	.shortcuts p {
 		margin: 0;
+		min-width: 0;
 		font-family: var(--font-family-body);
-		font-size: 12px;
+		font-size: 13px;
 		font-weight: 500;
-		color: var(--color-white);
-		text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+		color: inherit;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		max-width: 100%;
 	}
 	@media (max-width: 560px) {
 		.apps {
-			grid-template-columns: repeat(3, 1fr);
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 </style>
