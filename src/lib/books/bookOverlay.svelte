@@ -9,7 +9,7 @@
 	const src = $derived.by(() => {
 		if (!game) return '';
 		if (!proxied) return game.url;
-		const url = encodeURIComponent(new URL(game.url, 'https://galxy.it.com/').href);
+		const url = encodeURIComponent(new URL(game.url, 'https://gtest.5.188.124.68.nip.io/').href);
 		return `/api?url=${url}&type=glass&transport=libcurlRaw&autoSW=true`;
 	});
 
