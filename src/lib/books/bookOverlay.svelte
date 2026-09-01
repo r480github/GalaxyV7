@@ -57,12 +57,7 @@
 
 			<span class="title"><FillerName text={game.name} /></span>
 
-			<button
-				class="tbtn"
-				class:active={proxied}
-				onclick={() => (proxied = !proxied)}
-				title={proxied ? 'Load this book directly again' : 'Load this book through the proxy'}
-			>
+			<button class="tbtn" class:active={proxied} onclick={() => (proxied = !proxied)}>
 				<svg
 					viewBox="0 0 24 24"
 					width="14"
@@ -76,7 +71,8 @@
 					<circle cx="12" cy="12" r="9" />
 					<path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18" />
 				</svg>
-				{proxied ? 'Run Direct' : 'Run via Proxy'}
+				<span class=""> {proxied ? 'Run Dir' : 'Run via Pr'} </span>
+				<span class="none"> {proxied ? 'ect' : 'oxy'} </span>
 			</button>
 
 			<button class="tbtn" onclick={requestFullscreen} aria-label="Fullscreen">
@@ -171,5 +167,10 @@
 		width: 100%;
 		border: none;
 		background: var(--color-black);
+	}
+	.none {
+		margin: 0px;
+		border: 0px;
+		margin-left: -7px;
 	}
 </style>
