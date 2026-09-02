@@ -79,7 +79,7 @@
 	"
 >
 	<div class="brand-row">
-		<h1 class="brand" style="color:{fg}">Galaxy</h1>
+		<h1 class="brand" style="color:{fg}">Ga<span class="filler">6767ha</span>laxy</h1>
 		<span class="version">v7</span>
 	</div>
 	<div class="hero">
