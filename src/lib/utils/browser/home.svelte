@@ -151,7 +151,7 @@
 	@keyframes rise {
 		from {
 			opacity: 0;
-			transform: translateY(18px);
+			transform: translateY(9px);
 		}
 		to {
 			opacity: 1;
@@ -239,8 +239,7 @@
 		color: var(--color-text-subtle);
 	}
 	.home-search input:focus {
-		border-color: var(--color-border-strong);
-		box-shadow: 0 0 0 4px var(--overlay-hover);
+		border: 1px solid var(--color-border-strong);
 	}
 	.home-search input:disabled {
 		opacity: 0.55;

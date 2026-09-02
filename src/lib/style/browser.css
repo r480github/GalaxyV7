@@ -323,6 +323,7 @@ form {
 	transition-duration: 0.2s;
 	cursor: default;
 	margin-left: 10px;
+	margin-bottom: 3px;
 }
 .plus {
 	color: var(--color-text);

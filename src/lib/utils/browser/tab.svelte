@@ -109,7 +109,7 @@
 	style:border-left={id == $draggedOverRight ? `1px solid white` : null}
 	// I tried but ts won't work
 	// so ig I'll just stick with border
-	// 	style:margin-right={id == $draggedOverLeft ? `190px` : null}
+	// style:margin-right={id == $draggedOverLeft ? `190px` : null}
 	// style:margin-left={id == $draggedOverRight ? `190px` : null}
 >
 	<div class="pill noSelect" style="background-color: {pillColor};">
@@ -130,8 +130,8 @@
 <style>
 	.tab {
 		position: relative;
-		height: 30px;
-		width: 190px;
+		height: 35px;
+		width: 210px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -142,8 +142,6 @@
 		box-sizing: border-box;
 		min-width: 0;
 		border-right: 1px solid rgba(255, 255, 255, 0);
-		border-top-right-radius: 8px;
-		border-top-left-radius: 8px;
 		transition:
 			margin-left 0.3s ease,
 			margin-right 0.3s ease;
@@ -166,13 +164,13 @@
 	.bottom-right,
 	.bottom-left {
 		position: absolute;
-		margin-top: 14px;
+		margin-top: 19px;
 		width: 200px;
 		height: 200px;
 		clip-path: path('M 20 20 L 20 180 L 140 180 C 85 180 55 170 40 145 C 25 120 20 80 20 20 Z');
 	}
 	.bottom-right {
-		margin-left: calc(100% + 18px);
+		margin-left: calc(100% + 16px);
 		transform: scale(0.1);
 	}
 	.bottom-left {
@@ -192,6 +190,9 @@
 		color: var(--color-text);
 	}
 	.tab.active {
+		border-top-right-radius: 8px;
+		border-top-left-radius: 8px;
+		border: none !important;
 	}
 	.tab-icon {
 		height: 15px;
@@ -226,7 +227,7 @@
 			width: 50px;
 		}
 		to {
-			width: 178px;
+			width: 210px;
 		}
 	}
 </style>

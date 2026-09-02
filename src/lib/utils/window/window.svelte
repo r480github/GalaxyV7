@@ -114,7 +114,7 @@
 			tempHeight = height;
 			tempWidth = width;
 			width = '50%';
-			x = window.innerWidth - window.innerWidth / 2;
+			x =  -1 + window.innerWidth - window.innerWidth / 2;
 			y = 0;
 			height = ((window.innerHeight - taskbarHeight) / window.innerHeight) * 100 + '%';
 			rightSplit = null;
@@ -123,7 +123,7 @@
 			tempHeight = height;
 			tempWidth = width;
 			width = '50%';
-			x = 0;
+			x = -1;
 			y = 0;
 			height = ((window.innerHeight - taskbarHeight) / window.innerHeight) * 100 + '%';
 			rightSplit = null;

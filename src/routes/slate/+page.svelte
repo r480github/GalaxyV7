@@ -270,21 +270,23 @@
 	});
 	let activeIndex;
 	$effect(() => {
-		console.log($slotsDragged);
 		if ($isTabDragging) {
 			activeIndex = tabs.findIndex((tab) => tab.id === $activeTab);
 			if (activeIndex > activeIndex + $slotsDragged) {
 				$draggedOverRight = tabs[activeIndex + $slotsDragged].id;
 			} else if (activeIndex < activeIndex + $slotsDragged) {
-				$draggedOverLeft = tabs[$slotsDragged].id;
+				$draggedOverLeft = tabs[activeIndex + $slotsDragged].id;
 			}
 		}
 	});
+
 	function moveTab(id) {
 		const from = tabs.findIndex((tab) => tab.id === id);
+		console.log('moving from: ' + from);
 		if (from === -1) return;
 		const temp = tabs.splice(from, 1)[0];
 		const newIndex = Math.max(0, Math.min(from + ($slotsDragged ?? 0), tabs.length));
+		console.log('moving to:' + newIndex);``
 		tabs.splice(newIndex, 0, temp);
 		$slotsDragged = null;
 		$draggedOverLeft = null;
