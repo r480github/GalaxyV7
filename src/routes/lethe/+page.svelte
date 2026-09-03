@@ -51,7 +51,7 @@
 			connection = createConnection();
 			await setCar(connection, car);
 		},
-		serviceWorker: () => navigator.serviceWorker.register('/servy.js')
+		serviceWorker: () => navigator.serviceWorker.register('/worker.js')
 	};
 
 	// The first step that is not done yet. Only its button is clickable.

@@ -79,7 +79,7 @@ autoSW:    true loads on its own, false waits for a click first
 		try {
 			if (navigator.serviceWorker) {
 				polygon.init();
-				await navigator.serviceWorker.register('/servy.js');
+				await navigator.serviceWorker.register('/worker.js');
 			} else {
 				console.warn('Service workers not supported');
 			}
