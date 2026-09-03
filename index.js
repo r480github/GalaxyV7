@@ -69,7 +69,7 @@ await fastify.register(fastifyStatic, {
 });
 await fastify.register(fastifyStatic, {
 	root: join(__dirname, 'prism'),
-	prefix: '/prism/',
+	prefix: '/hive/',
 	decorateReply: false
 });
 fastify.all('/*', (req, reply) => {

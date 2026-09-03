@@ -43,16 +43,16 @@ async function registerSW(path = '/servy.js') {
 
 export async function createPrismController(car = 'libcurl', customWisp) {
 	if (controller) return controller;
-	await loadScript('/prism/prism.js');
-	await loadScript('/prism/prism.api.js');
-	await loadScript(car === 'epoxy' ? '/prism/libbyworse.js' : '/prism/libby.js');
+	await loadScript('/hive/prism.js');
+	await loadScript('/hive/prism.api.js');
+	await loadScript(car === 'epoxy' ? '/hive/libbyworse.js' : '/hive/libby.js');
 	const transport = makeTransport(car, customWisp);
 	await transport.init();
 	const sw = await registerSW('/servy.js');
 	const { Controller, config } = window.$scramjetController;
-	config.scramjetPath = '/prism/prism.js';
-	config.injectPath = '/prism/prism.inject.js';
-	config.wasmPath = '/prism/prism.wasm';
+	config.scramjetPath = '/hive/prism.js';
+	config.injectPath = '/hive/prism.inject.js';
+	config.wasmPath = '/hive/prism.wasm';
 	config.codec.encode = codec.encode;
 	config.codec.decode = codec.decode;
 	controller = new Controller({ serviceworker: sw, transport });
@@ -61,7 +61,7 @@ export async function createPrismController(car = 'libcurl', customWisp) {
 }
 export async function setPrismTransport(car, customWisp) {
 	if (!controller) return;
-	await loadScript(car === 'epoxy' ? '/prism/libbyworse.js' : '/prism/libby.js');
+	await loadScript(car === 'epoxy' ? '/hive/libbyworse.js' : '/hive/libby.js');
 	const transport = makeTransport(car, customWisp);
 	await transport.init();
 	controller.setTransport(transport);

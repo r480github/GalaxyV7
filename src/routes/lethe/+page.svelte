@@ -44,8 +44,8 @@
 			polygon.init();
 		},
 		prism: async () => {
-			await loadScript('/prism/prism.js');
-			await loadScript('/prism/prism.api.js');
+			await loadScript('/hive/prism.js');
+			await loadScript('/hive/prism.api.js');
 		},
 		transport: async () => {
 			connection = createConnection();

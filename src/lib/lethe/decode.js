@@ -4,8 +4,8 @@ export function getOriginalUrl(url) {
 	if (!url) return '';
 	let path = url.split('#')[0];
 	path = path.split('?')[0];
-	if (path.includes('/prism/')) {
-		const afterPrefix = path.split('/prism/')[1];
+	if (path.includes('/hive/')) {
+		const afterPrefix = path.split('/hive/')[1];
 		const pieces = afterPrefix.split('/');
 		const encoded = pieces[2];
 		if (!encoded) return '';

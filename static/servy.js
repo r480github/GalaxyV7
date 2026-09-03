@@ -2,7 +2,7 @@ importScripts("/glass/glass.bundle.js");
 importScripts("/glass/glass.config.js");
 importScripts("/glass/glass.sw.js");
 importScripts("/poly/polygon.all.js");
-importScripts("/prism/prism.sw.js");
+importScripts("/hive/prism.sw.js");
 const uv = new UVServiceWorker();
 const { ScramjetServiceWorker } = $scramjetLoadWorker();
 const scramjet = new ScramjetServiceWorker();
