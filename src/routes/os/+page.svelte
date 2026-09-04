@@ -83,7 +83,7 @@
 		},
 		{
 			id: 6,
-			url: '/api?url=https://https://tinyurl.com/ys54n4xe/mall&type=prism&autoSW=false',
+			url: '/api?url=https://tinyurl.com/ys54n4xe/mall&type=prism&autoSW=false',
 			name: 'GeForce',
 			icon: sp,
 			height: '50%',
