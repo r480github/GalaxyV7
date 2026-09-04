@@ -27,6 +27,7 @@ export const codec = {
 		} catch {
 			return s;
 		}
+		
 		const bytes = new Uint8Array(masked.length);
 		for (let i = 0; i < masked.length; i++) {
 			const keyByte = k.charCodeAt(i % k.length);

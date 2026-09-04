@@ -64,7 +64,7 @@
 		{ label: 'YouTube', url: 'https://youtube.com' },
 		{ label: 'Discord', url: 'https://discord.com/app' },
 		{ label: 'Reddit', url: 'https://reddit.com' },
-		{ label: 'Geforce', url: 'https://play.geforcenow.com/mall/' },
+		{ label: 'Geforce', url: 'https://tinyurl.com/ys54n4xe' },
 		{ label: 'GitHub', url: 'https://github.com' },
 		{ label: 'Twitch', url: 'https://twitch.tv' }
 	];
