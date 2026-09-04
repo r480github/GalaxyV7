@@ -17090,7 +17090,7 @@
     });
   }
   function bn(e = "", t = "") {
-    return `self.__uv$cookies = ${JSON.stringify(e)};self.__uv$referrer = ${JSON.stringify(t)};`;
+    return `self.__se$cookies = ${JSON.stringify(e)};self.__se$referrer = ${JSON.stringify(t)};`;
   }
   function Za(e, t, r, n, u, a) {
     return [
@@ -17098,7 +17098,7 @@
         tagName: "script",
         nodeName: "script",
         childNodes: [{ nodeName: "#text", value: bn(u, a) }],
-        attrs: [{ name: "__uv-script", value: "1", skip: !0 }],
+        attrs: [{ name: "__se-script", value: "1", skip: !0 }],
         skip: !0,
       },
       {
@@ -17107,7 +17107,7 @@
         childNodes: [],
         attrs: [
           { name: "src", value: t, skip: !0 },
-          { name: "__uv-script", value: "1", skip: !0 },
+          { name: "__se-script", value: "1", skip: !0 },
         ],
       },
       {
@@ -17116,7 +17116,7 @@
         childNodes: [],
         attrs: [
           { name: "src", value: r, skip: !0 },
-          { name: "__uv-script", value: "1", skip: !0 },
+          { name: "__se-script", value: "1", skip: !0 },
         ],
       },
       {
@@ -17125,7 +17125,7 @@
         childNodes: [],
         attrs: [
           { name: "src", value: n, skip: !0 },
-          { name: "__uv-script", value: "1", skip: !0 },
+          { name: "__se-script", value: "1", skip: !0 },
         ],
       },
       {
@@ -17134,7 +17134,7 @@
         childNodes: [],
         attrs: [
           { name: "src", value: e, skip: !0 },
-          { name: "__uv-script", value: "1", skip: !0 },
+          { name: "__se-script", value: "1", skip: !0 },
         ],
       },
     ];
@@ -17163,7 +17163,7 @@
         (u === "rewrite" &&
           H0(r) &&
           (n.changes.push({
-            node: "__uv.$wrap((",
+            node: "__se.$wrap((",
             start: r.property.start,
             end: r.property.start,
           }),
@@ -17175,29 +17175,29 @@
             });
           })),
         ((!r.computed && r.property.name === "location" && u === "rewrite") ||
-          (r.property.name === "__uv$location" && u === "source")) &&
+          (r.property.name === "__se$location" && u === "source")) &&
           n.changes.push({
             start: r.property.start,
             end: r.property.end,
             node:
               u === "rewrite"
-                ? "__uv$setSource(__uv).__uv$location"
+                ? "__se$setSource(__se).__se$location"
                 : "location",
           }),
         ((!r.computed && r.property.name === "top" && u === "rewrite") ||
-          (r.property.name === "__uv$top" && u === "source")) &&
+          (r.property.name === "__se$top" && u === "source")) &&
           n.changes.push({
             start: r.property.start,
             end: r.property.end,
-            node: u === "rewrite" ? "__uv$setSource(__uv).__uv$top" : "top",
+            node: u === "rewrite" ? "__se$setSource(__se).__se$top" : "top",
           }),
         ((!r.computed && r.property.name === "parent" && u === "rewrite") ||
-          (r.property.name === "__uv$parent" && u === "source")) &&
+          (r.property.name === "__se$parent" && u === "source")) &&
           n.changes.push({
             start: r.property.start,
             end: r.property.end,
             node:
-              u === "rewrite" ? "__uv$setSource(__uv).__uv$parent" : "parent",
+              u === "rewrite" ? "__se$setSource(__se).__se$parent" : "parent",
           }),
         !r.computed &&
           r.property.name === "postMessage" &&
@@ -17205,17 +17205,17 @@
           n.changes.push({
             start: r.property.start,
             end: r.property.end,
-            node: "__uv$setSource(__uv).postMessage",
+            node: "__se$setSource(__se).postMessage",
           }),
         ((!r.computed && r.property.name === "eval" && u === "rewrite") ||
-          (r.property.name === "__uv$eval" && u === "source")) &&
+          (r.property.name === "__se$eval" && u === "source")) &&
           n.changes.push({
             start: r.property.start,
             end: r.property.end,
-            node: u === "rewrite" ? "__uv$setSource(__uv).__uv$eval" : "eval",
+            node: u === "rewrite" ? "__se$setSource(__se).__se$eval" : "eval",
           }),
         !r.computed &&
-          r.property.name === "__uv$setSource" &&
+          r.property.name === "__se$setSource" &&
           u === "source" &&
           r.parent.type === "CallExpression")
       ) {
@@ -17261,7 +17261,7 @@
       n.changes.push({
         start: r.start,
         end: r.end,
-        node: "__uv.$get(" + r.name + ")",
+        node: "__se.$get(" + r.name + ")",
       });
     });
   }
@@ -17277,7 +17277,7 @@
         return !1;
       let [a] = r.arguments;
       (n.changes.push({
-        node: "__uv.js.rewrite(",
+        node: "__se.js.rewrite(",
         start: a.start,
         end: a.start,
       }),
@@ -17310,7 +17310,7 @@
     t.on("ImportExpression", (r, n, u) => {
       if (u !== "rewrite") return !1;
       (n.changes.push({
-        node: `__uv.rewriteImport(${JSON.stringify(e.meta.url)},`,
+        node: `__se.rewriteImport(${JSON.stringify(e.meta.url)},`,
         start: r.source.start,
         end: r.source.start,
       }),
@@ -17368,7 +17368,7 @@
         ? !0
         : !(
             e.object.type !== "Identifier" ||
-            e.object.name !== "__uv" ||
+            e.object.name !== "__se" ||
             !["js", "$get", "$wrap", "rewriteUrl"].includes(e.property.name)
           );
   }
@@ -17910,9 +17910,9 @@
           (this.css = new Yu(this)),
           (this.js = new Fa(this)),
           (this.openDB = this.constructor.openDB),
-          (this.master = "__uv"),
-          (this.dataPrefix = "__uv$"),
-          (this.attributePrefix = "__uv"),
+          (this.master = "__se"),
+          (this.dataPrefix = "__se$"),
+          (this.attributePrefix = "__se"),
           (this.createHtmlInject = Za),
           (this.createJsInject = bn),
           (this.attrs = {
@@ -18000,5 +18000,5 @@
       static EventEmitter = gs.default;
     },
     S1 = _r;
-  typeof self == "object" && (self.Ultraviolet = _r);
+  typeof self == "object" && (self.Selenite = _r);
 })();

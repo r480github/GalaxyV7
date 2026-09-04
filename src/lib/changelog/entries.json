@@ -57,7 +57,7 @@
 				"area": "Proxy",
 				"items": [
 					"Add encoding to proxied urls",
-					"Bump to scramjet 0.0.14 & prism api 2.0.67-alpha.2",
+					"Bump to cinnabar 0.0.14 & prism api 2.0.67-alpha.2",
 					"Wisp blacklist"
 				]
 			}
@@ -135,7 +135,7 @@
 				"items": [
 					"Default to prism",
 					"Use external wisp",
-					"Scramjet v2",
+					"Cinnabar v2",
 					"Add host-side new-tab fallback",
 					"Block popunders opened via hidden iframes",
 					"Catch ctrl/cmd/middle-click and _blank links",
@@ -280,9 +280,9 @@
 				"area": "Proxy",
 				"items": [
 					"Add working searchbar",
-					"Update scramjet",
+					"Update cinnabar",
 					"Add /prox route and Iframe wrapper component",
-					"Add bare/ultraviolet/scramjet proxy server"
+					"Add bare/selenite/cinnabar proxy server"
 				]
 			},
 			{

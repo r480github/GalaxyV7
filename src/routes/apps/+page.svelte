@@ -4,7 +4,7 @@
 	import { browser } from '$app/environment';
 	import { loadScriptsSequential } from '$lib/lethe/loader';
 	import { createConnection, setCar } from '$lib/lethe/car';
-	import { createScramjetController } from '$lib/lethe/poly';
+	import { createCinnabarController } from '$lib/lethe/poly';
 	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
 
 	import search from '$lib/img/icons/search.png';
@@ -123,7 +123,7 @@
 			'/glass/glass.config.js',
 			'/poly/polygon.all.js'
 		]);
-		polygon = createScramjetController();
+		polygon = createCinnabarController();
 		connection = createConnection();
 		await setCar(connection, car);
 
@@ -158,7 +158,7 @@
 
 		if (type === 'uv') {
 			// @ts-ignore
-			iframeEl.src = window.__uv$config.prefix + window.__uv$config.encodeUrl(url);
+			iframeEl.src = window.__se$config.prefix + window.__se$config.encodeUrl(url);
 		} else if (type === 'polygon') {
 			iframeEl.src = polygon.encodeUrl(url);
 		} else {

@@ -4,7 +4,7 @@
 	import { loadScript } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
-	import { createScramjetController } from '$lib/lethe/poly';
+	import { createCinnabarController } from '$lib/lethe/poly';
 	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
 	import { getOriginalUrl } from '$lib/lethe/decode';
 
@@ -27,7 +27,7 @@
 		{ key: 'glassBundle', label: 'Glass bundle', status: 'idle', error: '' },
 		{ key: 'glassConfig', label: 'Glass config', status: 'idle', error: '' },
 		{ key: 'polygon', label: 'Polygon engine', status: 'idle', error: '' },
-		{ key: 'scramjet', label: 'Glass controller', status: 'idle', error: '' },
+		{ key: 'cinnabar', label: 'Glass controller', status: 'idle', error: '' },
 		{ key: 'prism', label: 'SJ2 (prism)', status: 'idle', error: '' },
 		{ key: 'transport', label: 'Car connection', status: 'idle', error: '' },
 		{ key: 'serviceWorker', label: 'Service worker', status: 'idle', error: '' }
@@ -38,9 +38,9 @@
 		glassBundle: () => loadScript('/glass/glass.bundle.js'),
 		glassConfig: () => loadScript('/glass/glass.config.js'),
 		polygon: () => loadScript('/poly/polygon.all.js'),
-		scramjet: async () => {
+		cinnabar: async () => {
 			if (!navigator.serviceWorker) throw new Error('Service workers not supported');
-			polygon = createScramjetController();
+			polygon = createCinnabarController();
 			polygon.init();
 		},
 		prism: async () => {
@@ -88,7 +88,7 @@
 		}
 
 		if (letheEngine === 'uv') {
-			url = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
+			url = window.__se$config.prefix + window.__se$config.encodeUrl(fixedUrl);
 		} else {
 			url = polygon.encodeUrl(fixedUrl);
 		}
@@ -156,9 +156,9 @@
 	/>
 	<p>{decodedURL}</p>
 	<select bind:value={letheEngine} disabled={!ready}>
-		<option value="scramjet">Scramjet</option>
-		<option value="prism">Scramjet v2</option>
-		<option value="uv">Ultraviolet</option>
+		<option value="cinnabar">Cinnabar</option>
+		<option value="prism">Cinnabar v2</option>
+		<option value="uv">Selenite</option>
 	</select>
 	<select bind:value={car} disabled={!ready}>
 		<option value="libcurl">Libcurl</option>

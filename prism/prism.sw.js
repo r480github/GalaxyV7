@@ -1,4 +1,4 @@
-var $scramjetController;
+var $cinnabarController;
 (() => {
 	var e = {
 			805(e, t, r) {
@@ -233,5 +233,5 @@ var $scramjetController;
 					e.postMessage({ $controller$swrevive: {} });
 			}, 100));
 	})(),
-		($scramjetController = o));
+		($cinnabarController = o));
 })();

@@ -1,4 +1,4 @@
-var $scramjetController;
+var $cinnabarController;
 (() => {
 	var e = {
 			286(e, t, o) {
@@ -72,12 +72,12 @@ var $scramjetController;
 					CookieJar: i,
 					IncrementalHtmlRewriter: s,
 					Plugin: n,
-					SCRAMJETCLIENT: a,
-					SCRAMJETCLIENTNAME: c,
-					ScramjetClient: l,
-					ScramjetFetchHandler: h,
-					ScramjetFetchTrackedClient: d,
-					ScramjetHeaders: p,
+					CINNABARCLIENT: a,
+					CINNABARCLIENTNAME: c,
+					CinnabarClient: l,
+					CinnabarFetchHandler: h,
+					CinnabarFetchTrackedClient: d,
+					CinnabarHeaders: p,
 					Tap: f,
 					createLocationProxy: k,
 					defaultConfig: g,
@@ -120,7 +120,7 @@ var $scramjetController;
 					unrewriteHtml: Y,
 					unrewriteUrl: Z,
 					versionInfo: ee
-				} = globalThis.$scramjet;
+				} = globalThis.$cinnabar;
 			}
 		},
 		t = {};
@@ -274,9 +274,9 @@ var $scramjetController;
 						'message',
 						this.handleServiceWorkerCookieMessage
 					),
-					this.injectScramjet());
+					this.injectCinnabar());
 			}
-			injectScramjet() {
+			injectCinnabar() {
 				let e = this.global.frameElement;
 				e &&
 					!e.name &&
@@ -339,5 +339,5 @@ var $scramjetController;
 			}
 		}
 	})(),
-		($scramjetController = r));
+		($cinnabarController = r));
 })();

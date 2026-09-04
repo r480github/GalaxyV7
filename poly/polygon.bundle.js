@@ -244,7 +244,7 @@ var A,
 			((I.keys = () => []), (I.resolve = I), (I.id = 409), (A.exports = I));
 		},
 		336: function (A, I, g) {
-			(g.r(I), g.d(I, { ScramjetClient: () => r }));
+			(g.r(I), g.d(I, { CinnabarClient: () => r }));
 			var B = g(2794),
 				Q = g(94),
 				C = g(3696),
@@ -273,7 +273,7 @@ var A,
 					if (((this.global = A), B.pX in A))
 						throw (
 							console.error(
-								'attempted to initialize a scramjet client, but one is already loaded - this is very bad'
+								'attempted to initialize a cinnabar client, but one is already loaded - this is very bad'
 							),
 							Error()
 						);
@@ -296,8 +296,8 @@ var A,
 									new Promise((A) => {
 										addEventListener('message', ({ data: I }) => {
 											'object' == typeof I &&
-												'$scramjet$type' in I &&
-												'baremuxinit' === I.$scramjet$type &&
+												'$cinnabar$type' in I &&
+												'baremuxinit' === I.$cinnabar$type &&
 												A(I.port);
 										});
 									})
@@ -386,7 +386,7 @@ var A,
 							if (!g.name)
 								return (
 									console.error(
-										'YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK'
+										'YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK'
 									),
 									null
 								);
@@ -402,7 +402,7 @@ var A,
 								if (!I.name)
 									return (
 										console.error(
-											'YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK'
+											'YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK'
 										),
 										null
 									);
@@ -413,7 +413,7 @@ var A,
 								if (!A.name)
 									return (
 										console.error(
-											'YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK'
+											'YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK'
 										),
 										null
 									);
@@ -539,7 +539,7 @@ var A,
 										if (A.stack instanceof Object) {
 											if (
 												((A.stack = A.stack.stack),
-												console.error('ERROR FROM SCRAMJET INTERNALS', A),
+												console.error('ERROR FROM CINNABAR INTERNALS', A),
 												!(0, D.U5)('allowFailedIntercepts', this.url))
 											)
 												throw A;
@@ -632,7 +632,7 @@ var A,
 									'symbol' == typeof g
 										? Reflect.has(A, g)
 										: !(
-												g.startsWith('scramjet-attr-') || I[g]?.name?.startsWith('scramjet-attr-')
+												g.startsWith('cinnabar-attr-') || I[g]?.name?.startsWith('cinnabar-attr-')
 											) && Reflect.has(A, g)
 							});
 						return g;
@@ -661,11 +661,11 @@ var A,
 		9116: function (A, I, g) {
 			function B(A, I) {
 				(A.serviceWorker.addEventListener('message', ({ data: I }) => {
-					if ('scramjet$type' in I && 'cookie' === I.scramjet$type) {
+					if ('cinnabar$type' in I && 'cookie' === I.cinnabar$type) {
 						A.cookieStore.setCookies([I.cookie], new URL(I.url));
 						let g = {
-							scramjet$token: I.scramjet$token,
-							scramjet$type: 'cookie'
+							cinnabar$token: I.cinnabar$token,
+							cinnabar$type: 'cookie'
 						};
 						A.serviceWorker.controller.postMessage(g);
 					}
@@ -680,7 +680,7 @@ var A,
 							);
 							B &&
 								A.natives.call('ServiceWorker.prototype.postMessage', B, {
-									scramjet$type: 'cookie',
+									cinnabar$type: 'cookie',
 									cookie: g,
 									url: A.url.href
 								});
@@ -904,27 +904,27 @@ var A,
 					A.Proxy('Element.prototype.getAttribute', {
 						apply(I) {
 							let [g] = I.args;
-							if (g.startsWith('scramjet-attr')) return I.return(null);
-							if (A.natives.call('Element.prototype.hasAttribute', I.this, `scramjet-attr-${g}`)) {
-								let A = I.fn.call(I.this, `scramjet-attr-${g}`);
+							if (g.startsWith('cinnabar-attr')) return I.return(null);
+							if (A.natives.call('Element.prototype.hasAttribute', I.this, `cinnabar-attr-${g}`)) {
+								let A = I.fn.call(I.this, `cinnabar-attr-${g}`);
 								return null === A ? I.return('') : I.return(A);
 							}
 						}
 					}),
 					A.Proxy('Element.prototype.getAttributeNames', {
 						apply(A) {
-							let I = A.call().filter((A) => !A.startsWith('scramjet-attr'));
+							let I = A.call().filter((A) => !A.startsWith('cinnabar-attr'));
 							A.return(I);
 						}
 					}),
 					A.Proxy('Element.prototype.getAttributeNode', {
 						apply(A) {
-							if (A.args[0].startsWith('scramjet-attr')) return A.return(null);
+							if (A.args[0].startsWith('cinnabar-attr')) return A.return(null);
 						}
 					}),
 					A.Proxy('Element.prototype.hasAttribute', {
 						apply(A) {
-							if (A.args[0].startsWith('scramjet-attr')) return A.return(!1);
+							if (A.args[0].startsWith('cinnabar-attr')) return A.return(!1);
 						}
 					}),
 					A.Proxy('Element.prototype.setAttribute', {
@@ -945,7 +945,7 @@ var A,
 										I.return(void 0));
 									return;
 								}
-								((I.args[1] = B), I.fn.call(I.this, `scramjet-attr-${I.args[0]}`, Q));
+								((I.args[1] = B), I.fn.call(I.this, `cinnabar-attr-${I.args[0]}`, Q));
 							}
 						}
 					}),
@@ -966,7 +966,7 @@ var A,
 								A.natives.call(
 									'Element.prototype.setAttribute',
 									I.this,
-									`scramjet-attr-${I.args[1]}`,
+									`cinnabar-attr-${I.args[1]}`,
 									C
 								));
 						}
@@ -988,16 +988,16 @@ var A,
 					}),
 					A.Proxy('Element.prototype.removeAttribute', {
 						apply(I) {
-							if (I.args[0].startsWith('scramjet-attr')) return I.return(void 0);
+							if (I.args[0].startsWith('cinnabar-attr')) return I.return(void 0);
 							A.natives.call('Element.prototype.hasAttribute', I.this, I.args[0]) &&
-								I.fn.call(I.this, `scramjet-attr-${I.args[0]}`);
+								I.fn.call(I.this, `cinnabar-attr-${I.args[0]}`);
 						}
 					}),
 					A.Proxy('Element.prototype.toggleAttribute', {
 						apply(I) {
-							if (I.args[0].startsWith('scramjet-attr')) return I.return(!1);
+							if (I.args[0].startsWith('cinnabar-attr')) return I.return(!1);
 							A.natives.call('Element.prototype.hasAttribute', I.this, I.args[0]) &&
-								I.fn.call(I.this, `scramjet-attr-${I.args[0]}`);
+								I.fn.call(I.this, `cinnabar-attr-${I.args[0]}`);
 						}
 					}),
 					A.Trap('Element.prototype.innerHTML', {
@@ -1008,7 +1008,7 @@ var A,
 									A.natives.call(
 										'Element.prototype.setAttribute',
 										g.this,
-										'scramjet-attr-script-source-src',
+										'cinnabar-attr-script-source-src',
 										e(t.encode(i))
 									));
 							else if (g.this instanceof I.HTMLStyleElement) i = (0, Q.s)(B, A.meta);
@@ -1025,7 +1025,7 @@ var A,
 								let I = A.natives.call(
 									'Element.prototype.getAttribute',
 									g.this,
-									'scramjet-attr-script-source-src'
+									'cinnabar-attr-script-source-src'
 								);
 								return I ? atob(I) : g.get();
 							}
@@ -1040,7 +1040,7 @@ var A,
 									A.natives.call(
 										'Element.prototype.setAttribute',
 										g.this,
-										'scramjet-attr-script-source-src',
+										'cinnabar-attr-script-source-src',
 										e(t.encode(I))
 									),
 									g.set(I)
@@ -1053,7 +1053,7 @@ var A,
 								let I = A.natives.call(
 									'Element.prototype.getAttribute',
 									g.this,
-									'scramjet-attr-script-source-src'
+									'cinnabar-attr-script-source-src'
 								);
 								return I ? atob(I) : g.get();
 							}
@@ -1124,7 +1124,7 @@ var A,
 						{
 							get(A) {
 								let I = A.get();
-								return (I && (o.pX in I || new D.ScramjetClient(I).hook()), I);
+								return (I && (o.pX in I || new D.CinnabarClient(I).hook()), I);
 							}
 						}
 					),
@@ -1141,7 +1141,7 @@ var A,
 									`${I.this.constructor.name}.prototype.contentWindow`,
 									I.this
 								);
-								return g ? (o.pX in g || new D.ScramjetClient(g).hook(), g.document) : g;
+								return g ? (o.pX in g || new D.CinnabarClient(g).hook(), g.document) : g;
 							}
 						}
 					),
@@ -1228,7 +1228,7 @@ var A,
 						if (!g) return I.return(g);
 						if (Q.pX in g) return I.return(g[Q.pX].global);
 						{
-							let A = new B.ScramjetClient(g);
+							let A = new B.CinnabarClient(g);
 							return (A.hook(), I.return(A.global));
 						}
 					}
@@ -1370,7 +1370,7 @@ var A,
 								'ServiceWorker.prototype.postMessage',
 								o,
 								{
-									scramjet$type: 'registerServiceWorker',
+									cinnabar$type: 'registerServiceWorker',
 									port: E,
 									origin: A.url.origin
 								},
@@ -1458,9 +1458,9 @@ var A,
 					'location' in globalThis &&
 					'serviceworker' === new URL(globalThis.location.href).searchParams.get('dest');
 			function r(A) {
-				if (((0, B.Nk)(A), o.log('initializing scramjet client'), !(Q.pX in globalThis))) {
+				if (((0, B.Nk)(A), o.log('initializing cinnabar client'), !(Q.pX in globalThis))) {
 					(0, B.Ec)();
-					let A = new C.ScramjetClient(globalThis),
+					let A = new C.CinnabarClient(globalThis),
 						I = globalThis.frameElement;
 					(I &&
 						!I.name &&
@@ -1470,8 +1470,8 @@ var A,
 							.join('')}`),
 						globalThis.COOKIE && A.loadcookies(globalThis.COOKIE),
 						A.hook(),
-						w && new i.ScramjetServiceWorkerRuntime(A).hook());
-					let g = new E.ScramjetContextEvent(A.global.window, A);
+						w && new i.CinnabarServiceWorkerRuntime(A).hook());
+					let g = new E.CinnabarContextEvent(A.global.window, A);
 					A.frame?.dispatchEvent(g);
 					let Q = new E.UrlChangeEvent(A.url.href);
 					A.isSubframe || A.frame?.dispatchEvent(Q);
@@ -1483,8 +1483,8 @@ var A,
 			(g.r(I),
 				g.d(I, {
 					NavigateEvent: () => Q,
-					ScramjetContextEvent: () => E,
-					ScramjetGlobalDownloadEvent: () => B,
+					CinnabarContextEvent: () => E,
+					CinnabarGlobalDownloadEvent: () => B,
 					UrlChangeEvent: () => C
 				}));
 			class B extends Event {
@@ -1527,10 +1527,10 @@ var A,
 			(g.r(I),
 				g.d(I, {
 					NavigateEvent: () => C.NavigateEvent,
-					ScramjetClient: () => B.ScramjetClient,
-					ScramjetContextEvent: () => C.ScramjetContextEvent,
-					ScramjetGlobalDownloadEvent: () => C.ScramjetGlobalDownloadEvent,
-					ScramjetServiceWorkerRuntime: () => o.ScramjetServiceWorkerRuntime,
+					CinnabarClient: () => B.CinnabarClient,
+					CinnabarContextEvent: () => C.CinnabarContextEvent,
+					CinnabarGlobalDownloadEvent: () => C.CinnabarGlobalDownloadEvent,
+					CinnabarServiceWorkerRuntime: () => o.CinnabarServiceWorkerRuntime,
 					UrlChangeEvent: () => C.UrlChangeEvent,
 					createLocationProxy: () => i.createLocationProxy,
 					getOwnPropertyDescriptorHandler: () => E.getOwnPropertyDescriptorHandler,
@@ -1810,10 +1810,10 @@ var A,
 			}
 			function E(A, I) {
 				let g = console.warn;
-				((I.$scramerr = function (A) {
+				((I.$cinnaerr = function (A) {
 					g('CAUGHT ERROR', A);
 				}),
-					(I.$scramdbg = function (A, I) {
+					(I.$cinnadbg = function (A, I) {
 						return (A && 'object' == typeof A && A.length > 0 && C(A), C(I), I);
 					}),
 					A.Proxy('Promise.prototype.catch', {
@@ -1887,12 +1887,12 @@ var A,
 			var B = g(1323),
 				Q = g(1472),
 				C = g(94);
-			let E = Symbol.for('scramjet original onevent function');
+			let E = Symbol.for('cinnabar original onevent function');
 			function i(A, I) {
 				let g = {
 					message: {
 						_init() {
-							return 'object' != typeof this.data || !('$scramjet$type' in this.data);
+							return 'object' != typeof this.data || !('$cinnabar$type' in this.data);
 						},
 						ports() {
 							return this.ports;
@@ -1901,13 +1901,13 @@ var A,
 							return null === this.source ? null : this.source;
 						},
 						origin() {
-							return 'object' == typeof this.data && '$scramjet$origin' in this.data
-								? this.data.$scramjet$origin
+							return 'object' == typeof this.data && '$cinnabar$origin' in this.data
+								? this.data.$cinnabar$origin
 								: A.url.origin;
 						},
 						data() {
-							return 'object' == typeof this.data && '$scramjet$data' in this.data
-								? this.data.$scramjet$data
+							return 'object' == typeof this.data && '$cinnabar$data' in this.data
+								? this.data.$cinnabar$data
 								: this.data;
 						}
 					},
@@ -2135,9 +2135,9 @@ var A,
 								g = I('return globalThis')()[Q.pX],
 								B = I('...args', 'this(...args)');
 							((A.args[0] = {
-								$scramjet$messagetype: 'window',
-								$scramjet$origin: g.url.origin,
-								$scramjet$data: A.args[0]
+								$cinnabar$messagetype: 'window',
+								$cinnabar$origin: g.url.origin,
+								$cinnabar$data: A.args[0]
 							}),
 								'string' == typeof A.args[1] && (A.args[1] = '*'),
 								'object' == typeof A.args[1] && (A.args[1].targetOrigin = '*'),
@@ -2150,8 +2150,8 @@ var A,
 					A.Proxy(I, {
 						apply(A) {
 							A.args[0] = {
-								$scramjet$messagetype: 'worker',
-								$scramjet$data: A.args[0]
+								$cinnabar$messagetype: 'worker',
+								$cinnabar$data: A.args[0]
 							};
 						}
 					}));
@@ -2160,7 +2160,7 @@ var A,
 		1914: function (A, I, g) {
 			(g.r(I), g.d(I, { POLLUTANT: () => Q, default: () => C }));
 			var B = g(37);
-			let Q = Symbol.for('scramjet realm pollutant');
+			let Q = Symbol.for('cinnabar realm pollutant');
 			function C(A, I) {
 				Object.defineProperty(I.Object.prototype, B.$W.globals.setrealmfn, {
 					value(A) {
@@ -2522,7 +2522,7 @@ var A,
 			(g.r(I), g.d(I, { default: () => i, enabled: () => E }));
 			var B = g(37),
 				Q = g(8665).A;
-			let C = '/*scramtag ',
+			let C = '/*cinnatag ',
 				E = (A) => (0, B.U5)('sourcemaps', A.url);
 			function i(A, I) {
 				(Object.defineProperty(I, B.$W.globals.pushsourcemapfn, {
@@ -2552,7 +2552,7 @@ var A,
 							}
 							A.box.sourcemaps[g] = E;
 						})(A, I, g),
-							Q.time(A.meta, B, `scramtag parse for ${g}`));
+							Q.time(A.meta, B, `cinnatag parse for ${g}`));
 					},
 					enumerable: !1,
 					writable: !1,
@@ -2569,7 +2569,7 @@ var A,
 											let g = A.indexOf('*/', I);
 											if (-1 === g) throw (console.log(A, I, g), Error('unreachable'));
 											let B = A.substring(I + 2, g).split(' ');
-											if (3 !== B.length || 'scramtag' !== B[0] || !Number.isSafeInteger(+B[1]))
+											if (3 !== B.length || 'cinnatag' !== B[0] || !Number.isSafeInteger(+B[1]))
 												throw (console.log(A, I, g, B), Error('invalid tag'));
 											return [B[2], I, +B[1]];
 										})(g);
@@ -2623,7 +2623,7 @@ var A,
 							A.natives.call(
 								'Worker.prototype.postMessage',
 								g,
-								{ $scramjet$type: 'baremuxinit', port: I },
+								{ $cinnabar$type: 'baremuxinit', port: I },
 								[I]
 							);
 						})();
@@ -2646,7 +2646,7 @@ var A,
 								A.natives.call(
 									'MessagePort.prototype.postMessage',
 									g.port,
-									{ $scramjet$type: 'baremuxinit', port: I },
+									{ $cinnabar$type: 'baremuxinit', port: I },
 									[I]
 								);
 							})();
@@ -2754,7 +2754,7 @@ var A,
 						configurable: !1,
 						enumerable: !1
 					}),
-					(I.$scramitize = function (A) {
+					(I.$cinnaitize = function (A) {
 						return (
 							location,
 							B.iswindow && I.top,
@@ -2793,7 +2793,7 @@ var A,
 			}
 		},
 		8409: function (A, I, g) {
-			(g.r(I), g.d(I, { ScramjetServiceWorkerRuntime: () => C }));
+			(g.r(I), g.d(I, { CinnabarServiceWorkerRuntime: () => C }));
 			var B = g(1472),
 				Q = g(8665).A;
 			class C {
@@ -2806,10 +2806,10 @@ var A,
 							(Q.log('sw', 'connected'),
 								g.addEventListener('message', (I) => {
 									(console.log('sw', I.data),
-										'scramjet$type' in I.data &&
-											('init' === I.data.scramjet$type
-												? ((this.recvport = I.data.scramjet$port),
-													this.recvport.postMessage({ scramjet$type: 'init' }))
+										'cinnabar$type' in I.data &&
+											('init' === I.data.cinnabar$type
+												? ((this.recvport = I.data.cinnabar$port),
+													this.recvport.postMessage({ cinnabar$type: 'init' }))
 												: E.call(this, A, I.data)));
 								}),
 								g.start());
@@ -2839,15 +2839,15 @@ var A,
 			}
 			function E(A, I) {
 				let g = this.recvport,
-					C = I.scramjet$type,
-					E = I.scramjet$token,
+					C = I.cinnabar$type,
+					E = I.cinnabar$token,
 					i = A.eventcallbacks.get(self);
 				if ('fetch' === C) {
 					Q.log('ee', I);
 					let C = i.filter((A) => 'fetch' === A.event);
 					if (!C) return;
 					for (let i of C) {
-						let C = I.scramjet$request,
+						let C = I.cinnabar$request,
 							o = new A.natives.Request((0, B.v2)(C.url), {
 								body: C.body,
 								headers: new Headers(C.headers),
@@ -2862,9 +2862,9 @@ var A,
 							((t = !0),
 								(async () => {
 									let I = {
-										scramjet$type: 'fetch',
-										scramjet$token: E,
-										scramjet$response: {
+										cinnabar$type: 'fetch',
+										cinnabar$token: E,
+										cinnabar$response: {
 											body: (A = await A).body,
 											headers: Array.from(A.headers.entries()),
 											status: A.status,
@@ -2883,9 +2883,9 @@ var A,
 							t ||
 								(console.log('sw', 'no response'),
 								g.postMessage({
-									scramjet$type: 'fetch',
-									scramjet$token: E,
-									scramjet$response: !1
+									cinnabar$type: 'fetch',
+									cinnabar$token: E,
+									cinnabar$response: !1
 								})));
 					}
 				}
@@ -2922,18 +2922,18 @@ var A,
 							{
 								prefix: '/polygon/',
 								globals: {
-									wrapfn: '$scramjet$wrap',
-									wrappropertybase: '$scramjet__',
-									wrappropertyfn: '$scramjet$prop',
-									cleanrestfn: '$scramjet$clean',
-									importfn: '$scramjet$import',
-									rewritefn: '$scramjet$rewrite',
-									metafn: '$scramjet$meta',
-									setrealmfn: '$scramjet$setrealm',
-									pushsourcemapfn: '$scramjet$pushsourcemap',
-									trysetfn: '$scramjet$tryset',
-									templocid: '$scramjet$temploc',
-									tempunusedid: '$scramjet$tempunused'
+									wrapfn: '$cinnabar$wrap',
+									wrappropertybase: '$cinnabar__',
+									wrappropertyfn: '$cinnabar$prop',
+									cleanrestfn: '$cinnabar$clean',
+									importfn: '$cinnabar$import',
+									rewritefn: '$cinnabar$rewrite',
+									metafn: '$cinnabar$meta',
+									setrealmfn: '$cinnabar$setrealm',
+									pushsourcemapfn: '$cinnabar$pushsourcemap',
+									trysetfn: '$cinnabar$tryset',
+									templocid: '$cinnabar$temploc',
+									tempunusedid: '$cinnabar$tempunused'
 								},
 								files: {
 									wasm: '/polygon.wasm.wasm',
@@ -2947,7 +2947,7 @@ var A,
 									rewriterLogs: !1,
 									captureErrors: !0,
 									cleanErrors: !1,
-									scramitize: !1,
+									cinnaitize: !1,
 									sourcemaps: !0,
 									destructureRewrites: !1,
 									interceptDownloads: !1,
@@ -2970,15 +2970,15 @@ var A,
 					((0, B.Ec)(),
 						await this.openIDB(),
 						navigator.serviceWorker.controller?.postMessage({
-							scramjet$type: 'loadConfig',
+							cinnabar$type: 'loadConfig',
 							config: B.$W
 						}),
 						i.log('config loaded'),
 						navigator.serviceWorker.addEventListener('message', (A) => {
-							if (!('scramjet$type' in A.data)) return;
+							if (!('cinnabar$type' in A.data)) return;
 							let I = A.data;
-							'download' === I.scramjet$type &&
-								this.dispatchEvent(new E.ScramjetGlobalDownloadEvent(I.download));
+							'download' === I.cinnabar$type &&
+								this.dispatchEvent(new E.CinnabarGlobalDownloadEvent(I.download));
 						}));
 				}
 				createFrame(A) {
@@ -2999,7 +2999,7 @@ var A,
 					return (0, B.P_)(A.slice(I.length));
 				}
 				async openIDB() {
-					let A = await (0, C.P2)('$scramjet', 1, {
+					let A = await (0, C.P2)('$cinnabar', 1, {
 						upgrade(A) {
 							(A.objectStoreNames.contains('config') || A.createObjectStore('config'),
 								A.objectStoreNames.contains('cookies') || A.createObjectStore('cookies'),
@@ -3021,7 +3021,7 @@ var A,
 						(0, B.Ec)(),
 						await this.#A(),
 						navigator.serviceWorker.controller?.postMessage({
-							scramjet$type: 'loadConfig',
+							cinnabar$type: 'loadConfig',
 							config: B.$W
 						}));
 				}
@@ -3073,7 +3073,7 @@ var A,
 			}
 		},
 		9052: function (A, I, g) {
-			(g.r(I), g.d(I, { ScramjetController: () => Q.q, ScramjetFrame: () => B.X }));
+			(g.r(I), g.d(I, { CinnabarController: () => Q.q, CinnabarFrame: () => B.X }));
 			var B = g(4869),
 				Q = g(3402);
 		},
@@ -3088,14 +3088,14 @@ var A,
 				return g(7510);
 			}
 			(g.d(I, { AL: () => C, HT: () => Q, aR: () => B, q9: () => E }),
-				(globalThis.$scramjetRequire = function (A) {
+				(globalThis.$cinnabarRequire = function (A) {
 					return g(409)(A);
 				}));
 			let E = { build: '667cf55', version: '2.0.0-alpha' };
-			((globalThis.$scramjetLoadController = B),
-				(globalThis.$scramjetLoadClient = Q),
-				(globalThis.$scramjetLoadWorker = C),
-				(globalThis.$scramjetVersion = E),
+			((globalThis.$cinnabarLoadController = B),
+				(globalThis.$cinnabarLoadClient = Q),
+				(globalThis.$cinnabarLoadWorker = C),
+				(globalThis.$cinnabarVersion = E),
 				'document' in globalThis && document?.currentScript && document.currentScript.remove());
 		},
 		8665: function (A, I, g) {
@@ -3459,7 +3459,7 @@ var A,
 				let g = JSON.stringify(A.dump()),
 					B = `
 		self.COOKIE = ${g};
-		$scramjetLoadClient().loadAndHook(${JSON.stringify(D.$W)});
+		$cinnabarLoadClient().loadAndHook(${JSON.stringify(D.$W)});
 		if ("document" in self && document?.currentScript) {
 			document.currentScript.remove();
 		}
@@ -3498,12 +3498,12 @@ var A,
 												let C = I.attribs[Q],
 													E = A.fn(C, B, g);
 												(null === E ? delete I.attribs[Q] : (I.attribs[Q] = E),
-													(I.attribs[`scramjet-attr-${Q}`] = C));
+													(I.attribs[`cinnabar-attr-${Q}`] = C));
 											}
 										}
 									for (let [A, g] of Object.entries(I.attribs))
 										S.includes(A) &&
-											((I.attribs[`scramjet-attr-${A}`] = g),
+											((I.attribs[`cinnabar-attr-${A}`] = g),
 											(I.attribs[A] = (0, o.o)(g, `(inline ${A} on element)`, B)));
 								}
 								if (
@@ -3536,7 +3536,7 @@ var A,
 								) {
 									let A = I.children[0].data,
 										g = 'module' === I.attribs.type;
-									((I.attribs['scramjet-attr-script-source-src'] = c(a.encode(A))),
+									((I.attribs['cinnabar-attr-script-source-src'] = c(a.encode(A))),
 										(A = A.replace(/<!--[\s\S]*?-->/g, '')),
 										(I.children[0].data = (0, o.o)(A, '(inline script element)', B, g)));
 								}
@@ -3586,13 +3586,13 @@ var A,
 					!(function A(I) {
 						if ('attribs' in I)
 							for (let A in I.attribs) {
-								if ('scramjet-attr-script-source-src' == A) {
+								if ('cinnabar-attr-script-source-src' == A) {
 									I.children[0] &&
 										'data' in I.children[0] &&
 										(I.children[0].data = atob(I.attribs[A]));
 									continue;
 								}
-								A.startsWith('scramjet-attr-') &&
+								A.startsWith('cinnabar-attr-') &&
 									((I.attribs[A.slice(14)] = I.attribs[A]), delete I.attribs[A]);
 							}
 						if ('childNodes' in I) for (let g of I.childNodes) A(g);
@@ -3760,7 +3760,7 @@ var A,
 								? E.rewrite_js(A, g.base.href, I || '(unknown)', B)
 								: E.rewrite_js_bytes(A, g.base.href, I || '(unknown)', B)),
 							C.time(g, o, `oxc rewrite for "${I || '(unknown)'}"`));
-						let { js: D, map: t, scramtag: e, errors: s } = i;
+						let { js: D, map: t, cinnatag: e, errors: s } = i;
 						return {
 							js: 'string' == typeof A ? Q.su.decode(D) : D,
 							tag: e,
@@ -3945,7 +3945,7 @@ ${i}`;
 							: (E += `importScripts("${B.$W.files[A]}");
 `);
 					};
-				(o('wasm'), o('all'), (E += `$scramjetLoadClient().loadAndHook(${JSON.stringify(B.$W)});`));
+				(o('wasm'), o('all'), (E += `$cinnabarLoadClient().loadAndHook(${JSON.stringify(B.$W)});`));
 				let D = (0, Q.o)(A, g, C, i);
 				return (D instanceof Uint8Array && (D = new TextDecoder().decode(D)), (E += D));
 			}
@@ -3963,7 +3963,7 @@ ${i}`;
 			var B = g(6570);
 			let Q = { none: 0, 'same-origin': 1, 'same-site': 2, 'cross-site': 3 };
 			async function C() {
-				return (0, B.P2)('$scramjet', 1);
+				return (0, B.P2)('$cinnabar', 1);
 			}
 			async function E(A) {
 				let I = await C();
@@ -4037,7 +4037,7 @@ ${i}`;
 			var B = g(6570);
 			let Q = 'publicSuffixList';
 			async function C() {
-				return (0, B.P2)('$scramjet', 1);
+				return (0, B.P2)('$cinnabar', 1);
 			}
 			async function E() {
 				let A = await C();
@@ -4112,9 +4112,9 @@ ${i}`;
 		},
 		2794: function (A, I, g) {
 			g.d(I, { _0: () => B, pX: () => Q, zr: () => C });
-			let B = 'scramjet client global',
+			let B = 'cinnabar client global',
 				Q = Symbol.for(B),
-				C = Symbol.for('scramjet frame handle');
+				C = Symbol.for('cinnabar frame handle');
 		},
 		5956: function (A, I, g) {
 			function B(A, I) {
@@ -4123,8 +4123,8 @@ ${i}`;
                 fetchedURL.textContent = ${JSON.stringify(I)};
                 for (const node of document.querySelectorAll("#hostname")) node.textContent = ${JSON.stringify(location.hostname)};
                 reload.addEventListener("click", () => location.reload());
-                version.textContent = ${JSON.stringify(globalThis.$scramjetVersion?.version || 'unknown')};
-                build.textContent = ${JSON.stringify(globalThis.$scramjetVersion?.build || 'unknown')};
+                version.textContent = ${JSON.stringify(globalThis.$cinnabarVersion?.version || 'unknown')};
+                build.textContent = ${JSON.stringify(globalThis.$cinnabarVersion?.build || 'unknown')};
 
                 document.getElementById('copy-button').addEventListener('click', async () => {
                     const text = document.getElementById('errorTrace').value;
@@ -4138,7 +4138,7 @@ ${i}`;
             <html>
                 <head>
                     <meta charset="utf-8" />
-                    <title>Scramjet</title>
+                    <title>Cinnabar</title>
                     <style>
                     :root {
                         --deep: #080602;
@@ -4277,15 +4277,15 @@ ${i}`;
                                 <p>If you're the administrator of <b id="hostname"></b>, try:</p>
                                     <ul>
                                     <li>Restarting your server</li>
-                                    <li>Updating Scramjet</li>
-                                    <li>Troubleshooting the error on the <a href="https://github.com/MercuryWorkshop/scramjet" target="_blank">GitHub repository</a></li>
+                                    <li>Updating Cinnabar</li>
+                                    <li>Troubleshooting the error on the <a href="https://github.com/MercuryWorkshop/cinnabar" target="_blank">GitHub repository</a></li>
                                 </ul>
                             </div>
                         </div>
                         <br>
                         <button id="reload" class="primary">Reload</button>
                     </div>
-                    <p id="version-wrapper"><i>Scramjet v<span id="version"></span> (build <span id="build"></span>)</i></p>
+                    <p id="version-wrapper"><i>Cinnabar v<span id="version"></span> (build <span id="build"></span>)</i></p>
                     <script src="${'data:application/javascript,' + encodeURIComponent(g)}"></script>
                 </body>
             </html>
@@ -4313,30 +4313,30 @@ ${i}`;
 					((this.handle = A),
 						(this.origin = I),
 						this.messageChannel.port1.addEventListener('message', (A) => {
-							'scramjet$type' in A.data &&
-								('init' === A.data.scramjet$type
+							'cinnabar$type' in A.data &&
+								('init' === A.data.cinnabar$type
 									? (this.connected = !0)
 									: this.handleMessage(A.data));
 						}),
 						this.messageChannel.port1.start(),
 						this.handle.postMessage(
 							{
-								scramjet$type: 'init',
-								scramjet$port: this.messageChannel.port2
+								cinnabar$type: 'init',
+								cinnabar$port: this.messageChannel.port2
 							},
 							[this.messageChannel.port2]
 						));
 				}
 				handleMessage(A) {
-					let I = this.promises[A.scramjet$token];
-					I && (I(A), delete this.promises[A.scramjet$token]);
+					let I = this.promises[A.cinnabar$token];
+					I && (I(A), delete this.promises[A.cinnabar$token]);
 				}
 				async fetch(A) {
 					let I = this.syncToken++,
 						g = {
-							scramjet$type: 'fetch',
-							scramjet$token: I,
-							scramjet$request: {
+							cinnabar$type: 'fetch',
+							cinnabar$token: I,
+							cinnabar$request: {
 								url: A.url,
 								body: A.body,
 								headers: Array.from(A.headers.entries()),
@@ -4347,7 +4347,7 @@ ${i}`;
 						},
 						B = A.body ? [A.body] : [];
 					this.handle.postMessage(g, B);
-					let { scramjet$response: Q } = await new Promise((A) => {
+					let { cinnabar$response: Q } = await new Promise((A) => {
 						this.promises[I] = A;
 					});
 					return (
@@ -4577,7 +4577,7 @@ self.WASM = '${g}';`),
 				for (let I in n)
 					if (s) {
 						let g = w.dispatch(s, {
-							scramjet$type: 'cookie',
+							cinnabar$type: 'cookie',
 							cookie: I,
 							url: A.href
 						});
@@ -4637,7 +4637,7 @@ self.WASM = '${g}';`),
 							body: o.body,
 							length: Number(B)
 						};
-						(Q[0].postMessage({ scramjet$type: 'download', download: C }, [o.body]),
+						(Q[0].postMessage({ cinnabar$type: 'download', download: C }, [o.body]),
 							await new Promise(() => {}));
 					} else {
 						let A = N['content-disposition'];
@@ -4727,9 +4727,9 @@ self.WASM = '${g}';`),
 			(g.r(I),
 				g.d(I, {
 					FakeServiceWorker: () => B.H,
-					ScramjetHandleResponseEvent: () => Q.dT,
-					ScramjetRequestEvent: () => Q.V3,
-					ScramjetServiceWorker: () => e,
+					CinnabarHandleResponseEvent: () => Q.dT,
+					CinnabarRequestEvent: () => Q.V3,
+					CinnabarServiceWorker: () => e,
 					errorTemplate: () => t.B,
 					handleFetch: () => Q.Pf,
 					renderError: () => t.v
@@ -4753,25 +4753,25 @@ self.WASM = '${g}';`),
 					(super(),
 						(this.client = new C.Ay()),
 						(async () => {
-							let A = await (0, o.P2)('$scramjet', 1),
+							let A = await (0, o.P2)('$cinnabar', 1),
 								I = await A.get('cookies', 'cookies');
 							I && this.cookieStore.load(I);
 						})(),
 						addEventListener('message', async ({ data: A }) => {
-							if ('scramjet$type' in A) {
-								if ('scramjet$token' in A) {
-									let I = this.syncPool[A.scramjet$token];
-									(delete this.syncPool[A.scramjet$token], I(A));
+							if ('cinnabar$type' in A) {
+								if ('cinnabar$token' in A) {
+									let I = this.syncPool[A.cinnabar$token];
+									(delete this.syncPool[A.cinnabar$token], I(A));
 									return;
 								}
-								if ('registerServiceWorker' === A.scramjet$type)
+								if ('registerServiceWorker' === A.cinnabar$type)
 									return void this.serviceWorkers.push(new B.H(A.port, A.origin));
-								if ('cookie' === A.scramjet$type) {
+								if ('cookie' === A.cinnabar$type) {
 									this.cookieStore.setCookies([A.cookie], new URL(A.url));
-									let I = await (0, o.P2)('$scramjet', 1);
+									let I = await (0, o.P2)('$cinnabar', 1);
 									await I.put('cookies', JSON.parse(this.cookieStore.dump()), 'cookies');
 								}
-								'loadConfig' === A.scramjet$type && (this.config = A.config);
+								'loadConfig' === A.cinnabar$type && (this.config = A.config);
 							}
 						}));
 				}
@@ -4779,11 +4779,11 @@ self.WASM = '${g}';`),
 					let g,
 						B = this.synctoken++,
 						Q = new Promise((A) => (g = A));
-					return ((this.syncPool[B] = g), (I.scramjet$token = B), A.postMessage(I), await Q);
+					return ((this.syncPool[B] = g), (I.cinnabar$token = B), A.postMessage(I), await Q);
 				}
 				async loadConfig() {
 					if (this.config) return;
-					let A = await (0, o.P2)('$scramjet', 1);
+					let A = await (0, o.P2)('$cinnabar', 1);
 					((this.config = await A.get('config', 'config')),
 						this.config && ((0, D.Nk)(this.config), await (0, E.n$)()));
 				}
@@ -7432,7 +7432,7 @@ self.WASM = '${g}';`),
 					(A.wbg.__wbg_newwithbyteoffsetandlength_d97e637ebe145a9a = function (A, I, g) {
 						return new Uint8Array(A, I >>> 0, g >>> 0);
 					}),
-					(A.wbg.__wbg_scramtag_3a255d78b157986d = function (A) {
+					(A.wbg.__wbg_cinnatag_3a255d78b157986d = function (A) {
 						let I = a((0, Q.N)(), B.__wbindgen_malloc, B.__wbindgen_realloc),
 							g = t;
 						(r().setInt32(A + 4, g, !0), r().setInt32(A + 0, I, !0));
@@ -7570,32 +7570,32 @@ var D = {};
 	Pg: () => g.Pg,
 	Qs: () => g.Qs,
 	Sn: () => g.Sn,
-	Tu: () => A.ScramjetServiceWorkerRuntime,
+	Tu: () => A.CinnabarServiceWorkerRuntime,
 	U5: () => g.U5,
 	Uk: () => g.Uk,
 	V0: () => A.iswindow,
-	V3: () => B.ScramjetRequestEvent,
+	V3: () => B.CinnabarRequestEvent,
 	VP: () => g.VP,
-	Vc: () => A.ScramjetGlobalDownloadEvent,
+	Vc: () => A.CinnabarGlobalDownloadEvent,
 	Vj: () => A.isworker,
-	XD: () => I.ScramjetFrame,
+	XD: () => I.CinnabarFrame,
 	YH: () => g.YH,
 	Yq: () => g.Yq,
 	Z5: () => A.getOwnPropertyDescriptorHandler,
 	Zp: () => A.issw,
 	_0: () => C._0,
 	aR: () => Q.aR,
-	bw: () => A.ScramjetClient,
+	bw: () => A.CinnabarClient,
 	cN: () => A.isemulatedsw,
 	ch: () => A.isshared,
-	dT: () => B.ScramjetHandleResponseEvent,
+	dT: () => B.CinnabarHandleResponseEvent,
 	eI: () => g.eI,
 	f9: () => g.f9,
 	gP: () => g.gP,
 	hD: () => g.hD,
 	hU: () => g.hU,
 	iP: () => g.iP,
-	jV: () => B.ScramjetServiceWorker,
+	jV: () => B.CinnabarServiceWorker,
 	kg: () => A.createLocationProxy,
 	kv: () => g.kv,
 	lB: () => g.lB,
@@ -7608,10 +7608,10 @@ var D = {};
 	pX: () => C.pX,
 	ps: () => g.ps,
 	q9: () => Q.q9,
-	qi: () => I.ScramjetController,
+	qi: () => I.CinnabarController,
 	qp: () => g.qp,
 	rj: () => g.rj,
-	rx: () => A.ScramjetContextEvent,
+	rx: () => A.CinnabarContextEvent,
 	sM: () => g.sM,
 	su: () => g.su,
 	uh: () => g.uh,
@@ -7693,26 +7693,26 @@ var t = D.HT,
 	AN = D.v2,
 	An = D.YH;
 export {
-	t as $scramjetLoadClient,
-	e as $scramjetLoadController,
-	s as $scramjetLoadWorker,
-	a as $scramjetVersion,
+	t as $cinnabarLoadClient,
+	e as $cinnabarLoadController,
+	s as $cinnabarLoadWorker,
+	a as $cinnabarVersion,
 	w as CookieStore,
 	r as FakeServiceWorker,
 	h as NavigateEvent,
-	c as SCRAMJETCLIENT,
-	S as SCRAMJETCLIENTNAME,
-	G as SCRAMJETFRAME,
-	y as ScramjetClient,
-	N as ScramjetContextEvent,
-	n as ScramjetController,
-	R as ScramjetFrame,
-	F as ScramjetGlobalDownloadEvent,
-	k as ScramjetHandleResponseEvent,
-	M as ScramjetHeaders,
-	U as ScramjetRequestEvent,
-	Y as ScramjetServiceWorker,
-	L as ScramjetServiceWorkerRuntime,
+	c as CINNABARCLIENT,
+	S as CINNABARCLIENTNAME,
+	G as CINNABARFRAME,
+	y as CinnabarClient,
+	N as CinnabarContextEvent,
+	n as CinnabarController,
+	R as CinnabarFrame,
+	F as CinnabarGlobalDownloadEvent,
+	k as CinnabarHandleResponseEvent,
+	M as CinnabarHeaders,
+	U as CinnabarRequestEvent,
+	Y as CinnabarServiceWorker,
+	L as CinnabarServiceWorkerRuntime,
 	J as UrlChangeEvent,
 	K as asyncSetWasm,
 	l as cleanExpiredTrackers,

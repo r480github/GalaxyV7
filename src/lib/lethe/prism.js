@@ -49,8 +49,8 @@ export async function createPrismController(car = 'libcurl', customWisp) {
 	const transport = makeTransport(car, customWisp);
 	await transport.init();
 	const sw = await registerSW('/worker.js');
-	const { Controller, config } = window.$scramjetController;
-	config.scramjetPath = '/hive/prism.js';
+	const { Controller, config } = window.$cinnabarController;
+	config.cinnabarPath = '/hive/prism.js';
 	config.injectPath = '/hive/prism.inject.js';
 	config.wasmPath = '/hive/prism.wasm';
 	config.codec.encode = codec.encode;

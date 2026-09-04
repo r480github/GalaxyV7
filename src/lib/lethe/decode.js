@@ -20,8 +20,8 @@ export function getOriginalUrl(url) {
 		return '';
 	}
 
-	if (typeof __uv$config !== 'undefined' && path.includes(__uv$config.prefix)) {
-		return __uv$config.decodeUrl(path.split(__uv$config.prefix)[1]);
+	if (typeof __se$config !== 'undefined' && path.includes(__se$config.prefix)) {
+		return __se$config.decodeUrl(path.split(__se$config.prefix)[1]);
 	}
 
 	return '';

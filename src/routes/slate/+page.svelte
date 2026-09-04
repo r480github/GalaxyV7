@@ -26,7 +26,7 @@
 	import { loadScript, loadScriptsSequential } from '$lib/lethe/loader';
 	import { search } from '$lib/lethe/search';
 	import { createConnection, setCar } from '$lib/lethe/car';
-	import { createScramjetController } from '$lib/lethe/poly';
+	import { createCinnabarController } from '$lib/lethe/poly';
 	import { createPrismController, setPrismTransport, getPrismController } from '$lib/lethe/prism';
 	import { enablePopupInterceptor } from '$lib/lethe/reflux';
 	import { subscribeSettings } from '$lib/utils/settingsSync.js';
@@ -135,7 +135,7 @@
 			'/glass/glass.config.js',
 			'/poly/polygon.all.js'
 		]);
-		polygon = createScramjetController();
+		polygon = createCinnabarController();
 		connection = createConnection();
 		await setCar(connection, car, customWisp);
 		await enablePopupInterceptor();
@@ -159,7 +159,7 @@
 	}
 	function prismEncode(fixedUrl) {
 		// @ts-ignore
-		return window.$scramjet.rewriteUrl(fixedUrl, sjFrame.context, {
+		return window.$cinnabar.rewriteUrl(fixedUrl, sjFrame.context, {
 			origin: new URL(location.href),
 			base: new URL(location.href)
 		});
@@ -177,7 +177,7 @@
 			encoded = prismEncode(fixedUrl);
 		} else if (letheEngine === 'uv') {
 			// @ts-ignore
-			encoded = window.__uv$config.prefix + window.__uv$config.encodeUrl(fixedUrl);
+			encoded = window.__se$config.prefix + window.__se$config.encodeUrl(fixedUrl);
 		} else {
 			encoded = polygon.encodeUrl(fixedUrl);
 		}
@@ -245,7 +245,7 @@
 			encoded = prismEncode(url);
 		} else if (lethe === 'uv') {
 			// @ts-ignore
-			encoded = window.__uv$config.prefix + window.__uv$config.encodeUrl(url);
+			encoded = window.__se$config.prefix + window.__se$config.encodeUrl(url);
 		} else {
 			encoded = polygon.encodeUrl(url);
 		}

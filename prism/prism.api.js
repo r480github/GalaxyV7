@@ -1,4 +1,4 @@
-var $scramjetController;
+var $cinnabarController;
 (() => {
 	var e = {
 			286(e, t, r) {
@@ -9,15 +9,15 @@ var $scramjetController;
 				r.d(t, { O: () => s, x: () => o });
 				let o = '0.0.14';
 				function s() {
-					if ('undefined' == typeof $scramjet)
+					if ('undefined' == typeof $cinnabar)
 						throw Error(
-							'@mercuryworkshop/scramjet is not loaded. Load scramjet before the controller.'
+							'@mercuryworkshop/cinnabar is not loaded. Load cinnabar before the controller.'
 						);
 					var e = '2.0.67-alpha.2',
-						t = $scramjet.versionInfo.version;
+						t = $cinnabar.versionInfo.version;
 					if (e !== t)
 						throw Error(
-							`@mercuryworkshop/scramjet version mismatch: this build expects ${e}, but the loaded runtime is ${t}`
+							`@mercuryworkshop/cinnabar version mismatch: this build expects ${e}, but the loaded runtime is ${t}`
 						);
 				}
 			},
@@ -251,12 +251,12 @@ var $scramjetController;
 					CookieJar: s,
 					IncrementalHtmlRewriter: i,
 					Plugin: n,
-					SCRAMJETCLIENT: a,
-					SCRAMJETCLIENTNAME: c,
-					ScramjetClient: l,
-					ScramjetFetchHandler: d,
-					ScramjetFetchTrackedClient: h,
-					ScramjetHeaders: f,
+					CINNABARCLIENT: a,
+					CINNABARCLIENTNAME: c,
+					CinnabarClient: l,
+					CinnabarFetchHandler: d,
+					CinnabarFetchTrackedClient: h,
+					CinnabarHeaders: f,
 					Tap: p,
 					createLocationProxy: u,
 					defaultConfig: y,
@@ -299,7 +299,7 @@ var $scramjetController;
 					unrewriteHtml: Y,
 					unrewriteUrl: Z,
 					versionInfo: ee
-				} = globalThis.$scramjet;
+				} = globalThis.$cinnabar;
 			}
 		},
 		t = {};
@@ -332,7 +332,7 @@ var $scramjetController;
 				Frame: () => v,
 				ManagedPlugin: () => d,
 				VERSION: () => a.x,
-				assertRuntimeScramjetVersion: () => a.O,
+				assertRuntimeCinnabarVersion: () => a.O,
 				config: () => c
 			}));
 		var e = r(805),
@@ -343,10 +343,10 @@ var $scramjetController;
 			a = r(355);
 		let c = {
 				prefix: '/hive/',
-				scramjetPath: '/scramjet/scramjet.js',
+				cinnabarPath: '/cinnabar/cinnabar.js',
 				injectPath: '/controller/controller.inject.js',
-				wasmPath: '/scramjet/scramjet.wasm',
-				virtualWasmPath: 'scramjet.wasm.js',
+				wasmPath: '/cinnabar/cinnabar.wasm',
+				virtualWasmPath: 'cinnabar.wasm.js',
 				codec: {
 					encode: (e) => (e ? encodeURIComponent(e) : e),
 					decode: (e) => (e ? decodeURIComponent(e) : e)
@@ -354,7 +354,7 @@ var $scramjetController;
 			},
 			l = {
 				flags: { ...i.sb.flags, allowFailedIntercepts: !0 },
-				maskedfiles: ['inject.js', 'scramjet.wasm.js']
+				maskedfiles: ['inject.js', 'cinnabar.wasm.js']
 			};
 		class d extends i.k_ {
 			frame = null;
@@ -395,7 +395,7 @@ var $scramjetController;
 			return (
 				p ||
 				(p = new Promise((e, t) => {
-					let r = indexedDB.open('__scramjet_controller', 1);
+					let r = indexedDB.open('__cinnabar_controller', 1);
 					((r.onupgradeneeded = () => {
 						let e = r.result;
 						e.objectStoreNames.contains(h) || e.createObjectStore(h);
@@ -434,7 +434,7 @@ var $scramjetController;
 			init;
 			id;
 			config;
-			scramjetConfig;
+			cinnabarConfig;
 			prefix;
 			cookieJar = new i.cP();
 			frames = [];
@@ -449,7 +449,7 @@ var $scramjetController;
 			cookieUpdatedAt = 0;
 			cookieSyncPromise = null;
 			cookieSyncDirty = !0;
-			cookieSyncChannel = new BroadcastChannel('__scramjet_controller_channel');
+			cookieSyncChannel = new BroadcastChannel('__cinnabar_controller_channel');
 			wasmAlreadyFetched = !1;
 			wasmPayload = null;
 			onTabChannelMessage = (e) => {
@@ -461,7 +461,7 @@ var $scramjetController;
 					t <= this.cookieUpdatedAt ||
 					((this.cookieSyncDirty = !0), this.loadSavedCookies());
 			};
-			async loadScramjetWasm() {
+			async loadCinnabarWasm() {
 				if (this.wasmAlreadyFetched) return;
 				let e = await fetch(this.config.wasmPath);
 				((0, i.ht)(await e.arrayBuffer()), (this.wasmAlreadyFetched = !0));
@@ -595,15 +595,15 @@ var $scramjetController;
 					(0, a.O)(),
 					(this.id = b()),
 					(this.config = j(c, t.config || {})),
-					(this.scramjetConfig = j(l, i.sb)),
-					(this.scramjetConfig = j(this.scramjetConfig, t.scramjetConfig || {})),
+					(this.cinnabarConfig = j(l, i.sb)),
+					(this.cinnabarConfig = j(this.cinnabarConfig, t.cinnabarConfig || {})),
 					(this.prefix = this.config.prefix + this.id + '/'),
 					(this.serviceWorkerController = t.serviceworker),
 					(this.ready = Promise.all([
 						new Promise((e) => {
 							this.readyResolve = e;
 						}),
-						this.loadScramjetWasm(),
+						this.loadCinnabarWasm(),
 						this.loadSavedCookies(!0)
 					]).then(() => void 0)),
 					(this.rpc = new e.C(this.methods, 'tabchannel-' + this.id, (e, t) => {
@@ -701,7 +701,7 @@ var $scramjetController;
 			hooks;
 			get context() {
 				return {
-					config: this.controller.scramjetConfig,
+					config: this.controller.cinnabarConfig,
 					prefix: new URL(this.prefix, location.href),
 					cookieJar: this.controller.cookieJar,
 					interface: {
@@ -709,14 +709,14 @@ var $scramjetController;
 							return (a, c, l, d) => {
 								var h;
 								return [
-									d(t.scramjetPath),
+									d(t.cinnabarPath),
 									d(o.href + t.virtualWasmPath),
 									d(t.injectPath),
 									d(
 										'data:text/javascript;charset=utf-8;base64,' +
 											((h = `
-					document.querySelectorAll("script[scramjet-injected]").forEach(script => script.remove());
-					$scramjetController.load({
+					document.querySelectorAll("script[cinnabar-injected]").forEach(script => script.remove());
+					$cinnabarController.load({
 						config: ${JSON.stringify(t)},
 						sjconfig: ${JSON.stringify(r)},
 						prefix: new URL("${o.href}"),
@@ -739,7 +739,7 @@ var $scramjetController;
 							};
 						})(
 							this.controller.config,
-							this.controller.scramjetConfig,
+							this.controller.cinnabarConfig,
 							new URL(this.prefix, location.href),
 							this.controller.cookieJar,
 							this.controller.config.codec.encode,
@@ -749,18 +749,18 @@ var $scramjetController;
 							var o;
 							let s = '';
 							return (
-								(s += r(this.controller.config.scramjetPath)),
+								(s += r(this.controller.config.cinnabarPath)),
 								(s += r(this.prefix + this.controller.config.virtualWasmPath)),
 								(s += r(
 									'data:text/javascript;charset=utf-8;base64,' +
 										((o = `
 					(()=>{
-						const { ScramjetClient, CookieJar, setWasm } = $scramjet;
+						const { CinnabarClient, CookieJar, setWasm } = $cinnabar;
 
 						setWasm(Uint8Array.from(atob(self.WASM), (c) => c.charCodeAt(0)));
 						delete self.WASM;
 
-						const sjconfig = ${JSON.stringify(this.controller.scramjetConfig)};
+						const sjconfig = ${JSON.stringify(this.controller.cinnabarConfig)};
 						const prefix = new URL("${this.prefix}", location.href);
 
 						const context = {
@@ -772,7 +772,7 @@ var $scramjetController;
 							},
 						};
 
-						const client = new ScramjetClient(globalThis, {
+						const client = new CinnabarClient(globalThis, {
 							context,
 							transport: null,
 						});
@@ -852,5 +852,5 @@ var $scramjetController;
 			}
 		}
 	})(),
-		($scramjetController = o));
+		($cinnabarController = o));
 })();

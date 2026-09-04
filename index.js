@@ -15,9 +15,9 @@ wisp.options.dns_method = 'resolve';
 wisp.options.dns_result_order = 'ipv4first';
 wisp.options.hostname_blacklist = [];
 // /google\.com/, /reddit\.com/
-// scramjet on npm is outdated
-// import { scramjetPath } from "@mercuryworkshop/scramjet";
-// import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
+// cinnabar on npm is outdated
+// import { cinnabarPath } from "@mercuryworkshop/cinnabar";
+// import { uvPath } from "@titaniumnetwork-dev/selenite";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

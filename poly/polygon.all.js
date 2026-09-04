@@ -245,7 +245,7 @@
         ((t.keys = () => []), (t.resolve = t), (t.id = 409), (e.exports = t));
       },
       336: function (e, t, r) {
-        (r.r(t), r.d(t, { ScramjetClient: () => g }));
+        (r.r(t), r.d(t, { CinnabarClient: () => g }));
         var n = r(2794),
           i = r(94),
           a = r(3696),
@@ -274,7 +274,7 @@
             if (((this.global = e), n.pX in e))
               throw (
                 console.error(
-                  "attempted to initialize a scramjet client, but one is already loaded - this is very bad",
+                  "attempted to initialize a cinnabar client, but one is already loaded - this is very bad",
                 ),
                 Error()
               );
@@ -299,8 +299,8 @@
                     new Promise((e) => {
                       addEventListener("message", ({ data: t }) => {
                         "object" == typeof t &&
-                          "$scramjet$type" in t &&
-                          "baremuxinit" === t.$scramjet$type &&
+                          "$cinnabar$type" in t &&
+                          "baremuxinit" === t.$cinnabar$type &&
                           e(t.port);
                       });
                     }),
@@ -397,7 +397,7 @@
                 if (!r.name)
                   return (
                     console.error(
-                      "YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK",
+                      "YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK",
                     ),
                     null
                   );
@@ -414,7 +414,7 @@
                   if (!t.name)
                     return (
                       console.error(
-                        "YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK",
+                        "YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK",
                       ),
                       null
                     );
@@ -425,7 +425,7 @@
                   if (!e.name)
                     return (
                       console.error(
-                        "YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK",
+                        "YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK",
                       ),
                       null
                     );
@@ -564,7 +564,7 @@
                       if (e.stack instanceof Object) {
                         if (
                           ((e.stack = e.stack.stack),
-                          console.error("ERROR FROM SCRAMJET INTERNALS", e),
+                          console.error("ERROR FROM CINNABAR INTERNALS", e),
                           !(0, c.U5)("allowFailedIntercepts", this.url))
                         )
                           throw e;
@@ -673,8 +673,8 @@
                     "symbol" == typeof r
                       ? Reflect.has(e, r)
                       : !(
-                          r.startsWith("scramjet-attr-") ||
-                          t[r]?.name?.startsWith("scramjet-attr-")
+                          r.startsWith("cinnabar-attr-") ||
+                          t[r]?.name?.startsWith("cinnabar-attr-")
                         ) && Reflect.has(e, r),
                 });
               return r;
@@ -707,11 +707,11 @@
       9116: function (e, t, r) {
         function n(e, t) {
           (e.serviceWorker.addEventListener("message", ({ data: t }) => {
-            if ("scramjet$type" in t && "cookie" === t.scramjet$type) {
+            if ("cinnabar$type" in t && "cookie" === t.cinnabar$type) {
               e.cookieStore.setCookies([t.cookie], new URL(t.url));
               let r = {
-                scramjet$token: t.scramjet$token,
-                scramjet$type: "cookie",
+                cinnabar$token: t.cinnabar$token,
+                cinnabar$type: "cookie",
               };
               e.serviceWorker.controller.postMessage(r);
             }
@@ -726,7 +726,7 @@
                 );
                 n &&
                   e.natives.call("ServiceWorker.prototype.postMessage", n, {
-                    scramjet$type: "cookie",
+                    cinnabar$type: "cookie",
                     cookie: r,
                     url: e.url.href,
                   });
@@ -967,34 +967,34 @@
             e.Proxy("Element.prototype.getAttribute", {
               apply(t) {
                 let [r] = t.args;
-                if (r.startsWith("scramjet-attr")) return t.return(null);
+                if (r.startsWith("cinnabar-attr")) return t.return(null);
                 if (
                   e.natives.call(
                     "Element.prototype.hasAttribute",
                     t.this,
-                    `scramjet-attr-${r}`,
+                    `cinnabar-attr-${r}`,
                   )
                 ) {
-                  let e = t.fn.call(t.this, `scramjet-attr-${r}`);
+                  let e = t.fn.call(t.this, `cinnabar-attr-${r}`);
                   return null === e ? t.return("") : t.return(e);
                 }
               },
             }),
             e.Proxy("Element.prototype.getAttributeNames", {
               apply(e) {
-                let t = e.call().filter((e) => !e.startsWith("scramjet-attr"));
+                let t = e.call().filter((e) => !e.startsWith("cinnabar-attr"));
                 e.return(t);
               },
             }),
             e.Proxy("Element.prototype.getAttributeNode", {
               apply(e) {
-                if (e.args[0].startsWith("scramjet-attr"))
+                if (e.args[0].startsWith("cinnabar-attr"))
                   return e.return(null);
               },
             }),
             e.Proxy("Element.prototype.hasAttribute", {
               apply(e) {
-                if (e.args[0].startsWith("scramjet-attr")) return e.return(!1);
+                if (e.args[0].startsWith("cinnabar-attr")) return e.return(!1);
               },
             }),
             e.Proxy("Element.prototype.setAttribute", {
@@ -1021,7 +1021,7 @@
                     return;
                   }
                   ((t.args[1] = n),
-                    t.fn.call(t.this, `scramjet-attr-${t.args[0]}`, i));
+                    t.fn.call(t.this, `cinnabar-attr-${t.args[0]}`, i));
                 }
               },
             }),
@@ -1043,7 +1043,7 @@
                   e.natives.call(
                     "Element.prototype.setAttribute",
                     t.this,
-                    `scramjet-attr-${t.args[1]}`,
+                    `cinnabar-attr-${t.args[1]}`,
                     a,
                   ));
               },
@@ -1065,23 +1065,23 @@
             }),
             e.Proxy("Element.prototype.removeAttribute", {
               apply(t) {
-                if (t.args[0].startsWith("scramjet-attr"))
+                if (t.args[0].startsWith("cinnabar-attr"))
                   return t.return(void 0);
                 e.natives.call(
                   "Element.prototype.hasAttribute",
                   t.this,
                   t.args[0],
-                ) && t.fn.call(t.this, `scramjet-attr-${t.args[0]}`);
+                ) && t.fn.call(t.this, `cinnabar-attr-${t.args[0]}`);
               },
             }),
             e.Proxy("Element.prototype.toggleAttribute", {
               apply(t) {
-                if (t.args[0].startsWith("scramjet-attr")) return t.return(!1);
+                if (t.args[0].startsWith("cinnabar-attr")) return t.return(!1);
                 e.natives.call(
                   "Element.prototype.hasAttribute",
                   t.this,
                   t.args[0],
-                ) && t.fn.call(t.this, `scramjet-attr-${t.args[0]}`);
+                ) && t.fn.call(t.this, `cinnabar-attr-${t.args[0]}`);
               },
             }),
             e.Trap("Element.prototype.innerHTML", {
@@ -1092,7 +1092,7 @@
                     e.natives.call(
                       "Element.prototype.setAttribute",
                       r.this,
-                      "scramjet-attr-script-source-src",
+                      "cinnabar-attr-script-source-src",
                       d(u.encode(o)),
                     ));
                 else if (r.this instanceof t.HTMLStyleElement)
@@ -1110,7 +1110,7 @@
                   let t = e.natives.call(
                     "Element.prototype.getAttribute",
                     r.this,
-                    "scramjet-attr-script-source-src",
+                    "cinnabar-attr-script-source-src",
                   );
                   return t ? atob(t) : r.get();
                 }
@@ -1127,7 +1127,7 @@
                     e.natives.call(
                       "Element.prototype.setAttribute",
                       r.this,
-                      "scramjet-attr-script-source-src",
+                      "cinnabar-attr-script-source-src",
                       d(u.encode(t)),
                     ),
                     r.set(t)
@@ -1142,7 +1142,7 @@
                   let t = e.natives.call(
                     "Element.prototype.getAttribute",
                     r.this,
-                    "scramjet-attr-script-source-src",
+                    "cinnabar-attr-script-source-src",
                   );
                   return t ? atob(t) : r.get();
                 }
@@ -1221,7 +1221,7 @@
                 get(e) {
                   let t = e.get();
                   return (
-                    t && (l.pX in t || new c.ScramjetClient(t).hook()),
+                    t && (l.pX in t || new c.CinnabarClient(t).hook()),
                     t
                   );
                 },
@@ -1241,7 +1241,7 @@
                     t.this,
                   );
                   return r
-                    ? (l.pX in r || new c.ScramjetClient(r).hook(), r.document)
+                    ? (l.pX in r || new c.CinnabarClient(r).hook(), r.document)
                     : r;
                 },
               },
@@ -1334,7 +1334,7 @@
               if (!r) return t.return(r);
               if (i.pX in r) return t.return(r[i.pX].global);
               {
-                let e = new n.ScramjetClient(r);
+                let e = new n.CinnabarClient(r);
                 return (e.hook(), t.return(e.global));
               }
             },
@@ -1483,7 +1483,7 @@
                   "ServiceWorker.prototype.postMessage",
                   l,
                   {
-                    scramjet$type: "registerServiceWorker",
+                    cinnabar$type: "registerServiceWorker",
                     port: s,
                     origin: e.url.origin,
                   },
@@ -1584,11 +1584,11 @@
         function g(e) {
           if (
             ((0, n.Nk)(e),
-            l.log("initializing scramjet client"),
+            l.log("initializing cinnabar client"),
             !(i.pX in globalThis))
           ) {
             (0, n.Ec)();
-            let e = new a.ScramjetClient(globalThis),
+            let e = new a.CinnabarClient(globalThis),
               t = globalThis.frameElement;
             (t &&
               !t.name &&
@@ -1598,8 +1598,8 @@
                 .join("")}`),
               globalThis.COOKIE && e.loadcookies(globalThis.COOKIE),
               e.hook(),
-              f && new o.ScramjetServiceWorkerRuntime(e).hook());
-            let r = new s.ScramjetContextEvent(e.global.window, e);
+              f && new o.CinnabarServiceWorkerRuntime(e).hook());
+            let r = new s.CinnabarContextEvent(e.global.window, e);
             e.frame?.dispatchEvent(r);
             let i = new s.UrlChangeEvent(e.url.href);
             e.isSubframe || e.frame?.dispatchEvent(i);
@@ -1612,8 +1612,8 @@
         (r.r(t),
           r.d(t, {
             NavigateEvent: () => i,
-            ScramjetContextEvent: () => s,
-            ScramjetGlobalDownloadEvent: () => n,
+            CinnabarContextEvent: () => s,
+            CinnabarGlobalDownloadEvent: () => n,
             UrlChangeEvent: () => a,
           }));
         class n extends Event {
@@ -1656,10 +1656,10 @@
         (r.r(t),
           r.d(t, {
             NavigateEvent: () => a.NavigateEvent,
-            ScramjetClient: () => n.ScramjetClient,
-            ScramjetContextEvent: () => a.ScramjetContextEvent,
-            ScramjetGlobalDownloadEvent: () => a.ScramjetGlobalDownloadEvent,
-            ScramjetServiceWorkerRuntime: () => l.ScramjetServiceWorkerRuntime,
+            CinnabarClient: () => n.CinnabarClient,
+            CinnabarContextEvent: () => a.CinnabarContextEvent,
+            CinnabarGlobalDownloadEvent: () => a.CinnabarGlobalDownloadEvent,
+            CinnabarServiceWorkerRuntime: () => l.CinnabarServiceWorkerRuntime,
             UrlChangeEvent: () => a.UrlChangeEvent,
             createLocationProxy: () => o.createLocationProxy,
             getOwnPropertyDescriptorHandler: () =>
@@ -1955,10 +1955,10 @@
         }
         function s(e, t) {
           let r = console.warn;
-          ((t.$scramerr = function (e) {
+          ((t.$cinnaerr = function (e) {
             r("CAUGHT ERROR", e);
           }),
-            (t.$scramdbg = function (e, t) {
+            (t.$cinnadbg = function (e, t) {
               return (
                 e && "object" == typeof e && e.length > 0 && a(e),
                 a(t),
@@ -2038,14 +2038,14 @@
         var n = r(1323),
           i = r(1472),
           a = r(94);
-        let s = Symbol.for("scramjet original onevent function");
+        let s = Symbol.for("cinnabar original onevent function");
         function o(e, t) {
           let r = {
             message: {
               _init() {
                 return (
                   "object" != typeof this.data ||
-                  !("$scramjet$type" in this.data)
+                  !("$cinnabar$type" in this.data)
                 );
               },
               ports() {
@@ -2056,14 +2056,14 @@
               },
               origin() {
                 return "object" == typeof this.data &&
-                  "$scramjet$origin" in this.data
-                  ? this.data.$scramjet$origin
+                  "$cinnabar$origin" in this.data
+                  ? this.data.$cinnabar$origin
                   : e.url.origin;
               },
               data() {
                 return "object" == typeof this.data &&
-                  "$scramjet$data" in this.data
-                  ? this.data.$scramjet$data
+                  "$cinnabar$data" in this.data
+                  ? this.data.$cinnabar$data
                   : this.data;
               },
             },
@@ -2322,9 +2322,9 @@
                   r = t("return globalThis")()[i.pX],
                   n = t("...args", "this(...args)");
                 ((e.args[0] = {
-                  $scramjet$messagetype: "window",
-                  $scramjet$origin: r.url.origin,
-                  $scramjet$data: e.args[0],
+                  $cinnabar$messagetype: "window",
+                  $cinnabar$origin: r.url.origin,
+                  $cinnabar$data: e.args[0],
                 }),
                   "string" == typeof e.args[1] && (e.args[1] = "*"),
                   "object" == typeof e.args[1] &&
@@ -2338,8 +2338,8 @@
             e.Proxy(t, {
               apply(e) {
                 e.args[0] = {
-                  $scramjet$messagetype: "worker",
-                  $scramjet$data: e.args[0],
+                  $cinnabar$messagetype: "worker",
+                  $cinnabar$data: e.args[0],
                 };
               },
             }));
@@ -2348,7 +2348,7 @@
       1914: function (e, t, r) {
         (r.r(t), r.d(t, { POLLUTANT: () => i, default: () => a }));
         var n = r(37);
-        let i = Symbol.for("scramjet realm pollutant");
+        let i = Symbol.for("cinnabar realm pollutant");
         function a(e, t) {
           Object.defineProperty(t.Object.prototype, n.$W.globals.setrealmfn, {
             value(e) {
@@ -2731,7 +2731,7 @@
         (r.r(t), r.d(t, { default: () => o, enabled: () => s }));
         var n = r(37),
           i = r(8665).A;
-        let a = "/*scramtag ",
+        let a = "/*cinnatag ",
           s = (e) => (0, n.U5)("sourcemaps", e.url);
         function o(e, t) {
           (Object.defineProperty(t, n.$W.globals.pushsourcemapfn, {
@@ -2762,7 +2762,7 @@
                 }
                 e.box.sourcemaps[r] = s;
               })(e, t, r),
-                i.time(e.meta, n, `scramtag parse for ${r}`));
+                i.time(e.meta, n, `cinnatag parse for ${r}`));
             },
             enumerable: !1,
             writable: !1,
@@ -2782,7 +2782,7 @@
                         let n = e.substring(t + 2, r).split(" ");
                         if (
                           3 !== n.length ||
-                          "scramtag" !== n[0] ||
+                          "cinnatag" !== n[0] ||
                           !Number.isSafeInteger(+n[1])
                         )
                           throw (console.log(e, t, r, n), Error("invalid tag"));
@@ -2847,7 +2847,7 @@
                 e.natives.call(
                   "Worker.prototype.postMessage",
                   r,
-                  { $scramjet$type: "baremuxinit", port: t },
+                  { $cinnabar$type: "baremuxinit", port: t },
                   [t],
                 );
               })();
@@ -2873,7 +2873,7 @@
                   e.natives.call(
                     "MessagePort.prototype.postMessage",
                     r.port,
-                    { $scramjet$type: "baremuxinit", port: t },
+                    { $cinnabar$type: "baremuxinit", port: t },
                     [t],
                   );
                 })();
@@ -3004,7 +3004,7 @@
                 enumerable: !1,
               },
             ),
-            (t.$scramitize = function (e) {
+            (t.$cinnaitize = function (e) {
               return (
                 location,
                 n.iswindow && t.top,
@@ -3045,7 +3045,7 @@
         }
       },
       8409: function (e, t, r) {
-        (r.r(t), r.d(t, { ScramjetServiceWorkerRuntime: () => a }));
+        (r.r(t), r.d(t, { CinnabarServiceWorkerRuntime: () => a }));
         var n = r(1472),
           i = r(8665).A;
         class a {
@@ -3058,11 +3058,11 @@
                 (i.log("sw", "connected"),
                   r.addEventListener("message", (t) => {
                     (console.log("sw", t.data),
-                      "scramjet$type" in t.data &&
-                        ("init" === t.data.scramjet$type
-                          ? ((this.recvport = t.data.scramjet$port),
+                      "cinnabar$type" in t.data &&
+                        ("init" === t.data.cinnabar$type
+                          ? ((this.recvport = t.data.cinnabar$port),
                             this.recvport.postMessage({
-                              scramjet$type: "init",
+                              cinnabar$type: "init",
                             }))
                           : s.call(this, e, t.data)));
                   }),
@@ -3094,15 +3094,15 @@
         }
         function s(e, t) {
           let r = this.recvport,
-            a = t.scramjet$type,
-            s = t.scramjet$token,
+            a = t.cinnabar$type,
+            s = t.cinnabar$token,
             o = e.eventcallbacks.get(self);
           if ("fetch" === a) {
             i.log("ee", t);
             let a = o.filter((e) => "fetch" === e.event);
             if (!a) return;
             for (let o of a) {
-              let a = t.scramjet$request,
+              let a = t.cinnabar$request,
                 l = new e.natives.Request((0, n.v2)(a.url), {
                   body: a.body,
                   headers: new Headers(a.headers),
@@ -3119,9 +3119,9 @@
                 ((u = !0),
                   (async () => {
                     let t = {
-                      scramjet$type: "fetch",
-                      scramjet$token: s,
-                      scramjet$response: {
+                      cinnabar$type: "fetch",
+                      cinnabar$token: s,
+                      cinnabar$response: {
                         body: (e = await e).body,
                         headers: Array.from(e.headers.entries()),
                         status: e.status,
@@ -3140,9 +3140,9 @@
                 u ||
                   (console.log("sw", "no response"),
                   r.postMessage({
-                    scramjet$type: "fetch",
-                    scramjet$token: s,
-                    scramjet$response: !1,
+                    cinnabar$type: "fetch",
+                    cinnabar$token: s,
+                    cinnabar$response: !1,
                   })));
             }
           }
@@ -3181,18 +3181,18 @@
                 {
                   prefix: "/polygon/",
                   globals: {
-                    wrapfn: "$scramjet$wrap",
-                    wrappropertybase: "$scramjet__",
-                    wrappropertyfn: "$scramjet$prop",
-                    cleanrestfn: "$scramjet$clean",
-                    importfn: "$scramjet$import",
-                    rewritefn: "$scramjet$rewrite",
-                    metafn: "$scramjet$meta",
-                    setrealmfn: "$scramjet$setrealm",
-                    pushsourcemapfn: "$scramjet$pushsourcemap",
-                    trysetfn: "$scramjet$tryset",
-                    templocid: "$scramjet$temploc",
-                    tempunusedid: "$scramjet$tempunused",
+                    wrapfn: "$cinnabar$wrap",
+                    wrappropertybase: "$cinnabar__",
+                    wrappropertyfn: "$cinnabar$prop",
+                    cleanrestfn: "$cinnabar$clean",
+                    importfn: "$cinnabar$import",
+                    rewritefn: "$cinnabar$rewrite",
+                    metafn: "$cinnabar$meta",
+                    setrealmfn: "$cinnabar$setrealm",
+                    pushsourcemapfn: "$cinnabar$pushsourcemap",
+                    trysetfn: "$cinnabar$tryset",
+                    templocid: "$cinnabar$temploc",
+                    tempunusedid: "$cinnabar$tempunused",
                   },
                   files: {
                     wasm: "/polygon.wasm.wasm",
@@ -3206,7 +3206,7 @@
                     rewriterLogs: !1,
                     captureErrors: !0,
                     cleanErrors: !1,
-                    scramitize: !1,
+                    cinnaitize: !1,
                     sourcemaps: !0,
                     destructureRewrites: !1,
                     interceptDownloads: !1,
@@ -3229,16 +3229,16 @@
             ((0, n.Ec)(),
               await this.openIDB(),
               navigator.serviceWorker.controller?.postMessage({
-                scramjet$type: "loadConfig",
+                cinnabar$type: "loadConfig",
                 config: n.$W,
               }),
               o.log("config loaded"),
               navigator.serviceWorker.addEventListener("message", (e) => {
-                if (!("scramjet$type" in e.data)) return;
+                if (!("cinnabar$type" in e.data)) return;
                 let t = e.data;
-                "download" === t.scramjet$type &&
+                "download" === t.cinnabar$type &&
                   this.dispatchEvent(
-                    new s.ScramjetGlobalDownloadEvent(t.download),
+                    new s.CinnabarGlobalDownloadEvent(t.download),
                   );
               }));
           }
@@ -3266,7 +3266,7 @@
             return (0, n.P_)(e.slice(t.length));
           }
           async openIDB() {
-            let e = await (0, a.P2)("$scramjet", 1, {
+            let e = await (0, a.P2)("$cinnabar", 1, {
               upgrade(e) {
                 (e.objectStoreNames.contains("config") ||
                   e.createObjectStore("config"),
@@ -3292,7 +3292,7 @@
               (0, n.Ec)(),
               await this.#e(),
               navigator.serviceWorker.controller?.postMessage({
-                scramjet$type: "loadConfig",
+                cinnabar$type: "loadConfig",
                 config: n.$W,
               }));
           }
@@ -3345,7 +3345,7 @@
       },
       9052: function (e, t, r) {
         (r.r(t),
-          r.d(t, { ScramjetController: () => i.q, ScramjetFrame: () => n.X }));
+          r.d(t, { CinnabarController: () => i.q, CinnabarFrame: () => n.X }));
         var n = r(4869),
           i = r(3402);
       },
@@ -3706,7 +3706,7 @@
           let r = JSON.stringify(e.dump()),
             n = `
 		self.COOKIE = ${r};
-		$scramjetLoadClient().loadAndHook(${JSON.stringify(c.$W)});
+		$cinnabarLoadClient().loadAndHook(${JSON.stringify(c.$W)});
 		if ("document" in self && document?.currentScript) {
 			document.currentScript.remove();
 		}
@@ -3747,12 +3747,12 @@
                           (null === s
                             ? delete t.attribs[i]
                             : (t.attribs[i] = s),
-                            (t.attribs[`scramjet-attr-${i}`] = a));
+                            (t.attribs[`cinnabar-attr-${i}`] = a));
                         }
                       }
                     for (let [e, r] of Object.entries(t.attribs))
                       b.includes(e) &&
-                        ((t.attribs[`scramjet-attr-${e}`] = r),
+                        ((t.attribs[`cinnabar-attr-${e}`] = r),
                         (t.attribs[e] = (0, l.o)(
                           r,
                           `(inline ${e} on element)`,
@@ -3794,7 +3794,7 @@
                   ) {
                     let e = t.children[0].data,
                       r = "module" === t.attribs.type;
-                    ((t.attribs["scramjet-attr-script-source-src"] = y(
+                    ((t.attribs["cinnabar-attr-script-source-src"] = y(
                       p.encode(e),
                     )),
                       (e = e.replace(/<!--[\s\S]*?-->/g, "")),
@@ -3858,13 +3858,13 @@
             !(function e(t) {
               if ("attribs" in t)
                 for (let e in t.attribs) {
-                  if ("scramjet-attr-script-source-src" == e) {
+                  if ("cinnabar-attr-script-source-src" == e) {
                     t.children[0] &&
                       "data" in t.children[0] &&
                       (t.children[0].data = atob(t.attribs[e]));
                     continue;
                   }
-                  e.startsWith("scramjet-attr-") &&
+                  e.startsWith("cinnabar-attr-") &&
                     ((t.attribs[e.slice(14)] = t.attribs[e]),
                     delete t.attribs[e]);
                 }
@@ -4016,7 +4016,7 @@
                             n,
                           )),
                       a.time(r, l, `oxc rewrite for "${t || "(unknown)"}"`));
-                    let { js: c, map: u, scramtag: d, errors: h } = o;
+                    let { js: c, map: u, cinnatag: d, errors: h } = o;
                     return {
                       js: "string" == typeof e ? i.su.decode(c) : c,
                       tag: d,
@@ -4217,7 +4217,7 @@ ${l}`;
             };
           (l("wasm"),
             l("all"),
-            (s += `$scramjetLoadClient().loadAndHook(${JSON.stringify(n.$W)});`));
+            (s += `$cinnabarLoadClient().loadAndHook(${JSON.stringify(n.$W)});`));
           let c = (0, i.o)(e, r, a, o);
           return (
             c instanceof Uint8Array && (c = new TextDecoder().decode(c)),
@@ -4237,7 +4237,7 @@ ${l}`;
         var n = r(6570);
         let i = { none: 0, "same-origin": 1, "same-site": 2, "cross-site": 3 };
         async function a() {
-          return (0, n.P2)("$scramjet", 1);
+          return (0, n.P2)("$cinnabar", 1);
         }
         async function s(e) {
           let t = await a();
@@ -4292,7 +4292,7 @@ ${l}`;
         var n = r(6570);
         let i = "publicSuffixList";
         async function a() {
-          return (0, n.P2)("$scramjet", 1);
+          return (0, n.P2)("$cinnabar", 1);
         }
         async function s() {
           let e = await a();
@@ -4373,8 +4373,8 @@ ${l}`;
       },
       2794: function (e, t, r) {
         r.d(t, { pX: () => n, zr: () => i });
-        let n = Symbol.for("scramjet client global"),
-          i = Symbol.for("scramjet frame handle");
+        let n = Symbol.for("cinnabar client global"),
+          i = Symbol.for("cinnabar frame handle");
       },
       5956: function (e, t, r) {
         function n(e, t) {
@@ -4383,8 +4383,8 @@ ${l}`;
                 fetchedURL.textContent = ${JSON.stringify(t)};
                 for (const node of document.querySelectorAll("#hostname")) node.textContent = ${JSON.stringify(location.hostname)};
                 reload.addEventListener("click", () => location.reload());
-                version.textContent = ${JSON.stringify(globalThis.$scramjetVersion?.version || "unknown")};
-                build.textContent = ${JSON.stringify(globalThis.$scramjetVersion?.build || "unknown")};
+                version.textContent = ${JSON.stringify(globalThis.$cinnabarVersion?.version || "unknown")};
+                build.textContent = ${JSON.stringify(globalThis.$cinnabarVersion?.build || "unknown")};
 
                 document.getElementById('copy-button').addEventListener('click', async () => {
                     const text = document.getElementById('errorTrace').value;
@@ -4398,7 +4398,7 @@ ${l}`;
             <html>
                 <head>
                     <meta charset="utf-8" />
-                    <title>Scramjet</title>
+                    <title>Cinnabar</title>
                     <style>
                     :root {
                         --deep: #080602;
@@ -4537,7 +4537,7 @@ ${l}`;
                         <br>
                         <button id="reload" class="primary">Reload</button>
                     </div>
-                    <p id="version-wrapper"><i>Scramjet v<span id="version"></span> (build <span id="build"></span>)</i></p>
+                    <p id="version-wrapper"><i>Cinnabar v<span id="version"></span> (build <span id="build"></span>)</i></p>
                     <script src="${"data:application/javascript," + encodeURIComponent(r)}"></script>
                 </body>
             </html>
@@ -4566,30 +4566,30 @@ ${l}`;
             ((this.handle = e),
               (this.origin = t),
               this.messageChannel.port1.addEventListener("message", (e) => {
-                "scramjet$type" in e.data &&
-                  ("init" === e.data.scramjet$type
+                "cinnabar$type" in e.data &&
+                  ("init" === e.data.cinnabar$type
                     ? (this.connected = !0)
                     : this.handleMessage(e.data));
               }),
               this.messageChannel.port1.start(),
               this.handle.postMessage(
                 {
-                  scramjet$type: "init",
-                  scramjet$port: this.messageChannel.port2,
+                  cinnabar$type: "init",
+                  cinnabar$port: this.messageChannel.port2,
                 },
                 [this.messageChannel.port2],
               ));
           }
           handleMessage(e) {
-            let t = this.promises[e.scramjet$token];
-            t && (t(e), delete this.promises[e.scramjet$token]);
+            let t = this.promises[e.cinnabar$token];
+            t && (t(e), delete this.promises[e.cinnabar$token]);
           }
           async fetch(e) {
             let t = this.syncToken++,
               r = {
-                scramjet$type: "fetch",
-                scramjet$token: t,
-                scramjet$request: {
+                cinnabar$type: "fetch",
+                cinnabar$token: t,
+                cinnabar$request: {
                   url: e.url,
                   body: e.body,
                   headers: Array.from(e.headers.entries()),
@@ -4600,7 +4600,7 @@ ${l}`;
               },
               n = e.body ? [e.body] : [];
             this.handle.postMessage(r, n);
-            let { scramjet$response: i } = await new Promise((e) => {
+            let { cinnabar$response: i } = await new Promise((e) => {
               this.promises[t] = e;
             });
             return (
@@ -4844,7 +4844,7 @@ self.WASM = '${r}';`),
           for (let t in x)
             if (h) {
               let r = f.dispatch(h, {
-                scramjet$type: "cookie",
+                cinnabar$type: "cookie",
                 cookie: t,
                 url: e.href,
               });
@@ -4909,7 +4909,7 @@ self.WASM = '${r}';`),
                 body: l.body,
                 length: Number(n),
               };
-              (i[0].postMessage({ scramjet$type: "download", download: a }, [
+              (i[0].postMessage({ cinnabar$type: "download", download: a }, [
                 l.body,
               ]),
                 await new Promise(() => {}));
@@ -5020,9 +5020,9 @@ self.WASM = '${r}';`),
         (r.r(t),
           r.d(t, {
             FakeServiceWorker: () => n.H,
-            ScramjetHandleResponseEvent: () => i.dT,
-            ScramjetRequestEvent: () => i.V3,
-            ScramjetServiceWorker: () => d,
+            CinnabarHandleResponseEvent: () => i.dT,
+            CinnabarRequestEvent: () => i.V3,
+            CinnabarServiceWorker: () => d,
             errorTemplate: () => u.B,
             handleFetch: () => i.Pf,
             renderError: () => u.v,
@@ -5046,31 +5046,31 @@ self.WASM = '${r}';`),
             (super(),
               (this.client = new a.Ay()),
               (async () => {
-                let e = await (0, l.P2)("$scramjet", 1),
+                let e = await (0, l.P2)("$cinnabar", 1),
                   t = await e.get("cookies", "cookies");
                 t && this.cookieStore.load(t);
               })(),
               addEventListener("message", async ({ data: e }) => {
-                if ("scramjet$type" in e) {
-                  if ("scramjet$token" in e) {
-                    let t = this.syncPool[e.scramjet$token];
-                    (delete this.syncPool[e.scramjet$token], t(e));
+                if ("cinnabar$type" in e) {
+                  if ("cinnabar$token" in e) {
+                    let t = this.syncPool[e.cinnabar$token];
+                    (delete this.syncPool[e.cinnabar$token], t(e));
                     return;
                   }
-                  if ("registerServiceWorker" === e.scramjet$type)
+                  if ("registerServiceWorker" === e.cinnabar$type)
                     return void this.serviceWorkers.push(
                       new n.H(e.port, e.origin),
                     );
-                  if ("cookie" === e.scramjet$type) {
+                  if ("cookie" === e.cinnabar$type) {
                     this.cookieStore.setCookies([e.cookie], new URL(e.url));
-                    let t = await (0, l.P2)("$scramjet", 1);
+                    let t = await (0, l.P2)("$cinnabar", 1);
                     await t.put(
                       "cookies",
                       JSON.parse(this.cookieStore.dump()),
                       "cookies",
                     );
                   }
-                  "loadConfig" === e.scramjet$type && (this.config = e.config);
+                  "loadConfig" === e.cinnabar$type && (this.config = e.config);
                 }
               }));
           }
@@ -5080,14 +5080,14 @@ self.WASM = '${r}';`),
               i = new Promise((e) => (r = e));
             return (
               (this.syncPool[n] = r),
-              (t.scramjet$token = n),
+              (t.cinnabar$token = n),
               e.postMessage(t),
               await i
             );
           }
           async loadConfig() {
             if (this.config) return;
-            let e = await (0, l.P2)("$scramjet", 1);
+            let e = await (0, l.P2)("$cinnabar", 1);
             ((this.config = await e.get("config", "config")),
               this.config && ((0, c.Nk)(this.config), await (0, s.n$)()));
           }
@@ -8002,7 +8002,7 @@ self.WASM = '${r}';`),
               function (e, t, r) {
                 return new Uint8Array(e, t >>> 0, r >>> 0);
               }),
-            (e.wbg.__wbg_scramtag_3a255d78b157986d = function (e) {
+            (e.wbg.__wbg_cinnatag_3a255d78b157986d = function (e) {
               let t = p((0, i.N)(), n.__wbindgen_malloc, n.__wbindgen_realloc),
                 r = u;
               (g().setInt32(e + 4, r, !0), g().setInt32(e + 0, t, !0));
@@ -8124,19 +8124,19 @@ self.WASM = '${r}';`),
         Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }),
         Object.defineProperty(e, "__esModule", { value: !0 }));
     }),
-    (globalThis.$scramjetRequire = function (e) {
+    (globalThis.$cinnabarRequire = function (e) {
       return r(409)(e);
     }),
-    (globalThis.$scramjetLoadController = function () {
+    (globalThis.$cinnabarLoadController = function () {
       return r(9052);
     }),
-    (globalThis.$scramjetLoadClient = function () {
+    (globalThis.$cinnabarLoadClient = function () {
       return r(1323);
     }),
-    (globalThis.$scramjetLoadWorker = function () {
+    (globalThis.$cinnabarLoadWorker = function () {
       return r(7510);
     }),
-    (globalThis.$scramjetVersion = {
+    (globalThis.$cinnabarVersion = {
       build: "667cf55",
       version: "2.0.0-alpha",
     }),

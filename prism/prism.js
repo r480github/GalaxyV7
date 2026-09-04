@@ -186,7 +186,7 @@
 				}
 			},
 			6039(e, t, r) {
-				(r.r(t), r.d(t, { ScramjetClient: () => f }));
+				(r.r(t), r.d(t, { CinnabarClient: () => f }));
 				var i = r(3235),
 					n = r(9637),
 					o = r(1171),
@@ -222,7 +222,7 @@
 						if (((this.global = e), (this.init = t), n.p in e))
 							throw (
 								p.error(
-									'attempted to initialize a scramjet client, but one is already loaded - this is very bad'
+									'attempted to initialize a cinnabar client, but one is already loaded - this is very bad'
 								),
 								new g.$D()
 							);
@@ -352,7 +352,7 @@
 								if (!t) return null;
 								if (!t.name)
 									return (
-										p.error('YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK'),
+										p.error('YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK'),
 										null
 									);
 								return t.name;
@@ -372,7 +372,7 @@
 										if (!t.name)
 											return (
 												p.error(
-													'YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK'
+													'YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK'
 												),
 												null
 											);
@@ -383,7 +383,7 @@
 										if (!e.name)
 											return (
 												p.error(
-													'YOU NEED TO USE `new ScramjetFrame()`! DIRECT IFRAMES WILL NOT WORK'
+													'YOU NEED TO USE `new CinnabarFrame()`! DIRECT IFRAMES WILL NOT WORK'
 												),
 												null
 											);
@@ -495,7 +495,7 @@
 									null,
 									`"use strict";
 
-// SCRAMJET FUNCTION INTERCEPT
+// CINNABAR FUNCTION INTERCEPT
 // target: ${e}
 // frame: ${r}
 // location: ${o}
@@ -562,7 +562,7 @@ return { apply, construct };
 											if (this.box.instanceof(e.stack, 'Object')) {
 												if (
 													((e.stack = e.stack.stack),
-													console.error('ERROR FROM SCRAMJET INTERNALS', e),
+													console.error('ERROR FROM CINNABAR INTERNALS', e),
 													!this.flagEnabled('allowFailedIntercepts'))
 												)
 													throw ((g.$D.prepareStackTrace = A), e);
@@ -676,7 +676,7 @@ return { apply, construct };
 										'symbol' == typeof r
 											? (0, i.d2)(e, r)
 											: !(
-													r.startsWith('scramjet-attr-') || t[r]?.name?.startsWith('scramjet-attr-')
+													r.startsWith('cinnabar-attr-') || t[r]?.name?.startsWith('cinnabar-attr-')
 												) && (0, i.d2)(e, r)
 								});
 							return r;
@@ -923,7 +923,7 @@ return { apply, construct };
 				function p(e, t, r, i) {
 					let o = {};
 					for (let r of e.natives.call('Element.prototype.getAttributeNames', t) ?? []) {
-						if ((0, n.Qf)(r).startsWith('scramjet-attr')) continue;
+						if ((0, n.Qf)(r).startsWith('cinnabar-attr')) continue;
 						let i = e.natives.call('Element.prototype.getAttribute', t, r);
 						o[(0, n.Qf)(r).toLowerCase()] = 'string' == typeof i ? i : void 0;
 					}
@@ -1014,29 +1014,29 @@ return { apply, construct };
 						e.Proxy('Element.prototype.getAttribute', {
 							apply(t) {
 								let [r] = t.args;
-								if (r.startsWith('scramjet-attr')) return t.return(null);
+								if (r.startsWith('cinnabar-attr')) return t.return(null);
 								if (
-									e.natives.call('Element.prototype.hasAttribute', t.this, `scramjet-attr-${r}`)
+									e.natives.call('Element.prototype.hasAttribute', t.this, `cinnabar-attr-${r}`)
 								) {
-									let e = t.fn.call(t.this, `scramjet-attr-${r}`);
+									let e = t.fn.call(t.this, `cinnabar-attr-${r}`);
 									return null === e ? t.return('') : t.return(e);
 								}
 							}
 						}),
 						e.Proxy('Element.prototype.getAttributeNames', {
 							apply(e) {
-								let t = e.call().filter((e) => !e.startsWith('scramjet-attr'));
+								let t = e.call().filter((e) => !e.startsWith('cinnabar-attr'));
 								e.return(t);
 							}
 						}),
 						e.Proxy('Element.prototype.getAttributeNode', {
 							apply(e) {
-								if ((0, n.Qf)(e.args[0]).startsWith('scramjet-attr')) return e.return(null);
+								if ((0, n.Qf)(e.args[0]).startsWith('cinnabar-attr')) return e.return(null);
 							}
 						}),
 						e.Proxy('Element.prototype.hasAttribute', {
 							apply(e) {
-								if ((0, n.Qf)(e.args[0]).startsWith('scramjet-attr')) return e.return(!1);
+								if ((0, n.Qf)(e.args[0]).startsWith('cinnabar-attr')) return e.return(!1);
 							}
 						}),
 						e.Proxy('Element.prototype.setAttribute', {
@@ -1052,11 +1052,11 @@ return { apply, construct };
 									let i = a.fn(o, e.context, e.meta, p(e, t.this, r, o));
 									if (null == i) {
 										(e.natives.call('Element.prototype.removeAttribute', t.this, r),
-											t.fn.call(t.this, `scramjet-attr-${r}`, o),
+											t.fn.call(t.this, `cinnabar-attr-${r}`, o),
 											t.return(void 0));
 										return;
 									}
-									((t.args[1] = i), t.fn.call(t.this, `scramjet-attr-${t.args[0]}`, o));
+									((t.args[1] = i), t.fn.call(t.this, `cinnabar-attr-${t.args[0]}`, o));
 								}
 							}
 						}),
@@ -1078,7 +1078,7 @@ return { apply, construct };
 									e.natives.call(
 										'Element.prototype.setAttribute',
 										t.this,
-										`scramjet-attr-${t.args[1]}`,
+										`cinnabar-attr-${t.args[1]}`,
 										o
 									));
 							}
@@ -1101,17 +1101,17 @@ return { apply, construct };
 						e.Proxy('Element.prototype.removeAttribute', {
 							apply(t) {
 								let r = (0, n.Qf)(t.args[0]);
-								if (r.startsWith('scramjet-attr')) return t.return(void 0);
+								if (r.startsWith('cinnabar-attr')) return t.return(void 0);
 								e.natives.call('Element.prototype.hasAttribute', t.this, r) &&
-									t.fn.call(t.this, `scramjet-attr-${t.args[0]}`);
+									t.fn.call(t.this, `cinnabar-attr-${t.args[0]}`);
 							}
 						}),
 						e.Proxy('Element.prototype.toggleAttribute', {
 							apply(t) {
 								let r = (0, n.Qf)(t.args[0]);
-								if (r.startsWith('scramjet-attr')) return t.return(!1);
+								if (r.startsWith('cinnabar-attr')) return t.return(!1);
 								e.natives.call('Element.prototype.hasAttribute', t.this, r) &&
-									t.fn.call(t.this, `scramjet-attr-${t.args[0]}`);
+									t.fn.call(t.this, `cinnabar-attr-${t.args[0]}`);
 							}
 						}),
 						e.Trap('Element.prototype.innerHTML', {
@@ -1125,7 +1125,7 @@ return { apply, construct };
 										e.natives.call(
 											'Element.prototype.setAttribute',
 											t.this,
-											'scramjet-attr-script-source-src',
+											'cinnabar-attr-script-source-src',
 											(0, o.i)((0, n.vh)(i))
 										));
 								else if (e.box.instanceof(t.this, 'HTMLStyleElement'))
@@ -1149,7 +1149,7 @@ return { apply, construct };
 									let r = e.natives.call(
 										'Element.prototype.getAttribute',
 										t.this,
-										'scramjet-attr-script-source-src'
+										'cinnabar-attr-script-source-src'
 									);
 									return r ? (0, n.lw)(r) : t.get();
 								}
@@ -1166,7 +1166,7 @@ return { apply, construct };
 									e.natives.call(
 										'Element.prototype.setAttribute',
 										t,
-										'scramjet-attr-script-source-src',
+										'cinnabar-attr-script-source-src',
 										(0, o.i)((0, n.vh)(r))
 									),
 									s
@@ -1179,7 +1179,7 @@ return { apply, construct };
 								let i = e.natives.call(
 									'Element.prototype.getAttribute',
 									t,
-									'scramjet-attr-script-source-src'
+									'cinnabar-attr-script-source-src'
 								);
 								return i ? (0, n.lw)(i) : r;
 							}
@@ -1572,7 +1572,7 @@ return { apply, construct };
 			6418(e, t, r) {
 				(r.r(t),
 					r.d(t, {
-						ScramjetClient: () => i.ScramjetClient,
+						CinnabarClient: () => i.CinnabarClient,
 						createLocationProxy: () => s.createLocationProxy,
 						getOwnPropertyDescriptorHandler: () => o.getOwnPropertyDescriptorHandler,
 						isdedicated: () => n.isdedicated,
@@ -1807,10 +1807,10 @@ return { apply, construct };
 				}
 				function s(e, t) {
 					let r = console.warn;
-					((t.$scramerr = function (e) {
+					((t.$cinnaerr = function (e) {
 						r('CAUGHT ERROR', e);
 					}),
-						(t.$scramdbg = function (e, t) {
+						(t.$cinnadbg = function (e, t) {
 							return (e && 'object' == typeof e && e.length > 0 && o(e), o(t), t);
 						}),
 						e.Proxy('Promise.prototype.catch', {
@@ -1882,7 +1882,7 @@ return { apply, construct };
 				var i = r(7530),
 					n = r(1171),
 					o = r(5994);
-				let s = (0, o.Rq)('scramjet original onevent function');
+				let s = (0, o.Rq)('cinnabar original onevent function');
 				function a(e, t) {
 					let r = {
 						message: {
@@ -1897,14 +1897,14 @@ return { apply, construct };
 							},
 							origin() {
 								return i.iswindow
-									? 'object' == typeof this.data && '$scramjet$origin' in this.data
-										? this.data.$scramjet$origin
+									? 'object' == typeof this.data && '$cinnabar$origin' in this.data
+										? this.data.$cinnabar$origin
 										: e.url.origin
 									: '';
 							},
 							data() {
-								return 'object' == typeof this.data && '$scramjet$data' in this.data
-									? this.data.$scramjet$data
+								return 'object' == typeof this.data && '$cinnabar$data' in this.data
+									? this.data.$cinnabar$data
 									: this.data;
 							}
 						},
@@ -2129,9 +2129,9 @@ return { apply, construct };
 									i = t('...args', 'this(...args)'),
 									o = 'about:srcdoc' === r.url.href || 'about:blank' === r.url.href;
 								((e.args[0] = {
-									$scramjet$messagetype: 'window',
-									$scramjet$origin: o ? r.global.parent[n.p].url.origin : r.url.origin,
-									$scramjet$data: e.args[0]
+									$cinnabar$messagetype: 'window',
+									$cinnabar$origin: o ? r.global.parent[n.p].url.origin : r.url.origin,
+									$cinnabar$data: e.args[0]
 								}),
 									'string' == typeof e.args[1] && (e.args[1] = '*'),
 									'object' == typeof e.args[1] && (e.args[1].targetOrigin = '*'),
@@ -2141,9 +2141,9 @@ return { apply, construct };
 						e.Proxy('BroadcastChannel.prototype.postMessage', {
 							apply(t) {
 								t.args[0] = {
-									$scramjet$messagetype: 'window',
-									$scramjet$origin: e.url.origin,
-									$scramjet$data: t.args[0]
+									$cinnabar$messagetype: 'window',
+									$cinnabar$origin: e.url.origin,
+									$cinnabar$data: t.args[0]
 								};
 							}
 						}));
@@ -2152,7 +2152,7 @@ return { apply, construct };
 						i.iswindow || r.push('self.postMessage'),
 						e.Proxy(r, {
 							apply(e) {
-								e.args[0] = { $scramjet$messagetype: 'worker', $scramjet$data: e.args[0] };
+								e.args[0] = { $cinnabar$messagetype: 'worker', $cinnabar$data: e.args[0] };
 							}
 						}),
 						(0, o.pS)(t, e.config.globals.wrappostmessagefn, {
@@ -2170,9 +2170,9 @@ return { apply, construct };
 			6237(e, t, r) {
 				(r.r(t), r.d(t, { POLLUTANT: () => n, default: () => o }));
 				var i = r(5994);
-				let n = (0, i.Rq)('scramjet realm pollutant');
+				let n = (0, i.Rq)('cinnabar realm pollutant');
 				function o(e, t) {
-					(0, i.pS)(t.Object.prototype, '$scramjet$setrealmfn', {
+					(0, i.pS)(t.Object.prototype, '$cinnabar$setrealmfn', {
 						value(e) {
 							return (
 								(0, i.pS)(this, n, { value: e, writable: !1, configurable: !0, enumerable: !1 }),
@@ -2599,7 +2599,7 @@ return { apply, construct };
 				(r.r(t), r.d(t, { default: () => a, enabled: () => s }));
 				var i = r(5994),
 					n = r(7742).A;
-				let o = '/*scramtag ',
+				let o = '/*cinnatag ',
 					s = (e) => e.flagEnabled('sourcemaps');
 				function a(e, t) {
 					((0, i.pS)(t, e.config.globals.pushsourcemapfn, {
@@ -2648,7 +2648,7 @@ return { apply, construct };
 											if (-1 === r)
 												throw (n.error('unreachable', e, t, r), new i.$D('unreachable'));
 											let s = e.substring(t + 2, r).split(' ');
-											if (3 !== s.length || 'scramtag' !== s[0] || !(0, i.Aw)(+s[1]))
+											if (3 !== s.length || 'cinnatag' !== s[0] || !(0, i.Aw)(+s[1]))
 												throw (n.error('invalid tag', e, t, r, s), new i.$D('invalid tag'));
 											return [s[2], t, +s[1]];
 										})(r);
@@ -2827,13 +2827,13 @@ return { apply, construct };
 							configurable: !1,
 							enumerable: !1
 						}),
-						(t.$scramitize = function (e) {
+						(t.$cinnaitize = function (e) {
 							let r = typeof e;
 							return (
 								'object' === r && null !== e
 									? (location, i.iswindow && t.top)
 									: 'string' === r &&
-										(e.includes('scramjet'), e.includes('/hive'), e.includes(location.origin)),
+										(e.includes('cinnabar'), e.includes('/hive'), e.includes(location.origin)),
 								e
 							);
 						}),
@@ -4178,12 +4178,12 @@ return { apply, construct };
 											let o = t.attribs[n],
 												s = e.fn(o, r, i, t.attribs);
 											(null === s ? delete t.attribs[n] : (t.attribs[n] = s),
-												(t.attribs[`scramjet-attr-${n}`] = o));
+												(t.attribs[`cinnabar-attr-${n}`] = o));
 										}
 									}
 								for (let [e, n] of (0, d.nJ)(t.attribs))
 									S.includes(e) &&
-										((t.attribs[`scramjet-attr-${e}`] = n),
+										((t.attribs[`cinnabar-attr-${e}`] = n),
 										(t.attribs[e] = (0, l.o)(n, `(inline ${e} on element)`, r, i)));
 							}
 							if (
@@ -4218,7 +4218,7 @@ return { apply, construct };
 								if ((0, f.Kx)(e)) {
 									let n = t.children[0].data,
 										o = (0, f.g)(e);
-									((t.attribs['scramjet-attr-script-source-src'] = (0, u.i)((0, d.vh)(n))),
+									((t.attribs['cinnabar-attr-script-source-src'] = (0, u.i)((0, d.vh)(n))),
 										(n = n.replace(/<!--[\s\S]*?-->/g, '')),
 										(t.children[0].data = (0, l.o)(n, '(inline script element)', r, i, o)));
 								}
@@ -4262,7 +4262,7 @@ return { apply, construct };
 							r,
 							x,
 							p,
-							(e) => new o.Hg('script', { src: e, 'scramjet-injected': 'true' })
+							(e) => new o.Hg('script', { src: e, 'cinnabar-injected': 'true' })
 						);
 						E
 							? (m.warn(`detected quirky document structure parsing @ ${r.origin.href}!`),
@@ -4294,13 +4294,13 @@ return { apply, construct };
 						!(function e(t) {
 							if ('attribs' in t)
 								for (let e in t.attribs) {
-									if ('scramjet-attr-script-source-src' == e) {
+									if ('cinnabar-attr-script-source-src' == e) {
 										t.children[0] &&
 											'data' in t.children[0] &&
 											(t.children[0].data = (0, d.lw)(t.attribs[e]));
 										continue;
 									}
-									e.startsWith('scramjet-attr-') &&
+									e.startsWith('cinnabar-attr-') &&
 										((t.attribs[e.slice(14)] = t.attribs[e]), delete t.attribs[e]);
 								}
 							if ('childNodes' in t) for (let r of t.childNodes) e(r);
@@ -4483,7 +4483,7 @@ return { apply, construct };
 										)),
 								(0, i.U5)('rewriterLogs', r, a.base) &&
 									s.time(a, c, `oxc rewrite for "${t || '(unknown)'}"`));
-							let { js: u, map: g, scramtag: d, errors: p } = n;
+							let { js: u, map: g, cinnatag: d, errors: p } = n;
 							return { js: 'string' == typeof e ? (0, o.hS)(u) : u, tag: d, map: g, errors: p };
 						} finally {
 							c();
@@ -5480,7 +5480,7 @@ ${c}`;
 			9637(e, t, r) {
 				r.d(t, { _: () => n, p: () => o });
 				var i = r(5994);
-				let n = 'scramjet client global',
+				let n = 'cinnabar client global',
 					o = (0, i.Rq)(n);
 			},
 			3235(e, t, r) {
@@ -8223,7 +8223,7 @@ ${c}`;
 								n = c;
 							(d().setInt32(e + 4, n, !0), d().setInt32(e + 0, r, !0));
 						}),
-						(e.wbg.__wbg_scramtag_3a255d78b157986d = function (e) {
+						(e.wbg.__wbg_cinnatag_3a255d78b157986d = function (e) {
 							let t = u((0, n.N)(), i.__wbindgen_malloc, i.__wbindgen_realloc),
 								r = c;
 							(d().setInt32(e + 4, r, !0), d().setInt32(e + 0, t, !0));
@@ -8322,12 +8322,12 @@ ${c}`;
 			CookieJar: () => o.cP,
 			IncrementalHtmlRewriter: () => o.Kq,
 			Plugin: () => n.k,
-			SCRAMJETCLIENT: () => i.p,
-			SCRAMJETCLIENTNAME: () => i._,
-			ScramjetClient: () => A.ScramjetClient,
-			ScramjetFetchHandler: () => s.m,
-			ScramjetFetchTrackedClient: () => s.n,
-			ScramjetHeaders: () => o.uh,
+			CINNABARCLIENT: () => i.p,
+			CINNABARCLIENTNAME: () => i._,
+			CinnabarClient: () => A.CinnabarClient,
+			CinnabarFetchHandler: () => s.m,
+			CinnabarFetchTrackedClient: () => s.n,
+			CinnabarHeaders: () => o.uh,
 			Tap: () => n.C,
 			createLocationProxy: () => A.createLocationProxy,
 			defaultConfig: () => t,
@@ -8383,18 +8383,18 @@ ${c}`;
 		(r = {
 			...(t = {
 				globals: {
-					wrapfn: '$scramjet$wrap',
-					wrappropertybase: '$scramjet__',
-					wrappropertyfn: '$scramjet$prop',
-					cleanrestfn: '$scramjet$clean',
-					importfn: '$scramjet$import',
-					rewritefn: '$scramjet$rewrite',
-					metafn: '$scramjet$meta',
-					wrappostmessagefn: '$scramjet$wrappostmessage',
-					pushsourcemapfn: '$scramjet$pushsourcemap',
-					trysetfn: '$scramjet$tryset',
-					templocid: '$scramjet$temploc',
-					tempunusedid: '$scramjet$tempunused'
+					wrapfn: '$cinnabar$wrap',
+					wrappropertybase: '$cinnabar__',
+					wrappropertyfn: '$cinnabar$prop',
+					cleanrestfn: '$cinnabar$clean',
+					importfn: '$cinnabar$import',
+					rewritefn: '$cinnabar$rewrite',
+					metafn: '$cinnabar$meta',
+					wrappostmessagefn: '$cinnabar$wrappostmessage',
+					pushsourcemapfn: '$cinnabar$pushsourcemap',
+					trysetfn: '$cinnabar$tryset',
+					templocid: '$cinnabar$temploc',
+					tempunusedid: '$cinnabar$tempunused'
 				},
 				flags: {
 					syncxhr: !1,
@@ -8402,7 +8402,7 @@ ${c}`;
 					rewriterLogs: !1,
 					captureErrors: !1,
 					cleanErrors: !1,
-					scramitize: !1,
+					cinnaitize: !1,
 					sourcemaps: !0,
 					destructureRewrites: !0,
 					allowInvalidJs: !0,
@@ -8424,5 +8424,5 @@ ${c}`;
 				allowInvalidJs: !1
 			}
 		}),
-		(self.$scramjet = u));
+		(self.$cinnabar = u));
 })();

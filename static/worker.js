@@ -3,25 +3,25 @@ importScripts("/glass/glass.config.js");
 importScripts("/glass/glass.sw.js");
 importScripts("/poly/polygon.all.js");
 importScripts("/hive/prism.sw.js");
-const uv = new UVServiceWorker();
-const { ScramjetServiceWorker } = $scramjetLoadWorker();
-const scramjet = new ScramjetServiceWorker();
+const glass = new SeleniteServiceWorker();
+const { CinnabarServiceWorker } = $cinnabarLoadWorker();
+const cinnabar = new CinnabarServiceWorker();
 
 async function handleRequest(event) {
-  await scramjet.loadConfig();
-  if (uv.route(event)) {
-    return await uv.fetch(event);
+  await cinnabar.loadConfig();
+  if (glass.route(event)) {
+    return await glass.fetch(event);
   }
-  if (scramjet.route(event)) {
-    return await scramjet.fetch(event);
+  if (cinnabar.route(event)) {
+    return await cinnabar.fetch(event);
   }
 
   return await fetch(event.request);
 }
 
 self.addEventListener("fetch", (event) => {
-  if (typeof $scramjetController !== "undefined" && $scramjetController.shouldRoute(event)) {
-    event.respondWith($scramjetController.route(event));
+  if (typeof $cinnabarController !== "undefined" && $cinnabarController.shouldRoute(event)) {
+    event.respondWith($cinnabarController.route(event));
     return;
   }
   event.respondWith(handleRequest(event));

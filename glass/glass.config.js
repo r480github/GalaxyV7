@@ -1,7 +1,7 @@
-self.__uv$config = {
+self.__se$config = {
   prefix: "/service/glass/",
-  encodeUrl: Ultraviolet.codec.xor.encode,
-  decodeUrl: Ultraviolet.codec.xor.decode,
+  encodeUrl: Selenite.codec.xor.encode,
+  decodeUrl: Selenite.codec.xor.decode,
   handler: "/glass/glass.handler.js",
   client: "/glass/glass.client.js",
   bundle: "/glass/glass.bundle.js",
